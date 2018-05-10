@@ -39,7 +39,7 @@ public class ViewLogin extends Application implements Constants {
         stage.getIcons().setAll(new Image(this.getClass().getResource(FXML_LOGIN_ICON).toString()));
         stage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);
-        //scene.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
+        scene.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
         //scene.getRoot().getStylesheets().add(FXML_LOGIN_STYLE.toString());
 
         new ServiceOpenView(stage, showAndWait);

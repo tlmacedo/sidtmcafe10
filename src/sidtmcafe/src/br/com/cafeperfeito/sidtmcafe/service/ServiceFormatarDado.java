@@ -16,8 +16,8 @@ public class ServiceFormatarDado {
     }
 
     public static String getValorFormatado(String value, String tipOrMascara) {
-        String strValue = value;//.replaceAll("[\\W]", "");
-        String strMasc = gerarMascara(tipOrMascara, 0, "#");
+        String strValue = value.replaceAll("[\\W]", "");
+        String strMasc = gerarMascara(tipOrMascara, value.length(), "#");
         if (strValue.length() > 0)
             try {
                 if (tipOrMascara.replaceAll("\\d", "").toLowerCase().equals("moeda")) {
