@@ -11,9 +11,9 @@
 
 <AnchorPane fx:id="painelViewLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="175.0" prefWidth="450.0"
-            xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            styleClass="view-login"
             fx:controller="br.com.cafeperfeito.sidtmcafe.controller.ControllerLogin">
-    <!--styleClass="view-login" stylesheets="@../style/css/sidtm.css"-->
     <children>
         <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
               AnchorPane.topAnchor="0.0">

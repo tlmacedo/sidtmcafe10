@@ -3,11 +3,9 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_10">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
-    <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/sidtmcafe/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/sidtmcafe/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/sidtmcafe/src/br/com/cafeperfeito/sidtmcafe/teste" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -16,5 +14,7 @@
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.11" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.google.protobuf:protobuf-java:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20180130" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk16:1.46" level="project" />
+    <orderEntry type="library" name="Maven: org.controlsfx:controlsfx:9.0.0" level="project" />
   </component>
 </module>

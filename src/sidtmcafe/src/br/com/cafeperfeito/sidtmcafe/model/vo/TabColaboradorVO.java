@@ -146,15 +146,15 @@ public class TabColaboradorVO {
         senhaSaltProperty().set(senhaSalt);
     }
 
-//    public String getDetalheColaborador() {
-//        if (nomeProperty().get() != "")
-//            return "[Usuário]: " + nomeProperty().get() + " (" + apelidoProperty().get() + ") " +
-//                    ";[Cargo]: " + sisCargoVO.getDescricao() + "  |  [Loja]: " + lojaVO.getFantasia() +
-//                    ";[End]: " + lojaVO.getTabEnderecoVOList().get(0).getLogradouro() + ", " +
-//                    lojaVO.getTabEnderecoVOList().get(0).getNumero() + " - " +
-//                    lojaVO.getTabEnderecoVOList().get(0).getBairro();
-//        return "";
-//    }
+    public String getDetalheColaborador() {
+        if (nomeProperty().get() != "")
+            return "[Usuário]: " + nomeProperty().get() + " (" + apelidoProperty().get() + ") " +
+                    ";[Cargo]: " + sisCargoVO.getDescricao() + "  |  [Loja]: " + lojaVO.getFantasia() +
+                    ";[End]: " + lojaVO.getTabEnderecoVOList().get(0).getLogradouro() + ", " +
+                    lojaVO.getTabEnderecoVOList().get(0).getNumero() + " - " +
+                    lojaVO.getTabEnderecoVOList().get(0).getBairro();
+        return "";
+    }
 
     @Override
     public String toString() {

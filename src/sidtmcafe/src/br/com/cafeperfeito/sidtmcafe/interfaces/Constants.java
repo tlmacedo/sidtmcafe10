@@ -53,7 +53,10 @@ public interface Constants {
     String FXML_LOGIN = PATH_FXML + "FxmlLogin.fxml";
     String FXML_LOGIN_TITLE = "Login";
     String FXML_LOGIN_ICON = PATH_ICONE + "ic_security_black_24dp.png";
-    String FXML_LOGIN_STYLE = "view-login";
+
+    String FXML_PRINCIPAL = PATH_FXML + "FxmlPrincipal.fxml";
+    String FXML_PRINCIPAL_TITLE = "Café Perfeito";
+    String FXML_PRINCIPAL_ICON = PATH_ICONE + "ic_grao_cafe_black_24dp.png";
 
 
     /*

@@ -12,9 +12,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.net.URL;
 
-public class ViewLogin extends Application implements Constants {
+public class ViewPrincipal extends Application implements Constants {
 
     private static Stage stage;
 
@@ -22,32 +21,29 @@ public class ViewLogin extends Application implements Constants {
         return stage;
     }
 
-    public void openViewLogin(boolean showAndWait) {
+    public void openViewPrincipal() {
         this.stage = new Stage();
         Parent parent;
         Scene scene = null;
 
         try {
-            parent = FXMLLoader.load(getClass().getResource(FXML_LOGIN));
+            parent = FXMLLoader.load(getClass().getResource(FXML_PRINCIPAL));
             scene = new Scene(parent);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        stage.setTitle(FXML_LOGIN_TITLE);
+        stage.setTitle(FXML_PRINCIPAL_TITLE);
         stage.setResizable(false);
         stage.setScene(scene);
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.getIcons().setAll(new Image(getClass().getResource(FXML_LOGIN_ICON).toString()));
-        scene.setFill(Color.TRANSPARENT);
+        stage.getIcons().setAll(new Image(getClass().getResource(FXML_PRINCIPAL_ICON).toString()));
         scene.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
 
-        new ServiceOpenView(stage, showAndWait);
-
+        new ServiceOpenView(stage, false);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //ViewLogin.stage = primaryStage;
-        openViewLogin(false);
+        openViewPrincipal();
     }
+
 }
