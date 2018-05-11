@@ -159,8 +159,6 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
     }
 
     void atualizarStatusBarPrincipal() {
-        if (USUARIO_LOGADO_ID == null)
-            preencheVariaveisUsuario();
         stbUsuarioLogado.setText("Usuário [" + USUARIO_LOGADO_ID + "]: " + USUARIO_LOGADO_APELIDO);
 
         Tooltip tooltip = new Tooltip("banco de dados: [" + BD_DATABASE_STB + "]    horario_log: " + USUARIO_LOGADO_HORA_STR);
@@ -173,19 +171,5 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
         timeline.play();
 
     }
-
-    void preencheVariaveisUsuario() {
-        TabColaboradorVO colaboradorVO = new TabColaboradorDAO().getTabColaboradorVO(1);
-        USUARIO_LOGADO_ID = String.valueOf(colaboradorVO.getId());
-        USUARIO_LOGADO_NOME = colaboradorVO.getNome();
-        USUARIO_LOGADO_APELIDO = colaboradorVO.getApelido();
-        DATA_HORA = LocalDateTime.now();
-        DATA_HORA_STR = DATA_HORA.format(DTF_DATAHORA);
-        USUARIO_LOGADO_DATA = LocalDate.now();
-        USUARIO_LOGADO_DATA_STR = USUARIO_LOGADO_DATA.format(DTF_DATA);
-        USUARIO_LOGADO_HORA = LocalTime.now();
-        USUARIO_LOGADO_HORA_STR = USUARIO_LOGADO_HORA.format(DTF_HORA);
-    }
-
 
 }
