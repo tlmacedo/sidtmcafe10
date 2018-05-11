@@ -4,12 +4,16 @@ import javafx.scene.Scene;
 import javafx.scene.input.*;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public interface Constants {
+    String COPYRIGHT = "Café Perfeito " + "\u00a9 " + LocalDate.now().getYear();
+    String LOJA_ID = "1";
+
     /*
      * Constantes para conexão com banco de dados MySql
      */

@@ -94,7 +94,17 @@ public class ControllerLogin extends ServiceVariavelSistema implements Initializ
 
         btnOK.setDisable(true);
 
-        btnOK.setOnAction(event -> logarSistema(cboUsuarioLogin.getSelectionModel().getSelectedItem()));
+        btnOK.setOnAction(event -> {
+            if (cboUsuarioLogin.getSelectionModel().getSelectedIndex() < 0) return;
+            TabColaboradorVO colaboradorVO = cboUsuarioLogin.getSelectionModel().getSelectedItem();
+            if (!ServiceValidaSenha.verifyUserPassword(pswUsuarioSenha.getText(), colaboradorVO.getSenha(), colaboradorVO.getSenhaSalt())) {
+                new Thread(() -> new ServiceTremeView().setStage(ViewLogin.getStage())).start();
+                return;
+            }
+            preencheVariaveisUsuario(colaboradorVO);
+            fechar();
+            new ViewPrincipal().openViewPrincipal();
+        });
 
         cboUsuarioLogin.getSelectionModel().selectedIndexProperty().addListener((ov, o, n) -> {
             habilitarBotaoOK();
@@ -115,23 +125,8 @@ public class ControllerLogin extends ServiceVariavelSistema implements Initializ
         Platform.runLater(() -> Locale.setDefault(LOCALE_MY));
     }
 
-    void tremeLogin() {
-        new Thread(() -> new ServiceTremeView().setStage(ViewLogin.getStage())).start();
-    }
-
     void habilitarBotaoOK() {
         btnOK.setDisable(cboUsuarioLogin.getSelectionModel().getSelectedIndex() < 0 || pswUsuarioSenha.getText().length() == 0);
-    }
-
-    void logarSistema(TabColaboradorVO colaboradorVO) {
-        if (cboUsuarioLogin.getSelectionModel().getSelectedIndex() < 0) return;
-        if (!ServiceValidaSenha.verifyUserPassword(pswUsuarioSenha.getText(), colaboradorVO.getSenha(), colaboradorVO.getSenhaSalt())) {
-            tremeLogin();
-            return;
-        }
-        preencheVariaveisUsuario(colaboradorVO);
-        fechar();
-        Platform.runLater(() -> new ViewPrincipal().openViewPrincipal());
     }
 
     void preencheVariaveisUsuario(TabColaboradorVO colaboradorVO) {

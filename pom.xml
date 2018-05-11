@@ -62,10 +62,15 @@
             <artifactId>jfoenix</artifactId>
             <version>9.0.4</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>mysql</groupId>-->
+            <!--<artifactId>mysql-connector-java</artifactId>-->
+            <!--<version>8.0.11</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.11</version>
+            <version>5.1.46</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
