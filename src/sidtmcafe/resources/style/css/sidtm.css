@@ -153,9 +153,9 @@
   -fx-font-size: 12px;
   -fx-alignment: center-left; }
   .jfx-tool-bar .ico-relogio {
-    -fx-padding: 1 10;
-    -fx-font-size: 18px;
-    -fx-alignment: center;
+    -fx-padding: 2 4;
+    -fx-font-size: 12px;
+    -fx-alignment: center-right;
     -fx-background-image: url("../../image/ico/ic_relogio_orange_18dp.png");
     -fx-background-repeat: no-repeat; }
   .jfx-tool-bar .hora {

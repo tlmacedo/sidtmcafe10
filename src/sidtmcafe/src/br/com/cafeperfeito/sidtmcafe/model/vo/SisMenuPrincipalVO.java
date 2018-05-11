@@ -1,15 +1,13 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class SisMenuPrincipalVO extends RecursiveTreeObject<SisMenuPrincipalVO> {
 
-    IntegerProperty id, filho_id, tabPane;
+    IntegerProperty id, filho_id;
     StringProperty descricao, tituloTab, icoMenu, teclaAtalho;
+    BooleanProperty tabPane;
 
     public SisMenuPrincipalVO() {
     }
@@ -38,19 +36,6 @@ public class SisMenuPrincipalVO extends RecursiveTreeObject<SisMenuPrincipalVO> 
 
     public void setFilho_id(int filho_id) {
         filho_idProperty().set(filho_id);
-    }
-
-    public int getTabPane() {
-        return tabPaneProperty().get();
-    }
-
-    public IntegerProperty tabPaneProperty() {
-        if (tabPane == null) tabPane = new SimpleIntegerProperty(0);
-        return tabPane;
-    }
-
-    public void setTabPane(int tabPane) {
-        tabPaneProperty().set(tabPane);
     }
 
     public String getDescricao() {
@@ -103,6 +88,19 @@ public class SisMenuPrincipalVO extends RecursiveTreeObject<SisMenuPrincipalVO> 
 
     public void setTeclaAtalho(String teclaAtalho) {
         teclaAtalhoProperty().set(teclaAtalho);
+    }
+
+    public boolean isTabPane() {
+        return tabPaneProperty().get();
+    }
+
+    public BooleanProperty tabPaneProperty() {
+        if (tabPane == null) tabPane = new SimpleBooleanProperty(false);
+        return tabPane;
+    }
+
+    public void setTabPane(boolean tabPane) {
+        tabPaneProperty().set(tabPane);
     }
 
     @Override

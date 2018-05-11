@@ -9,43 +9,87 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="painelViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1900.0" styleClass="view-principal" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.cafeperfeito.sidtmcafe.controller.ControllerPrincipal">
-    <bottom>
-        <JFXToolbar fx:id="statusBar_ViewPrincipal" layoutY="830.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="1900.0" BorderPane.alignment="BOTTOM_CENTER" />
-    </bottom>
+<BorderPane fx:id="painelViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="830.0" prefWidth="1900.0" styleClass="view-principal"
+            xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="br.com.cafeperfeito.sidtmcafe.controller.ControllerPrincipal">
     <center>
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1650.0" BorderPane.alignment="TOP_LEFT">
+        <AnchorPane BorderPane.alignment="TOP_LEFT">
             <children>
-                <TabPane fx:id="tabPaneViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1650.0" tabMaxHeight="20.0" tabMinHeight="20.0" />
-                <Label fx:id="lblImageLogoViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1650.0" styleClass="lbl_img_fundo_principal" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                <TabPane fx:id="tabPaneViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                         minWidth="-Infinity" prefHeight="810.0" prefWidth="1600.0" tabMaxHeight="20.0"
+                         tabMinHeight="20.0"/>
+                <!--AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"-->
+                         <!--AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>-->
+                <Label fx:id="lblImageLogoViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity"
+                       minHeight="-Infinity" minWidth="-Infinity" styleClass="lbl_img_fundo_principal"
+                       AnchorPane.bottomAnchor="0.0"  prefHeight="810.0" prefWidth="1600.0" />
+                <!--AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"-->
+                       <!--AnchorPane.topAnchor="0.0"/>-->
             </children>
         </AnchorPane>
     </center>
     <left>
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="250.0" BorderPane.alignment="TOP_LEFT">
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                    prefHeight="810.0" prefWidth="250.0" BorderPane.alignment="TOP_LEFT">
             <children>
-                <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="250.0">
+                <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity"
+                            minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="250.0">
                     <content>
                         <AnchorPane prefHeight="810.0" prefWidth="250.0">
                             <children>
-                                <JFXTreeView fx:id="treeMenuViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="788.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                <JFXTreeView fx:id="treeMenuViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity"
+                                             minHeight="-Infinity" minWidth="-Infinity" prefHeight="788.0"
+                                             prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                             </children>
                         </AnchorPane>
                     </content>
                 </ScrollPane>
-                <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="250.0" styleClass="lbl_menu_principal" text="Menu Principal" wrapText="true" />
-                <Label fx:id="lblBotaoRetraiMenuViewPrincipal" layoutX="211.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="true" prefHeight="24.0" prefWidth="24.0" styleClass="lbl_btn_retrai_menu_view_principal" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="1.0">
+                <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                       prefHeight="26.0" prefWidth="250.0" styleClass="lbl_menu_principal" text="Menu Principal"
+                       wrapText="true"/>
+                <Label fx:id="lblBotaoRetraiMenuViewPrincipal" layoutX="211.0" maxHeight="-Infinity"
+                       maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="true"
+                       prefHeight="24.0" prefWidth="24.0" styleClass="lbl_btn_retrai_menu_view_principal"
+                       AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="1.0">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Label>
-                <Label fx:id="lblBotaoExpandeMenuViewPrincipal" layoutX="193.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="true" prefHeight="24.0" prefWidth="24.0" styleClass="lbl_btn_expande_menu_view_principal" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="1.0">
+                <Label fx:id="lblBotaoExpandeMenuViewPrincipal" layoutX="193.0" maxHeight="-Infinity"
+                       maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="true"
+                       prefHeight="24.0" prefWidth="24.0" styleClass="lbl_btn_expande_menu_view_principal"
+                       AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="1.0">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Label>
-                <Label fx:id="lblCopyRight" layoutY="765.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="250.0" styleClass="copyright" />
+                <Label fx:id="lblCopyRight" layoutY="765.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="250.0"
+                       styleClass="copyright"/>
             </children>
         </AnchorPane>
     </left>
+    <bottom>
+        <JFXToolbar fx:id="statusBar_ViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                    minWidth="-Infinity" prefHeight="20.0" prefWidth="1600.0" BorderPane.alignment="BOTTOM_LEFT">
+            <left>
+                <Label fx:id="stbUsuarioLogado" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                       minWidth="-Infinity" prefHeight="20.0" prefWidth="250.0" styleClass="status-bar-usuario-logado"
+                       text="Usuário" BorderPane.alignment="CENTER_LEFT"/>
+            </left>
+            <center>
+                <Label fx:id="stbTeclasTela" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                       minWidth="-Infinity" prefHeight="20.0" prefWidth="501.0" styleClass="status-bar-center"
+                       text="Teclas" BorderPane.alignment="CENTER_LEFT"/>
+            </center>
+            <right>
+                <Label fx:id="stbHorario" alignment="CENTER_LEFT" maxHeight="-Infinity"
+                       maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
+                       prefWidth="72.0" styleClass="ico-relogio" text="Relogio"
+                       BorderPane.alignment="CENTER_LEFT"/>
+            </right>
+        </JFXToolbar>
+    </bottom>
 </BorderPane>

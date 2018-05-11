@@ -54,7 +54,7 @@ public class SisMenuPrincipalDAO extends BuscaBandoDados {
                 menuPrincipalVO.setTituloTab(rs.getString("tituloTab"));
                 menuPrincipalVO.setFilho_id(rs.getInt("filho_id"));
                 menuPrincipalVO.setIcoMenu(rs.getString("icoMenu"));
-                menuPrincipalVO.setTabPane(rs.getInt("tabPane"));
+                menuPrincipalVO.setTabPane(rs.getBoolean("tabPane"));
                 menuPrincipalVO.setTeclaAtalho(rs.getString("teclaAtalho"));
 
                 menuPrincipalVOList.add(menuPrincipalVO);

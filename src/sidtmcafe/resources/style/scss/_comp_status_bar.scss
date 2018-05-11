@@ -7,9 +7,13 @@
   -fx-alignment: center-left;
 
   .ico-relogio {
-    -fx-padding: 1 10;
-    -fx-font-size: $fontSizeh3;
-    -fx-alignment: center;
+    //-fx-padding: 1 10;
+    //-fx-font-size: $fontSizeh4;
+    //-fx-alignment: center;
+
+    -fx-padding: 2 4;
+    -fx-font-size: $fontSizeh5;
+    -fx-alignment: center-right;
     -fx-background-image: url($icoRelogio);
     -fx-background-repeat: no-repeat;
   }
