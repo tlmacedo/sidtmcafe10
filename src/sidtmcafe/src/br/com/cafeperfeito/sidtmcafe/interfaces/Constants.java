@@ -1,6 +1,5 @@
 package br.com.cafeperfeito.sidtmcafe.interfaces;
 
-import javafx.scene.Scene;
 import javafx.scene.input.*;
 
 import java.text.DecimalFormat;
@@ -9,8 +8,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public interface Constants {
+    Pattern PATTERN = Pattern.compile("[\\W]");
     String COPYRIGHT = "Café Perfeito " + "\u00a9 " + LocalDate.now().getYear();
     String LOJA_ID = "1";
 
@@ -46,7 +47,7 @@ public interface Constants {
             PATH_ICONE + "img_loading_coffee8.gif",
             PATH_ICONE + "img_loading_coffee9.gif",
             PATH_ICONE + "img_loading_coffee10.gif"};
-    String IC_CAFE_PERFEITO_240DP = PATH_ICONE + "image/ico/ic_cafe_perfeito_240dp.png";
+    String IC_CAFE_PERFEITO_240DP = PATH_ICONE + "ic_cafe_perfeito_240dp.png";
     String PATH_TOKEN_LIB = "/certificado";
     String EXTENSAO_ARQUIVO_TOKEN = "cfg";
 
@@ -60,7 +61,12 @@ public interface Constants {
 
     String FXML_PRINCIPAL = PATH_FXML + "FxmlPrincipal.fxml";
     String FXML_PRINCIPAL_TITLE = "Café Perfeito";
-    String FXML_PRINCIPAL_ICON = PATH_ICONE + "ic_grao_cafe_black_24dp.png";
+    String FXML_PRINCIPAL_ICON_BLACK = PATH_ICONE + "ic_grao_cafe_black_24dp.png";
+    String FXML_PRINCIPAL_ICON_ORANGE = PATH_ICONE + "ic_grao_cafe_orange_24dp.png";
+
+    String FXML_CADASTRO_EMPRESA = PATH_FXML + "FxmlCadastroEmpresa.fxml";
+
+    String FXML_CADASTRO_PRODUTO = PATH_FXML + "FxmlCadastroProduto.fxml";
 
 
     /*

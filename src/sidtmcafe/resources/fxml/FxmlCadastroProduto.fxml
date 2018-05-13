@@ -11,11 +11,12 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="painelViewCadastroProduto" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="785.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/9"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sidtmcafe.controller.ControllerCadastroProduto">
+            minWidth="-Infinity" prefHeight="780.0" prefWidth="1350.0" styleClass="view-cadastro-produto"
+            xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="br.com.cafeperfeito.sidtmcafe.controller.ControllerCadastroProduto">
     <children>
-        <TitledPane fx:id="tpnCadastroProduto" collapsible="false" focusTraversable="false" layoutX="4.0" layoutY="5.0"
-                    prefHeight="186.0" prefWidth="1290.0" text="Cadastro de produto">
+        <TitledPane fx:id="tpnCadastroProduto" collapsible="false" focusTraversable="false" layoutX="5.0" layoutY="5.0"
+                    prefHeight="180.0" prefWidth="1340.0" text="Cadastro de produto">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="1278.0">
                     <children>
@@ -27,7 +28,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTreeTableView fx:id="ttvProduto" accessibleText="TTV" layoutX="5.0" layoutY="37.0"
-                                          nodeOrientation="LEFT_TO_RIGHT" prefHeight="122.0" prefWidth="1280.0">
+                                          nodeOrientation="LEFT_TO_RIGHT" prefHeight="110.0" prefWidth="1330.0">
                             <tooltip>
                                 <Tooltip text="tabela com lista de produto"/>
                             </tooltip>
@@ -42,8 +43,8 @@
                 </AnchorPane>
             </content>
         </TitledPane>
-        <TitledPane fx:id="tpnDadoCadastral" collapsible="false" focusTraversable="false" layoutX="5.0" layoutY="196.0"
-                    prefHeight="585.0" prefWidth="1290.0" text="Dados Cadastrais">
+        <TitledPane fx:id="tpnDadoCadastral" collapsible="false" focusTraversable="false" layoutX="5.0" layoutY="190.0"
+                    prefHeight="590.0" prefWidth="1340.0" text="Dados Cadastrais">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="1278.0">
                     <children>
@@ -167,35 +168,35 @@
                             </tooltip>
                         </JFXTextField>
                         <Label fx:id="lblDataCadastro" accessibleText="LBL" alignment="CENTER_RIGHT" layoutX="1000.0"
-                               layoutY="5.0" prefHeight="10.0" prefWidth="285.0" styleClass="lbl-informaçoes"
+                               layoutY="5.0" prefHeight="10.0" prefWidth="335.0" styleClass="lbl-informaçoes"
                                text="DataCadastro" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip text="data de cadastro do produto no sistema"/>
                             </tooltip>
                         </Label>
                         <Label fx:id="lblDataCadastroDiff" accessibleText="LBL" alignment="CENTER_RIGHT"
-                               layoutX="1000.0" layoutY="15.0" prefHeight="10.0" prefWidth="285.0"
+                               layoutX="1000.0" layoutY="15.0" prefHeight="10.0" prefWidth="335.0"
                                styleClass="lbl-informacoes" text="DataCadastroDiff" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip text="tempo que o produto está cadastrada no sistema"/>
                             </tooltip>
                         </Label>
                         <Label fx:id="lblDataAtualizacao" accessibleText="LBL" alignment="CENTER_RIGHT" layoutX="1000.0"
-                               layoutY="25.0" prefHeight="10.0" prefWidth="285.0" styleClass="lbl-informacoes"
+                               layoutY="25.0" prefHeight="10.0" prefWidth="335.0" styleClass="lbl-informacoes"
                                text="DataAtualizacao" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip text="data da ultima atualizacao feita no cadastro do produto no sistema"/>
                             </tooltip>
                         </Label>
                         <Label fx:id="lblDataAtualizacaoDiff" accessibleText="LBL" alignment="CENTER_RIGHT"
-                               layoutX="1000.0" layoutY="35.0" prefHeight="10.0" prefWidth="285.0"
+                               layoutX="1000.0" layoutY="35.0" prefHeight="10.0" prefWidth="335.0"
                                styleClass="lbl-informacoes" text="DataAtualizacaoDiff" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip
                                         text="tempo que a foi feita a ultima atualizacao no cadastro do produto no sistema"/>
                             </tooltip>
                         </Label>
-                        <Label accessibleText="LBLREGISTROSLOCALIZADOS" layoutX="1018.0" layoutY="48.0"
+                        <Label accessibleText="LBLREGISTROSLOCALIZADOS" layoutX="1068.0" layoutY="48.0"
                                prefHeight="17.0" prefWidth="234.0" styleClass="lbl-informacoes"
                                text="Códigos de barras">
                             <tooltip>
@@ -205,7 +206,7 @@
                                 <Font name="System Bold" size="15.0"/>
                             </font>
                         </Label>
-                        <JFXListView fx:id="listCodigoBarras" accessibleText="LIST" layoutX="1018.0" layoutY="68.0"
+                        <JFXListView fx:id="listCodigoBarras" accessibleText="LIST" layoutX="1068.0" layoutY="68.0"
                                      prefHeight="186.0" prefWidth="260.0" styleClass="endereco">
                             <tooltip>
                                 <Tooltip text="códigos de barras do produto"/>
@@ -213,7 +214,7 @@
                         </JFXListView>
                         <TitledPane collapsible="false" focusTraversable="false" layoutX="5.0" layoutY="68.0"
                                     maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                    minWidth="-Infinity" prefHeight="186.0" prefWidth="1003.0" text="Fiscal">
+                                    minWidth="-Infinity" prefHeight="186.0" prefWidth="1053.0" text="Fiscal">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="200.0">
                                     <children>

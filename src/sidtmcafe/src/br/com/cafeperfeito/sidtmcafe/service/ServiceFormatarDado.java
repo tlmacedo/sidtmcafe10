@@ -1,17 +1,26 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
+import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
+import com.jfoenix.controls.IFXTextInputControl;
+import com.jfoenix.controls.JFXTextField;
+import javafx.beans.value.ObservableValue;
+
 import javax.swing.text.MaskFormatter;
+import java.awt.*;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.Formatter;
+import java.util.regex.Matcher;
+
+import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.PATTERN;
 
 public class ServiceFormatarDado {
+    String mascara;
+    Matcher matcher;
     BufferedWriter bufferedWriter;
 
-    public static String getValueMoeda(String a, int b) {
+    public static String getValueMoeda(String valor, int casaDecimal) {
+
         return "";
     }
 
@@ -78,6 +87,14 @@ public class ServiceFormatarDado {
         return String.format("%0" + qtdDigitos + "d", 0).replace("0", caracter);
     }
 
+    public String getMascara() {
+        return mascara;
+    }
+
+    public void setMascara(String tipOrMascara) {
+        this.mascara = gerarMascara(tipOrMascara, 0, "#");
+    }
+
     static String getMascaraIE(String uf, String caracter) {
         if (uf.equals("AC"))
             return String.format("%013d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{3})(\\d{2})$", "$1.$2.$3/$4-$5").replace("0", caracter);
@@ -134,6 +151,48 @@ public class ServiceFormatarDado {
         if (uf.equals("TO"))
             return String.format("%011d", 0).replace("0", caracter);
         return null;
+    }
+
+    public void maskField(JFXTextField textField, String strMascara) {
+        if (strMascara.length() > 0)
+            setMascara(gerarMascara(strMascara, 0, "#"));
+        textField.lengthProperty().addListener((ObservableValue<? extends Number> obsevable, Number n1, Number n2) -> {
+            String alphaAndDigits = textField.getText();
+            matcher = PATTERN.matcher(getMascara());
+            if (matcher.find())
+                alphaAndDigits = textField.getText().replaceAll("[\\-/. \\[\\]]", "");
+            StringBuilder resultado = new StringBuilder();
+            int i = 0;
+            int quant = 0;
+            String mascara = getMascara();
+            int lenMascara = mascara.length();
+            if (n2.intValue() > n1.intValue()) {
+                if (textField.getText().length() <= lenMascara) {
+                    while (i < lenMascara) {
+                        if (quant < alphaAndDigits.length()) {
+                            if ("@".equals(mascara.substring(i, i + 1))) {
+                                resultado.append(alphaAndDigits.substring(quant, quant + 1).toUpperCase());
+                                quant++;
+                            } else if ("?".equals(mascara.substring(i, i + 1))) {
+                                resultado.append(alphaAndDigits.substring(quant, quant + 1).toLowerCase());
+                                quant++;
+                            } else if ("#".equals(mascara.substring(i, i + 1))) {
+                                if (Character.isDigit(alphaAndDigits.charAt(quant)))
+                                    resultado.append(alphaAndDigits.substring(quant, quant + 1));
+                                quant++;
+                            } else {
+                                resultado.append(mascara.substring(i, i + 1));
+                            }
+                        }
+                        i++;
+                    }
+                    textField.setText(resultado.toString());
+                    //positionCaret(textField);
+                } else {
+                    textField.setText(textField.getText(0, lenMascara));
+                }
+            }
+        });
     }
 
 }

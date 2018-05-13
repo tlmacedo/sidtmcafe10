@@ -1,7 +1,5 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
-import javafx.util.Pair;
-
 public class ServiceGeraCodificacaoSenha {
     //    public static void main(String[] args) {
 //        String myPassword = "4879";

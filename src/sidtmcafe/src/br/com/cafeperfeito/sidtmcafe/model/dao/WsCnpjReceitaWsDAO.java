@@ -2,7 +2,6 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
-//import br.com.cafeperfeito.sidtmcafe.service.FormatarDado;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 import javafx.util.Pair;
 import org.json.JSONArray;
@@ -12,6 +11,8 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+//import br.com.cafeperfeito.sidtmcafe.service.FormatarDado;
 
 public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
 

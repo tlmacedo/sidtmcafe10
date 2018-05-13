@@ -10,9 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -21,7 +19,7 @@ import java.time.LocalTime;
 
 public class ViewPrincipal extends Application implements Constants {
 
-    private static Stage stage;
+    static Stage stage;
 
     public static Stage getStage() {
         return stage;
@@ -41,7 +39,7 @@ public class ViewPrincipal extends Application implements Constants {
         stage.setTitle(FXML_PRINCIPAL_TITLE);
         stage.setResizable(false);
         stage.setScene(scene);
-        stage.getIcons().setAll(new Image(getClass().getResource(FXML_PRINCIPAL_ICON).toString()));
+        stage.getIcons().setAll(new Image(getClass().getResource(FXML_PRINCIPAL_ICON_BLACK).toString()));
         scene.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
 
         new ServiceOpenView(stage, false);

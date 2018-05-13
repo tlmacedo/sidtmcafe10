@@ -10,22 +10,23 @@
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane fx:id="painelViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="830.0" prefWidth="1900.0" styleClass="view-principal"
+            minWidth="-Infinity" prefHeight="830.0" prefWidth="1600.0" styleClass="view-principal"
             xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="br.com.cafeperfeito.sidtmcafe.controller.ControllerPrincipal">
     <center>
-        <AnchorPane BorderPane.alignment="TOP_LEFT">
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                    prefHeight="810.0" prefWidth="1350.0" BorderPane.alignment="TOP_LEFT">
             <children>
                 <TabPane fx:id="tabPaneViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                         minWidth="-Infinity" prefHeight="810.0" prefWidth="1600.0" tabMaxHeight="20.0"
+                         minWidth="-Infinity" prefHeight="810.0" prefWidth="1350.0" tabMaxHeight="20.0"
                          tabMinHeight="20.0"/>
                 <!--AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"-->
-                         <!--AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>-->
+                <!--AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>-->
                 <Label fx:id="lblImageLogoViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity"
-                       minHeight="-Infinity" minWidth="-Infinity" styleClass="lbl_img_fundo_principal"
-                       AnchorPane.bottomAnchor="0.0"  prefHeight="810.0" prefWidth="1600.0" />
+                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1350.0"
+                       styleClass="lbl_img_fundo_principal"/>
                 <!--AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"-->
-                       <!--AnchorPane.topAnchor="0.0"/>-->
+                <!--AnchorPane.topAnchor="0.0"/>-->
             </children>
         </AnchorPane>
     </center>
@@ -81,14 +82,13 @@
             </left>
             <center>
                 <Label fx:id="stbTeclasTela" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                       minWidth="-Infinity" prefHeight="20.0" prefWidth="501.0" styleClass="status-bar-center"
+                       minWidth="-Infinity" prefHeight="20.0" prefWidth="1150.0" styleClass="status-bar-center"
                        text="Teclas" BorderPane.alignment="CENTER_LEFT"/>
             </center>
             <right>
-                <Label fx:id="stbHorario" alignment="CENTER_LEFT" maxHeight="-Infinity"
-                       maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
-                       prefWidth="72.0" styleClass="ico-relogio" text="Relogio"
-                       BorderPane.alignment="CENTER_LEFT"/>
+                <Label fx:id="stbHorario" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity"
+                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="72.0"
+                       styleClass="ico-relogio" text="Relogio" BorderPane.alignment="CENTER_LEFT"/>
             </right>
         </JFXToolbar>
     </bottom>

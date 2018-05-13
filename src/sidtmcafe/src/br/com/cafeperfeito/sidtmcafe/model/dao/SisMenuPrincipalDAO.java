@@ -22,7 +22,7 @@ public class SisMenuPrincipalDAO extends BuscaBandoDados {
     }
 
     public SisMenuPrincipalVO getMenuPrincipalVO(String teclaAtalho) {
-        buscaSisMenuPrincipalVO(-1, teclaAtalho);
+        buscaSisMenuPrincipalVO(-1, teclaAtalho.toLowerCase());
         return menuPrincipalVO;
     }
 
