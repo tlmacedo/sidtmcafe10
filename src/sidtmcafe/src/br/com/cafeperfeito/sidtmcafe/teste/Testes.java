@@ -8,7 +8,7 @@ public class Testes {
         System.out.println("cnpj: [" + new ServiceFormatarDado().gerarMascara("cnpj", 0, "#") + "]");
         System.out.println("cpf: [" + new ServiceFormatarDado().gerarMascara("cpf", 0, "#") + "]");
         System.out.println("barcode: [" + new ServiceFormatarDado().gerarMascara("barcode", 0, "#") + "]");
-        System.out.println("moeda: [" + new ServiceFormatarDado().gerarMascara("moeda", 3, "#") + "]");
+        System.out.println("moeda: [" + new ServiceFormatarDado().gerarMascara("moeda3", 0, "#") + "]");
         System.out.println("cep: [" + new ServiceFormatarDado().gerarMascara("cep", 0, "#") + "]");
         System.out.println("ncm: [" + new ServiceFormatarDado().gerarMascara("ncm", 0, "#") + "]");
         System.out.println("cest: [" + new ServiceFormatarDado().gerarMascara("cest", 0, "#") + "]");
@@ -48,7 +48,7 @@ public class Testes {
         System.out.println("cnpj(08009246000136): [" + new ServiceFormatarDado().getValorFormatado("08009246000136", "cnpj") + "]");
         System.out.println("cpf(52309550230): [" + new ServiceFormatarDado().getValorFormatado("52309550230", "cpf") + "]");
         System.out.println("barcode(7896423421255): [" + new ServiceFormatarDado().getValorFormatado("7896423421255", "barcode") + "]");
-        System.out.println("moeda(29902): [" + new ServiceFormatarDado().getValorFormatado("29902", "moeda2") + "]");
+        System.out.println("moeda(29902): [" + new ServiceFormatarDado().getValorFormatado("29902", "moeda3") + "]");
         System.out.println("cep(69067360): [" + new ServiceFormatarDado().getValorFormatado("69067360", "cep") + "]");
         System.out.println("ncm(09012100): [" + new ServiceFormatarDado().getValorFormatado("09012100", "ncm") + "]");
         System.out.println("cest(1234567): [" + new ServiceFormatarDado().getValorFormatado("1234567", "cest") + "]");

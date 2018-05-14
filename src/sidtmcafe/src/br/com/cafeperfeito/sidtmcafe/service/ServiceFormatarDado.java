@@ -3,7 +3,15 @@ package br.com.cafeperfeito.sidtmcafe.service;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import com.jfoenix.controls.IFXTextInputControl;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTreeTableColumn;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Pos;
+import javafx.scene.control.TreeTableCell;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.cell.CheckBoxTreeTableCell;
+import javafx.util.Callback;
 
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
@@ -20,8 +28,22 @@ public class ServiceFormatarDado {
     BufferedWriter bufferedWriter;
 
     public static String getValueMoeda(String valor, int casaDecimal) {
+        String sinal = "";
+        String value = String.valueOf(Long.parseLong(valor.replaceAll("[\\D]", "")));
+        for (int i = value.length(); i < (casaDecimal + 1); i++)
+            value = "0" + value;
 
-        return "";
+        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 18) + "})$", "$1.$2");
+        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 15) + "})$", "$1.$2");
+        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 12) + "})$", "$1.$2");
+        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 9) + "})$", "$1.$2");
+        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 6) + "})$", "$1.$2");
+        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 3) + "})$", "$1.$2");
+        if (casaDecimal > 0) {
+            value = value.replaceAll("(\\d{1})(\\d{" + casaDecimal + "})$", "$1,$2");
+        }
+        if (valor.substring(0, 1).equals("-")) sinal = "-";
+        return sinal + value;
     }
 
     public static String getValorFormatado(String value, String tipOrMascara) {
@@ -155,42 +177,75 @@ public class ServiceFormatarDado {
 
     public void maskField(JFXTextField textField, String strMascara) {
         if (strMascara.length() > 0)
-            setMascara(gerarMascara(strMascara, 0, "#"));
-        textField.lengthProperty().addListener((ObservableValue<? extends Number> obsevable, Number n1, Number n2) -> {
-            String alphaAndDigits = textField.getText();
-            matcher = PATTERN.matcher(getMascara());
-            if (matcher.find())
-                alphaAndDigits = textField.getText().replaceAll("[\\-/. \\[\\]]", "");
+            setMascara(strMascara);
+        System.out.println("getMascara: [" + getMascara() + "]");
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            String value = textField.getText().replaceAll("[\\W]", "");
             StringBuilder resultado = new StringBuilder();
-            int i = 0;
-            int quant = 0;
-            String mascara = getMascara();
-            int lenMascara = mascara.length();
-            if (n2.intValue() > n1.intValue()) {
-                if (textField.getText().length() <= lenMascara) {
-                    while (i < lenMascara) {
-                        if (quant < alphaAndDigits.length()) {
-                            if ("@".equals(mascara.substring(i, i + 1))) {
-                                resultado.append(alphaAndDigits.substring(quant, quant + 1).toUpperCase());
-                                quant++;
-                            } else if ("?".equals(mascara.substring(i, i + 1))) {
-                                resultado.append(alphaAndDigits.substring(quant, quant + 1).toLowerCase());
-                                quant++;
-                            } else if ("#".equals(mascara.substring(i, i + 1))) {
-                                if (Character.isDigit(alphaAndDigits.charAt(quant)))
-                                    resultado.append(alphaAndDigits.substring(quant, quant + 1));
-                                quant++;
-                            } else {
-                                resultado.append(mascara.substring(i, i + 1));
+            if (newValue.length() > oldValue.length()) {
+                if (newValue.length() <= getMascara().length()) {
+                    int digitado = 0;
+                    for (int i = 0; i < getMascara().length(); i++) {
+                        if (digitado < value.length()) {
+                            switch (getMascara().substring(i, i + 1)) {
+                                case "@":
+                                    resultado.append(value.substring(i, i + 1).toUpperCase());
+                                    digitado++;
+                                    break;
+                                case "?":
+                                    resultado.append(value.substring(i, i + 1).toLowerCase());
+                                    digitado++;
+                                    break;
+                                case "#":
+                                    if (Character.isLetterOrDigit(value.charAt(digitado)))
+                                        resultado.append(value.substring(digitado, digitado + 1));
+                                    digitado++;
+                                    break;
+                                case "0":
+                                    if (Character.isDigit(value.charAt(digitado)))
+                                        resultado.append(value.substring(digitado, digitado + 1));
+                                    digitado++;
+                                    break;
+                                default:
+                                    resultado.append(mascara.substring(i, i + 1));
                             }
                         }
-                        i++;
                     }
                     textField.setText(resultado.toString());
-                    //positionCaret(textField);
                 } else {
-                    textField.setText(textField.getText(0, lenMascara));
+                    textField.setText(textField.getText(0, getMascara().length()));
                 }
+            }
+        });
+    }
+
+    public void maskFieldMoeda(JFXTextField textField, int casaDecimal) {
+        textField.setAlignment(Pos.CENTER_RIGHT);
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            Platform.runLater(() -> {
+                textField.setText(getValueMoeda(newValue, casaDecimal));
+                textField.positionCaret(newValue.length());
+            });
+        });
+
+    }
+
+    public void maxField(JFXTextField textField, int tamMax) {
+        textField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            if (newValue.length() > tamMax)
+                textField.setText(oldValue);
+
+        });
+    }
+
+    public void fatorarColunaCheckBox(JFXTreeTableColumn colunaGenerica) {
+        colunaGenerica.getStyleClass().add("chkbox");
+        colunaGenerica.setCellFactory(new Callback<TreeTableColumn, TreeTableCell>() {
+            @Override
+            public TreeTableCell call(TreeTableColumn param) {
+                CheckBoxTreeTableCell cell = new CheckBoxTreeTableCell();
+                cell.setAlignment(Pos.TOP_CENTER);
+                return cell;
             }
         });
     }
