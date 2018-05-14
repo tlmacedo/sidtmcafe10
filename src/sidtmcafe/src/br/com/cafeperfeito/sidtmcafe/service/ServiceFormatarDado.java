@@ -230,7 +230,7 @@ public class ServiceFormatarDado {
 
     }
 
-    public void maxField(JFXTextField textField, int tamMax) {
+    public static void maxField(JFXTextField textField, int tamMax) {
         textField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (newValue.length() > tamMax)
                 textField.setText(oldValue);
