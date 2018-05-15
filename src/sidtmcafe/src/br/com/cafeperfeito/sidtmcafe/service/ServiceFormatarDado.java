@@ -189,7 +189,6 @@ public class ServiceFormatarDado {
     public void maskField(JFXTextField textField, String strMascara) {
         if (strMascara.length() > 0)
             setMascara(strMascara);
-        System.out.println("getMascara: [" + getMascara() + "]");
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             String value = textField.getText().replaceAll("[\\W]", "");
             StringBuilder resultado = new StringBuilder();
@@ -243,10 +242,25 @@ public class ServiceFormatarDado {
     }
 
     public static void maxField(JFXTextField textField, int tamMax) {
-        textField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            if (newValue.length() > tamMax)
-                textField.setText(oldValue);
+//        textField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+//            if (newValue.intValue() > tamMax)
+//                textField.setText(textField.getText().substring(0, tamMax));
+//
+//        });
+        textField.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.intValue()>tamMax)
+                    textField.setText(textField.getText(0,tamMax));
+            }
         });
+//        textField.textProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+//                if (newValue.length()>tamMax)
+//                    textField.setText(oldValue);
+//            }
+//        });
     }
 
     public void fatorarColunaCheckBox(JFXTreeTableColumn colunaGenerica) {

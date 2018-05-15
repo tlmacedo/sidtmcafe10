@@ -173,11 +173,9 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
                     fechar();
                     break;
                 case "empresa":
-                    System.out.println("abre empresa");
                     tab = new ViewCadastroEmpresa().openTabCadastroEmpresa(item.getTituloTab());
                     break;
                 case "produto":
-                    System.out.println("abre produto");
                     tab = new ViewCadastroProduto().openTabCadastroProduto(item.getTituloTab());
                     break;
                 case "entradaproduto":

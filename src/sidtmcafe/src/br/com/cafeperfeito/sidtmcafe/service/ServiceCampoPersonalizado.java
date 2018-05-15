@@ -120,10 +120,8 @@ public class ServiceCampoPersonalizado implements Constants {
 
     public static void fieldMask(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
-            System.out.println("fieldMask  node: [" + node.toString() + "]");
             if (node instanceof JFXTextField)
                 if (node.getAccessibleText() != null && node.getAccessibleText().contains(":")) {
-                    System.out.println("getAccessibleText: [" + node.getAccessibleText() + "]");
                     String tipoDado, mascara, caractere = null;
                     int len, decimal = 0;
                     if ((len = Integer.parseInt(ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "len").getValue())) < 0)
@@ -149,8 +147,10 @@ public class ServiceCampoPersonalizado implements Constants {
                             case "peso":
                             case "numeral":
                                 caractere = "0";
+                                ServiceFormatarDado.maxField((JFXTextField)node, len);
                                 if (mascara.contains("numero") || mascara.contains("peso") || mascara.contains("moeda"))
                                     caractere = "$";
+
                                 if (mascara.replaceAll("[\\D]", "").equals(""))
                                     decimal = 0;
                                 else
@@ -159,15 +159,10 @@ public class ServiceCampoPersonalizado implements Constants {
                             default:
                                 break;
                         }
-                    System.out.println("caractere: [" + caractere + "] decimal: [" + decimal + "] mascara: [" + mascara + "]");
                     if (caractere == "$") {
                         new ServiceFormatarDado().maskFieldMoeda((JFXTextField) node, decimal);
                     } else {
-                        System.out.println("mascara: [" + mascara + "] len:[" + len + "] caractere:[" + caractere + "]");
-                        String mask = ServiceFormatarDado.gerarMascara(mascara.replaceAll("[\\d]", ""), len, caractere);
-                        System.out.println("mascaraGerada: [" + mask + "]");
-                        ServiceFormatarDado.maxField((JFXTextField)node, 15);
-                        new ServiceFormatarDado().maskField((JFXTextField) node, mask);
+                        new ServiceFormatarDado().maskField((JFXTextField) node, ServiceFormatarDado.gerarMascara(mascara.replaceAll("[\\d]", ""), len, caractere));
                     }
 
                 }

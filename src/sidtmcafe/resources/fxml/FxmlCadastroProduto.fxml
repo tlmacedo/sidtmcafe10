@@ -95,7 +95,7 @@
                             </tooltip>
                         </JFXComboBox>
                         <JFXTextField fx:id="txtPrecoFabrica" layoutX="10.0" layoutY="40.0"
-                                      accessibleText="len:11, type:moeda, value:0,00, setDisable:false, mask:moeda2"
+                                      accessibleText="len:13, type:moeda, value:0,00, setDisable:false, mask:moeda2"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Preço Fab. (R$)" styleClass="a-direita" text="Preço fab. (R$)">
