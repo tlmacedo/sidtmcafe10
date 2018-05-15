@@ -12,12 +12,15 @@ import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.CheckBoxTreeTableCell;
 import javafx.util.Callback;
+import javafx.util.Pair;
 
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.io.BufferedWriter;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 
 import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.PATTERN;
@@ -234,7 +237,6 @@ public class ServiceFormatarDado {
         textField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (newValue.length() > tamMax)
                 textField.setText(oldValue);
-
         });
     }
 
@@ -250,4 +252,32 @@ public class ServiceFormatarDado {
         });
     }
 
+    public static List<Pair<String, String>> getFieldFormatList(String accessibleText) {
+        List<Pair<String, String>> fieldFormatList = new ArrayList<>();
+        for (String strAccessibleText : accessibleText.split("[, ]")) {
+            String key = null, value = null;
+            for (String detalhe : strAccessibleText.split("[:]"))
+                if (key == null)
+                    key = detalhe;
+                else value = detalhe;
+            fieldFormatList.add(new Pair<String, String>(key, value));
+        }
+        return fieldFormatList;
+    }
+
+    public static Pair<String, String> getFieldFormat(String accessibleText, String keyFormat) {
+        for (String strAccessibleText : accessibleText.split(", ")) {
+            System.out.println("strAccessibleText: [" + strAccessibleText + "]");
+            String key = null, value = null;
+            for (String detalhe : strAccessibleText.split(":")) {
+                System.out.println("detalhe: [" + detalhe + "]");
+                if (key == null)
+                    key = detalhe;
+                else value = detalhe;
+                if (key.equals(keyFormat) && value != null)
+                    return new Pair<String, String>(key, value);
+            }
+        }
+        return null;
+    }
 }

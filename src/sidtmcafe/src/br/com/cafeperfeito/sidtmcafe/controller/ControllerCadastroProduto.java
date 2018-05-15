@@ -1,6 +1,7 @@
 package br.com.cafeperfeito.sidtmcafe.controller;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceCampoPersonalizado;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceComandoTecladoMouse;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema;
@@ -72,8 +73,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     @Override
     public void preencherObjeros() {
 
-        new ServiceFormatarDado().maskFieldMoeda(txtDescricao, 3);
-
+        ServiceCampoPersonalizado.fieldClear(painelViewCadastroProduto);
     }
 
     @Override

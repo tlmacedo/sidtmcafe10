@@ -6,6 +6,10 @@ import javafx.concurrent.Service;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServiceCampoPersonalizado implements Constants {
 
@@ -20,7 +24,7 @@ public class ServiceCampoPersonalizado implements Constants {
     // @ -> alfanum Maiusculo
     // ? -> alfanum Minusculo
 
-    public static void maxLenField(AnchorPane anchorPane) {
+    public static void fieldLenMax(AnchorPane anchorPane) {
         int tamanho;
         for (Node node : anchorPane.getChildren())
             if (node instanceof JFXTextField) {
@@ -28,37 +32,46 @@ public class ServiceCampoPersonalizado implements Constants {
                     if ((tamanho = Integer.parseInt(node.getAccessibleText().substring(0, 3))) > 0)
                         ServiceFormatarDado.maxField((JFXTextField) node, tamanho);
             } else if (node instanceof TitledPane) {
-                maxLenField((AnchorPane) node);
+                fieldLenMax((AnchorPane) node);
             } else if (node instanceof TabPane) {
                 for (Tab tab : ((TabPane) node).getTabs())
-                    maxLenField((AnchorPane) node);
+                    fieldLenMax((AnchorPane) node);
             } else if (node instanceof JFXTabPane) {
                 for (Tab tab : ((JFXTabPane) node).getTabs())
-                    maxLenField((AnchorPane) node);
+                    fieldLenMax((AnchorPane) node);
             } else if (node instanceof AnchorPane) {
-                maxLenField((AnchorPane) node);
+                fieldLenMax((AnchorPane) node);
             }
     }
 
-    public static void clearField(AnchorPane anchorPane) {
-        for (Node node : anchorPane.getChildren())
-
+    public static void fieldClear(AnchorPane anchorPane) {
+        for (Node node : anchorPane.getChildren()) {
+            String newValue = null;
+            List<Pair<String, String>> fieldFormatList = new ArrayList<>();
+            System.out.println("node[" + node.toString() + "]");
+            if (node.getAccessibleText() != null) {
+                System.out.println("node[" + node.toString() + "] :[" + node.getAccessibleText() + "]");
+                if ((newValue = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "value").getValue()) == null)
+                    newValue = "";
+                System.out.println("newValue: [" + newValue + "]");
+            }
             if (node instanceof JFXTextField) {
-
+                ((JFXTextField) node).setText(newValue);
             } else if (node instanceof TitledPane) {
-                clearField((AnchorPane) node);
+                fieldClear((AnchorPane) ((TitledPane) node).getContent());
             } else if (node instanceof TabPane) {
                 for (Tab tab : ((TabPane) node).getTabs())
-                    clearField((AnchorPane) node);
+                    fieldClear((AnchorPane) node);
             } else if (node instanceof JFXTabPane) {
                 for (Tab tab : ((JFXTabPane) node).getTabs())
-                    clearField((AnchorPane) node);
+                    fieldClear((AnchorPane) node);
             } else if (node instanceof AnchorPane) {
-                clearField((AnchorPane) node);
+                fieldClear((AnchorPane) node);
             }
+        }
     }
 
-    public static void disableField(AnchorPane anchorPane, boolean setDisable) {
+    public static void fieldDisable(AnchorPane anchorPane, boolean setDisable) {
         int tipMascara;
         boolean campoEditavel = true;
         boolean campoDeshabilitado = setDisable;
@@ -91,15 +104,15 @@ public class ServiceCampoPersonalizado implements Constants {
                     ((JFXTreeTableView) node).setEditable(campoEditavel);
                 ((JFXTreeTableView) node).setDisable(campoDeshabilitado);
             } else if (node instanceof TitledPane) {
-                disableField((AnchorPane) node, setDisable);
+                fieldDisable((AnchorPane) ((TitledPane) node).getContent(), setDisable);
             } else if (node instanceof TabPane) {
                 for (Tab tab : ((TabPane) node).getTabs())
-                    disableField((AnchorPane) node, setDisable);
+                    fieldDisable((AnchorPane) node, setDisable);
             } else if (node instanceof JFXTabPane) {
                 for (Tab tab : ((JFXTabPane) node).getTabs())
-                    disableField((AnchorPane) node, setDisable);
+                    fieldDisable((AnchorPane) node, setDisable);
             } else if (node instanceof AnchorPane) {
-                disableField((AnchorPane) node, setDisable);
+                fieldDisable((AnchorPane) node, setDisable);
             }
 
         }

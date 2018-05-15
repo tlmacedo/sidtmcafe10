@@ -20,20 +20,24 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="1278.0">
                     <children>
-                        <JFXTextField fx:id="txtPesquisaProduto" accessibleText="060@_0" labelFloat="true"
+                        <JFXTextField fx:id="txtPesquisaProduto" text="txtPesquisaProduto"
+                                      accessibleText="len:060, type:maiusculo, value: , setDisable:false, mask:"
+                                      labelFloat="true"
                                       layoutX="10.0" layoutY="10.0" maxHeight="20.0" prefColumnCount="8"
                                       prefHeight="20.0" prefWidth="360.0" promptText="Pesquisar produto">
                             <tooltip>
                                 <Tooltip text="campo de pesquisa."/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTreeTableView fx:id="ttvProduto" accessibleText="TTV" layoutX="5.0" layoutY="37.0"
+                        <JFXTreeTableView fx:id="ttvProduto" layoutX="5.0" layoutY="37.0"
+                                          accessibleText="value: , setDisable:false, mask:"
                                           nodeOrientation="LEFT_TO_RIGHT" prefHeight="110.0" prefWidth="1330.0">
                             <tooltip>
                                 <Tooltip text="tabela com lista de produto"/>
                             </tooltip>
                         </JFXTreeTableView>
-                        <Label fx:id="lblRegistrosLocalizados" accessibleText="LBLREGISTROSLOCALIZADOS" layoutX="380.0"
+                        <Label fx:id="lblRegistrosLocalizados" layoutX="380.0"
+                               accessibleText="value: [] registros(s) localizado(s)."
                                layoutY="20.0" styleClass="lbl-informacoes" text="Registros localizados">
                             <tooltip>
                                 <Tooltip text="informações de status e quantidade de registros localizados"/>
@@ -48,7 +52,8 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="1278.0">
                     <children>
-                        <JFXTextField fx:id="txtCodigo" accessibleText="015@_0" layoutX="10.0" layoutY="10.0"
+                        <JFXTextField fx:id="txtCodigo" layoutX="10.0" layoutY="10.0"
+                                      accessibleText="len:015, type:maiusculo, value: , setDisable:false, mask:"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="125.0" promptText="Código"
                                       styleClass="a-direita" text="Código">
@@ -56,7 +61,8 @@
                                 <Tooltip text="código do produto"/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtDescricao" accessibleText="150@_0" layoutX="145.0" layoutY="10.0"
+                        <JFXTextField fx:id="txtDescricao" layoutX="145.0" layoutY="10.0"
+                                      accessibleText="len:150, type:maiusculo, value: , setDisable:false, mask:"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0" promptText="Descrição"
                                       text="Descrição">
@@ -64,7 +70,8 @@
                                 <Tooltip text="descrição do produto"/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtPeso" accessibleText="011$003" layoutX="610.0" layoutY="10.0"
+                        <JFXTextField fx:id="txtPeso" layoutX="610.0" layoutY="10.0"
+                                      accessibleText="len:011, type:moeda, value: 0,000, setDisable:false, mask:peso3"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Peso"
                                       styleClass="a-direita" text="Peso">
