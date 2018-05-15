@@ -72,8 +72,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     @Override
     public void preencherObjeros() {
-
-        ServiceCampoPersonalizado.fieldClear(painelViewCadastroProduto);
+        ServiceCampoPersonalizado.fieldMask(painelViewCadastroProduto);
     }
 
     @Override
@@ -147,9 +146,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         preencherObjeros();
         fatorarObjetos();
         escutarTeclar();
+        ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnCadastroProduto.getContent());
 
-        setStatusBarTecla("pesquisa");
         Platform.runLater(() -> {
+            setStatusFormulario("pesquisa");
             ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7));
         });
     }
@@ -197,12 +197,23 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     public void setStatusBarTecla(String statusFormulario) {
         switch (statusFormulario.toLowerCase()) {
             case "incluir":
+                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroProduto.getContent(), true);
+                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoCadastral.getContent(), false);
+                clearFieldDadoCadastral();
+                txtCodigo.requestFocus();
                 this.statusBarTecla = STATUS_BAR_TECLA_INCLUIR;
                 break;
             case "editar":
+                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroProduto.getContent(), true);
+                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoCadastral.getContent(), false);
+                txtCodigo.requestFocus();
                 this.statusBarTecla = STATUS_BAR_TECLA_EDITAR;
                 break;
             case "pesquisa":
+                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroProduto.getContent(), false);
+                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoCadastral.getContent(), true);
+                clearFieldDadoCadastral();
+                txtPesquisaProduto.requestFocus();
                 this.statusBarTecla = STATUS_BAR_TECLA_PESQUISA;
                 break;
         }
@@ -211,5 +222,9 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     void atualizaQtdRegistroLocalizado() {
         lblRegistrosLocalizados.setText("[" + getStatusFormulario() + "] " + getQtdRegistrosLocalizados() + " registros(s) localizado(s).");
+    }
+
+    void clearFieldDadoCadastral() {
+        ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnDadoCadastral.getContent());
     }
 }

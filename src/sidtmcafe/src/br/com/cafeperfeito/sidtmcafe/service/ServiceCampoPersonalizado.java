@@ -24,39 +24,39 @@ public class ServiceCampoPersonalizado implements Constants {
     // @ -> alfanum Maiusculo
     // ? -> alfanum Minusculo
 
-    public static void fieldLenMax(AnchorPane anchorPane) {
-        int tamanho;
-        for (Node node : anchorPane.getChildren())
-            if (node instanceof JFXTextField) {
-                if (node.getAccessibleText() != null)
-                    if ((tamanho = Integer.parseInt(node.getAccessibleText().substring(0, 3))) > 0)
-                        ServiceFormatarDado.maxField((JFXTextField) node, tamanho);
-            } else if (node instanceof TitledPane) {
-                fieldLenMax((AnchorPane) node);
-            } else if (node instanceof TabPane) {
-                for (Tab tab : ((TabPane) node).getTabs())
-                    fieldLenMax((AnchorPane) node);
-            } else if (node instanceof JFXTabPane) {
-                for (Tab tab : ((JFXTabPane) node).getTabs())
-                    fieldLenMax((AnchorPane) node);
-            } else if (node instanceof AnchorPane) {
-                fieldLenMax((AnchorPane) node);
-            }
-    }
+//    public static void fieldLenMax(AnchorPane anchorPane) {
+//        int tamanho;
+//        for (Node node : anchorPane.getChildren())
+//            if (node instanceof JFXTextField) {
+//                if (node.getAccessibleText() != null)
+//                    if ((tamanho = Integer.parseInt(node.getAccessibleText().substring(0, 3))) > 0)
+//                        ServiceFormatarDado.maxField((JFXTextField) node, tamanho);
+//            } else if (node instanceof TitledPane) {
+//                fieldLenMax((AnchorPane) node);
+//            } else if (node instanceof TabPane) {
+//                for (Tab tab : ((TabPane) node).getTabs())
+//                    fieldLenMax((AnchorPane) node);
+//            } else if (node instanceof JFXTabPane) {
+//                for (Tab tab : ((JFXTabPane) node).getTabs())
+//                    fieldLenMax((AnchorPane) node);
+//            } else if (node instanceof AnchorPane) {
+//                fieldLenMax((AnchorPane) node);
+//            }
+//    }
 
     public static void fieldClear(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
-            String newValue = null;
-            List<Pair<String, String>> fieldFormatList = new ArrayList<>();
-            System.out.println("node[" + node.toString() + "]");
-            if (node.getAccessibleText() != null) {
-                System.out.println("node[" + node.toString() + "] :[" + node.getAccessibleText() + "]");
-                if ((newValue = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "value").getValue()) == null)
-                    newValue = "";
-                System.out.println("newValue: [" + newValue + "]");
+            String valorInicial = null;
+            if (node.getAccessibleText() != null && node.getAccessibleText().contains(":")) {
+                if ((valorInicial = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "value").getValue()) == null)
+                    valorInicial = "";
+                if (node instanceof Label)
+                    ((Label) node).setText(valorInicial);
             }
             if (node instanceof JFXTextField) {
-                ((JFXTextField) node).setText(newValue);
+                ((JFXTextField) node).setText(valorInicial);
+            } else if (node instanceof AnchorPane) {
+                fieldClear((AnchorPane) node);
             } else if (node instanceof TitledPane) {
                 fieldClear((AnchorPane) ((TitledPane) node).getContent());
             } else if (node instanceof TabPane) {
@@ -65,44 +65,46 @@ public class ServiceCampoPersonalizado implements Constants {
             } else if (node instanceof JFXTabPane) {
                 for (Tab tab : ((JFXTabPane) node).getTabs())
                     fieldClear((AnchorPane) node);
-            } else if (node instanceof AnchorPane) {
-                fieldClear((AnchorPane) node);
             }
         }
     }
 
     public static void fieldDisable(AnchorPane anchorPane, boolean setDisable) {
-        int tipMascara;
-        boolean campoEditavel = true;
-        boolean campoDeshabilitado = setDisable;
+        boolean fielEditable, fieldDisable;
         for (Node node : anchorPane.getChildren()) {
-            if (node.getAccessibleText() != null && node.getAccessibleText().length() > 5 && (tipMascara = Integer.parseInt(node.getAccessibleText().substring(5, 6))) >= 0) {
-                if (tipMascara == 1) campoDeshabilitado = true;
-                if (tipMascara == 2) campoEditavel = false;
-            }
+            fielEditable = true;
+            fieldDisable = setDisable;
+            if (!setDisable)
+                if (node.getAccessibleText() != null && node.getAccessibleText().contains(":")) {
+                    Pair<String, String> pair;
+                    if ((pair = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "setEditable")) != null)
+                        fielEditable = pair.getValue().equals("true");
+                    if ((pair = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "setDisable")) != null)
+                        fieldDisable = pair.getValue().equals("true");
+                }
 
             if (node instanceof DatePicker) {
-                if (!campoEditavel)
-                    ((DatePicker) node).setEditable(campoEditavel);
-                ((DatePicker) node).setDisable(campoDeshabilitado);
+                if (!setDisable)
+                    ((DatePicker) node).setEditable(fielEditable);
+                ((DatePicker) node).setDisable(setDisable || fieldDisable);
             } else if (node instanceof JFXTextField) {
-                if (!campoEditavel)
-                    ((JFXTextField) node).setEditable(campoEditavel);
-                ((JFXTextField) node).setDisable(campoDeshabilitado);
+                if (!setDisable)
+                    ((JFXTextField) node).setEditable(fielEditable);
+                ((JFXTextField) node).setDisable(setDisable || fieldDisable);
             } else if (node instanceof JFXTextArea) {
-                if (!campoEditavel)
-                    ((JFXTextArea) node).setEditable(campoEditavel);
-                ((JFXTextArea) node).setDisable(campoDeshabilitado);
+                if (!setDisable)
+                    ((JFXTextArea) node).setEditable(fielEditable);
+                ((JFXTextArea) node).setDisable(setDisable || fieldDisable);
             } else if (node instanceof JFXComboBox) {
-                if (!campoEditavel)
-                    ((JFXComboBox) node).setEditable(campoEditavel);
-                ((JFXComboBox) node).setDisable(campoDeshabilitado);
+                ((JFXComboBox) node).setDisable(setDisable || fieldDisable);
             } else if (node instanceof JFXCheckBox) {
-                ((JFXCheckBox) node).setDisable(campoDeshabilitado);
+                ((JFXCheckBox) node).setDisable(setDisable || fieldDisable);
             } else if (node instanceof JFXTreeTableView) {
-                if (!campoEditavel)
-                    ((JFXTreeTableView) node).setEditable(campoEditavel);
-                ((JFXTreeTableView) node).setDisable(campoDeshabilitado);
+                if (!setDisable)
+                    ((JFXTreeTableView) node).setEditable(fielEditable);
+                ((JFXTreeTableView) node).setDisable(setDisable || fieldDisable);
+            } else if (node instanceof AnchorPane) {
+                fieldDisable((AnchorPane) node, setDisable);
             } else if (node instanceof TitledPane) {
                 fieldDisable((AnchorPane) ((TitledPane) node).getContent(), setDisable);
             } else if (node instanceof TabPane) {
@@ -111,11 +113,77 @@ public class ServiceCampoPersonalizado implements Constants {
             } else if (node instanceof JFXTabPane) {
                 for (Tab tab : ((JFXTabPane) node).getTabs())
                     fieldDisable((AnchorPane) node, setDisable);
-            } else if (node instanceof AnchorPane) {
-                fieldDisable((AnchorPane) node, setDisable);
             }
 
         }
     }
 
+    public static void fieldMask(AnchorPane anchorPane) {
+        for (Node node : anchorPane.getChildren()) {
+            System.out.println("fieldMask  node: [" + node.toString() + "]");
+            if (node instanceof JFXTextField)
+                if (node.getAccessibleText() != null && node.getAccessibleText().contains(":")) {
+                    System.out.println("getAccessibleText: [" + node.getAccessibleText() + "]");
+                    String tipoDado, mascara, caractere = null;
+                    int len, decimal = 0;
+                    if ((len = Integer.parseInt(ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "len").getValue())) < 0)
+                        len = 0;
+                    if ((mascara = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "mask").getValue()) == null)
+                        mascara = "";
+
+                    if ((tipoDado = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "type").getValue()) != null)
+                        switch (tipoDado) {
+                            case "normal":
+                                caractere = "#";
+                                break;
+                            case "maiusculo":
+                            case "maiuscula":
+                                caractere = "@";
+                                break;
+                            case "minusculo":
+                            case "minuscula":
+                                caractere = "?";
+                                break;
+                            case "numero":
+                            case "moeda":
+                            case "peso":
+                            case "numeral":
+                                caractere = "0";
+                                if (mascara.contains("numero") || mascara.contains("peso") || mascara.contains("moeda"))
+                                    caractere = "$";
+                                if (mascara.replaceAll("[\\D]", "").equals(""))
+                                    decimal = 0;
+                                else
+                                    decimal = Integer.parseInt(mascara.replaceAll("[\\D]", ""));
+                                break;
+                            default:
+                                break;
+                        }
+                    System.out.println("caractere: [" + caractere + "] decimal: [" + decimal + "] mascara: [" + mascara + "]");
+                    if (caractere == "$") {
+                        new ServiceFormatarDado().maskFieldMoeda((JFXTextField) node, decimal);
+                    } else {
+                        System.out.println("mascara: [" + mascara + "] len:[" + len + "] caractere:[" + caractere + "]");
+                        String mask = ServiceFormatarDado.gerarMascara(mascara.replaceAll("[\\d]", ""), len, caractere);
+                        System.out.println("mascaraGerada: [" + mask + "]");
+                        ServiceFormatarDado.maxField((JFXTextField)node, 15);
+                        new ServiceFormatarDado().maskField((JFXTextField) node, mask);
+                    }
+
+                }
+            if (node instanceof AnchorPane) {
+                fieldMask((AnchorPane) node);
+            } else if (node instanceof TitledPane) {
+                fieldMask((AnchorPane) ((TitledPane) node).getContent());
+            } else if (node instanceof TabPane) {
+                for (Tab tab : ((TabPane) node).getTabs())
+                    fieldMask((AnchorPane) node);
+            } else if (node instanceof JFXTabPane) {
+                for (Tab tab : ((JFXTabPane) node).getTabs())
+                    fieldMask((AnchorPane) node);
+            }
+        }
+
+    }
 }
+

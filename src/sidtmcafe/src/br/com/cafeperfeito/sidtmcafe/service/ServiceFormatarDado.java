@@ -58,7 +58,7 @@ public class ServiceFormatarDado {
                     int qtdDigitos = 0;
                     if (!(tipOrMascara.replaceAll("\\D", "").equals("")))
                         qtdDigitos = Integer.parseInt(tipOrMascara.replaceAll("\\D", ""));
-                    return new DecimalFormat("#,##" + strMasc + ";-#,##" + strMasc + "").format(Double.parseDouble(strValue.replaceAll("(\\d{1})(\\d{" + qtdDigitos + "})$", "$1.$2")));
+                    return new DecimalFormat("#,##" + strMasc + ";-#,##" + strMasc).format(Double.parseDouble(strValue.replaceAll("(\\d{1})(\\d{" + qtdDigitos + "})$", "$1.$2")));
                 } else {
                     if (tipOrMascara.replaceAll("\\d", "").toLowerCase().equals("nfenumero"))
                         return String.format("%09d", Integer.parseInt(strValue)).replaceAll("(\\d{3})", ".$1").substring(1);
@@ -74,6 +74,8 @@ public class ServiceFormatarDado {
     }
 
     public static String gerarMascara(String tipOrMascara, int qtdDigitos, String caracter) {
+        if (tipOrMascara.equals(""))
+            return String.format("%0" + qtdDigitos + "d", 0).replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("cnpj"))
             return String.format("%014d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})$", "$1.$2.$3/$4-$5").replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("cpf"))
@@ -82,9 +84,12 @@ public class ServiceFormatarDado {
             return String.format("%013d", 0).replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("moeda") || tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("numero") || tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("peso")) {
             if (tipOrMascara.replaceAll("\\D", "").equals(""))
-                return caracter;
+//                return "#,###,###,##0;-#,###,###,##0";
+                return "#,###,###,##0;-#,###,###,##0";
             else
                 qtdDigitos = Integer.parseInt(tipOrMascara.replaceAll("\\D", ""));
+//            String zeros = String.format("%0" + (qtdDigitos + 1) + "d", 0).replaceAll("(\\d{1})(\\d{" + qtdDigitos + "})$", "$1.$2");
+//            return "#,###,###,##" + zeros + ";-#,###,###,##" + zeros;
             return String.format("%0" + (qtdDigitos + 1) + "d", 0).replaceAll("(\\d{1})(\\d{" + qtdDigitos + "})$", "$1.$2");
         }
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("cep"))
@@ -109,7 +114,7 @@ public class ServiceFormatarDado {
                 return String.format("%012d", 0).replace("0", caracter);
             else
                 return getMascaraIE(tipOrMascara.substring(2).toUpperCase(), caracter);
-        return String.format("%0" + qtdDigitos + "d", 0).replace("0", caracter);
+        return String.format("%1$0" + qtdDigitos + "d", 0).replace("0", caracter);
     }
 
     public String getMascara() {
@@ -117,7 +122,10 @@ public class ServiceFormatarDado {
     }
 
     public void setMascara(String tipOrMascara) {
-        this.mascara = gerarMascara(tipOrMascara, 0, "#");
+//        if (tipOrMascara.contains("##"))
+        this.mascara = tipOrMascara;
+//        else
+//            this.mascara = gerarMascara(tipOrMascara, 0, "#");
     }
 
     static String getMascaraIE(String uf, String caracter) {
@@ -200,8 +208,9 @@ public class ServiceFormatarDado {
                                     digitado++;
                                     break;
                                 case "#":
-                                    if (Character.isLetterOrDigit(value.charAt(digitado)))
-                                        resultado.append(value.substring(digitado, digitado + 1));
+//                                    if (Character.isLetterOrDigit(value.charAt(digitado)))
+//                                        resultado.append(value.substring(digitado, digitado + 1));
+                                    resultado.append(value.substring(i, i + 1));
                                     digitado++;
                                     break;
                                 case "0":
@@ -252,30 +261,16 @@ public class ServiceFormatarDado {
         });
     }
 
-    public static List<Pair<String, String>> getFieldFormatList(String accessibleText) {
-        List<Pair<String, String>> fieldFormatList = new ArrayList<>();
-        for (String strAccessibleText : accessibleText.split("[, ]")) {
-            String key = null, value = null;
-            for (String detalhe : strAccessibleText.split("[:]"))
-                if (key == null)
-                    key = detalhe;
-                else value = detalhe;
-            fieldFormatList.add(new Pair<String, String>(key, value));
-        }
-        return fieldFormatList;
-    }
-
     public static Pair<String, String> getFieldFormat(String accessibleText, String keyFormat) {
-        for (String strAccessibleText : accessibleText.split(", ")) {
-            System.out.println("strAccessibleText: [" + strAccessibleText + "]");
+        for (String strAccessibleText : accessibleText.toLowerCase().split(", ")) {
             String key = null, value = null;
             for (String detalhe : strAccessibleText.split(":")) {
-                System.out.println("detalhe: [" + detalhe + "]");
                 if (key == null)
-                    key = detalhe;
-                else value = detalhe;
-                if (key.equals(keyFormat) && value != null)
+                    key = detalhe.trim();
+                else value = detalhe.trim();
+                if (key.equals(keyFormat.toLowerCase()) && value != null) {
                     return new Pair<String, String>(key, value);
+                }
             }
         }
         return null;
