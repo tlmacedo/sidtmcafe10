@@ -55,6 +55,14 @@ public class ServiceCampoPersonalizado implements Constants {
             }
             if (node instanceof JFXTextField) {
                 ((JFXTextField) node).setText(valorInicial);
+            } else if (node instanceof JFXComboBox) {
+                ((JFXComboBox) node).getSelectionModel().select(0);
+            } else if (node instanceof JFXCheckBox) {
+                ((JFXCheckBox) node).setSelected(valorInicial == "true");
+            } else if (node instanceof JFXListView) {
+                ((JFXListView) node).getItems().clear();
+//            } else if (node instanceof JFXTreeTableView) {
+//                ((JFXTreeTableView) node)
             } else if (node instanceof AnchorPane) {
                 fieldClear((AnchorPane) node);
             } else if (node instanceof TitledPane) {
@@ -147,7 +155,7 @@ public class ServiceCampoPersonalizado implements Constants {
                             case "peso":
                             case "numeral":
                                 caractere = "0";
-                                ServiceFormatarDado.maxField((JFXTextField)node, len);
+                                ServiceFormatarDado.maxField((JFXTextField) node, len);
                                 if (mascara.contains("numero") || mascara.contains("peso") || mascara.contains("moeda"))
                                     caractere = "$";
 

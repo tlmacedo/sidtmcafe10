@@ -154,6 +154,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         });
     }
 
+    void abreCadastroProduto()
+
     EventHandler<KeyEvent> eventHandlerCadastroProduto;
     int qtdRegistrosLocalizados = 0;
     int indexObservableProduto = 0;

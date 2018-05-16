@@ -37,7 +37,7 @@
                             </tooltip>
                         </JFXTreeTableView>
                         <Label fx:id="lblRegistrosLocalizados" layoutX="380.0"
-                               accessibleText="value:[] registros(s) localizado(s)."
+                               accessibleText="value:[] registro(s) localizado(s)."
                                layoutY="20.0" styleClass="lbl-informacoes" text="Registros localizados">
                             <tooltip>
                                 <Tooltip text="informações de status e quantidade de registros localizados"/>
