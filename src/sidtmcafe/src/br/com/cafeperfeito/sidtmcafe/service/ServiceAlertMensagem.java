@@ -260,7 +260,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
     }
 
     void addImagem(String strImage) {
-        imageDialog = new Image(strImage);
+        imageDialog = new Image(getClass().getResource(strImage).toString());
         imageViewDialog.setImage(imageDialog);
         imageViewDialog.setClip(new Circle(120, 120, 120));
     }

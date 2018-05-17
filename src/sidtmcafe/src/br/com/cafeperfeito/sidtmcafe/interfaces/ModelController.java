@@ -6,9 +6,9 @@ public interface ModelController {
 
     void criarObjetos();
 
-    void preencherObjeros();
+    void preencherObjetos();
 
     void fatorarObjetos();
 
-    void escutarTeclar();
+    void escutarTecla();
 }

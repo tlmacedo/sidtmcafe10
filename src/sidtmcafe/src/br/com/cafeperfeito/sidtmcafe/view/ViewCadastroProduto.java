@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class ViewCadastroProduto implements Constants {
     static String tituloJanela;
-    static Tab tabCadastroProduto;
+    static Tab tab;
 
     public static String getTituloJanela() {
         return tituloJanela;
@@ -19,12 +19,12 @@ public class ViewCadastroProduto implements Constants {
         ViewCadastroProduto.tituloJanela = tituloJanela;
     }
 
-    public static Tab getTabCadastroProduto() {
-        return tabCadastroProduto;
+    public static Tab getTab() {
+        return tab;
     }
 
-    public static void setTabCadastroProduto(Tab tabCadastroProduto) {
-        ViewCadastroProduto.tabCadastroProduto = tabCadastroProduto;
+    public static void setTab(Tab tab) {
+        ViewCadastroProduto.tab = tab;
     }
 
     @SuppressWarnings("Duplicates")
@@ -36,9 +36,9 @@ public class ViewCadastroProduto implements Constants {
             parent = FXMLLoader.load(getClass().getResource(FXML_CADASTRO_PRODUTO));
             parent.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
 
-            setTabCadastroProduto(new Tab(tituloJanela));
-            tabCadastroProduto.setContent(parent);
-            return tabCadastroProduto;
+            setTab(new Tab(tituloJanela));
+            getTab().setContent(parent);
+            return getTab();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

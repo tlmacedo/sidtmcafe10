@@ -59,7 +59,7 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
     }
 
     @Override
-    public void preencherObjeros() {
+    public void preencherObjetos() {
         lblCopyRight.setText(COPYRIGHT);
         List<SisMenuPrincipalVO> sisMenuPrincipalVOList = new SisMenuPrincipalDAO().getMenuPrincipalVOList();
         TreeItem[] treeItems = new TreeItem[sisMenuPrincipalVOList.size() + 1];
@@ -85,7 +85,7 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
     }
 
     @Override
-    public void escutarTeclar() {
+    public void escutarTecla() {
         lblBotaoExpandeMenuViewPrincipal.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> expandeMenuItem(true));
 
         lblBotaoRetraiMenuViewPrincipal.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> expandeMenuItem(false));
@@ -144,9 +144,9 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
     public void initialize(URL location, ResourceBundle resources) {
         ctrlPrincipal = this;
         criarObjetos();
-        preencherObjeros();
+        preencherObjetos();
         fatorarObjetos();
-        escutarTeclar();
+        escutarTecla();
 
     }
 

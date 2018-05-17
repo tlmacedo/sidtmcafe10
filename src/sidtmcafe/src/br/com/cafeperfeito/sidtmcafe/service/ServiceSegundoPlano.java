@@ -1,5 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
+import br.com.cafeperfeito.sidtmcafe.controller.ControllerCadastroEmpresa;
 import br.com.cafeperfeito.sidtmcafe.controller.ControllerCadastroProduto;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.model.TabModel;
@@ -14,22 +15,75 @@ public class ServiceSegundoPlano implements Constants {
 
     URL url;
     BigDecimal getSaldo;
-//    WsCnpjReceitaWsVO wsCnpjReceitaWsVO;
+    //    WsCnpjReceitaWsVO wsCnpjReceitaWsVO;
 //    TabEmpresaVO tabEmpresaVO;
 //    TabProdutoVO tabProdutoVO;
 //    TabEnderecoVO tabEnderecoVO;
 //    WsCepPostmonVO wsCepPostmonVO;
 //    WsEanCosmosVO wsEanCosmosVO;
-    int qtdTarefas = 1;
 
-    public void tarefaAbreCadastroProduto(ControllerCadastroProduto cadastroProduto, List<Pair> tarefas) {
+    int qtdTarefas = 1;
+    public void tarefaAbreCadastroEmpresa(ControllerCadastroEmpresa cadastroEmpresa, List<Pair> tarefas) {
         qtdTarefas = tarefas.size();
         Task<Void> voidTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                updateMessage("carregando.");
+                updateMessage("carregando");
                 for (Pair tarefaAtual : tarefas) {
                     updateProgress(tarefas.indexOf(tarefaAtual), qtdTarefas);
+                    Thread.sleep(200);
+                    updateMessage(tarefaAtual.getValue().toString());
+                    switch (tarefaAtual.getKey().toString()) {
+                        case "criarTabelaEmpresa":
+                            TabModel.tabelaEmpresa();
+                            //TabModel.tabelaQsaReceita();
+                            break;
+                        case "preencherCboFiltroPesquisa":
+                            cadastroEmpresa.preencherCboFiltroPesquisa();
+                            break;
+                        case "preencherCboClassificacaoJuridica":
+                            cadastroEmpresa.preencherCboClassificacaoJuridica();
+                            break;
+                        case "preencherCboSituacaoSistema":
+                            cadastroEmpresa.preencherCboSituacaoSistema();
+                            break;
+                        case "preencherCboEndUF":
+                            cadastroEmpresa.preencherCboEndUF();
+                            break;
+                        case "carregarTabCargo":
+                            cadastroEmpresa.carregarTabCargo();
+                            break;
+                        case "carregarSisTipoEndereco":
+                            cadastroEmpresa.carregarSisTipoEndereco();
+                            break;
+                        case "carregarSisTelefoneOperadora":
+                            cadastroEmpresa.carregarSisTelefoneOperadora();
+                            break;
+                        case "carregarListaEmpresa":
+                            cadastroEmpresa.carregarListaEmpresa();
+                            break;
+                        case "preencherTabelaEmpresa":
+                            cadastroEmpresa.preencherTabelaEmpresa();
+                            break;
+                    }
+                }
+                updateProgress(qtdTarefas, qtdTarefas);
+                return null;
+            }
+        };
+        new ServiceAlertMensagem("Aguarde carregando dados do sistema...", "",
+                "ic_aguarde_sentado_orange_32dp.png")
+                .getProgressBar(voidTask, true, false, qtdTarefas);
+    }
+
+    public void tarefaAbreCadastroProduto(ControllerCadastroProduto cadastroProduto, List<Pair<String, String>> tarefa) {
+        qtdTarefas = tarefa.size();
+        Task<Void> voidTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                updateMessage("carregando.");
+                for (Pair tarefaAtual : tarefa) {
+                    updateProgress(tarefa.indexOf(tarefaAtual), qtdTarefas);
                     Thread.sleep(201);
                     updateMessage(tarefaAtual.getValue().toString());
                     switch (tarefaAtual.getKey().toString()) {
@@ -58,7 +112,7 @@ public class ServiceSegundoPlano implements Constants {
                             cadastroProduto.carregarListaProduto();
                             break;
                         case "preencherTabelaProduto":
-                            cadastroProduto.preencherTabelaProduto();
+                            //cadastroProduto.preencherTabelaProduto();
                             break;
                     }
                 }
@@ -66,7 +120,7 @@ public class ServiceSegundoPlano implements Constants {
                 return null;
             }
         };
-        new AlertMensagem("Aguarde carregando dados do sistema...", "",
+        new ServiceAlertMensagem("Aguarde carregando dados do sistema...", "",
                 "ic_aguarde_sentado_orange_32dp.png")
                 .getProgressBar(voidTask, true, false, qtdTarefas);
     }

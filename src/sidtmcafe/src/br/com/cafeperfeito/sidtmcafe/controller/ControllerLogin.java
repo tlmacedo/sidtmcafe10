@@ -46,7 +46,7 @@ public class ControllerLogin extends ServiceVariavelSistema implements Initializ
     }
 
     @Override
-    public void preencherObjeros() {
+    public void preencherObjetos() {
         cboUsuarioLogin.setPromptText("Selecione usuário: ");
         cboUsuarioLogin.getItems().setAll(new TabColaboradorDAO().getTabColaboradorVOList());
     }
@@ -79,7 +79,7 @@ public class ControllerLogin extends ServiceVariavelSistema implements Initializ
     }
 
     @Override
-    public void escutarTeclar() {
+    public void escutarTecla() {
 
         painelViewLogin.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             if (event.getCode() == KeyCode.ENTER && btnOK.isDisable())
@@ -120,9 +120,9 @@ public class ControllerLogin extends ServiceVariavelSistema implements Initializ
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         criarObjetos();
-        preencherObjeros();
+        preencherObjetos();
         fatorarObjetos();
-        escutarTeclar();
+        escutarTecla();
         Platform.runLater(() -> Locale.setDefault(LOCALE_MY));
     }
 

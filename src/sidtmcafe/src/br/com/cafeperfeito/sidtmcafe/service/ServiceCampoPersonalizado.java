@@ -46,6 +46,7 @@ public class ServiceCampoPersonalizado implements Constants {
 
     public static void fieldClear(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
+//            System.out.println("node: [" + node.toString() + "] node.getAccessibleText(): [" + node.getAccessibleText() + "]");
             String valorInicial = null;
             if (node.getAccessibleText() != null && node.getAccessibleText().contains(":")) {
                 if ((valorInicial = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "value").getValue()) == null)
@@ -54,7 +55,7 @@ public class ServiceCampoPersonalizado implements Constants {
                     ((Label) node).setText(valorInicial);
             }
             if (node instanceof JFXTextField) {
-                ((JFXTextField) node).setText(valorInicial);
+                    ((JFXTextField) node).setText(valorInicial);
             } else if (node instanceof JFXComboBox) {
                 ((JFXComboBox) node).getSelectionModel().select(0);
             } else if (node instanceof JFXCheckBox) {
@@ -69,10 +70,10 @@ public class ServiceCampoPersonalizado implements Constants {
                 fieldClear((AnchorPane) ((TitledPane) node).getContent());
             } else if (node instanceof TabPane) {
                 for (Tab tab : ((TabPane) node).getTabs())
-                    fieldClear((AnchorPane) node);
+                    fieldClear((AnchorPane) tab.getContent());
             } else if (node instanceof JFXTabPane) {
                 for (Tab tab : ((JFXTabPane) node).getTabs())
-                    fieldClear((AnchorPane) node);
+                    fieldClear((AnchorPane) tab.getContent());
             }
         }
     }
@@ -117,10 +118,10 @@ public class ServiceCampoPersonalizado implements Constants {
                 fieldDisable((AnchorPane) ((TitledPane) node).getContent(), setDisable);
             } else if (node instanceof TabPane) {
                 for (Tab tab : ((TabPane) node).getTabs())
-                    fieldDisable((AnchorPane) node, setDisable);
+                    fieldDisable((AnchorPane) tab.getContent(), setDisable);
             } else if (node instanceof JFXTabPane) {
                 for (Tab tab : ((JFXTabPane) node).getTabs())
-                    fieldDisable((AnchorPane) node, setDisable);
+                    fieldDisable((AnchorPane) tab.getContent(), setDisable);
             }
 
         }
@@ -180,10 +181,10 @@ public class ServiceCampoPersonalizado implements Constants {
                 fieldMask((AnchorPane) ((TitledPane) node).getContent());
             } else if (node instanceof TabPane) {
                 for (Tab tab : ((TabPane) node).getTabs())
-                    fieldMask((AnchorPane) node);
+                    fieldMask((AnchorPane) tab.getContent());
             } else if (node instanceof JFXTabPane) {
                 for (Tab tab : ((JFXTabPane) node).getTabs())
-                    fieldMask((AnchorPane) node);
+                    fieldMask((AnchorPane) tab.getContent());
             }
         }
 

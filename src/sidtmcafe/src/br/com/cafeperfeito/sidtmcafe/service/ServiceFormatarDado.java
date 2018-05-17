@@ -190,7 +190,12 @@ public class ServiceFormatarDado {
         if (strMascara.length() > 0)
             setMascara(strMascara);
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
+//            String value = "";
+//            try {
             String value = textField.getText().replaceAll("[\\W]", "");
+//            } catch (Exception ex){
+//                System.out.println("***********************************************value: [" + value + "] node: [" + textField.toString() + "]");
+//            }
             StringBuilder resultado = new StringBuilder();
             if (newValue.length() > oldValue.length()) {
                 if (newValue.length() <= getMascara().length()) {
@@ -263,7 +268,7 @@ public class ServiceFormatarDado {
 //        });
     }
 
-    public void fatorarColunaCheckBox(JFXTreeTableColumn colunaGenerica) {
+    public static void fatorarColunaCheckBox(JFXTreeTableColumn colunaGenerica) {
         colunaGenerica.getStyleClass().add("chkbox");
         colunaGenerica.setCellFactory(new Callback<TreeTableColumn, TreeTableCell>() {
             @Override

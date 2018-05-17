@@ -1,16 +1,18 @@
 package br.com.cafeperfeito.sidtmcafe.controller;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceCampoPersonalizado;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceComandoTecladoMouse;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema;
+import br.com.cafeperfeito.sidtmcafe.model.dao.*;
+import br.com.cafeperfeito.sidtmcafe.model.vo.*;
+import br.com.cafeperfeito.sidtmcafe.service.*;
 import br.com.cafeperfeito.sidtmcafe.view.ViewCadastroProduto;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -18,8 +20,11 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Pair;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerCadastroProduto extends ServiceVariavelSistema implements Initializable, ModelController {
@@ -61,18 +66,27 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     @Override
     public void fechar() {
-        ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getTabs().remove(ViewCadastroProduto.getTabCadastroProduto());
+        ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getTabs().remove(ViewCadastroProduto.getTab());
         ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.removeEventHandler(KeyEvent.KEY_PRESSED, eventHandlerCadastroProduto);
     }
 
     @Override
     public void criarObjetos() {
-
+        listaTarefa.add(new Pair<>("criarTabelaProduto", "criando tabela de produto"));
     }
 
     @Override
-    public void preencherObjeros() {
-        ServiceCampoPersonalizado.fieldMask(painelViewCadastroProduto);
+    public void preencherObjetos() {
+        listaTarefa.add(new Pair("carregarListaProduto", "carregando lista de produtos"));
+        listaTarefa.add(new Pair("preencherCboUnidadeComercial", "preenchendo dados unidade comercial"));
+        listaTarefa.add(new Pair("preencherCboSituacaoSistema", "preenchendo situaão no istema"));
+        listaTarefa.add(new Pair("preencherCboFiscalOrigem", "preenchendo dados fiscais de Origem"));
+        listaTarefa.add(new Pair("preencherCboFiscalIcms", "preenchendo dados fiscal ICMS"));
+        listaTarefa.add(new Pair("preencherCboFiscalPis", "preenchendo dados fiscal PIS"));
+        listaTarefa.add(new Pair("preencherCboFiscalCofins", "preenchendo dados fiscal COFINS"));
+
+        listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
+
     }
 
     @Override
@@ -81,7 +95,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     @Override
-    public void escutarTeclar() {
+    public void escutarTecla() {
         eventHandlerCadastroProduto = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -143,18 +157,18 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         criarObjetos();
-        preencherObjeros();
+        preencherObjetos();
         fatorarObjetos();
-        escutarTeclar();
-        ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnCadastroProduto.getContent());
+        escutarTecla();
+
+        new ServiceSegundoPlano().tarefaAbreCadastroProduto(this, listaTarefa);
+        ServiceCampoPersonalizado.fieldMask(painelViewCadastroProduto);
 
         Platform.runLater(() -> {
             setStatusFormulario("pesquisa");
             ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7));
         });
     }
-
-    void abreCadastroProduto()
 
     EventHandler<KeyEvent> eventHandlerCadastroProduto;
     int qtdRegistrosLocalizados = 0;
@@ -165,6 +179,21 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     static String STATUS_BAR_TECLA_PESQUISA = "[F1-Novo]  [F3-Excluir]  [F4-Editar]  [F7-Pesquisar]  [F12-Sair]  ";
     static String STATUS_BAR_TECLA_EDITAR = "[F3-Cancelar edição]  [F5-Atualizar]  ";
     static String STATUS_BAR_TECLA_INCLUIR = "[F2-Incluir]  [F3-Cancelar inclusão]  ";
+
+    List<Pair<String, String>> listaTarefa = new ArrayList<>();
+    ObservableList<TabProdutoVO> tabProdutoVOObservableList;
+    FilteredList<TabProdutoVO> tabProdutoVOFilteredList;
+    TabProdutoVO tabProdutoVO;
+    List<TabProdutoEanVO> tabProdutoEanVOList;
+    List<TabProdutoEanVO> deletadoTabProdutoEanVOList;
+
+    List<SisUnidadeComercialVO> sisUnidadeComercialVOList;
+    List<SisSituacaoSistemaVO> sisSituacaoSistemaVOList;
+    List<FiscalCSTOrigemVO> fiscalCSTOrigemVOList;
+    List<FiscalICMSVO> fiscalICMSVOList;
+    List<FiscalPISCOFINSVO> fiscalPISVOList;
+    List<FiscalPISCOFINSVO> fiscalCOFINSVOList;
+
 
     public int getQtdRegistrosLocalizados() {
         return qtdRegistrosLocalizados;
@@ -229,4 +258,70 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     void clearFieldDadoCadastral() {
         ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnDadoCadastral.getContent());
     }
+
+    public void carregarListaProduto() {
+        tabProdutoVOObservableList = FXCollections.observableArrayList(new TabProdutoDAO().getTabProdutoVOList());
+        tabProdutoVOFilteredList = new FilteredList<>(tabProdutoVOObservableList, produto -> true);
+    }
+
+    public void preencherCboUnidadeComercial() {
+        cboUnidadeComercial.getItems().clear();
+        if ((sisUnidadeComercialVOList = new ArrayList<>(new SisUnidadeComercialDAO().getSisUnidadeComercialVOList())) == null)
+            return;
+        cboUnidadeComercial.getItems().setAll(sisUnidadeComercialVOList);
+    }
+
+    public void preencherCboSituacaoSistema() {
+        cboSituacaoSistema.getItems().clear();
+        if ((sisSituacaoSistemaVOList = new ArrayList<>(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVOList())) == null)
+            return;
+        cboSituacaoSistema.getItems().setAll(sisSituacaoSistemaVOList);
+    }
+
+    public void preencherCboFiscalOrigem() {
+        cboFiscalOrigem.getItems().clear();
+        if ((fiscalCSTOrigemVOList = new ArrayList<FiscalCSTOrigemVO>(new FiscalCSTOrigemDAO().getFiscalCSTOrigemVOList())) == null)
+            return;
+        cboFiscalOrigem.getItems().setAll(fiscalCSTOrigemVOList);
+    }
+
+    public void preencherCboFiscalIcms() {
+        cboFiscalIcms.getItems().clear();
+        if ((fiscalICMSVOList = new ArrayList<FiscalICMSVO>(new FiscalICMSDAO().getFiscalICMSVOList())) == null)
+            return;
+        cboFiscalIcms.getItems().setAll(fiscalICMSVOList);
+    }
+
+    public void preencherCboFiscalPis() {
+        cboFiscalPis.getItems().clear();
+        if ((fiscalPISVOList = new ArrayList<FiscalPISCOFINSVO>(new FiscalPISCOFINSDAO().getFiscalPISCOFINSVOList())) == null)
+            return;
+        cboFiscalPis.getItems().setAll(fiscalPISVOList);
+    }
+
+    public void preencherCboFiscalCofins() {
+        cboFiscalCofins.getItems().clear();
+        if ((fiscalCOFINSVOList = new ArrayList<FiscalPISCOFINSVO>(new FiscalPISCOFINSDAO().getFiscalPISCOFINSVOList())) == null)
+            return;
+        cboFiscalCofins.getItems().setAll(fiscalCOFINSVOList);
+    }
+
+    void pesquisaProduto() {
+        String busca;
+        if ((busca = txtPesquisaProduto.getText().toLowerCase().trim()).length() > 0)
+            tabProdutoVOObservableList.stream().filter(produto ->
+                    produto.getCodigo().toLowerCase().contains(busca)
+                            || produto.getDescricao().toLowerCase().contains(busca)
+                            || produto.getTabProdutoEanVOList().contains(busca)
+            );
+//            tabProdutoVOFilteredList.setPredicate(produto -> {
+//                if (produto.getCodigo().toLowerCase().contains(busca)) return true
+//            });
+        preencheTabelaProduto();
+    }
+
+    public void preencheTabelaProduto() {
+
+    }
+
 }

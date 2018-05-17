@@ -11,6 +11,7 @@ import java.io.IOException;
 public class ViewCadastroEmpresa implements Constants {
 
     static String tituloJanela;
+    static Tab tab;
 
     public static String getTituloJanela() {
         return tituloJanela;
@@ -20,19 +21,26 @@ public class ViewCadastroEmpresa implements Constants {
         ViewCadastroEmpresa.tituloJanela = tituloJanela;
     }
 
+    public static Tab getTab() {
+        return tab;
+    }
+
+    public static void setTab(Tab tab) {
+        ViewCadastroEmpresa.tab = tab;
+    }
+
     @SuppressWarnings("Duplicates")
     public Tab openTabCadastroEmpresa(String tituloJanela) {
         setTituloJanela(tituloJanela);
         Parent parent;
-        Scene scene = null;
 
         try {
             parent = FXMLLoader.load(getClass().getResource(FXML_CADASTRO_EMPRESA));
             parent.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
 
-            Tab tab = new Tab(tituloJanela);
-            tab.setContent(parent);
-            return tab;
+            setTab(new Tab(tituloJanela));
+            getTab().setContent(parent);
+            return getTab();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

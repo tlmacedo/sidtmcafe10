@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class ViewLogin extends Application implements Constants {
 
-    private static Stage stage;
+    static Stage stage;
 
     public static Stage getStage() {
         return stage;
