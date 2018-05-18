@@ -8,6 +8,7 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/com/jfoenix/jfoenix/9.0.4/jfoenix-9.0.4-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/jfoenix/jfoenix/9.0.4/jfoenix-9.0.4.jar!/" />
     </SOURCES>
   </library>
 </component>

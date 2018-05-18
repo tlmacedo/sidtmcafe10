@@ -3,148 +3,141 @@ package br.com.cafeperfeito.sidtmcafe.model.model;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaReceitaFederalVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
-import com.jfoenix.controls.JFXTreeTableColumn;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.VBox;
 
 public class TabModel {
 
-    static JFXTreeTableColumn<TabProdutoVO, Integer> colunaIdProduto;
-    static JFXTreeTableColumn<TabProdutoVO, String> colunaCodigo;
-    static JFXTreeTableColumn<TabProdutoVO, String> colunaDescricao;
-    static JFXTreeTableColumn<TabProdutoVO, String> colunaUndCom;
-    static JFXTreeTableColumn<TabProdutoVO, String> colunaPrecoFabrica;
-    static JFXTreeTableColumn<TabProdutoVO, String> colunaPrecoConsumidor;
-    static JFXTreeTableColumn<TabProdutoVO, Integer> colunaQtdEstoque;
-    static JFXTreeTableColumn<TabProdutoVO, String> colunaSituacaoSistema;
-    static JFXTreeTableColumn<TabProdutoVO, Integer> colunaVarejo;
+    static TreeTableColumn<TabProdutoVO, Integer> colunaIdProduto;
+    static TreeTableColumn<TabProdutoVO, String> colunaCodigo;
+    static TreeTableColumn<TabProdutoVO, String> colunaDescricao;
+    static TreeTableColumn<TabProdutoVO, String> colunaUndCom;
+    static TreeTableColumn<TabProdutoVO, String> colunaPrecoFabrica;
+    static TreeTableColumn<TabProdutoVO, String> colunaPrecoConsumidor;
+    static TreeTableColumn<TabProdutoVO, Integer> colunaQtdEstoque;
+    static TreeTableColumn<TabProdutoVO, String> colunaSituacaoSistema;
+    static TreeTableColumn<TabProdutoVO, Integer> colunaVarejo;
 
-    static JFXTreeTableColumn<TabEmpresaVO, Integer> colunaIdEmpresa;
-    static JFXTreeTableColumn<TabEmpresaVO, String> colunaCnpj;
-    static JFXTreeTableColumn<TabEmpresaVO, String> colunaIe;
-    static JFXTreeTableColumn<TabEmpresaVO, String> colunaRazao;
-    static JFXTreeTableColumn<TabEmpresaVO, String> colunaFantasia;
-    static JFXTreeTableColumn<TabEmpresaVO, String> colunaEndereco;
-    static JFXTreeTableColumn<TabEmpresaVO, String> colunaEndLogradouro;
-    static JFXTreeTableColumn<TabEmpresaVO, String> colunaEndNumero;
-    static JFXTreeTableColumn<TabEmpresaVO, String> colunaEndComplemento;
-    static JFXTreeTableColumn<TabEmpresaVO, String> colunaEndBairro;
-    static JFXTreeTableColumn<TabEmpresaVO, String> colunaEndUFMunicipio;
-    static JFXTreeTableColumn<TabEmpresaVO, Boolean> colunaIsCliente;
-    static JFXTreeTableColumn<TabEmpresaVO, Boolean> colunaIsFornecedor;
-    static JFXTreeTableColumn<TabEmpresaVO, Boolean> colunaIsTransportadora;
-    static JFXTreeTableColumn<TabEmpresaReceitaFederalVO, String> colunaQsaKey;
-    static JFXTreeTableColumn<TabEmpresaReceitaFederalVO, String> colunaQsaValue;
+    static TreeTableColumn<TabEmpresaVO, Integer> colunaIdEmpresa;
+    static TreeTableColumn<TabEmpresaVO, String> colunaCnpj;
+    static TreeTableColumn<TabEmpresaVO, String> colunaIe;
+    static TreeTableColumn<TabEmpresaVO, String> colunaRazao;
+    static TreeTableColumn<TabEmpresaVO, String> colunaFantasia;
+    static TreeTableColumn<TabEmpresaVO, String> colunaEndereco;
+    static TreeTableColumn<TabEmpresaVO, String> colunaEndLogradouro;
+    static TreeTableColumn<TabEmpresaVO, String> colunaEndNumero;
+    static TreeTableColumn<TabEmpresaVO, String> colunaEndComplemento;
+    static TreeTableColumn<TabEmpresaVO, String> colunaEndBairro;
+    static TreeTableColumn<TabEmpresaVO, String> colunaEndUFMunicipio;
+    static TreeTableColumn<TabEmpresaVO, Boolean> colunaIsCliente;
+    static TreeTableColumn<TabEmpresaVO, Boolean> colunaIsFornecedor;
+    static TreeTableColumn<TabEmpresaVO, Boolean> colunaIsTransportadora;
+    static TreeTableColumn<TabEmpresaReceitaFederalVO, String> colunaQsaKey;
+    static TreeTableColumn<TabEmpresaReceitaFederalVO, String> colunaQsaValue;
 
 
-    public static JFXTreeTableColumn<TabProdutoVO, Integer> getColunaIdProduto() {
+    public static TreeTableColumn<TabProdutoVO, Integer> getColunaIdProduto() {
         return colunaIdProduto;
     }
 
-    public static JFXTreeTableColumn<TabProdutoVO, String> getColunaCodigo() {
+    public static TreeTableColumn<TabProdutoVO, String> getColunaCodigo() {
         return colunaCodigo;
     }
 
-    public static JFXTreeTableColumn<TabProdutoVO, String> getColunaDescricao() {
+    public static TreeTableColumn<TabProdutoVO, String> getColunaDescricao() {
         return colunaDescricao;
     }
 
-    public static JFXTreeTableColumn<TabProdutoVO, String> getColunaUndCom() {
+    public static TreeTableColumn<TabProdutoVO, String> getColunaUndCom() {
         return colunaUndCom;
     }
 
-    public static JFXTreeTableColumn<TabProdutoVO, String> getColunaPrecoFabrica() {
+    public static TreeTableColumn<TabProdutoVO, String> getColunaPrecoFabrica() {
         return colunaPrecoFabrica;
     }
 
-    public static JFXTreeTableColumn<TabProdutoVO, String> getColunaPrecoConsumidor() {
+    public static TreeTableColumn<TabProdutoVO, String> getColunaPrecoConsumidor() {
         return colunaPrecoConsumidor;
     }
 
-    public static JFXTreeTableColumn<TabProdutoVO, Integer> getColunaQtdEstoque() {
+    public static TreeTableColumn<TabProdutoVO, Integer> getColunaQtdEstoque() {
         return colunaQtdEstoque;
     }
 
-    public static JFXTreeTableColumn<TabProdutoVO, String> getColunaSituacaoSistema() {
+    public static TreeTableColumn<TabProdutoVO, String> getColunaSituacaoSistema() {
         return colunaSituacaoSistema;
     }
 
-    public static JFXTreeTableColumn<TabProdutoVO, Integer> getColunaVarejo() {
+    public static TreeTableColumn<TabProdutoVO, Integer> getColunaVarejo() {
         return colunaVarejo;
     }
 
 
-    public static JFXTreeTableColumn<TabEmpresaVO, Integer> getColunaIdEmpresa() {
+    public static TreeTableColumn<TabEmpresaVO, Integer> getColunaIdEmpresa() {
         return colunaIdEmpresa;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, String> getColunaCnpj() {
+    public static TreeTableColumn<TabEmpresaVO, String> getColunaCnpj() {
         return colunaCnpj;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, String> getColunaIe() {
+    public static TreeTableColumn<TabEmpresaVO, String> getColunaIe() {
         return colunaIe;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, String> getColunaRazao() {
+    public static TreeTableColumn<TabEmpresaVO, String> getColunaRazao() {
         return colunaRazao;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, String> getColunaFantasia() {
+    public static TreeTableColumn<TabEmpresaVO, String> getColunaFantasia() {
         return colunaFantasia;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, String> getColunaEndereco() {
+    public static TreeTableColumn<TabEmpresaVO, String> getColunaEndereco() {
         return colunaEndereco;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, String> getColunaEndLogradouro() {
+    public static TreeTableColumn<TabEmpresaVO, String> getColunaEndLogradouro() {
         return colunaEndLogradouro;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, String> getColunaEndNumero() {
+    public static TreeTableColumn<TabEmpresaVO, String> getColunaEndNumero() {
         return colunaEndNumero;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, String> getColunaEndComplemento() {
+    public static TreeTableColumn<TabEmpresaVO, String> getColunaEndComplemento() {
         return colunaEndComplemento;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, String> getColunaEndBairro() {
+    public static TreeTableColumn<TabEmpresaVO, String> getColunaEndBairro() {
         return colunaEndBairro;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, String> getColunaEndUFMunicipio() {
+    public static TreeTableColumn<TabEmpresaVO, String> getColunaEndUFMunicipio() {
         return colunaEndUFMunicipio;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, Boolean> getColunaIsCliente() {
+    public static TreeTableColumn<TabEmpresaVO, Boolean> getColunaIsCliente() {
         return colunaIsCliente;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, Boolean> getColunaIsFornecedor() {
+    public static TreeTableColumn<TabEmpresaVO, Boolean> getColunaIsFornecedor() {
         return colunaIsFornecedor;
     }
 
-    public static JFXTreeTableColumn<TabEmpresaVO, Boolean> getColunaIsTransportadora() {
+    public static TreeTableColumn<TabEmpresaVO, Boolean> getColunaIsTransportadora() {
         return colunaIsTransportadora;
     }
-
-//    public static JFXTreeTableColumn<TabEmpresaReceitaFederalVO, String> getColunaQsaKey() {
-//        return colunaQsaKey;
-//    }
-//
-//    public static JFXTreeTableColumn<TabEmpresaReceitaFederalVO, String> getColunaQsaValue() {
-//        return colunaQsaValue;
-//    }
 
     public static void tabelaProduto() {
         try {
             Label lblId = new Label("id");
             lblId.setPrefWidth(28);
-            colunaIdProduto = new JFXTreeTableColumn<TabProdutoVO, Integer>();
+            colunaIdProduto = new TreeTableColumn<TabProdutoVO, Integer>();
             colunaIdProduto.setGraphic(lblId);
             colunaIdProduto.setPrefWidth(28);
             colunaIdProduto.setStyle("-fx-alignment: center-right;");
@@ -152,7 +145,7 @@ public class TabModel {
 
             Label lblCodigo = new Label("Código");
             lblCodigo.setPrefWidth(60);
-            colunaCodigo = new JFXTreeTableColumn<TabProdutoVO, String>();
+            colunaCodigo = new TreeTableColumn<TabProdutoVO, String>();
             colunaCodigo.setGraphic(lblCodigo);
             colunaCodigo.setPrefWidth(60);
             colunaCodigo.setStyle("-fx-alignment: center-right;");
@@ -160,21 +153,21 @@ public class TabModel {
 
             Label lblDescricao = new Label("Descrição");
             lblDescricao.setPrefWidth(350);
-            colunaDescricao = new JFXTreeTableColumn<TabProdutoVO, String>();
+            colunaDescricao = new TreeTableColumn<TabProdutoVO, String>();
             colunaDescricao.setGraphic(lblDescricao);
             colunaDescricao.setPrefWidth(350);
             colunaDescricao.setCellValueFactory(param -> param.getValue().getValue().descricaoProperty());
 
             Label lblUndComercial = new Label("Und Com");
             lblUndComercial.setPrefWidth(70);
-            colunaUndCom = new JFXTreeTableColumn<TabProdutoVO, String>();
+            colunaUndCom = new TreeTableColumn<TabProdutoVO, String>();
             colunaUndCom.setGraphic(lblUndComercial);
             colunaUndCom.setPrefWidth(70);
             colunaUndCom.setCellValueFactory(param -> param.getValue().getValue().getSisUnidadeComercialVO().siglaProperty());
 
             Label lblVarejo = new Label("Varejo");
             lblVarejo.setPrefWidth(50);
-            colunaVarejo = new JFXTreeTableColumn<TabProdutoVO, Integer>();
+            colunaVarejo = new TreeTableColumn<TabProdutoVO, Integer>();
             colunaVarejo.setGraphic(lblVarejo);
             colunaVarejo.setPrefWidth(50);
             colunaVarejo.setStyle("-fx-alignment: center-right;");
@@ -182,7 +175,7 @@ public class TabModel {
 
             Label lblPrecoFab = new Label("Preço Fab.");
             lblPrecoFab.setPrefWidth(90);
-            colunaPrecoFabrica = new JFXTreeTableColumn<TabProdutoVO, String>();
+            colunaPrecoFabrica = new TreeTableColumn<TabProdutoVO, String>();
             colunaPrecoFabrica.setGraphic(lblPrecoFab);
             colunaPrecoFabrica.setPrefWidth(90);
             colunaPrecoFabrica.setStyle("-fx-alignment: center-right;");
@@ -196,7 +189,7 @@ public class TabModel {
 
             Label lblPrecoCons = new Label("Preço Cons.");
             lblPrecoCons.setPrefWidth(90);
-            colunaPrecoConsumidor = new JFXTreeTableColumn<TabProdutoVO, String>();
+            colunaPrecoConsumidor = new TreeTableColumn<TabProdutoVO, String>();
             colunaPrecoConsumidor.setGraphic(lblPrecoCons);
             colunaPrecoConsumidor.setPrefWidth(90);
             colunaPrecoConsumidor.setStyle("-fx-alignment: center-right;");
@@ -210,14 +203,14 @@ public class TabModel {
 
             Label lblSituacaoSistema = new Label("Situação");
             lblSituacaoSistema.setPrefWidth(100);
-            colunaSituacaoSistema = new JFXTreeTableColumn<TabProdutoVO, String>();
+            colunaSituacaoSistema = new TreeTableColumn<TabProdutoVO, String>();
             colunaSituacaoSistema.setGraphic(lblSituacaoSistema);
             colunaSituacaoSistema.setPrefWidth(100);
             colunaSituacaoSistema.setCellValueFactory(param -> param.getValue().getValue().getSisSituacaoSistemaVO().descricaoProperty());
 
             Label lblEstoque = new Label("Estoque");
             lblEstoque.setPrefWidth(65);
-            colunaQtdEstoque = new JFXTreeTableColumn<TabProdutoVO, Integer>();
+            colunaQtdEstoque = new TreeTableColumn<TabProdutoVO, Integer>();
             colunaQtdEstoque.setGraphic(lblEstoque);
             colunaQtdEstoque.setPrefWidth(65);
 //            colunaQtdEstoque.setStyle("-fx-alignment: center-right;");
@@ -232,7 +225,7 @@ public class TabModel {
         try {
             Label lblId = new Label("id");
             lblId.setPrefWidth(28);
-            colunaIdEmpresa = new JFXTreeTableColumn<TabEmpresaVO, Integer>();
+            colunaIdEmpresa = new TreeTableColumn<TabEmpresaVO, Integer>();
             colunaIdEmpresa.setGraphic(lblId);
             colunaIdEmpresa.setPrefWidth(28);
             colunaIdEmpresa.setStyle("-fx-alignment: center-right;");
@@ -240,19 +233,21 @@ public class TabModel {
 
             Label lblCnpj = new Label("C.N.P.J / C.P.F.");
             lblCnpj.setPrefWidth(110);
-            colunaCnpj = new JFXTreeTableColumn<TabEmpresaVO, String>();
+            colunaCnpj = new TreeTableColumn<TabEmpresaVO, String>();
             colunaCnpj.setGraphic(lblCnpj);
             colunaCnpj.setPrefWidth(110);
             colunaCnpj.setStyle("-fx-alignment: center-right;");
-//            colunaCnpj.setCellValueFactory(param -> {
-//                if (param.getValue().getValue().isEmpresaProperty().get() == 0)
-//                    return new SimpleStringProperty(FormatarDado.getCampoFormatado(param.getValue().getValue().cnpjProperty().getValue(), "cpf"));
-//                return new SimpleStringProperty(FormatarDado.getCampoFormatado(param.getValue().getValue().cnpjProperty().getValue(), "cnpj"));
-//            });
+
+            colunaCnpj.setCellValueFactory(param -> {
+                if (param.getValue().getValue().isIsEmpresa())
+                    return new SimpleStringProperty(ServiceFormatarDado.getValorFormatado(param.getValue().getValue().getCnpj(), "cnpj"));
+                else
+                    return new SimpleStringProperty(ServiceFormatarDado.getValorFormatado(param.getValue().getValue().getCnpj(), "cpf"));
+            });
 
             Label lblIe = new Label(("IE / RG"));
             lblIe.setPrefWidth(90);
-            colunaIe = new JFXTreeTableColumn<TabEmpresaVO, String>();
+            colunaIe = new TreeTableColumn<TabEmpresaVO, String>();
             colunaIe.setGraphic(lblIe);
             colunaIe.setPrefWidth(90);
             colunaIe.setStyle("-fx-alignment: center-right;");
@@ -268,24 +263,24 @@ public class TabModel {
 
             Label lblRazao = new Label("Razão / Nome");
             lblRazao.setPrefWidth(250);
-            colunaRazao = new JFXTreeTableColumn<TabEmpresaVO, String>();
+            colunaRazao = new TreeTableColumn<TabEmpresaVO, String>();
             colunaRazao.setGraphic(lblRazao);
             colunaRazao.setPrefWidth(250);
             colunaRazao.setCellValueFactory(param -> param.getValue().getValue().razaoProperty());
 
             Label lblFantasia = new Label("Fantasia / Apelido");
             lblFantasia.setPrefWidth(150);
-            colunaFantasia = new JFXTreeTableColumn<TabEmpresaVO, String>();
+            colunaFantasia = new TreeTableColumn<TabEmpresaVO, String>();
             colunaFantasia.setGraphic(lblFantasia);
             colunaFantasia.setPrefWidth(150);
             colunaFantasia.setCellValueFactory(param -> param.getValue().getValue().fantasiaProperty());
 
-            colunaEndereco = new JFXTreeTableColumn<TabEmpresaVO, String>("Endereço");
+            colunaEndereco = new TreeTableColumn<TabEmpresaVO, String>("Endereço");
             colunaEndereco.setStyle("-fx-alignment: center;");
 
             Label lblEndLogradouro = new Label("Logradouro");
             lblEndLogradouro.setPrefWidth(170);
-            colunaEndLogradouro = new JFXTreeTableColumn<TabEmpresaVO, String>();
+            colunaEndLogradouro = new TreeTableColumn<TabEmpresaVO, String>();
             colunaEndLogradouro.setGraphic(lblEndLogradouro);
             colunaEndLogradouro.setPrefWidth(170);
             colunaEndLogradouro.setCellValueFactory(param -> {
@@ -296,7 +291,7 @@ public class TabModel {
 
             Label lblEndNumero = new Label("Número");
             lblEndNumero.setPrefWidth(40);
-            colunaEndNumero = new JFXTreeTableColumn<TabEmpresaVO, String>();
+            colunaEndNumero = new TreeTableColumn<TabEmpresaVO, String>();
             colunaEndNumero.setGraphic(lblEndNumero);
             colunaEndNumero.setPrefWidth(40);
             colunaEndNumero.setStyle("-fx-alignment: center-right;");
@@ -308,7 +303,7 @@ public class TabModel {
 
             Label lblEndComplemento = new Label("Complemento");
             lblEndComplemento.setPrefWidth(150);
-            colunaEndComplemento = new JFXTreeTableColumn<TabEmpresaVO, String>();
+            colunaEndComplemento = new TreeTableColumn<TabEmpresaVO, String>();
             colunaEndComplemento.setGraphic(lblEndComplemento);
             colunaEndComplemento.setPrefWidth(150);
             colunaEndComplemento.setCellValueFactory(param -> {
@@ -320,7 +315,7 @@ public class TabModel {
 
             Label lblEndBairro = new Label("Bairro");
             lblEndBairro.setPrefWidth(95);
-            colunaEndBairro = new JFXTreeTableColumn<TabEmpresaVO, String>();
+            colunaEndBairro = new TreeTableColumn<TabEmpresaVO, String>();
             colunaEndBairro.setGraphic(lblEndBairro);
             colunaEndBairro.setPrefWidth(95);
             colunaEndBairro.setCellValueFactory(param -> {
@@ -332,7 +327,7 @@ public class TabModel {
 
             Label lblEndUFMunicipio = new Label("UF - Cidade");
             lblEndUFMunicipio.setPrefWidth(75);
-            colunaEndUFMunicipio = new JFXTreeTableColumn<TabEmpresaVO, String>();
+            colunaEndUFMunicipio = new TreeTableColumn<TabEmpresaVO, String>();
             colunaEndUFMunicipio.setGraphic(lblEndUFMunicipio);
             colunaEndUFMunicipio.setPrefWidth(75);
             colunaEndUFMunicipio.setCellValueFactory(param -> {
@@ -353,12 +348,11 @@ public class TabModel {
             Label lblIsCliente = new Label("Cliente");
             vBoxIsCliente.setAlignment(Pos.CENTER);
             vBoxIsCliente.getChildren().addAll(lblImgIsCliente, lblIsCliente);
-            colunaIsCliente = new JFXTreeTableColumn<TabEmpresaVO, Boolean>();
+            colunaIsCliente = new TreeTableColumn<TabEmpresaVO, Boolean>();
             colunaIsCliente.setPrefWidth(55);
             colunaIsCliente.setGraphic(vBoxIsCliente);
             colunaIsCliente.setCellValueFactory(param -> {
                 return param.getValue().getValue().isClienteProperty();
-//                return new SimpleBooleanProperty(true);
             });
 
             VBox vBoxIsFornecedor = new VBox();
@@ -368,7 +362,7 @@ public class TabModel {
             Label lblIsFornecedor = new Label("Forn.");
             vBoxIsFornecedor.setAlignment(Pos.CENTER);
             vBoxIsFornecedor.getChildren().addAll(lblImgIsFornecedor, lblIsFornecedor);
-            colunaIsFornecedor = new JFXTreeTableColumn<TabEmpresaVO, Boolean>();
+            colunaIsFornecedor = new TreeTableColumn<TabEmpresaVO, Boolean>();
             colunaIsFornecedor.setPrefWidth(55);
             colunaIsFornecedor.setGraphic(vBoxIsFornecedor);
             colunaIsFornecedor.setCellValueFactory(param -> {
@@ -383,7 +377,7 @@ public class TabModel {
             Label lblIsTransportadora = new Label("Transp.");
             vBoxIsTransportadora.setAlignment(Pos.CENTER);
             vBoxIsTransportadora.getChildren().addAll(lblImgIsTransportadora, lblIsTransportadora);
-            colunaIsTransportadora = new JFXTreeTableColumn<TabEmpresaVO, Boolean>();
+            colunaIsTransportadora = new TreeTableColumn<TabEmpresaVO, Boolean>();
             colunaIsTransportadora.setPrefWidth(55);
             colunaIsTransportadora.setGraphic(vBoxIsTransportadora);
             colunaIsTransportadora.setCellValueFactory(param -> {
@@ -400,7 +394,7 @@ public class TabModel {
 //        try {
 //            Label lblQsaKey = new Label("Item");
 //            lblQsaKey.setPrefWidth(100);
-//            colunaQsaKey = new JFXTreeTableColumn<TabEmpresaReceitaFederalVO, String>();
+//            colunaQsaKey = new TreeTableColumn<TabEmpresaReceitaFederalVO, String>();
 //            colunaQsaKey.setGraphic(lblQsaKey);
 //            colunaQsaKey.setPrefWidth(100);
 //            colunaQsaKey.setCellValueFactory(param -> {
@@ -409,7 +403,7 @@ public class TabModel {
 //
 //            Label lblQsaValue = new Label("Detalhe");
 //            lblQsaValue.setPrefWidth(250);
-//            colunaQsaValue = new JFXTreeTableColumn<TabEmpresaReceitaFederalVO, String>();
+//            colunaQsaValue = new TreeTableColumn<TabEmpresaReceitaFederalVO, String>();
 //            colunaQsaValue.setGraphic(lblQsaValue);
 //            colunaQsaValue.setPrefWidth(250);
 //            colunaQsaValue.setCellValueFactory(param -> {

@@ -68,7 +68,7 @@ public class TabEmpresaDAO extends BuscaBandoDados {
             while (rs.next()) {
                 tabEmpresaVO = new TabEmpresaVO();
                 tabEmpresaVO.setId(rs.getInt("id"));
-                tabEmpresaVO.setIsEmpresa(rs.getInt("isEmpresa"));
+                tabEmpresaVO.setIsEmpresa(rs.getBoolean("isEmpresa"));
                 tabEmpresaVO.setCnpj(rs.getString("cnpj"));
                 tabEmpresaVO.setIe(rs.getString("ie"));
                 tabEmpresaVO.setRazao(rs.getString("razao"));
@@ -135,7 +135,7 @@ public class TabEmpresaDAO extends BuscaBandoDados {
 
     public void updateTabEmpresaVO(Connection conn, TabEmpresaVO empresaVO) throws SQLException {
         comandoSql = "UPDATE tabEmpresa SET ";
-        comandoSql += "isEmpresa = " + empresaVO.getIsEmpresa() + ", ";
+        comandoSql += "isEmpresa = " + empresaVO.isIsEmpresa() + ", ";
         comandoSql += "cnpj = '" + empresaVO.getCnpj().replaceAll("[\\-/.' \\[\\]]", "") + "', ";
         comandoSql += "ie = '" + empresaVO.getIe().replaceAll("[\\-/.' \\[\\]]", "") + "', ";
         comandoSql += "razao = '" + empresaVO.getRazao().replaceAll("'", "") + "', ";
@@ -159,7 +159,7 @@ public class TabEmpresaDAO extends BuscaBandoDados {
         comandoSql += "(isEmpresa, cnpj, ie, razao, fantasia, isLoja, isCliente, isFornecedor, isTransportadora, ";
         comandoSql += "sisSituacaoSistema_id, usuarioCadastro_id, dataAbertura, naturezaJuridica) ";
         comandoSql += "VALUES(";
-        comandoSql += empresaVO.getIsEmpresa() + ", ";
+        comandoSql += empresaVO.isIsEmpresa() + ", ";
         comandoSql += "'" + empresaVO.getCnpj().replaceAll("[\\-/.' \\[\\]]", "") + "', ";
         comandoSql += "'" + empresaVO.getIe().replaceAll("[\\-/.' \\[\\]]", "") + "', ";
         comandoSql += "'" + empresaVO.getRazao().replaceAll("'", "") + "', ";

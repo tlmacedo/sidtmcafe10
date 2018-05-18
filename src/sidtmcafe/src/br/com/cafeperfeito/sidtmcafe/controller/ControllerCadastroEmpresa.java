@@ -30,7 +30,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     public AnchorPane painelViewCadastroEmpresa;
     public TitledPane tpnCadastroEmpresa;
     public JFXTextField txtPesquisaEmpresa;
-    public JFXTreeTableView<TabEmpresaVO> ttvEmpresa;
+    public TreeTableView<TabEmpresaVO> ttvEmpresa;
     public JFXComboBox cboFiltroPesquisa;
     public Label lblRegistrosLocalizados;
     public TitledPane tpnDadoCadastral;
@@ -75,11 +75,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     public void fechar() {
         ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getTabs().remove(ViewCadastroEmpresa.getTab());
         ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.removeEventHandler(KeyEvent.KEY_PRESSED, eventHandlerCadastroEmpresa);
-//        for (int i = 0; i < ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getTabs().size(); i++)
-//            if (ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getTabs().get(i).getText().toLowerCase().equals(tituloTab.toLowerCase())) {
-//                ControllerPrincipal.ctrlPrincipal.fecharTab(i);
-//                ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.removeEventHandler(KeyEvent.KEY_PRESSED, eventHandlerCadastroEmpresa);
-//            }
     }
 
     @Override
@@ -101,6 +96,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
         listaTarefa.add(new Pair("preencherTabelaEmpresa", "preenchendo tabela empresa"));
 
+        new ServiceSegundoPlano().tarefaAbreCadastroEmpresa(this, listaTarefa);
+
         formatCNPJ_CPF = new ServiceFormatarDado();
         formatCNPJ_CPF.maskField(txtCNPJ, ServiceFormatarDado.gerarMascara("cnpj", 0, "#"));
         formatIE = new ServiceFormatarDado();
@@ -110,13 +107,69 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     @Override
     public void fatorarObjetos() {
-//        ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsCliente());
-//        ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsFornecedor());
-//        ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsTransportadora());
+        ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsCliente());
+        ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsFornecedor());
+        ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsTransportadora());
     }
 
     @Override
     public void escutarTecla() {
+        eventHandlerCadastroEmpresa = new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedIndex() < 0)
+                    return;
+                if (!ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedItem().getText().equals(getTituloTab()))
+                    return;
+                switch (event.getCode()) {
+                    case F1:
+                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        setStatusFormulario("incluir");
+                        break;
+                    case F2:
+                    case F5:
+                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        setStatusFormulario("pesquisa");
+                        break;
+                    case F3:
+                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        switch (getStatusBarTecla()) {
+                            case "incluir":
+                                break;
+                            case "editar":
+                                break;
+                        }
+                        setStatusFormulario("pesquisa");
+                        break;
+                    case F4:
+                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        setStatusFormulario("editar");
+                        break;
+                    case F6:
+                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        break;
+                    case F7:
+                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        txtPesquisaEmpresa.requestFocus();
+                        break;
+                    case F8:
+                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        break;
+                    case F12:
+                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        fechar();
+                        break;
+                    case HELP:
+                        if (getStatusFormulario().toLowerCase().equals("pesquisa")) break;
+                        break;
+                    case DELETE:
+                        if (getStatusFormulario().toLowerCase().equals("pesquisa")) break;
+                        break;
+                }
+            }
+        };
+
+        ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.addEventHandler(KeyEvent.KEY_PRESSED, eventHandlerCadastroEmpresa);
 
 //        ttvEmpresa.getSelectionModel().selectedIndexProperty().addListener((ov, o, n) -> {
 //            if (n == null || n.intValue() < 0)
@@ -389,12 +442,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     @Override
     @SuppressWarnings("Duplicates")
     public void initialize(URL location, ResourceBundle resources) {
+        setTituloTab(ViewCadastroEmpresa.getTituloJanela());
         criarObjetos();
         preencherObjetos();
-        fatorarObjetos();
         escutarTecla();
+        fatorarObjetos();
 
-        new ServiceSegundoPlano().tarefaAbreCadastroEmpresa(this, listaTarefa);
         ServiceCampoPersonalizado.fieldMask(painelViewCadastroEmpresa);
 
         Platform.runLater(() -> {
@@ -478,7 +531,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             case "incluir":
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroEmpresa.getContent(), true);
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoCadastral.getContent(), false);
-                clearFieldDadoCadastral();
+                clearFieldDadoCadastral((AnchorPane) tpnDadoCadastral.getContent());
                 cboClassificacaoJuridica.requestFocus();
                 cboClassificacaoJuridica.getSelectionModel().select(0);
                 this.statusBarTecla = STATUS_BAR_TECLA_INCLUIR;
@@ -492,7 +545,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             case "pesquisa":
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroEmpresa.getContent(), false);
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoCadastral.getContent(), true);
-                clearFieldDadoCadastral();
+                clearFieldDadoCadastral((AnchorPane) tpnDadoCadastral.getContent());
                 txtPesquisaEmpresa.requestFocus();
                 this.statusBarTecla = STATUS_BAR_TECLA_PESQUISA;
                 break;
@@ -504,123 +557,156 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         lblRegistrosLocalizados.setText("[" + getStatusFormulario() + "] " + getQtdRegistrosLocalizados() + " registros(s) localizado(s).");
     }
 
-    void clearFieldDadoCadastral() {
-        ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnDadoCadastral.getContent());
+    void clearFieldDadoCadastral(AnchorPane anchorPane) {
+        ServiceCampoPersonalizado.fieldClear(anchorPane);
     }
 
-    //    public TabEmpresaVO getTabEmpresaVO() {
-//        return tabEmpresaVO;
-//    }
-//
-//    public void setTabEmpresaVO(TabEmpresaVO tabEmpresaVO) {
-//        if (tabEmpresaVO == null)
-//            tabEmpresaVO = new TabEmpresaVO();
-//        this.tabEmpresaVO = tabEmpresaVO;
-//        setTabEnderecoVOList(getTabEmpresaVO().getTabEnderecoVOList());
-//        setTabEmailHomePageVOList(getTabEmpresaVO().getTabEmailHomePageVOList());
-//        setTabTelefoneVOList(getTabEmpresaVO().getTabTelefoneVOList());
-//        setTabContatoVOList(getTabEmpresaVO().getTabContatoVOList());
-//        setTabEmpresaReceitaFederalVOList(getTabEmpresaVO().getTabEmpresaReceitaFederalVOList());
-//        //exibirDadosEmpresa();
-//    }
-//
-//    public List<TabEnderecoVO> getTabEnderecoVOList() {
-//        return tabEnderecoVOList;
-//    }
-//
-//    public void setTabEnderecoVOList(List<TabEnderecoVO> tabEnderecoVOList) {
-//        if (tabEnderecoVOList == null) {
-//            TabEnderecoVO enderecoVO = new TabEnderecoVO(1);
-//            tabEnderecoVOList = new ArrayList<TabEnderecoVO>();
-//            tabEnderecoVOList.add(enderecoVO);
-//        }
-//        this.tabEnderecoVOList = tabEnderecoVOList;
-//        atualizaListaEndereco();
-//    }
-//
-//    public List<TabEmailHomePageVO> getTabEmailHomePageVOList() {
-//        return tabEmailHomePageVOList;
-//    }
-//
-//    public void setTabEmailHomePageVOList(List<TabEmailHomePageVO> tabEmailHomePageVOList) {
-//        if (tabEmailHomePageVOList == null)
-//            tabEmailHomePageVOList = new ArrayList<TabEmailHomePageVO>();
-//        this.tabEmailHomePageVOList = tabEmailHomePageVOList;
-//        atualizaListaEmailHomePage();
-//    }
-//
-//    public List<TabTelefoneVO> getTabTelefoneVOList() {
-//        return tabTelefoneVOList;
-//    }
-//
-//    public void setTabTelefoneVOList(List<TabTelefoneVO> tabTelefoneVOList) {
-//        if (tabTelefoneVOList == null)
-//            tabTelefoneVOList = new ArrayList<TabTelefoneVO>();
-//        this.tabTelefoneVOList = tabTelefoneVOList;
-//        atualizaListaTelefone();
-//    }
-//
-//    public List<TabContatoVO> getTabContatoVOList() {
-//        return tabContatoVOList;
-//    }
-//
-//    public void setTabContatoVOList(List<TabContatoVO> tabContatoVOList) {
-//        if (tabContatoVOList == null) {
-//            tabContatoVOList = new ArrayList<TabContatoVO>();
-//            tabContatoEmailHomePageVOList = new ArrayList<TabEmailHomePageVO>();
-//            tabContatoTelefoneVOList = new ArrayList<TabTelefoneVO>();
-//        }
-//        this.tabContatoVOList = tabContatoVOList;
-//        atualizaListaContato();
-//    }
-//
-//    public List<TabEmailHomePageVO> getTabContatoEmailHomePageVOList() {
-//        return tabContatoEmailHomePageVOList;
-//    }
-//
-//    public void setTabContatoEmailHomePageVOList(List<TabEmailHomePageVO> tabContatoEmailHomePageVOList) {
-//        if (tabContatoEmailHomePageVOList == null)
-//            tabContatoEmailHomePageVOList = new ArrayList<TabEmailHomePageVO>();
-//        this.tabContatoEmailHomePageVOList = tabContatoEmailHomePageVOList;
+    public TabEmpresaVO getTabEmpresaVO() {
+        return tabEmpresaVO;
+    }
+
+    public void setTabEmpresaVO(TabEmpresaVO tabEmpresaVO) {
+        if (tabEmpresaVO == null)
+            tabEmpresaVO = new TabEmpresaVO();
+        this.tabEmpresaVO = tabEmpresaVO;
+        setTabEnderecoVOList(getTabEmpresaVO().getTabEnderecoVOList());
+        setTabEmailHomePageVOList(getTabEmpresaVO().getTabEmailHomePageVOList());
+        setTabTelefoneVOList(getTabEmpresaVO().getTabTelefoneVOList());
+        setTabContatoVOList(getTabEmpresaVO().getTabContatoVOList());
+        setTabEmpresaReceitaFederalVOList(getTabEmpresaVO().getTabEmpresaReceitaFederalVOList());
+//        exibirDadosEmpresa();
+    }
+
+    public List<TabEnderecoVO> getTabEnderecoVOList() {
+        return tabEnderecoVOList;
+    }
+
+    public void setTabEnderecoVOList(List tabEnderecoVOList) {
+        if (tabEnderecoVOList == null)
+            tabEnderecoVOList = FXCollections.observableArrayList(new TabEnderecoVO(1));
+        this.tabEnderecoVOList = tabEnderecoVOList;
+        atualizaListaEndereco();
+    }
+
+    void atualizaListaEndereco() {
+        listEndereco.getItems().clear();
+        if (getTabEnderecoVOList() != null)
+            listEndereco.getItems().setAll(getTabEnderecoVOList());
+    }
+
+    public List<TabEmailHomePageVO> getTabEmailHomePageVOList() {
+        return tabEmailHomePageVOList;
+    }
+
+    public void setTabEmailHomePageVOList(List tabEmailHomePageVOList) {
+        if (tabEmailHomePageVOList == null)
+            tabEmailHomePageVOList = new ArrayList<>();
+        this.tabEmailHomePageVOList = tabEmailHomePageVOList;
+        atualizaListaEmailHomePage();
+    }
+
+    void atualizaListaEmailHomePage() {
+        listHomePage.getItems().clear();
+        listEmail.getItems().clear();
+        if (getTabEmailHomePageVOList() != null)
+            for (TabEmailHomePageVO emailHomeVO : getTabEmailHomePageVOList())
+                if (emailHomeVO.isIsEmail())
+                    listEmail.getItems().add(emailHomeVO);
+                else
+                    listHomePage.getItems().add(emailHomeVO);
+    }
+
+    public List<TabTelefoneVO> getTabTelefoneVOList() {
+        return tabTelefoneVOList;
+    }
+
+    public void setTabTelefoneVOList(List tabTelefoneVOList) {
+        if (tabTelefoneVOList == null)
+            tabTelefoneVOList = new ArrayList<>();
+        this.tabTelefoneVOList = tabTelefoneVOList;
+        atualizaListaTelefone();
+    }
+
+    void atualizaListaTelefone() {
+        listTelefone.getItems().clear();
+        if (getTabTelefoneVOList() != null)
+            listTelefone.getItems().setAll(getTabTelefoneVOList());
+    }
+
+    public List<TabContatoVO> getTabContatoVOList() {
+        return tabContatoVOList;
+    }
+
+    public void setTabContatoVOList(List tabContatoVOList) {
+        if (tabContatoVOList == null)
+            tabContatoVOList = new ArrayList<>();
+        this.tabContatoVOList = tabContatoVOList;
+        atualizaListaContato();
+    }
+
+    void atualizaListaContato() {
+        listContatoNome.getItems().clear();
+        listContatoHomePage.getItems().clear();
+        listContatoEmail.getItems().clear();
+        listContatoTelefone.getItems().clear();
+        if (getTabContatoVOList() != null) {
+            listContatoNome.getItems().setAll(getTabContatoVOList());
+            listContatoNome.getSelectionModel().select(0);
+        }
+    }
+
+    public TabContatoVO getTabContatoVO() {
+        return tabContatoVO;
+    }
+
+    public void setTabContatoVO(TabContatoVO tabContatoVO) {
+        if (tabContatoVO == null)
+            tabContatoVO = new TabContatoVO();
+        this.tabContatoVO = tabContatoVO;
+        setTabContatoEmailHomePageVOList(getTabContatoVO().getTabEmailHomePageVOList());
+        setTabContatoTelefoneVOList(getTabContatoVO().getTabTelefoneVOList());
+    }
+
+    public List<TabEmailHomePageVO> getTabContatoEmailHomePageVOList() {
+        return tabContatoEmailHomePageVOList;
+    }
+
+    public void setTabContatoEmailHomePageVOList(List<TabEmailHomePageVO> tabContatoEmailHomePageVOList) {
+        if (tabContatoEmailHomePageVOList == null)
+            tabContatoEmailHomePageVOList = new ArrayList<TabEmailHomePageVO>();
+        this.tabContatoEmailHomePageVOList = tabContatoEmailHomePageVOList;
 //        atualizaListaContatoEmailHomePage();
-//    }
-//
-//    public List<TabTelefoneVO> getTabContatoTelefoneVOList() {
-//        return tabContatoTelefoneVOList;
-//    }
-//
-//    public void setTabContatoTelefoneVOList(List<TabTelefoneVO> tabContatoTelefoneVOList) {
-//        if (tabContatoTelefoneVOList == null)
-//            tabContatoTelefoneVOList = new ArrayList<TabTelefoneVO>();
-//        this.tabContatoTelefoneVOList = tabContatoTelefoneVOList;
+    }
+
+    public List<TabTelefoneVO> getTabContatoTelefoneVOList() {
+        return tabContatoTelefoneVOList;
+    }
+
+    public void setTabContatoTelefoneVOList(List<TabTelefoneVO> tabContatoTelefoneVOList) {
+        if (tabContatoTelefoneVOList == null)
+            tabContatoTelefoneVOList = new ArrayList<TabTelefoneVO>();
+        this.tabContatoTelefoneVOList = tabContatoTelefoneVOList;
 //        atualizaListaContatoTelefone();
-//    }
-//
-//    public TabContatoVO getTabContatoVO() {
-//        return tabContatoVO;
-//    }
-//
-//    public void setTabContatoVO(TabContatoVO tabContatoVO) {
-//        if (tabContatoVO == null)
-//            tabContatoVO = new TabContatoVO();
-//        this.tabContatoVO = tabContatoVO;
-//        setTabContatoEmailHomePageVOList(getTabContatoVO().getTabEmailHomePageVOList());
-//        setTabContatoTelefoneVOList(getTabContatoVO().getTabTelefoneVOList());
-//    }
-//
-//    public List<TabEmpresaReceitaFederalVO> getTabEmpresaReceitaFederalVOList() {
-//        return tabEmpresaReceitaFederalVOList;
-//    }
-//
-//    public void setTabEmpresaReceitaFederalVOList(List<TabEmpresaReceitaFederalVO> tabEmpresaReceitaFederalVOList) {
-//        if (tabEmpresaReceitaFederalVOList == null)
-//            tabEmpresaReceitaFederalVOList = new ArrayList<TabEmpresaReceitaFederalVO>();
-//        if (receitaFederalQsaVOList == null)
-//            receitaFederalQsaVOList = new ArrayList<TabEmpresaReceitaFederalVO>();
-//
-//        this.tabEmpresaReceitaFederalVOList = tabEmpresaReceitaFederalVOList;
+    }
+
+    public List<TabEmpresaReceitaFederalVO> getTabEmpresaReceitaFederalVOList() {
+        return tabEmpresaReceitaFederalVOList;
+    }
+
+    public void setTabEmpresaReceitaFederalVOList(List<TabEmpresaReceitaFederalVO> tabEmpresaReceitaFederalVOList) {
+        if (tabEmpresaReceitaFederalVOList == null)
+            tabEmpresaReceitaFederalVOList = new ArrayList<TabEmpresaReceitaFederalVO>();
+        if (receitaFederalQsaVOList == null)
+            receitaFederalQsaVOList = new ArrayList<TabEmpresaReceitaFederalVO>();
+
+        this.tabEmpresaReceitaFederalVOList = tabEmpresaReceitaFederalVOList;
 //        atualizaListaReceitaFederal();
-//    }
+    }
+
+    public void carregarListaEmpresa() {
+        //tabEmpresaVOObservableList = FXCollections.observableArrayList(new TabEmpresaDAO().getTabEmpresaVOList(false));
+        tabEmpresaVOFilteredList = new FilteredList<>(tabEmpresaVOObservableList = FXCollections.observableArrayList(new TabEmpresaDAO().getTabEmpresaVOList(false)));
+    }
 
     public void preencherCboFiltroPesquisa() {
         cboFiltroPesquisa.getItems().clear();
@@ -652,12 +738,31 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         cboEndUF.getItems().setAll(sisUFVOList);
     }
 
+    void pesquisaEmpresa() {
+        String busca = txtPesquisaEmpresa.getText().toLowerCase().trim();
+        int filtro = cboFiltroPesquisa.getSelectionModel().getSelectedIndex();
+        if (busca.length() > 0)
+            tabEmpresaVOFilteredList.setPredicate(empresa -> {
+                if (filtro > 0) {
+                    if (filtro == 1 && !empresa.isIsCliente()) return false;
+                    if (filtro == 2 && !empresa.isIsFornecedor()) return false;
+                    if (filtro == 3 && !empresa.isIsTransportadora()) return false;
+                }
+                if (empresa.getCnpj().contains(busca)) return true;
+                if (empresa.getIe().contains(busca)) return true;
+                if (empresa.getRazao().toLowerCase().contains(busca)) return true;
+                if (empresa.getFantasia().toLowerCase().contains(busca)) return true;
+                return false;
+            });
+        preencherTabelaEmpresa();
+    }
+
     public void preencherTabelaEmpresa() {
         try {
-//            if (tabEmpresaVOFilteredList == null)
-//                carregarPesquisaEmpresa(txtPesquisa.getText());
-            setQtdRegistrosLocalizados(tabEmpresaVOObservableList.size());
-            final TreeItem<TabEmpresaVO> root = new RecursiveTreeItem<TabEmpresaVO>(tabEmpresaVOObservableList, RecursiveTreeObject::getChildren);
+            if (tabEmpresaVOFilteredList == null)
+                pesquisaEmpresa();
+            setQtdRegistrosLocalizados(tabEmpresaVOFilteredList.size());
+            final TreeItem<TabEmpresaVO> root = new RecursiveTreeItem<TabEmpresaVO>(tabEmpresaVOFilteredList, RecursiveTreeObject::getChildren);
             ttvEmpresa.getColumns().setAll(TabModel.getColunaIdEmpresa(), TabModel.getColunaCnpj(), TabModel.getColunaIe(),
                     TabModel.getColunaRazao(), TabModel.getColunaFantasia(), TabModel.getColunaEndereco(),
                     TabModel.getColunaIsCliente(), TabModel.getColunaIsFornecedor(), TabModel.getColunaIsTransportadora());
@@ -667,58 +772,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-//
-//    void carregarPesquisaEmpresa(String strPesq) {
-//        String busca = strPesq.toLowerCase().trim();
-//
-//        tabEmpresaVOFilteredList = new FilteredList<TabEmpresaVO>(tabEmpresaVOObservableList, empresa -> true);
-//        int filtro = cboFiltroPesquisa.getSelectionModel().getSelectedIndex();
-//        tabEmpresaVOFilteredList.setPredicate(empresa -> {
-//            if (filtro > 0) {
-//                switch (filtro) {
-//                    case 1:
-//                        if (!empresa.isIsCliente()) return false;
-//                        break;
-//                    case 2:
-//                        if (!empresa.isIsFornecedor()) return false;
-//                        break;
-//                    case 3:
-//                        if (!empresa.isIsTransportadora()) return false;
-//                        break;
-//                }
-//            }
-//            if (busca.length() <= 0) return true;
-//
-//            if (empresa.getCnpj().toLowerCase().contains(busca)) return true;
-//            if (empresa.getIe().toLowerCase().contains(busca)) return true;
-//            if (empresa.getRazao().toLowerCase().contains(busca)) return true;
-//            if (empresa.getFantasia().toLowerCase().contains(busca)) return true;
-//
-//            return false;
-//        });
-//        preencherTabelaEmpresa();
-//    }
-    void pesquisaEmpresa() {
-        String busca;
-        if ((busca = txtPesquisaEmpresa.getText().toLowerCase().trim()).length() > 0)
-            tabEmpresaVOObservableList.stream().filter(empresa ->
-                    empresa.getCnpj().toLowerCase().contains(busca)
-                            || empresa.getIe().toLowerCase().contains(busca)
-                            || empresa.getRazao().toLowerCase().contains(busca)
-                            || empresa.getFantasia().toLowerCase().contains(busca)
-            );
-//            tabProdutoVOFilteredList.setPredicate(produto -> {
-//                if (produto.getCodigo().toLowerCase().contains(busca)) return true
-//            });
-        preencherTabelaEmpresa();
-
-    }
-
-
-
-    public void carregarListaEmpresa() {
-        tabEmpresaVOObservableList = FXCollections.observableArrayList(new TabEmpresaDAO().getTabEmpresaVOList(false));
     }
 
     void preencherCboEndMunicipio() {
@@ -747,7 +800,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 //        empresaVO.getTabEnderecoVOList().add(enderecoVO);
 //        return empresaVO;
 //    }
-//
+
 //    void exibirDadosEmpresa() {
 //        if (getTabEmpresaVO() == null) return;
 //        cboClassificacaoJuridica.getSelectionModel().select(getTabEmpresaVO().getIsEmpresa());
@@ -820,43 +873,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 //                break;
 //        }
 //
-//    }
-//
-//    void atualizaListaEndereco() {
-//        listEndereco.getItems().clear();
-//        if (getTabEnderecoVOList() == null)
-//            return;
-//        listEndereco.getItems().setAll(getTabEnderecoVOList());
-//        listEndereco.getSelectionModel().select(0);
-//    }
-//
-//    void atualizaListaEmailHomePage() {
-//        listHomePage.getItems().clear();
-//        listEmail.getItems().clear();
-//        if (getTabEmailHomePageVOList() == null) { // se lista de email e home page da empresa for nula limpa listas de email e home page
-//            return;
-//        }
-//        for (TabEmailHomePageVO emailHomeVO : getTabEmailHomePageVOList()) { // percorre lista de emailHomePage da empresa separando nas listas de email e homePage
-//            if (emailHomeVO.isIsEmail()) // se isEmail for verdadeiro lanca na lista de email da empresa
-//                listEmail.getItems().add(emailHomeVO);
-//            else // se isEmail for falso lanca na lista de homePage da empresa
-//                listHomePage.getItems().add(emailHomeVO);
-//        }
-//    }
-//
-//    void atualizaListaTelefone() {
-//        listTelefone.getItems().clear();
-//        if (getTabTelefoneVOList() == null)
-//            return;
-//        listTelefone.getItems().setAll(getTabTelefoneVOList());
-//    }
-//
-//    void atualizaListaContato() {
-//        listContatoNome.getItems().clear();
-//        if (getTabContatoVOList() == null)
-//            return;
-//        listContatoNome.getItems().setAll(getTabContatoVOList());
-//        listContatoNome.getSelectionModel().select(0);
 //    }
 //
 //    void atualizaListaContatoEmailHomePage() {

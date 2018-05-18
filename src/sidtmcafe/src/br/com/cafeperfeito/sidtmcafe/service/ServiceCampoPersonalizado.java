@@ -2,14 +2,10 @@ package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import com.jfoenix.controls.*;
-import javafx.concurrent.Service;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ServiceCampoPersonalizado implements Constants {
 

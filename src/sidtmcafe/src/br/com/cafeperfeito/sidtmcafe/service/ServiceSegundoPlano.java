@@ -36,7 +36,6 @@ public class ServiceSegundoPlano implements Constants {
                     switch (tarefaAtual.getKey().toString()) {
                         case "criarTabelaEmpresa":
                             TabModel.tabelaEmpresa();
-                            //TabModel.tabelaQsaReceita();
                             break;
                         case "preencherCboFiltroPesquisa":
                             cadastroEmpresa.preencherCboFiltroPesquisa();

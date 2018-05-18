@@ -3,16 +3,17 @@
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
+<!--<?import com.jfoenix.controls.JFXTreeTableView?>-->
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.TreeTableView?>
 <AnchorPane fx:id="painelViewCadastroEmpresa" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="780.0" prefWidth="1350.0" styleClass="view-cadastro-empresa"
             xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
@@ -23,30 +24,30 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="162.0" prefWidth="1524.0">
                     <children>
-                        <JFXTextField fx:id="txtPesquisaEmpresa" labelFloat="true" layoutX="10.0"
+                        <JFXTextField fx:id="txtPesquisaEmpresa"
                                       accessibleText="len:60, type:maiusculo, value: , setDisable:false, mask: "
-                                      layoutY="10.0" maxHeight="20.0" prefColumnCount="8" prefHeight="20.0"
-                                      prefWidth="360.0" promptText="Pesquisar empresas">
+                                      labelFloat="true" layoutX="10.0" layoutY="10.0" maxHeight="20.0"
+                                      prefColumnCount="8" prefHeight="20.0" prefWidth="360.0"
+                                      promptText="Pesquisar empresas">
                             <tooltip>
                                 <Tooltip text="campo de pesquisa."/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTreeTableView fx:id="ttvEmpresa" layoutX="5.0" layoutY="37.0"
-                                          nodeOrientation="LEFT_TO_RIGHT" prefHeight="110.0" prefWidth="1330.0">
+                        <TreeTableView fx:id="ttvEmpresa" layoutX="5.0" layoutY="37.0"
+                                       accessibleText="value: , setDisable:false, mask: "
+                                       nodeOrientation="LEFT_TO_RIGHT" prefHeight="110.0" prefWidth="1330.0">
                             <tooltip>
-                                <Tooltip text="tabela com lista de empresa"/>
+                                <Tooltip text="tabela com lista de produto"/>
                             </tooltip>
-                        </JFXTreeTableView>
-                        <JFXComboBox fx:id="cboFiltroPesquisa" labelFloat="true" layoutX="655.0"
-                                     layoutY="10.0" prefHeight="20.0" prefWidth="198.0"
-                                     promptText="Filtro pesquisa [F8]">
+                        </TreeTableView>
+                        <JFXComboBox fx:id="cboFiltroPesquisa" labelFloat="true" layoutX="655.0" layoutY="10.0"
+                                     prefHeight="20.0" prefWidth="198.0" promptText="Filtro pesquisa [F8]">
                             <tooltip>
                                 <Tooltip text="filtro para pesquisa"/>
                             </tooltip>
                         </JFXComboBox>
-                        <Label fx:id="lblRegistrosLocalizados" layoutX="380.0"
-                               accessibleText="value:[] registro(s) localizado(s)."
-                               layoutY="20.0" styleClass="lbl-informacoes" text="Registros localizados">
+                        <Label fx:id="lblRegistrosLocalizados" accessibleText="value:[] registro(s) localizado(s)."
+                               layoutX="380.0" layoutY="20.0" styleClass="lbl-informacoes" text="Registros localizados">
                             <tooltip>
                                 <Tooltip text="informações de status e quantidade de registros localizados"/>
                             </tooltip>
@@ -60,8 +61,7 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="1278.0">
                     <children>
-                        <JFXComboBox fx:id="cboClassificacaoJuridica" labelFloat="true"
-                                     accessibleText="value: "
+                        <JFXComboBox fx:id="cboClassificacaoJuridica" accessibleText="value: " labelFloat="true"
                                      layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="100.0"
                                      promptText="Classif. Jurídica">
@@ -69,51 +69,51 @@
                                 <Tooltip text="classificação jurídica da empresa"/>
                             </tooltip>
                         </JFXComboBox>
-                        <JFXTextField fx:id="txtCNPJ" layoutX="120.0" layoutY="10.0" maxHeight="-Infinity"
+                        <JFXTextField fx:id="txtCNPJ"
                                       accessibleText="len:14, type:numero, value: , setDisable:false, mask: cnpj"
-                                      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
-                                      prefWidth="100.0" promptText="C.N.P.J / C.P.F." styleClass="a-direita">
+                                      layoutX="120.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="100.0"
+                                      promptText="C.N.P.J / C.P.F." styleClass="a-direita">
                             <tooltip>
                                 <Tooltip text="C.N.P.J ou C.P.F. da empresa"/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtIE" layoutX="230.0" layoutY="10.0" maxHeight="-Infinity"
+                        <JFXTextField fx:id="txtIE"
                                       accessibleText="len:11, type:numero, value: , setDisable:false, mask: ie"
-                                      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
-                                      prefWidth="90.0" promptText="I.E. / R.G." styleClass="a-direita">
+                                      layoutX="230.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
+                                      promptText="I.E. / R.G." styleClass="a-direita">
                             <tooltip>
                                 <Tooltip text="inscrição estadual da empresa"/>
                             </tooltip>
                         </JFXTextField>
                         <JFXComboBox fx:id="cboSituacaoSistema" accessibleText="value: " labelFloat="true"
-                                     layoutX="330.0"
-                                     layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                     minWidth="-Infinity" prefHeight="20.0" prefWidth="130.0"
+                                     layoutX="330.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                                     minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="130.0"
                                      promptText="Situação empresa">
                             <tooltip>
                                 <Tooltip text="situação da empresa no sistema"/>
                             </tooltip>
                         </JFXComboBox>
-                        <JFXTextField fx:id="txtRazao" layoutX="470.0" layoutY="10.0"
+                        <JFXTextField fx:id="txtRazao"
                                       accessibleText="len:80, type:maiuscula, value: , setDisable:false, mask: "
-                                      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                      minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0"
+                                      layoutX="470.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0"
                                       promptText="Razão / Nome">
                             <tooltip>
                                 <Tooltip text="razão ou nome da empresa"/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtFantasia" layoutX="10.0" layoutY="40.0"
+                        <JFXTextField fx:id="txtFantasia"
                                       accessibleText="len:80, type:maiuscula, value: , setDisable:false, mask: "
-                                      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                      minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0"
+                                      layoutX="10.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0"
                                       promptText="Fantasia / Apelido">
                             <tooltip>
                                 <Tooltip text="nome fantasia ou apelido da empresa"/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXCheckBox fx:id="chkIsCliente" contentDisplay="GRAPHIC_ONLY"
-                                     accessibleText="value:true"
+                        <JFXCheckBox fx:id="chkIsCliente" accessibleText="value:true" contentDisplay="GRAPHIC_ONLY"
                                      layoutX="475.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="49.0"
                                      selected="true" text="Cliente">
@@ -141,10 +141,9 @@
                             </tooltip>
                         </JFXCheckBox>
                         <JFXCheckBox fx:id="chkIsTransportadora" accessibleText="value:falso"
-                                     contentDisplay="GRAPHIC_ONLY"
-                                     layoutX="593.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                     minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="49.0"
-                                     text="Transportadora">
+                                     contentDisplay="GRAPHIC_ONLY" layoutX="593.0" layoutY="40.0" maxHeight="-Infinity"
+                                     maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
+                                     prefWidth="49.0" text="Transportadora">
                             <graphic>
                                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                        minWidth="-Infinity" prefHeight="24.0" prefWidth="24.0"
@@ -155,9 +154,8 @@
                             </tooltip>
                         </JFXCheckBox>
                         <Label fx:id="lblDataCadastro" accessibleText="value: " alignment="CENTER_RIGHT"
-                               layoutX="1000.0"
-                               layoutY="5.0" prefHeight="10.0" prefWidth="335.0" styleClass="lbl-informaçoes"
-                               textAlignment="RIGHT">
+                               layoutX="1000.0" layoutY="5.0" prefHeight="10.0" prefWidth="335.0"
+                               styleClass="lbl-informaçoes" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip text="data de cadastro da empresa no sistema"/>
                             </tooltip>
@@ -170,9 +168,8 @@
                             </tooltip>
                         </Label>
                         <Label fx:id="lblDataAtualizacao" accessibleText="value: " alignment="CENTER_RIGHT"
-                               layoutX="1000.0"
-                               layoutY="25.0" prefHeight="10.0" prefWidth="335.0" styleClass="lbl-informacoes"
-                               textAlignment="RIGHT">
+                               layoutX="1000.0" layoutY="25.0" prefHeight="10.0" prefWidth="335.0"
+                               styleClass="lbl-informacoes" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip text="data da ultima atualizacao feita no cadastro da empresa no sistema"/>
                             </tooltip>
@@ -208,11 +205,11 @@
                                                 <Tooltip text="cep do endereço selecionado"/>
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtEndLogradouro" layoutX="215.0"
+                                        <JFXTextField fx:id="txtEndLogradouro"
                                                       accessibleText="len:80, type:maiuscula, value: , setDisable:false, mask: "
-                                                      layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
-                                                      prefWidth="455.0" promptText="Logradouro">
+                                                      layoutX="215.0" layoutY="10.0" maxHeight="-Infinity"
+                                                      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                                                      prefHeight="20.0" prefWidth="455.0" promptText="Logradouro">
                                             <tooltip>
                                                 <Tooltip text="logradouro do endereço selecionado"/>
                                             </tooltip>
@@ -227,20 +224,20 @@
                                                 <Tooltip text="número do endereço selecionado"/>
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtEndComplemento" layoutX="755.0"
+                                        <JFXTextField fx:id="txtEndComplemento"
                                                       accessibleText="len:80, type:maiuscula, value: , setDisable:false, mask: "
-                                                      layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
-                                                      prefWidth="285.0" promptText="Complemento">
+                                                      layoutX="755.0" layoutY="10.0" maxHeight="-Infinity"
+                                                      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                                                      prefHeight="20.0" prefWidth="285.0" promptText="Complemento">
                                             <tooltip>
                                                 <Tooltip text="complemento do endereço selecionado"/>
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtEndBairro" layoutX="145.0"
+                                        <JFXTextField fx:id="txtEndBairro"
                                                       accessibleText="len:50, type:maiuscula, value: , setDisable:false, mask: "
-                                                      layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
-                                                      prefWidth="230.0" promptText="Bairro">
+                                                      layoutX="145.0" layoutY="40.0" maxHeight="-Infinity"
+                                                      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                                                      prefHeight="20.0" prefWidth="230.0" promptText="Bairro">
                                             <tooltip>
                                                 <Tooltip text="bairro do endereço selecionado"/>
                                             </tooltip>
@@ -275,10 +272,10 @@
                                 </AnchorPane>
                             </content>
                         </TitledPane>
-                        <TabPane fx:id="tpnContatoPrazosCondicoes" layoutX="5.0" layoutY="168.0" maxHeight="-Infinity"
-                                 maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                                 nodeOrientation="LEFT_TO_RIGHT" prefHeight="260.0" prefWidth="1330.0"
-                                 tabMaxHeight="20.0" tabMinHeight="20.0">
+                        <JFXTabPane fx:id="tpnContatoPrazosCondicoes" layoutX="5.0" layoutY="168.0"
+                                    maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                                    minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="260.0"
+                                    prefWidth="1330.0" tabMaxHeight="20.0" tabMinHeight="20.0">
                             <tabs>
                                 <Tab closable="false" text="Contatos">
                                     <content>
@@ -294,9 +291,9 @@
                                                                     prefWidth="1268.0">
                                                             <children>
                                                                 <JFXListView fx:id="listHomePage"
-                                                                             accessibleText="value: "
-                                                                             layoutX="5.0" layoutY="5.0"
-                                                                             prefHeight="80.0" prefWidth="355.0"/>
+                                                                             accessibleText="value: " layoutX="5.0"
+                                                                             layoutY="5.0" prefHeight="80.0"
+                                                                             prefWidth="355.0"/>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
@@ -331,9 +328,9 @@
                                                                     prefWidth="1268.0">
                                                             <children>
                                                                 <JFXListView fx:id="listTelefone"
-                                                                             accessibleText="value: "
-                                                                             layoutX="5.0" layoutY="5.0"
-                                                                             prefHeight="195.0" prefWidth="200.0"/>
+                                                                             accessibleText="value: " layoutX="5.0"
+                                                                             layoutY="5.0" prefHeight="195.0"
+                                                                             prefWidth="200.0"/>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
@@ -434,7 +431,7 @@
                                     </content>
                                 </Tab>
                             </tabs>
-                        </TabPane>
+                        </JFXTabPane>
                         <TitledPane collapsible="false" focusTraversable="false" layoutX="5.0" layoutY="432.0"
                                     maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                     minWidth="-Infinity" prefHeight="130.0" prefWidth="1330.0"
@@ -443,8 +440,8 @@
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="200.0">
                                     <children>
                                         <Label fx:id="lblDataAbertura" accessibleText="value: " layoutX="5.0"
-                                               layoutY="2.0"
-                                               prefHeight="10.0" prefWidth="440.0" styleClass="lbl-informacoes"/>
+                                               layoutY="2.0" prefHeight="10.0" prefWidth="440.0"
+                                               styleClass="lbl-informacoes"/>
                                         <Label fx:id="lblDataAberturaDiff" accessibleText="value: " layoutX="5.0"
                                                layoutY="12.0" prefHeight="10.0" prefWidth="440.0"
                                                styleClass="lbl-informacoes"/>

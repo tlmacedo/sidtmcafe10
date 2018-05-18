@@ -1,4 +1,4 @@
-.jfx-combo-box {
+.jfx-combo-box, .combo-box {
   -fx-font-family: sans-serif;
   -fx-text-fill: #000000;
   -fx-font-size: 12px;
@@ -6,7 +6,7 @@
   -jfx-focus-color: #FF6600;
   -jfx-unfocus-color: #000000;
   -jfx-label-float: true; }
-  .view-cadastro-empresa .jfx-combo-box, .view-cadastro-produto .jfx-combo-box {
+  .view-cadastro-empresa .jfx-combo-box, .view-cadastro-produto .jfx-combo-box, .view-cadastro-empresa .combo-box, .view-cadastro-produto .combo-box {
     -fx-font-size: 10px; }
 
 .view-login {
@@ -131,7 +131,7 @@
   .btn_cancel > .label {
     -fx-graphic: url("../../image/ico/ic_cancel_circulo_black_24dp.png"); }
 
-.jfx-password-field {
+.jfx-password-field, .password-field {
   -fx-font-family: sans-serif;
   -fx-text-fill: #000000;
   -fx-font-size: 12px;
@@ -140,33 +140,33 @@
   -jfx-unfocus-color: #000000;
   -jfx-label-float: true;
   -fx-pref-height: 20px; }
-  .jfx-password-field .label {
+  .jfx-password-field .label, .password-field .label {
     -fx-font-size: 12px; }
-  .jfx-password-field :focused {
+  .jfx-password-field :focused, .password-field :focused {
     -fx-background-color: #ff6600;
     -fx-opacity: 0.5; }
 
-.jfx-tool-bar {
+.jfx-tool-bar, .tool-bar {
   -fx-background-color: transparent;
   -fx-font-family: sans-serif;
   -fx-text-fill: #000000;
   -fx-font-size: 12px;
   -fx-alignment: center-left; }
-  .jfx-tool-bar .ico-relogio {
+  .jfx-tool-bar .ico-relogio, .tool-bar .ico-relogio {
     -fx-padding: 2 4;
     -fx-font-size: 12px;
     -fx-alignment: center-right;
     -fx-background-image: url("../../image/ico/ic_relogio_orange_18dp.png");
     -fx-background-repeat: no-repeat; }
-  .jfx-tool-bar .hora {
+  .jfx-tool-bar .hora, .tool-bar .hora {
     -fx-padding: 2 4;
     -fx-font-size: 12px;
     -fx-alignment: center-right; }
-  .jfx-tool-bar .status-bar-usuario-logado {
+  .jfx-tool-bar .status-bar-usuario-logado, .tool-bar .status-bar-usuario-logado {
     -fx-pref-width: 250px;
     -fx-padding: 2 10 2 5;
     -fx-font-size: 12px; }
-  .jfx-tool-bar .status-bar-center {
+  .jfx-tool-bar .status-bar-center, .tool-bar .status-bar-center {
     -fx-padding: 2 10 2 5;
     -fx-font-size: 12px;
     -fx-alignment: center-left; }
@@ -211,9 +211,9 @@
       -fx-font-weight: bold; }
     .dialog-pane.dialog-pane-transparent .progress-bar {
       -fx-pref-width: 430px; }
-    .dialog-pane.dialog-pane-transparent .jfx-combo-box {
+    .dialog-pane.dialog-pane-transparent .jfx-combo-box, .dialog-pane.dialog-pane-transparent .combo-box {
       -fx-pref-width: 550px; }
-    .dialog-pane.dialog-pane-transparent .jfx-text-field {
+    .dialog-pane.dialog-pane-transparent .jfx-text-field, .dialog-pane.dialog-pane-transparent .text-field {
       -fx-pref-width: 530px; }
 
 .tooltip {
@@ -226,7 +226,7 @@
   -fx-padding: 0.667em 0.75em 0.667em 0.75em;
   -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 3); }
 
-.jfx-text-field {
+.jfx-text-field, .text-field {
   -fx-alignment: center-left;
   -fx-font-family: sans-serif;
   -fx-font-style: normal;
@@ -235,36 +235,36 @@
   -jfx-focus-color: #FF6600;
   -jfx-unfocus-color: #000000;
   -jfx-label-float: true; }
-  .jfx-text-field.a-direita {
+  .jfx-text-field.a-direita, .text-field.a-direita {
     -fx-alignment: center-right; }
-  .jfx-text-field .campo-total {
+  .jfx-text-field .campo-total, .text-field .campo-total {
     -fx-font-size: 16px; }
-  .jfx-text-field :disabled {
+  .jfx-text-field :disabled, .text-field :disabled {
     -fx-opacity: 1.0; }
-  .jfx-text-field :focused {
+  .jfx-text-field :focused, .text-field :focused {
     -fx-background-color: #ff6600;
     -fx-opacity: 0.5; }
 
-.jfx-check-box {
+.jfx-check-box, .check-box {
   -fx-font-family: sans-serif;
   -fx-font-style: normal;
   -fx-text-fill: #000000;
   -fx-font-size: 10px;
   -jfx-checked-color: #ff6600;
   -jfx-unchecked-color: #000000; }
-  .jfx-check-box .lbl_ico_cliente {
+  .jfx-check-box .lbl_ico_cliente, .check-box .lbl_ico_cliente {
     -fx-background-image: url("../../image/ico/ic_cliente_loja_black_24dp.png"); }
-  .jfx-check-box .lbl_ico_fornecedor {
+  .jfx-check-box .lbl_ico_fornecedor, .check-box .lbl_ico_fornecedor {
     -fx-background-image: url("../../image/ico/ic_fornecedor_black_24dp.png"); }
-  .jfx-check-box .lbl_ico_transportadora {
+  .jfx-check-box .lbl_ico_transportadora, .check-box .lbl_ico_transportadora {
     -fx-background-image: url("../../image/ico/ic_transportadora_caminhao_black_24dp.png"); }
-  .jfx-check-box:selected .lbl_ico_cliente {
+  .jfx-check-box:selected .lbl_ico_cliente, .check-box:selected .lbl_ico_cliente {
     -fx-background-image: url("../../image/ico/ic_cliente_loja_orange_24dp.png"); }
-  .jfx-check-box:selected .lbl_ico_fornecedor {
+  .jfx-check-box:selected .lbl_ico_fornecedor, .check-box:selected .lbl_ico_fornecedor {
     -fx-background-image: url("../../image/ico/ic_fornecedor_orange_24dp.png"); }
-  .jfx-check-box:selected .lbl_ico_transportadora {
+  .jfx-check-box:selected .lbl_ico_transportadora, .check-box:selected .lbl_ico_transportadora {
     -fx-background-image: url("../../image/ico/ic_transportadora_caminhao_orange_24dp.png"); }
-  .jfx-check-box :disabled {
+  .jfx-check-box :disabled, .check-box :disabled {
     -fx-opacity: 1.0; }
 
 .certificado_digital_valido {
@@ -281,16 +281,16 @@
   .progress-indicator .indicator {
     -fx-background-color: transparent; }
 
-.jfx-tree-view {
+.tree-view {
   -fx-font-family: sans-serif;
   -fx-text-fill: #e9e9e9;
   -fx-font-size: 12px; }
-  .jfx-tree-view .column-header {
+  .tree-view .column-header {
     -fx-background-color: transparent; }
-    .jfx-tree-view .column-header .label {
+    .tree-view .column-header .label {
       -fx-font-size: 16px;
       -fx-font-family: sans-serif; }
-  .jfx-tree-view:focused {
+  .tree-view:focused {
     -fx-background-color: -fx-focus-color; }
 
 .tree-table-view .column-header {

@@ -3,7 +3,6 @@ package br.com.cafeperfeito.sidtmcafe.view;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 
 import java.io.IOException;

@@ -20,8 +20,8 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
 
     Date dataAbertura;
     Timestamp dataCadastro, dataAtualizacao;
-    IntegerProperty id, isEmpresa, sisSituacaoSistema_id, usuarioCadastro_id, usuarioAtualizacao_id;
-    BooleanProperty isLoja, isCliente, isFornecedor, isTransportadora;
+    IntegerProperty id, sisSituacaoSistema_id, usuarioCadastro_id, usuarioAtualizacao_id;
+    BooleanProperty isEmpresa, isLoja, isCliente, isFornecedor, isTransportadora;
     StringProperty cnpj, ie, razao, fantasia, naturezaJuridica;
 
     public TabEmpresaVO() {
@@ -128,16 +128,16 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
         idProperty().set(id);
     }
 
-    public int getIsEmpresa() {
+    public boolean isIsEmpresa() {
         return isEmpresaProperty().get();
     }
 
-    public IntegerProperty isEmpresaProperty() {
-        if (isEmpresa == null) isEmpresa = new SimpleIntegerProperty(0);
+    public BooleanProperty isEmpresaProperty() {
+        if (isEmpresa == null) isEmpresa = new SimpleBooleanProperty(false);
         return isEmpresa;
     }
 
-    public void setIsEmpresa(int isEmpresa) {
+    public void setIsEmpresa(boolean isEmpresa) {
         isEmpresaProperty().set(isEmpresa);
     }
 

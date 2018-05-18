@@ -3,7 +3,10 @@ package br.com.cafeperfeito.sidtmcafe.controller;
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
 import br.com.cafeperfeito.sidtmcafe.model.dao.*;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
-import br.com.cafeperfeito.sidtmcafe.service.*;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceCampoPersonalizado;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceComandoTecladoMouse;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceSegundoPlano;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema;
 import br.com.cafeperfeito.sidtmcafe.view.ViewCadastroProduto;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
@@ -101,7 +104,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             public void handle(KeyEvent event) {
                 if (ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedIndex() < 0)
                     return;
-                if (!ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedItem().getText().equals(ViewCadastroProduto.getTituloJanela()))
+                if (!ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedItem().getText().equals(getTituloTab()))
                     return;
                 switch (event.getCode()) {
                     case F1:
@@ -156,6 +159,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setTituloTab(ViewCadastroProduto.getTituloJanela());
         criarObjetos();
         preencherObjetos();
         fatorarObjetos();
@@ -163,6 +167,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
         new ServiceSegundoPlano().tarefaAbreCadastroProduto(this, listaTarefa);
         ServiceCampoPersonalizado.fieldMask(painelViewCadastroProduto);
+        ServiceCampoPersonalizado.fieldClear(painelViewCadastroProduto);
 
         Platform.runLater(() -> {
             setStatusFormulario("pesquisa");
@@ -193,7 +198,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     List<FiscalICMSVO> fiscalICMSVOList;
     List<FiscalPISCOFINSVO> fiscalPISVOList;
     List<FiscalPISCOFINSVO> fiscalCOFINSVOList;
-
 
     public int getQtdRegistrosLocalizados() {
         return qtdRegistrosLocalizados;
@@ -230,7 +234,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             case "incluir":
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroProduto.getContent(), true);
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoCadastral.getContent(), false);
-                clearFieldDadoCadastral();
+                clearFieldDadoCadastral((AnchorPane) tpnDadoCadastral.getContent());
                 txtCodigo.requestFocus();
                 this.statusBarTecla = STATUS_BAR_TECLA_INCLUIR;
                 break;
@@ -243,7 +247,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             case "pesquisa":
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroProduto.getContent(), false);
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoCadastral.getContent(), true);
-                clearFieldDadoCadastral();
+                clearFieldDadoCadastral((AnchorPane) tpnDadoCadastral.getContent());
                 txtPesquisaProduto.requestFocus();
                 this.statusBarTecla = STATUS_BAR_TECLA_PESQUISA;
                 break;
@@ -255,8 +259,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         lblRegistrosLocalizados.setText("[" + getStatusFormulario() + "] " + getQtdRegistrosLocalizados() + " registros(s) localizado(s).");
     }
 
-    void clearFieldDadoCadastral() {
-        ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnDadoCadastral.getContent());
+    void clearFieldDadoCadastral(AnchorPane anchorPane) {
+        ServiceCampoPersonalizado.fieldClear(anchorPane);
     }
 
     public void carregarListaProduto() {
@@ -309,14 +313,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     void pesquisaProduto() {
         String busca;
         if ((busca = txtPesquisaProduto.getText().toLowerCase().trim()).length() > 0)
-            tabProdutoVOObservableList.stream().filter(produto ->
-                    produto.getCodigo().toLowerCase().contains(busca)
-                            || produto.getDescricao().toLowerCase().contains(busca)
-                            || produto.getTabProdutoEanVOList().contains(busca)
-            );
-//            tabProdutoVOFilteredList.setPredicate(produto -> {
-//                if (produto.getCodigo().toLowerCase().contains(busca)) return true
-//            });
+            tabProdutoVOFilteredList.setPredicate(produto -> {
+                if (produto.getCodigo().toLowerCase().contains(busca)) return true;
+                return false;
+            });
         preencheTabelaProduto();
     }
 

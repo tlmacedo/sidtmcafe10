@@ -100,7 +100,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             }
             tabEmpresaVO = new TabEmpresaVO();
 
-            tabEmpresaVO.setIsEmpresa(1);
+            tabEmpresaVO.setIsEmpresa(true);
             tabEmpresaVO.setCnpj(jsonObject.getString("cnpj"));
             tabEmpresaVO.setIe("");
             tabEmpresaVO.setRazao(jsonObject.getString("nome"));

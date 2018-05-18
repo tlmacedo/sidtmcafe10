@@ -63,10 +63,10 @@
       //-fx-pref-height: 40;
       //-fx-padding: 5 0;
     }
-    .jfx-combo-box {
+    .jfx-combo-box, .combo-box {
       -fx-pref-width: ($sisWidthDialogPane - 20);
     }
-    .jfx-text-field {
+    .jfx-text-field, .text-field {
       -fx-pref-width: ($sisWidthDialogPane - 40);
     }
   }

@@ -45,19 +45,26 @@ public class ViewPrincipal extends Application implements Constants {
         new ServiceOpenView(stage, false);
     }
 
+
+//    @Override
+//    public void start(Stage primaryStage) throws Exception {
+//        TabColaboradorVO colaboradorVO = new TabColaboradorDAO().getTabColaboradorVO(1);
+//        ServiceVariavelSistema.USUARIO_LOGADO_ID = String.valueOf(colaboradorVO.getId());
+//        ServiceVariavelSistema.USUARIO_LOGADO_NOME = colaboradorVO.getNome();
+//        ServiceVariavelSistema.USUARIO_LOGADO_APELIDO = colaboradorVO.getApelido();
+//        ServiceVariavelSistema.DATA_HORA = LocalDateTime.now();
+//        ServiceVariavelSistema.DATA_HORA_STR = ServiceVariavelSistema.DATA_HORA.format(DTF_DATAHORA);
+//        ServiceVariavelSistema.USUARIO_LOGADO_DATA = LocalDate.now();
+//        ServiceVariavelSistema.USUARIO_LOGADO_DATA_STR = ServiceVariavelSistema.USUARIO_LOGADO_DATA.format(DTF_DATA);
+//        ServiceVariavelSistema.USUARIO_LOGADO_HORA = LocalTime.now();
+//        ServiceVariavelSistema.USUARIO_LOGADO_HORA_STR = ServiceVariavelSistema.USUARIO_LOGADO_HORA.format(DTF_HORA);
+//
+//        openViewPrincipal();
+//    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        TabColaboradorVO colaboradorVO = new TabColaboradorDAO().getTabColaboradorVO(1);
-        ServiceVariavelSistema.USUARIO_LOGADO_ID = String.valueOf(colaboradorVO.getId());
-        ServiceVariavelSistema.USUARIO_LOGADO_NOME = colaboradorVO.getNome();
-        ServiceVariavelSistema.USUARIO_LOGADO_APELIDO = colaboradorVO.getApelido();
-        ServiceVariavelSistema.DATA_HORA = LocalDateTime.now();
-        ServiceVariavelSistema.DATA_HORA_STR = ServiceVariavelSistema.DATA_HORA.format(DTF_DATAHORA);
-        ServiceVariavelSistema.USUARIO_LOGADO_DATA = LocalDate.now();
-        ServiceVariavelSistema.USUARIO_LOGADO_DATA_STR = ServiceVariavelSistema.USUARIO_LOGADO_DATA.format(DTF_DATA);
-        ServiceVariavelSistema.USUARIO_LOGADO_HORA = LocalTime.now();
-        ServiceVariavelSistema.USUARIO_LOGADO_HORA_STR = ServiceVariavelSistema.USUARIO_LOGADO_HORA.format(DTF_HORA);
-
+        ServiceVariavelSistema.newServiceVariavelSistema(null);
         openViewPrincipal();
     }
 

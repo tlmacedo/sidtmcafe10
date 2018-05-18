@@ -1,9 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
-import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
-import com.jfoenix.controls.IFXTextInputControl;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableColumn;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,15 +12,10 @@ import javafx.util.Callback;
 import javafx.util.Pair;
 
 import javax.swing.text.MaskFormatter;
-import java.awt.*;
 import java.io.BufferedWriter;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
-
-import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.PATTERN;
 
 public class ServiceFormatarDado {
     String mascara;
@@ -268,7 +260,7 @@ public class ServiceFormatarDado {
 //        });
     }
 
-    public static void fatorarColunaCheckBox(JFXTreeTableColumn colunaGenerica) {
+    public static void fatorarColunaCheckBox(TreeTableColumn colunaGenerica) {
         colunaGenerica.getStyleClass().add("chkbox");
         colunaGenerica.setCellFactory(new Callback<TreeTableColumn, TreeTableCell>() {
             @Override

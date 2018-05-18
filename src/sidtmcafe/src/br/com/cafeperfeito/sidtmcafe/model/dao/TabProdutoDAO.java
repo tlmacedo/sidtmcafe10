@@ -42,7 +42,6 @@ public class TabProdutoDAO extends BuscaBandoDados {
         comandoSql += "ORDER BY descricao ";
 
         if (id == 0) tabProdutoVOList = new ArrayList<TabProdutoVO>();
-        System.out.println("comandoSql: [" + comandoSql + "]");
         rs = getResultadosBandoDados(comandoSql);
 
         try {

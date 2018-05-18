@@ -2,7 +2,6 @@ package br.com.cafeperfeito.sidtmcafe.view;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceOpenView;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,7 +12,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-public class ViewLogin extends Application implements Constants {
+public class ViewLogin implements Constants {
 
     static Stage stage;
 
@@ -44,9 +43,9 @@ public class ViewLogin extends Application implements Constants {
 
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        //ViewLogin.stage = primaryStage;
-        openViewLogin(false);
-    }
+//    @Override
+//    public void start(Stage primaryStage) throws Exception {
+//        //ViewLogin.stage = primaryStage;
+//        openViewLogin(false);
+//    }
 }
