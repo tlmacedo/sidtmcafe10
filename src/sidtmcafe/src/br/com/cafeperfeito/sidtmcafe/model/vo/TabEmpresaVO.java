@@ -21,7 +21,7 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
     Date dataAbertura;
     Timestamp dataCadastro, dataAtualizacao;
     IntegerProperty id, sisSituacaoSistema_id, usuarioCadastro_id, usuarioAtualizacao_id;
-    BooleanProperty isEmpresa, isLoja, isCliente, isFornecedor, isTransportadora;
+    BooleanProperty isEmpresa, ieIsento, isLoja, isCliente, isFornecedor, isTransportadora;
     StringProperty cnpj, ie, razao, fantasia, naturezaJuridica;
 
     public TabEmpresaVO() {
@@ -128,19 +128,6 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
         idProperty().set(id);
     }
 
-    public boolean isIsEmpresa() {
-        return isEmpresaProperty().get();
-    }
-
-    public BooleanProperty isEmpresaProperty() {
-        if (isEmpresa == null) isEmpresa = new SimpleBooleanProperty(false);
-        return isEmpresa;
-    }
-
-    public void setIsEmpresa(boolean isEmpresa) {
-        isEmpresaProperty().set(isEmpresa);
-    }
-
     public int getUsuarioCadastro_id() {
         return usuarioCadastro_idProperty().get();
     }
@@ -178,6 +165,32 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
 
     public void setSisSituacaoSistema_id(int sisSituacaoSistema_id) {
         sisSituacaoSistema_idProperty().set(sisSituacaoSistema_id);
+    }
+
+    public boolean isIsEmpresa() {
+        return isEmpresaProperty().get();
+    }
+
+    public BooleanProperty isEmpresaProperty() {
+        if (isEmpresa == null) isEmpresa = new SimpleBooleanProperty(false);
+        return isEmpresa;
+    }
+
+    public void setIsEmpresa(boolean isEmpresa) {
+        isEmpresaProperty().set(isEmpresa);
+    }
+
+    public boolean isIeIsento() {
+        return ieIsentoProperty().get();
+    }
+
+    public BooleanProperty ieIsentoProperty() {
+        if (ieIsento == null) ieIsento = new SimpleBooleanProperty(false);
+        return ieIsento;
+    }
+
+    public void setIeIsento(boolean ieIsento) {
+        ieIsentoProperty().set(ieIsento);
     }
 
     public boolean isIsLoja() {

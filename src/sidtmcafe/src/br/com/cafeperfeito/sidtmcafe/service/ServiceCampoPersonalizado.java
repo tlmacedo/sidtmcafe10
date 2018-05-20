@@ -51,7 +51,7 @@ public class ServiceCampoPersonalizado implements Constants {
                     ((Label) node).setText(valorInicial);
             }
             if (node instanceof JFXTextField) {
-                    ((JFXTextField) node).setText(valorInicial);
+                ((JFXTextField) node).setText(valorInicial);
             } else if (node instanceof JFXComboBox) {
                 ((JFXComboBox) node).getSelectionModel().select(0);
             } else if (node instanceof JFXCheckBox) {
@@ -125,20 +125,16 @@ public class ServiceCampoPersonalizado implements Constants {
 
     public static void fieldMask(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
-            if (node instanceof JFXTextField)
-                if (node.getAccessibleText() != null && node.getAccessibleText().contains(":")) {
-                    String tipoDado, mascara, caractere = null;
-                    int len, decimal = 0;
-                    if ((len = Integer.parseInt(ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "len").getValue())) < 0)
-                        len = 0;
-                    if ((mascara = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "mask").getValue()) == null)
-                        mascara = "";
-
+            if (node instanceof JFXTextField) {
+                if (node.getAccessibleText() != null && node.getAccessibleText().contains("mask:")) {
+                    String tipoDado = "", mascara = "", caractere = "#";
+                    int len = 0, decimal = 0;
+                    if (node.getAccessibleText().contains("len:"))
+                        len = Integer.parseInt(ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "len").getValue());
+                    if (node.getAccessibleText().contains("mask:"))
+                        mascara = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "mask").getValue();
                     if ((tipoDado = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "type").getValue()) != null)
                         switch (tipoDado) {
-                            case "normal":
-                                caractere = "#";
-                                break;
                             case "maiusculo":
                             case "maiuscula":
                                 caractere = "@";
@@ -152,16 +148,16 @@ public class ServiceCampoPersonalizado implements Constants {
                             case "peso":
                             case "numeral":
                                 caractere = "0";
-                                ServiceFormatarDado.maxField((JFXTextField) node, len);
                                 if (mascara.contains("numero") || mascara.contains("peso") || mascara.contains("moeda"))
                                     caractere = "$";
-
                                 if (mascara.replaceAll("[\\D]", "").equals(""))
                                     decimal = 0;
                                 else
                                     decimal = Integer.parseInt(mascara.replaceAll("[\\D]", ""));
                                 break;
+                            case "normal":
                             default:
+                                caractere = "#";
                                 break;
                         }
                     if (caractere == "$") {
@@ -169,8 +165,8 @@ public class ServiceCampoPersonalizado implements Constants {
                     } else {
                         new ServiceFormatarDado().maskField((JFXTextField) node, ServiceFormatarDado.gerarMascara(mascara.replaceAll("[\\d]", ""), len, caractere));
                     }
-
                 }
+            }
             if (node instanceof AnchorPane) {
                 fieldMask((AnchorPane) node);
             } else if (node instanceof TitledPane) {

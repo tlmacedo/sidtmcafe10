@@ -147,7 +147,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
 
         dialog.initStyle(StageStyle.TRANSPARENT);
         dialogPane.getScene().setFill(Color.TRANSPARENT);
-        dialogPane.getStylesheets().add(STYLE_SHEETS);
+        dialogPane.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
 
         dialogPane.getButtonTypes().clear();
     }

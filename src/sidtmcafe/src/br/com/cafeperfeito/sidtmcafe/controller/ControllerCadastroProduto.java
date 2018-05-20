@@ -2,16 +2,15 @@ package br.com.cafeperfeito.sidtmcafe.controller;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
 import br.com.cafeperfeito.sidtmcafe.model.dao.*;
+import br.com.cafeperfeito.sidtmcafe.model.model.TabModel;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceCampoPersonalizado;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceComandoTecladoMouse;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceSegundoPlano;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema;
 import br.com.cafeperfeito.sidtmcafe.view.ViewCadastroProduto;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableView;
+import com.jfoenix.controls.*;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +18,9 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.TreeItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -99,6 +100,12 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     @Override
     public void escutarTecla() {
+        ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.intValue() < 0 || newValue.intValue() == oldValue.intValue()) return;
+            if (ControllerPrincipal.ctrlPrincipal.getTabSelecionada().equals(tituloTab))
+                ControllerPrincipal.ctrlPrincipal.atualizarStatusBarTeclas(getStatusBarTecla());
+        });
+
         eventHandlerCadastroProduto = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -205,6 +212,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     public void setQtdRegistrosLocalizados(int qtdRegistrosLocalizados) {
         this.qtdRegistrosLocalizados = qtdRegistrosLocalizados;
+        atualizaQtdRegistroLocalizado();
     }
 
     public String getTituloTab() {
@@ -264,8 +272,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     public void carregarListaProduto() {
-        tabProdutoVOObservableList = FXCollections.observableArrayList(new TabProdutoDAO().getTabProdutoVOList());
-        tabProdutoVOFilteredList = new FilteredList<>(tabProdutoVOObservableList, produto -> true);
+        tabProdutoVOFilteredList = new FilteredList<>(tabProdutoVOObservableList = FXCollections.observableArrayList(new TabProdutoDAO().getTabProdutoVOList()), produto -> true);
     }
 
     public void preencherCboUnidadeComercial() {
@@ -311,16 +318,28 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void pesquisaProduto() {
-        String busca;
-        if ((busca = txtPesquisaProduto.getText().toLowerCase().trim()).length() > 0)
+        String busca = txtPesquisaProduto.getText().toLowerCase().trim();
+        if (busca.length() > 0)
             tabProdutoVOFilteredList.setPredicate(produto -> {
                 if (produto.getCodigo().toLowerCase().contains(busca)) return true;
                 return false;
             });
+        else tabProdutoVOFilteredList.setPredicate(produto -> true);
         preencheTabelaProduto();
     }
 
     public void preencheTabelaProduto() {
+        if (tabProdutoVOFilteredList == null)
+            pesquisaProduto();
+        setQtdRegistrosLocalizados(tabProdutoVOFilteredList.size());
+        final TreeItem<TabProdutoVO> root = new RecursiveTreeItem <TabProdutoVO>(tabProdutoVOFilteredList, RecursiveTreeObject::getChildren);
+        ttvProduto.getColumns().setAll(TabModel.getColunaIdProduto(), TabModel.getColunaCodigo(),
+                TabModel.getColunaDescricao(), TabModel.getColunaUndCom(), TabModel.getColunaVarejo(),
+                TabModel.getColunaPrecoFabrica(), TabModel.getColunaPrecoConsumidor(),
+                TabModel.getColunaSituacaoSistema(), TabModel.getColunaQtdEstoque());
+        ttvProduto.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        ttvProduto.setRoot(root);
+        ttvProduto.setShowRoot(false);
 
     }
 

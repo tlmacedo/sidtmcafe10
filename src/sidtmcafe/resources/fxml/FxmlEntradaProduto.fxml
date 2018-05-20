@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
 <AnchorPane fx:id="painelViewEntradaProduto" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="785.0" prefWidth="1300.0" stylesheets="@../style/min/sidtm.min.css"
             xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
@@ -28,7 +29,8 @@
                                                 <Tooltip text="loja de destino da entrada"/>
                                             </tooltip>
                                         </JFXComboBox>
-                                        <JFXTextField fx:id="txtChaveNfe" accessibleText="054#_0nfechave" layoutX="165.0"
+                                        <JFXTextField fx:id="txtChaveNfe" accessibleText="054#_0nfechave"
+                                                      layoutX="165.0"
                                                       layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
                                                       prefWidth="280.0" promptText="Chave da nf-e"
@@ -99,7 +101,8 @@
                                                             </tooltip>
                                                         </JFXTextField>
                                                         <JFXTextField fx:id="txtFiscalDocumentoOrigem"
-                                                                      accessibleText="013#_0nfedocorigem" layoutX="100.0"
+                                                                      accessibleText="013#_0nfedocorigem"
+                                                                      layoutX="100.0"
                                                                       layoutY="10.0" maxHeight="-Infinity"
                                                                       maxWidth="-Infinity" minHeight="-Infinity"
                                                                       minWidth="-Infinity" prefHeight="20.0"
@@ -310,7 +313,8 @@
                                                 <Tooltip text="valor bruto do frete do cte da nfe de entrada"/>
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtFreteVlrImposto" accessibleText="011$002" layoutX="405.0"
+                                        <JFXTextField fx:id="txtFreteVlrImposto" accessibleText="011$002"
+                                                      layoutX="405.0"
                                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
                                                       prefWidth="90.0" promptText="Imposto frete: R$"
@@ -319,7 +323,8 @@
                                                 <Tooltip text="valor imposto sobre frete da nfe de entrada"/>
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtFreteVlrLiquido" accessibleText="011$012" layoutX="505.0"
+                                        <JFXTextField fx:id="txtFreteVlrLiquido" accessibleText="011$012"
+                                                      layoutX="505.0"
                                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
                                                       prefWidth="90.0" promptText="Frete líquido: R$"
@@ -349,7 +354,8 @@
                                                             </tooltip>
                                                         </JFXTextField>
                                                         <JFXTextField fx:id="txtFreteFiscalImpostoDocumentoOrigem"
-                                                                      accessibleText="013#_0nfedocorigem" layoutX="100.0"
+                                                                      accessibleText="013#_0nfedocorigem"
+                                                                      layoutX="100.0"
                                                                       layoutY="10.0" maxHeight="-Infinity"
                                                                       maxWidth="-Infinity" minHeight="-Infinity"
                                                                       minWidth="-Infinity" prefHeight="20.0"
@@ -475,13 +481,13 @@
                                                 <Tooltip text="campo de pesquisa."/>
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTreeTableView fx:id="ttvProduto" accessibleText="TTV" layoutX="5.0"
-                                                          layoutY="37.0" nodeOrientation="LEFT_TO_RIGHT"
-                                                          prefHeight="115.0" prefWidth="1270.0">
+                                        <TreeTableView fx:id="ttvProduto" accessibleText="TTV" layoutX="5.0"
+                                                       layoutY="37.0" nodeOrientation="LEFT_TO_RIGHT"
+                                                       prefHeight="115.0" prefWidth="1270.0">
                                             <tooltip>
                                                 <Tooltip text="tabela com lista de produto"/>
                                             </tooltip>
-                                        </JFXTreeTableView>
+                                        </TreeTableView>
                                         <Label fx:id="lblRegistrosLocalizados" accessibleText="LBLREGISTROSLOCALIZADOS"
                                                layoutX="380.0" layoutY="20.0" styleClass="lbl-informacoes"
                                                text="Registros localizados">
@@ -499,13 +505,13 @@
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="1278.0">
                                     <children>
-                                        <JFXTreeTableView fx:id="ttvItensNfe" accessibleText="TTV" layoutX="5.0"
-                                                          layoutY="5.0" nodeOrientation="LEFT_TO_RIGHT"
-                                                          prefHeight="145.0" prefWidth="1270.0">
+                                        <TreeTableView fx:id="ttvItensNfe" accessibleText="TTV" layoutX="5.0"
+                                                       layoutY="5.0" nodeOrientation="LEFT_TO_RIGHT"
+                                                       prefHeight="145.0" prefWidth="1270.0">
                                             <tooltip>
                                                 <Tooltip text="tabela com lista de produto"/>
                                             </tooltip>
-                                        </JFXTreeTableView>
+                                        </TreeTableView>
                                     </children>
                                 </AnchorPane>
                             </content>

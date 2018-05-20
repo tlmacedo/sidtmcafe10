@@ -11,7 +11,6 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 public interface Constants {
-    Pattern PATTERN = Pattern.compile("[\\W]");
     String COPYRIGHT = "Café Perfeito " + "\u00a9 " + LocalDate.now().getYear();
     String LOJA_ID = "1";
 

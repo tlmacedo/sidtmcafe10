@@ -7,8 +7,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-
-<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.scene.control.TabPane?>
 <BorderPane fx:id="painelViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="830.0" prefWidth="1600.0" styleClass="view-principal"
             xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
@@ -17,9 +16,9 @@
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                     prefHeight="810.0" prefWidth="1350.0" BorderPane.alignment="TOP_LEFT">
             <children>
-                <JFXTabPane fx:id="tabPaneViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                            minWidth="-Infinity" prefHeight="810.0" prefWidth="1350.0" tabMaxHeight="20.0"
-                            tabMinHeight="20.0"/>
+                <TabPane fx:id="tabPaneViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                         minWidth="-Infinity" prefHeight="810.0" prefWidth="1350.0" tabMaxHeight="20.0"
+                         tabMinHeight="20.0"/>
                 <!--AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"-->
                 <!--AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>-->
                 <Label fx:id="lblImageLogoViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity"

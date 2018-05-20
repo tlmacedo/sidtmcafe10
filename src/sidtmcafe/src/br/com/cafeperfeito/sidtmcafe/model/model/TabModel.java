@@ -251,15 +251,13 @@ public class TabModel {
             colunaIe.setGraphic(lblIe);
             colunaIe.setPrefWidth(90);
             colunaIe.setStyle("-fx-alignment: center-right;");
-//            colunaIe.setCellValueFactory(param -> {
-//                try {
-//                    if (param.getValue().getValue().getTabEnderecoVOList() != null)
-//                        return new SimpleStringProperty(FormatarDado.getCampoFormatado(param.getValue().getValue().ieProperty().getValue(), "ie" + param.getValue().getValue().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()));
-//                    return param.getValue().getValue().ieProperty();
-//                } catch (Exception ex) {
-//                    return param.getValue().getValue().ieProperty();
-//                }
-//            });
+            colunaIe.setCellValueFactory(param -> {
+                if (param.getValue().getValue().isIeIsento())
+                    return new SimpleStringProperty("Isento");
+                if (param.getValue().getValue().getTabEnderecoVOList() != null)
+                    return new SimpleStringProperty(ServiceFormatarDado.getValorFormatado(param.getValue().getValue().ieProperty().getValue(), "ie" + param.getValue().getValue().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()));
+                return param.getValue().getValue().ieProperty();
+            });
 
             Label lblRazao = new Label("Razão / Nome");
             lblRazao.setPrefWidth(250);
@@ -351,9 +349,7 @@ public class TabModel {
             colunaIsCliente = new TreeTableColumn<TabEmpresaVO, Boolean>();
             colunaIsCliente.setPrefWidth(55);
             colunaIsCliente.setGraphic(vBoxIsCliente);
-            colunaIsCliente.setCellValueFactory(param -> {
-                return param.getValue().getValue().isClienteProperty();
-            });
+            colunaIsCliente.setCellValueFactory(param -> param.getValue().getValue().isClienteProperty());
 
             VBox vBoxIsFornecedor = new VBox();
             Label lblImgIsFornecedor = new Label();
@@ -365,10 +361,7 @@ public class TabModel {
             colunaIsFornecedor = new TreeTableColumn<TabEmpresaVO, Boolean>();
             colunaIsFornecedor.setPrefWidth(55);
             colunaIsFornecedor.setGraphic(vBoxIsFornecedor);
-            colunaIsFornecedor.setCellValueFactory(param -> {
-                return param.getValue().getValue().isFornecedorProperty();
-                //                return new SimpleBooleanProperty(true);
-            });
+            colunaIsFornecedor.setCellValueFactory(param -> param.getValue().getValue().isFornecedorProperty());
 
             VBox vBoxIsTransportadora = new VBox();
             Label lblImgIsTransportadora = new Label();
@@ -380,10 +373,7 @@ public class TabModel {
             colunaIsTransportadora = new TreeTableColumn<TabEmpresaVO, Boolean>();
             colunaIsTransportadora.setPrefWidth(55);
             colunaIsTransportadora.setGraphic(vBoxIsTransportadora);
-            colunaIsTransportadora.setCellValueFactory(param -> {
-                return param.getValue().getValue().isTransportadoraProperty();
-//                return new SimpleBooleanProperty(true);
-            });
+            colunaIsTransportadora.setCellValueFactory(param -> param.getValue().getValue().isTransportadoraProperty());
 
         } catch (Exception ex) {
             ex.printStackTrace();

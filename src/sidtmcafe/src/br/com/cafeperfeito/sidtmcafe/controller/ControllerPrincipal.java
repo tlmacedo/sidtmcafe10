@@ -47,6 +47,7 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
     Timeline timeline;
     public static ControllerPrincipal ctrlPrincipal;
     EventHandler<KeyEvent> eventHandlerPricipal;
+    String tabSelecionada = "";
 
     @Override
     public void fechar() {
@@ -138,6 +139,15 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
                 treeMenuViewPrincipal.fireEvent(ServiceComandoTecladoMouse.clickMouse(2));
         });
 
+        tabPaneViewPrincipal.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.intValue() < 0) {
+                setTabSelecionada("");
+                atualizarStatusBarTeclas("");
+            } else {
+                if (newValue.intValue() != oldValue.intValue())
+                    setTabSelecionada(tabPaneViewPrincipal.getTabs().get(newValue.intValue()).getText());
+            }
+        });
     }
 
     @Override
@@ -148,6 +158,14 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
         fatorarObjetos();
         escutarTecla();
 
+    }
+
+    public String getTabSelecionada() {
+        return tabSelecionada;
+    }
+
+    public void setTabSelecionada(String tabSelecionada) {
+        this.tabSelecionada = tabSelecionada;
     }
 
     void expandeMenuItem(boolean expande) {

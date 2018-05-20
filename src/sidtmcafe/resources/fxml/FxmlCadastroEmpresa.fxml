@@ -3,17 +3,15 @@
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
-<?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
-<!--<?import com.jfoenix.controls.JFXTreeTableView?>-->
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.control.TabPane?>
 <AnchorPane fx:id="painelViewCadastroEmpresa" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="780.0" prefWidth="1350.0" styleClass="view-cadastro-empresa"
             xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
@@ -33,9 +31,9 @@
                                 <Tooltip text="campo de pesquisa."/>
                             </tooltip>
                         </JFXTextField>
-                        <TreeTableView fx:id="ttvEmpresa" layoutX="5.0" layoutY="37.0"
-                                       accessibleText="value: , setDisable:false, mask: "
-                                       nodeOrientation="LEFT_TO_RIGHT" prefHeight="110.0" prefWidth="1330.0">
+                        <TreeTableView fx:id="ttvEmpresa" accessibleText="value: , setDisable:false, mask: "
+                                       layoutX="5.0" layoutY="37.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="110.0"
+                                       prefWidth="1330.0">
                             <tooltip>
                                 <Tooltip text="tabela com lista de produto"/>
                             </tooltip>
@@ -47,9 +45,9 @@
                             </tooltip>
                         </JFXComboBox>
                         <Label fx:id="lblRegistrosLocalizados" accessibleText="value:[] registro(s) localizado(s)."
-                               layoutX="380.0" layoutY="20.0" styleClass="lbl-informacoes" text="Registros localizados">
+                               layoutX="380.0" layoutY="20.0" styleClass="lbl-informacoes" text="Registro localizado">
                             <tooltip>
-                                <Tooltip text="informações de status e quantidade de registros localizados"/>
+                                <Tooltip text="status e quantidade de registros localizados"/>
                             </tooltip>
                         </Label>
                     </children>
@@ -57,7 +55,7 @@
             </content>
         </TitledPane>
         <TitledPane fx:id="tpnDadoCadastral" collapsible="false" focusTraversable="false" layoutX="5.0" layoutY="190.0"
-                    prefHeight="590.0" prefWidth="1340.0" text="Dados Cadastrais">
+                    prefHeight="590.0" prefWidth="1340.0" text="Informação Cadastral">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="1278.0">
                     <children>
@@ -70,25 +68,34 @@
                             </tooltip>
                         </JFXComboBox>
                         <JFXTextField fx:id="txtCNPJ"
-                                      accessibleText="len:14, type:numero, value: , setDisable:false, mask: cnpj"
+                                      accessibleText="value: , setDisable:false"
                                       layoutX="120.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="100.0"
-                                      promptText="C.N.P.J / C.P.F." styleClass="a-direita">
+                                      promptText="C.N.P.J / C.P.F." styleClass="a-direita" text="C.N.P.J. / C.P.F.">
+                            <!--accessibleText="len:18, type:numero, value: , setDisable:false, mask: cnpj"-->
                             <tooltip>
                                 <Tooltip text="C.N.P.J ou C.P.F. da empresa"/>
                             </tooltip>
                         </JFXTextField>
+                        <JFXCheckBox fx:id="chkIeIsento" accessibleText="value:falso" layoutX="230.0" layoutY="10.0"
+                                     maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                                     minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" text="I.E. Isento">
+                            <tooltip>
+                                <Tooltip text="empresa isenta de inscrição estadual"/>
+                            </tooltip>
+                        </JFXCheckBox>
                         <JFXTextField fx:id="txtIE"
-                                      accessibleText="len:11, type:numero, value: , setDisable:false, mask: ie"
-                                      layoutX="230.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                                      accessibleText="value: , setDisable=false"
+                                      layoutX="330.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
-                                      promptText="I.E. / R.G." styleClass="a-direita">
+                                      promptText="I.E. / R.G." styleClass="a-direita" text="I.E. / R.G.">
+                            <!--accessibleText="len:0, type:numero, value: , setDisable:false, mask: ie"-->
                             <tooltip>
                                 <Tooltip text="inscrição estadual da empresa"/>
                             </tooltip>
                         </JFXTextField>
                         <JFXComboBox fx:id="cboSituacaoSistema" accessibleText="value: " labelFloat="true"
-                                     layoutX="330.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                                     layoutX="430.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="130.0"
                                      promptText="Situação empresa">
                             <tooltip>
@@ -97,9 +104,9 @@
                         </JFXComboBox>
                         <JFXTextField fx:id="txtRazao"
                                       accessibleText="len:80, type:maiuscula, value: , setDisable:false, mask: "
-                                      layoutX="470.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                                      layoutX="570.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0"
-                                      promptText="Razão / Nome">
+                                      promptText="Razão / Nome" text="Razão / Nome">
                             <tooltip>
                                 <Tooltip text="razão ou nome da empresa"/>
                             </tooltip>
@@ -108,7 +115,7 @@
                                       accessibleText="len:80, type:maiuscula, value: , setDisable:false, mask: "
                                       layoutX="10.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0"
-                                      promptText="Fantasia / Apelido">
+                                      promptText="Fantasia / Apelido" text="Fantasia / Apelido">
                             <tooltip>
                                 <Tooltip text="nome fantasia ou apelido da empresa"/>
                             </tooltip>
@@ -155,28 +162,28 @@
                         </JFXCheckBox>
                         <Label fx:id="lblDataCadastro" accessibleText="value: " alignment="CENTER_RIGHT"
                                layoutX="1000.0" layoutY="5.0" prefHeight="10.0" prefWidth="335.0"
-                               styleClass="lbl-informaçoes" textAlignment="RIGHT">
+                               styleClass="lbl-informacoes" text="lblDataCadastro" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip text="data de cadastro da empresa no sistema"/>
                             </tooltip>
                         </Label>
                         <Label fx:id="lblDataCadastroDiff" accessibleText="value: " alignment="CENTER_RIGHT"
                                layoutX="1000.0" layoutY="15.0" prefHeight="10.0" prefWidth="335.0"
-                               styleClass="lbl-informacoes" textAlignment="RIGHT">
+                               styleClass="lbl-informacoes" text="lblDataCadastroDiff" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip text="tempo que a empresa está cadastrada no sistema"/>
                             </tooltip>
                         </Label>
                         <Label fx:id="lblDataAtualizacao" accessibleText="value: " alignment="CENTER_RIGHT"
                                layoutX="1000.0" layoutY="25.0" prefHeight="10.0" prefWidth="335.0"
-                               styleClass="lbl-informacoes" textAlignment="RIGHT">
+                               styleClass="lbl-informacoes" text="lblDataAtualizacao" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip text="data da ultima atualizacao feita no cadastro da empresa no sistema"/>
                             </tooltip>
                         </Label>
                         <Label fx:id="lblDataAtualizacaoDiff" accessibleText="value: " alignment="CENTER_RIGHT"
                                layoutX="1000.0" layoutY="35.0" prefHeight="10.0" prefWidth="335.0"
-                               styleClass="lbl-informacoes" textAlignment="RIGHT">
+                               styleClass="lbl-informacoes" text="lblDataAtualizacaoDiff" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip
                                         text="tempo que a foi feita a ultima atualizacao no cadastro da empresa no sistema"/>
@@ -272,12 +279,12 @@
                                 </AnchorPane>
                             </content>
                         </TitledPane>
-                        <JFXTabPane fx:id="tpnContatoPrazosCondicoes" layoutX="5.0" layoutY="168.0"
-                                    maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                    minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="260.0"
-                                    prefWidth="1330.0" tabMaxHeight="20.0" tabMinHeight="20.0">
+                        <TabPane fx:id="tpnContatoPrazosCondicoes" layoutX="5.0" layoutY="168.0"
+                                 maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                                 minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="260.0"
+                                 prefWidth="1330.0" tabMaxHeight="20.0" tabMinHeight="20.0">
                             <tabs>
-                                <Tab closable="false" text="Contatos">
+                                <Tab closable="false" text="Contato">
                                     <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="122.0"
                                                     prefWidth="1268.0">
@@ -285,15 +292,17 @@
                                                 <TitledPane collapsible="false" focusTraversable="false" layoutX="5.0"
                                                             layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                                             minHeight="-Infinity" minWidth="-Infinity"
-                                                            prefHeight="110.0" prefWidth="365.0" text="HomePage">
+                                                            prefHeight="110.0" prefWidth="365.0" text="home page">
                                                     <content>
-                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="122.0"
-                                                                    prefWidth="1268.0">
+                                                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+                                                                    minHeight="-Infinity" minWidth="-Infinity"
+                                                                    prefHeight="87.0" prefWidth="363.0">
                                                             <children>
                                                                 <JFXListView fx:id="listHomePage"
-                                                                             accessibleText="value: " layoutX="5.0"
-                                                                             layoutY="5.0" prefHeight="80.0"
-                                                                             prefWidth="355.0"/>
+                                                                             accessibleText="value: "
+                                                                             maxHeight="-Infinity" maxWidth="-Infinity"
+                                                                             minHeight="-Infinity" minWidth="-Infinity"
+                                                                             prefHeight="87.0" prefWidth="363.0"/>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
@@ -304,14 +313,16 @@
                                                 <TitledPane collapsible="false" focusTraversable="false" layoutX="5.0"
                                                             layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                                             minHeight="-Infinity" minWidth="-Infinity"
-                                                            prefHeight="110.0" prefWidth="365.0" text="emails">
+                                                            prefHeight="110.0" prefWidth="365.0" text="e-mail">
                                                     <content>
-                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="122.0"
-                                                                    prefWidth="1268.0">
+                                                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+                                                                    minHeight="-Infinity" minWidth="-Infinity"
+                                                                    prefHeight="87.0" prefWidth="363.0">
                                                             <children>
                                                                 <JFXListView fx:id="listEmail" accessibleText="value: "
-                                                                             layoutX="5.0" layoutY="5.0"
-                                                                             prefHeight="80.0" prefWidth="355.0"/>
+                                                                             maxHeight="-Infinity" maxWidth="-Infinity"
+                                                                             minHeight="-Infinity" minWidth="-Infinity"
+                                                                             prefHeight="87.0" prefWidth="363.0"/>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
@@ -322,15 +333,17 @@
                                                 <TitledPane collapsible="false" focusTraversable="false" layoutX="375.0"
                                                             layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                                             minHeight="-Infinity" minWidth="-Infinity"
-                                                            prefHeight="225.0" prefWidth="210.0" text="Telefones">
+                                                            prefHeight="225.0" prefWidth="210.0" text="Telefone">
                                                     <content>
-                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="122.0"
-                                                                    prefWidth="1268.0">
+                                                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+                                                                    minHeight="-Infinity" minWidth="-Infinity"
+                                                                    prefHeight="202.0" prefWidth="208.0">
                                                             <children>
                                                                 <JFXListView fx:id="listTelefone"
-                                                                             accessibleText="value: " layoutX="5.0"
-                                                                             layoutY="5.0" prefHeight="195.0"
-                                                                             prefWidth="200.0"/>
+                                                                             accessibleText="value: "
+                                                                             maxHeight="-Infinity" maxWidth="-Infinity"
+                                                                             minHeight="-Infinity" minWidth="-Infinity"
+                                                                             prefHeight="202.0" prefWidth="208.0"/>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
@@ -342,31 +355,38 @@
                                                             layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                                             minHeight="-Infinity" minWidth="-Infinity"
                                                             prefHeight="225.0" prefWidth="725.0"
-                                                            text="Pessoas de contato">
+                                                            text="Pessoa de contato">
                                                     <content>
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="122.0"
                                                                     prefWidth="1268.0">
                                                             <children>
                                                                 <JFXListView fx:id="listContatoNome"
                                                                              accessibleText="value: " layoutX="5.0"
-                                                                             layoutY="5.0" prefHeight="195.0"
+                                                                             layoutY="5.0" maxHeight="-Infinity"
+                                                                             maxWidth="-Infinity" minHeight="-Infinity"
+                                                                             minWidth="-Infinity" prefHeight="195.0"
                                                                              prefWidth="170.0"/>
                                                                 <TitledPane collapsible="false" focusTraversable="false"
                                                                             layoutX="180.0" layoutY="5.0"
                                                                             maxHeight="-Infinity" maxWidth="-Infinity"
                                                                             minHeight="-Infinity" minWidth="-Infinity"
                                                                             prefHeight="95.0" prefWidth="320.0"
-                                                                            text="HomePage">
+                                                                            text="home page">
                                                                     <content>
-                                                                        <AnchorPane minHeight="0.0" minWidth="0.0"
-                                                                                    prefHeight="122.0"
-                                                                                    prefWidth="1268.0">
+                                                                        <AnchorPane maxHeight="-Infinity"
+                                                                                    maxWidth="-Infinity"
+                                                                                    minHeight="-Infinity"
+                                                                                    minWidth="-Infinity"
+                                                                                    prefHeight="72.0" prefWidth="318.0">
                                                                             <children>
                                                                                 <JFXListView fx:id="listContatoHomePage"
                                                                                              accessibleText="value: "
-                                                                                             layoutX="5.0" layoutY="5.0"
-                                                                                             prefHeight="65.0"
-                                                                                             prefWidth="310.0"/>
+                                                                                             maxHeight="-Infinity"
+                                                                                             maxWidth="-Infinity"
+                                                                                             minHeight="-Infinity"
+                                                                                             minWidth="-Infinity"
+                                                                                             prefHeight="72.0"
+                                                                                             prefWidth="318.0"/>
                                                                             </children>
                                                                         </AnchorPane>
                                                                     </content>
@@ -379,17 +399,22 @@
                                                                             maxHeight="-Infinity" maxWidth="-Infinity"
                                                                             minHeight="-Infinity" minWidth="-Infinity"
                                                                             prefHeight="95.0" prefWidth="320.0"
-                                                                            text="emails">
+                                                                            text="e-mail">
                                                                     <content>
-                                                                        <AnchorPane minHeight="0.0" minWidth="0.0"
-                                                                                    prefHeight="122.0"
-                                                                                    prefWidth="1268.0">
+                                                                        <AnchorPane maxHeight="-Infinity"
+                                                                                    maxWidth="-Infinity"
+                                                                                    minHeight="-Infinity"
+                                                                                    minWidth="-Infinity"
+                                                                                    prefHeight="72.0" prefWidth="318.0">
                                                                             <children>
                                                                                 <JFXListView fx:id="listContatoEmail"
                                                                                              accessibleText="value: "
-                                                                                             layoutX="5.0" layoutY="5.0"
-                                                                                             prefHeight="65.0"
-                                                                                             prefWidth="310.0"/>
+                                                                                             maxHeight="-Infinity"
+                                                                                             maxWidth="-Infinity"
+                                                                                             minHeight="-Infinity"
+                                                                                             minWidth="-Infinity"
+                                                                                             prefHeight="72.0"
+                                                                                             prefWidth="318.0"/>
                                                                             </children>
                                                                         </AnchorPane>
                                                                     </content>
@@ -402,16 +427,22 @@
                                                                             maxHeight="-Infinity" maxWidth="-Infinity"
                                                                             minHeight="-Infinity" minWidth="-Infinity"
                                                                             prefHeight="195.0" prefWidth="210.0"
-                                                                            text="Telefones">
+                                                                            text="Telefone">
                                                                     <content>
-                                                                        <AnchorPane minHeight="0.0" minWidth="0.0"
-                                                                                    prefHeight="122.0"
-                                                                                    prefWidth="1268.0">
+                                                                        <AnchorPane maxHeight="-Infinity"
+                                                                                    maxWidth="-Infinity"
+                                                                                    minHeight="-Infinity"
+                                                                                    minWidth="-Infinity"
+                                                                                    prefHeight="172.0"
+                                                                                    prefWidth="208.0">
                                                                             <children>
                                                                                 <JFXListView fx:id="listContatoTelefone"
-                                                                                             layoutX="5.0" layoutY="5.0"
-                                                                                             prefHeight="165.0"
-                                                                                             prefWidth="200.0"/>
+                                                                                             maxHeight="-Infinity"
+                                                                                             maxWidth="-Infinity"
+                                                                                             minHeight="-Infinity"
+                                                                                             minWidth="-Infinity"
+                                                                                             prefHeight="172.0"
+                                                                                             prefWidth="208.0"/>
                                                                             </children>
                                                                         </AnchorPane>
                                                                     </content>
@@ -431,11 +462,11 @@
                                     </content>
                                 </Tab>
                             </tabs>
-                        </JFXTabPane>
+                        </TabPane>
                         <TitledPane collapsible="false" focusTraversable="false" layoutX="5.0" layoutY="432.0"
                                     maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                     minWidth="-Infinity" prefHeight="130.0" prefWidth="1330.0"
-                                    text="Detalhes Receita Federal">
+                                    text="Informação receita federal">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="200.0">
                                     <children>
@@ -457,7 +488,9 @@
                                                             prefWidth="400.0">
                                                     <children>
                                                         <JFXListView fx:id="listAtividadePrincipal"
-                                                                     accessibleText="value: " prefHeight="47.0"
+                                                                     accessibleText="value: " maxHeight="-Infinity"
+                                                                     maxWidth="-Infinity" minHeight="-Infinity"
+                                                                     minWidth="-Infinity" prefHeight="47.0"
                                                                      prefWidth="448.0"/>
                                                     </children>
                                                 </AnchorPane>
@@ -475,7 +508,9 @@
                                                             prefWidth="478.0">
                                                     <children>
                                                         <JFXListView fx:id="listAtividadeSecundaria"
-                                                                     accessibleText="value: " prefHeight="82.0"
+                                                                     accessibleText="value: " maxHeight="-Infinity"
+                                                                     maxWidth="-Infinity" minHeight="-Infinity"
+                                                                     minWidth="-Infinity" prefHeight="82.0"
                                                                      prefWidth="478.0"/>
                                                     </children>
                                                 </AnchorPane>
@@ -487,13 +522,15 @@
                                         <TitledPane collapsible="false" focusTraversable="false" layoutX="930.0"
                                                     maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                                     minWidth="-Infinity" prefHeight="105.0" prefWidth="398.0"
-                                                    text="Informações complementares">
+                                                    text="Informação complementar">
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="77.0"
                                                             prefWidth="396.0">
                                                     <children>
                                                         <JFXListView fx:id="listInformacoesReceita"
-                                                                     accessibleText="value: " prefHeight="82.0"
+                                                                     accessibleText="value: " maxHeight="-Infinity"
+                                                                     maxWidth="-Infinity" minHeight="-Infinity"
+                                                                     minWidth="-Infinity" prefHeight="82.0"
                                                                      prefWidth="396.0"/>
                                                     </children>
                                                 </AnchorPane>

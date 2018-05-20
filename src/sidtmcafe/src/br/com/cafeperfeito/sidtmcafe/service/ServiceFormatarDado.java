@@ -16,33 +16,30 @@ import java.io.BufferedWriter;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ServiceFormatarDado {
     String mascara;
-    Matcher matcher;
-    BufferedWriter bufferedWriter;
 
     public static String getValueMoeda(String valor, int casaDecimal) {
-        String sinal = "";
         String value = String.valueOf(Long.parseLong(valor.replaceAll("[\\D]", "")));
         for (int i = value.length(); i < (casaDecimal + 1); i++)
             value = "0" + value;
-
         value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 18) + "})$", "$1.$2");
         value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 15) + "})$", "$1.$2");
         value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 12) + "})$", "$1.$2");
         value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 9) + "})$", "$1.$2");
         value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 6) + "})$", "$1.$2");
         value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 3) + "})$", "$1.$2");
-        if (casaDecimal > 0) {
+        if (casaDecimal > 0)
             value = value.replaceAll("(\\d{1})(\\d{" + casaDecimal + "})$", "$1,$2");
-        }
-        if (valor.substring(0, 1).equals("-")) sinal = "-";
-        return sinal + value;
+        if (valor.contains("-")) value = "-" + value;
+
+        return value;
     }
 
     public static String getValorFormatado(String value, String tipOrMascara) {
-        String strValue = value.replaceAll("[\\W]", "");
+        String strValue = value.replaceAll("\\W", "");
         String strMasc = gerarMascara(tipOrMascara, value.length(), "#");
         if (strValue.length() > 0)
             try {
@@ -52,6 +49,7 @@ public class ServiceFormatarDado {
                         qtdDigitos = Integer.parseInt(tipOrMascara.replaceAll("\\D", ""));
                     return new DecimalFormat("#,##" + strMasc + ";-#,##" + strMasc).format(Double.parseDouble(strValue.replaceAll("(\\d{1})(\\d{" + qtdDigitos + "})$", "$1.$2")));
                 } else {
+                    strMasc = strMasc.replace("0", "#");
                     if (tipOrMascara.replaceAll("\\d", "").toLowerCase().equals("nfenumero"))
                         return String.format("%09d", Integer.parseInt(strValue)).replaceAll("(\\d{3})", ".$1").substring(1);
                     MaskFormatter formatter = new MaskFormatter(strMasc);
@@ -61,19 +59,18 @@ public class ServiceFormatarDado {
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
-//        return strValue;
         return null;
     }
 
     public static String gerarMascara(String tipOrMascara, int qtdDigitos, String caracter) {
-        if (tipOrMascara.equals(""))
-            return String.format("%0" + qtdDigitos + "d", 0).replace("0", caracter);
+//        if (tipOrMascara.equals(""))
+//            return String.format("%0" + qtdDigitos + "d", 0); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("cnpj"))
-            return String.format("%014d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})$", "$1.$2.$3/$4-$5").replace("0", caracter);
+            return String.format("%014d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})$", "$1.$2.$3/$4-$5"); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("cpf"))
-            return String.format("%011d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})$", "$1.$2.$3-$4").replace("0", caracter);
+            return String.format("%011d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})$", "$1.$2.$3-$4"); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("barcode") || tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("ean") || tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("codbarras"))
-            return String.format("%013d", 0).replace("0", caracter);
+            return String.format("%013d", 0); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("moeda") || tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("numero") || tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("peso")) {
             if (tipOrMascara.replaceAll("\\D", "").equals(""))
 //                return "#,###,###,##0;-#,###,###,##0";
@@ -85,28 +82,29 @@ public class ServiceFormatarDado {
             return String.format("%0" + (qtdDigitos + 1) + "d", 0).replaceAll("(\\d{1})(\\d{" + qtdDigitos + "})$", "$1.$2");
         }
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("cep"))
-            return String.format("%08d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})$", "$1.$2-$3").replace("0", caracter);
+            return String.format("%08d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})$", "$1.$2-$3"); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("ncm"))
-            return String.format("%08d", 0).replaceAll("(\\d{4})(\\d{2})(\\d{2})$", "$1.$2.$3").replace("0", caracter);
+            return String.format("%08d", 0).replaceAll("(\\d{4})(\\d{2})(\\d{2})$", "$1.$2.$3"); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("cest"))
-            return String.format("%07d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{2})$", "$1.$2.$3").replace("0", caracter);
+            return String.format("%07d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{2})$", "$1.$2.$3"); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("nfechave"))
             return String.format("%044d", 0).replaceAll("(\\d{4})", " $1").replace("0", caracter).trim();
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("nfenumero"))
             return String.format("%09d", 0).replaceAll("(\\d{3})", ".$1").replace("0", caracter).substring(1);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("nfedocorigem"))
-            return String.format("%012d", 0).replaceAll("(\\d{11})(\\d{1})$", "$1-$2").replace("0", caracter);
+            return String.format("%012d", 0).replaceAll("(\\d{11})(\\d{1})$", "$1-$2"); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("telefone"))
             if (qtdDigitos < 9)
-                return String.format("%08d", 0).replaceAll("(\\d{4})(\\d{4})$", "$1-$2").replace("0", caracter);
+                return String.format("%08d", 0).replaceAll("(\\d{4})(\\d{4})$", "$1-$2"); //.replace("0", caracter);
             else
-                return String.format("%09d", 0).replaceAll("(\\d{1})(\\d{4})(\\d{4})", "$1 $2-$3").replace("0", caracter);
-        if (tipOrMascara.toLowerCase().replaceAll("\\d", "").substring(0, 2).equals("ie"))
-            if (tipOrMascara.length() < 4)
-                return String.format("%012d", 0).replace("0", caracter);
-            else
-                return getMascaraIE(tipOrMascara.substring(2).toUpperCase(), caracter);
-        return String.format("%1$0" + qtdDigitos + "d", 0).replace("0", caracter);
+                return String.format("%09d", 0).replaceAll("(\\d{1})(\\d{4})(\\d{4})", "$1 $2-$3"); //.replace("0", caracter);
+        if (tipOrMascara.replaceAll("\\d", "").length() >= 2)
+            if (tipOrMascara.toLowerCase().replaceAll("\\d", "").substring(0, 2).equals("ie"))
+                if (tipOrMascara.length() >= 4)
+                    return getMascaraIE(tipOrMascara.substring(2).toUpperCase(), caracter);
+                else
+                    return String.format("%012d", 0); //.replace("0", caracter);
+        return String.format("%0" + qtdDigitos + "d", 0).replace("0", caracter);
     }
 
     public String getMascara() {
@@ -122,75 +120,71 @@ public class ServiceFormatarDado {
 
     static String getMascaraIE(String uf, String caracter) {
         if (uf.equals("AC"))
-            return String.format("%013d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{3})(\\d{2})$", "$1.$2.$3/$4-$5").replace("0", caracter);
+            return String.format("%013d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{3})(\\d{2})$", "$1.$2.$3/$4-$5"); //.replace("0", caracter);
         if (uf.equals("AL"))
-            return String.format("%09d", 0).replace("0", caracter);
+            return String.format("%09d", 0); //.replace("0", caracter);
         if (uf.equals("AM"))
-            return String.format("%09d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{1})$", "$1.$2.$3-$4").replace("0", caracter);
+            return String.format("%09d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{1})$", "$1.$2.$3-$4"); //.replace("0", caracter);
         if (uf.equals("AP"))
-            return String.format("%09d", 0).replace("0", caracter);
+            return String.format("%09d", 0); //.replace("0", caracter);
         if (uf.equals("BA"))
-            return String.format("%09d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{2})(\\d{1})$", "$1.$2.$3-$4").replace("0", caracter);
+            return String.format("%09d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{2})(\\d{1})$", "$1.$2.$3-$4"); //.replace("0", caracter);
         if (uf.equals("CE"))
-            return String.format("%09d", 0).replaceAll("(\\d{8})(\\d{1})$", "$1-$2").replace("0", caracter);
+            return String.format("%09d", 0).replaceAll("(\\d{8})(\\d{1})$", "$1-$2"); //.replace("0", caracter);
         if (uf.equals("DF"))
-            return String.format("%013d", 0).replaceAll("(\\d{11})(\\d{2})$", "$1-$2").replace("0", caracter);
+            return String.format("%013d", 0).replaceAll("(\\d{11})(\\d{2})$", "$1-$2"); //.replace("0", caracter);
         if (uf.equals("ES"))
-            return String.format("%09d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{2})(\\d{1})$", "$1.$2.$3-$4").replace("0", caracter);
+            return String.format("%09d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{2})(\\d{1})$", "$1.$2.$3-$4"); //.replace("0", caracter);
         if (uf.equals("GO"))
-            return String.format("%09d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{1})$", "$1.$2.$3-$4").replace("0", caracter);
+            return String.format("%09d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{1})$", "$1.$2.$3-$4"); //.replace("0", caracter);
         if (uf.equals("MA"))
-            return String.format("%09d", 0).replace("0", caracter);
+            return String.format("%09d", 0); //.replace("0", caracter);
         if (uf.equals("MG"))
-            return String.format("%013d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{4})$", "$1.$2.$3/$4").replace("0", caracter);
+            return String.format("%013d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{4})$", "$1.$2.$3/$4"); //.replace("0", caracter);
         if (uf.equals("MS"))
-            return String.format("%09d", 0).replace("0", caracter);
+            return String.format("%09d", 0); //.replace("0", caracter);
         if (uf.equals("MT"))
-            return String.format("%09d", 0).replace("0", caracter);
+            return String.format("%09d", 0); //.replace("0", caracter);
         if (uf.equals("PA"))
-            return String.format("%09d", 0).replaceAll("(\\d{2})(\\d{6})(\\d{1})$", "$1-$2-$3").replace("0", caracter);
+            return String.format("%09d", 0).replaceAll("(\\d{2})(\\d{6})(\\d{1})$", "$1-$2-$3"); //.replace("0", caracter);
         if (uf.equals("PB"))
-            return String.format("%09d", 0).replaceAll("(\\d{8})(\\d{1})$", "$1-$2").replace("0", caracter);
+            return String.format("%09d", 0).replaceAll("(\\d{8})(\\d{1})$", "$1-$2"); //.replace("0", caracter);
         if (uf.equals("PE"))
-            return String.format("%014d", 0).replaceAll("(\\d{2})(\\d{1})(\\d{3})(\\d{7})(\\d{1})$", "$1.$2.$3.$4-$5").replace("0", caracter);
+            return String.format("%014d", 0).replaceAll("(\\d{2})(\\d{1})(\\d{3})(\\d{7})(\\d{1})$", "$1.$2.$3.$4-$5"); //.replace("0", caracter);
         if (uf.equals("PI"))
-            return String.format("%09d", 0).replace("0", caracter);
+            return String.format("%09d", 0); //.replace("0", caracter);
         if (uf.equals("PR"))
-            return String.format("%010d", 0).replaceAll("(\\d{8})(\\d{2})$", "$1-$2").replace("0", caracter);
+            return String.format("%010d", 0).replaceAll("(\\d{8})(\\d{2})$", "$1-$2"); //.replace("0", caracter);
         if (uf.equals("RJ"))
-            return String.format("%08d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{2})(\\d{1})$", "$1.$2.$3-$4").replace("0", caracter);
+            return String.format("%08d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{2})(\\d{1})$", "$1.$2.$3-$4"); //.replace("0", caracter);
         if (uf.equals("RN"))
-            return String.format("%09d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{1})$", "$1.$2.$3-$4").replace("0", caracter);
+            return String.format("%09d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{1})$", "$1.$2.$3-$4"); //.replace("0", caracter);
         if (uf.equals("RO"))
-            return String.format("%09d", 0).replaceAll("(\\d{3})(\\d{5})(\\d{1})$", "$1.$2-$3").replace("0", caracter);
+            return String.format("%09d", 0).replaceAll("(\\d{3})(\\d{5})(\\d{1})$", "$1.$2-$3"); //.replace("0", caracter);
         if (uf.equals("RR"))
-            return String.format("%09d", 0).replaceAll("(\\d{8})(\\d{1})$", "$1-$2").replace("0", caracter);
+            return String.format("%09d", 0).replaceAll("(\\d{8})(\\d{1})$", "$1-$2"); //.replace("0", caracter);
         if (uf.equals("RS"))
-            return String.format("%010d", 0).replaceAll("(\\d{3})(\\d{7})$", "$1-$2").replace("0", caracter);
+            return String.format("%010d", 0).replaceAll("(\\d{3})(\\d{7})$", "$1-$2"); //.replace("0", caracter);
         if (uf.equals("SC"))
-            return String.format("%09d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{3})$", "$1.$2.$3").replace("0", caracter);
+            return String.format("%09d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{3})$", "$1.$2.$3"); //.replace("0", caracter);
         if (uf.equals("SE"))
-            return String.format("%010d", 0).replaceAll("(\\d{9})(\\d{1})$", "$1-$2").replace("0", caracter);
+            return String.format("%010d", 0).replaceAll("(\\d{9})(\\d{1})$", "$1-$2"); //.replace("0", caracter);
         if (uf.equals("SP"))
-            return String.format("%012d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{3})$", "$1.$2.$3.$4").replace("0", caracter);
+            return String.format("%012d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{3})$", "$1.$2.$3.$4"); //.replace("0", caracter);
         if (uf.equals("TO"))
-            return String.format("%011d", 0).replace("0", caracter);
+            return String.format("%011d", 0); //.replace("0", caracter);
         return null;
     }
 
     public void maskField(JFXTextField textField, String strMascara) {
         if (strMascara.length() > 0)
             setMascara(strMascara);
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-//            String value = "";
-//            try {
-            String value = textField.getText().replaceAll("[\\W]", "");
-//            } catch (Exception ex){
-//                System.out.println("***********************************************value: [" + value + "] node: [" + textField.toString() + "]");
-//            }
+        textField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            if (textField.getText() == null) textField.setText("");
+            String value = textField.getText().replaceAll("[^0-9a-zA-Z ]", "");
             StringBuilder resultado = new StringBuilder();
-            if (newValue.length() > oldValue.length()) {
-                if (newValue.length() <= getMascara().length()) {
+            if (newValue.intValue() > oldValue.intValue()) {
+                if (textField.getText().length() <= getMascara().length()) {
                     int digitado = 0;
                     for (int i = 0; i < getMascara().length(); i++) {
                         if (digitado < value.length()) {
@@ -206,6 +200,8 @@ public class ServiceFormatarDado {
                                 case "#":
 //                                    if (Character.isLetterOrDigit(value.charAt(digitado)))
 //                                        resultado.append(value.substring(digitado, digitado + 1));
+//                                    resultado.append(value.substring(i, i + 1));
+//                                    digitado++;
                                     resultado.append(value.substring(i, i + 1));
                                     digitado++;
                                     break;
@@ -247,8 +243,8 @@ public class ServiceFormatarDado {
         textField.lengthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (newValue.intValue()>tamMax)
-                    textField.setText(textField.getText(0,tamMax));
+                if (newValue.intValue() > tamMax)
+                    textField.setText(textField.getText(0, tamMax));
             }
         });
 //        textField.textProperty().addListener(new ChangeListener<String>() {
