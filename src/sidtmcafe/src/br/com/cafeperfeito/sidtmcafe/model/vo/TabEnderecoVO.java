@@ -20,6 +20,7 @@ public class TabEnderecoVO extends RecursiveTreeObject<TabEnderecoVO> {
     }
 
     public TabEnderecoVO(int sisTipoEnd_id) {
+        this.id = new SimpleIntegerProperty(0);
         this.sisTipoEndereco_id = new SimpleIntegerProperty(sisTipoEnd_id);
         this.sisTipoEnderecoVO = new SisTipoEnderecoDAO().getSisTipoEnderecoVO(sisTipoEnd_id);
         this.sisMunicipio_id = new SimpleIntegerProperty(112);

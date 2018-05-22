@@ -3,6 +3,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
+import javafx.collections.FXCollections;
 import javafx.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,6 +12,9 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 //import br.com.cafeperfeito.sidtmcafe.service.FormatarDado;
 
@@ -89,105 +93,74 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
         return tabEmpresaVO;
     }
 
-    public TabEmpresaVO getTabEmpresaVO(String cnpj) {
-        TabEmpresaVO tabEmpresaVO = null;
+    public TabEmpresaVO getTabEmpresaVO(TabEmpresaVO empresaVO, String cnpj) {
         jsonObject = getJsonObjectHttpUrlConnection(WS_RECEITAWS_URL + cnpj, WS_RECEITAWS_TOKEN, "/days/0");
         if (jsonObject == null)
-            return tabEmpresaVO;
-        try {
-            if (jsonObject.getString("status").equals("ERROR")) {
-                return tabEmpresaVO;
-            }
-            tabEmpresaVO = new TabEmpresaVO();
+            return empresaVO;
 
-            tabEmpresaVO.setIsEmpresa(true);
-            tabEmpresaVO.setCnpj(jsonObject.getString("cnpj"));
-            tabEmpresaVO.setIe("");
-            tabEmpresaVO.setRazao(jsonObject.getString("nome"));
-            if (jsonObject.getString("fantasia").equals("")) {
-                tabEmpresaVO.setFantasia("***");
-            } else {
-                tabEmpresaVO.setFantasia(jsonObject.getString("fantasia"));
-            }
-            tabEmpresaVO.setIsLoja(false);
-            tabEmpresaVO.setIsCliente(true);
-            tabEmpresaVO.setIsFornecedor(false);
-            tabEmpresaVO.setIsTransportadora(false);
-            tabEmpresaVO.setSisSituacaoSistemaVO(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(1));
-            tabEmpresaVO.setSisSituacaoSistema_id(tabEmpresaVO.getSisSituacaoSistemaVO().getId());
-            if (jsonObject.getString("abertura") != null) {
-                LocalDate ldAbertura = LocalDate.parse(jsonObject.getString("abertura"), DTF_DATA);
-                tabEmpresaVO.setDataAbertura(Date.valueOf(ldAbertura));
-            }
-            tabEmpresaVO.setNaturezaJuridica(jsonObject.getString("natureza_juridica"));
+        if (jsonObject.getString("status").equals("ERROR"))
+            return empresaVO;
 
-
-            TabEnderecoVO tabEnderecoVO = new TabEnderecoVO(1);
-            tabEmpresaVO.setId(0);
-            if (jsonObject.getString("situacao").toLowerCase().equals("ativa")) {
-                tabEnderecoVO.setCep(jsonObject.getString("cep"));
-                tabEnderecoVO.setLogradouro(jsonObject.getString("logradouro"));
-                tabEnderecoVO.setNumero(jsonObject.getString("numero"));
-                tabEnderecoVO.setComplemento(jsonObject.getString("complemento"));
-                tabEnderecoVO.setBairro(jsonObject.getString("bairro"));
-                tabEnderecoVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(jsonObject.getString("municipio")));
-                tabEnderecoVO.setSisMunicipio_id(tabEnderecoVO.getSisMunicipioVO().getId());
-                tabEnderecoVO.setPontoReferencia("");
-            }
-
-            if (tabEmpresaVO.getTabEnderecoVOList() == null)
-                tabEmpresaVO.setTabEnderecoVOList(new ArrayList<>());
-            tabEmpresaVO.getTabEnderecoVOList().add(tabEnderecoVO);
-
-            if (!jsonObject.getString("email").equals("")) {
-                if (tabEmpresaVO.getTabEmailHomePageVOList() == null)
-                    tabEmpresaVO.setTabEmailHomePageVOList(new ArrayList<>());
-                List<String> emails = new ArrayList<>();
-                for (int i = 0; i < (jsonObject.getString("email").length() - jsonObject.getString("email").replaceAll("@", "").length()); i++) {
-                    emails.add(jsonObject.getString("email"));
-                }
-                for (String email : emails) {
-                    TabEmailHomePageVO tabEmailHomePageVO = new TabEmailHomePageVO();
-                    tabEmailHomePageVO.setId(0);
-                    tabEmailHomePageVO.setIsEmail(true);
-                    tabEmailHomePageVO.setDescricao(email);
-                    tabEmpresaVO.getTabEmailHomePageVOList().add(tabEmailHomePageVO);
-                }
-            }
-
-            if (!jsonObject.getString("telefone").equals("")) {
-                if (tabEmpresaVO.getTabTelefoneVOList() == null)
-                    tabEmpresaVO.setTabTelefoneVOList(new ArrayList<>());
-                List<String> telefones = new ArrayList<>();
-                for (String telefoneTemp : jsonObject.getString("telefone").replaceAll("[-]", "").split("/")) {
-                    telefoneTemp = telefoneTemp.substring(telefoneTemp.length() - 9).replaceAll("[\\-/.() \\[\\]]", "");
-                    if (telefoneTemp.length() == 8 && Integer.parseInt(telefoneTemp.substring(0, 1)) >= 8)
-                        telefoneTemp = "9" + telefoneTemp;
-                    telefones.add(telefoneTemp);
-                }
-                for (String telefone : telefones) {
-                    TabTelefoneVO tabTelefoneVO = new TabTelefoneVO();
-                    tabTelefoneVO.setId(0);
-                    tabTelefoneVO.setDescricao(telefone);
-                    tabTelefoneVO.setSisTelefoneOperadoraVO(new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVO(2));
-                    tabTelefoneVO.setSisTelefoneOperadora_id(tabTelefoneVO.getSisTelefoneOperadoraVO().getId());
-                    tabEmpresaVO.getTabTelefoneVOList().add(tabTelefoneVO);
-                }
-
-            }
-
-            tabEmpresaVO.setTabEmpresaReceitaFederalVOList(getTabEmpresaReceitaFederalVO(jsonObject));
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (empresaVO == null) {
+            empresaVO = new TabEmpresaVO(1);
         }
-        return tabEmpresaVO;
+        empresaVO.setCnpj(jsonObject.getString("cnpj"));
+        empresaVO.setRazao(jsonObject.getString("nome"));
+        empresaVO.setFantasia(jsonObject.getString("fantasia"));
+        if (empresaVO.getFantasia().equals("")) empresaVO.setFantasia("***");
+        if (jsonObject.getString("abertura") != null)
+            empresaVO.setDataAbertura(Date.valueOf(LocalDate.parse(jsonObject.getString("abertura"), DTF_DATA)));
+        empresaVO.setNaturezaJuridica(jsonObject.getString("natureza_juridica"));
+
+        TabEnderecoVO enderecoVO;
+        if (empresaVO.getTabEnderecoVOList() == null)
+            empresaVO.setTabEnderecoVOList(FXCollections.observableArrayList(enderecoVO = new TabEnderecoVO(1)));
+        else
+            empresaVO.getTabEnderecoVOList().set(0, enderecoVO = new TabEnderecoVO(1));
+        if (jsonObject.getString("situacao").toLowerCase().equals("ativa")) {
+            enderecoVO.setCep(jsonObject.getString("cep"));
+            enderecoVO.setLogradouro(jsonObject.getString("logradouro"));
+            enderecoVO.setNumero(jsonObject.getString("numero"));
+            enderecoVO.setComplemento(jsonObject.getString("complemento"));
+            enderecoVO.setBairro(jsonObject.getString("bairro"));
+            enderecoVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(jsonObject.getString("municipio")));
+            enderecoVO.setSisMunicipio_id(enderecoVO.getSisMunicipioVO().getId());
+            enderecoVO.setPontoReferencia("");
+        }
+
+        String wsEmail = jsonObject.getString("email");
+        if (empresaVO.getTabEmailHomePageVOList() == null)
+            empresaVO.setTabEmailHomePageVOList(new ArrayList<>());
+        if (!wsEmail.equals(""))
+            if (empresaVO.getTabEmailHomePageVOList().stream().noneMatch(e -> e.getDescricao().equals(wsEmail)))
+                empresaVO.getTabEmailHomePageVOList().add(new TabEmailHomePageVO(wsEmail, true));
+
+        String wsTelefone = jsonObject.getString("telefone");
+        if (empresaVO.getTabTelefoneVOList() == null)
+            empresaVO.setTabTelefoneVOList(new ArrayList<>());
+        if (!wsTelefone.equals("")) {
+            Pattern p = Pattern.compile("\\d{4}-\\d{4}");
+            Matcher m = p.matcher(wsTelefone);
+            String fone;
+            while (m.find())
+                if (empresaVO.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(m.group().replaceAll("\\D", "")))) {
+                    if ((fone = m.group().replaceAll("\\D", "")).charAt(0) >= 8)
+                        fone = "9" + fone;
+                    empresaVO.getTabTelefoneVOList().add(new TabTelefoneVO(fone));
+                }
+        }
+
+        empresaVO.setTabEmpresaReceitaFederalVOList(getTabEmpresaReceitaFederalVO(jsonObject));
+
+        return empresaVO;
     }
 
 
     List<TabEmpresaReceitaFederalVO> getTabEmpresaReceitaFederalVO(JSONObject object) {
         List<TabEmpresaReceitaFederalVO> receitaFederalVOList = new ArrayList<>();
         jsonArray = jsonObject.getJSONArray("atividade_principal");
+        for (String atividade : jsonArray.getString())
+
         for (int i = 0; i < jsonArray.length(); i++)
             receitaFederalVOList.add(new TabEmpresaReceitaFederalVO(0, 0, 1, jsonArray.getJSONObject(i).getString("code"),
                     jsonArray.getJSONObject(i).getString("text")));

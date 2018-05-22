@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 public interface Constants {
     String COPYRIGHT = "Café Perfeito " + "\u00a9 " + LocalDate.now().getYear();

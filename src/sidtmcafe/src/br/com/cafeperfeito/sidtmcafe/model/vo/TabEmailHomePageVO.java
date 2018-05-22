@@ -12,6 +12,12 @@ public class TabEmailHomePageVO extends RecursiveTreeObject<TabEmailHomePageVO> 
     public TabEmailHomePageVO() {
     }
 
+    public TabEmailHomePageVO(String descricao, boolean isEmail) {
+        this.id = new SimpleIntegerProperty(0);
+        this.descricao = new SimpleStringProperty(descricao);
+        this.isEmail = new SimpleBooleanProperty(isEmail);
+    }
+
     public int getId() {
         return idProperty().get();
     }

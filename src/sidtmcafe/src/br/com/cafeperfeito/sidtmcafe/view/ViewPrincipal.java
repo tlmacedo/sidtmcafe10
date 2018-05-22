@@ -1,8 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.view;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
-import br.com.cafeperfeito.sidtmcafe.model.dao.TabColaboradorDAO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabColaboradorVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceOpenView;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema;
 import javafx.application.Application;
@@ -13,9 +11,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class ViewPrincipal extends Application implements Constants {
 

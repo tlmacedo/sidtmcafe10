@@ -2,7 +2,6 @@ package br.com.cafeperfeito.sidtmcafe.service;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 
 public class ServiceDataHora {
 

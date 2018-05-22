@@ -41,7 +41,7 @@ public class WsCepPostmonDAO extends BuscaWebService implements Constants {
         return wsCepPostmonVO;
     }
 
-    public TabEnderecoVO getTabEnderecoVO(String cep) {
+    public TabEnderecoVO getTabEnderecoVO(int tipEnd, String cep) {
         TabEnderecoVO enderecoVO = null;
         jsonObject = getJsonObjectWebService(WS_POSTMON_URL + cep);
 
@@ -49,7 +49,7 @@ public class WsCepPostmonDAO extends BuscaWebService implements Constants {
             return enderecoVO;
 
         try {
-            enderecoVO = new TabEnderecoVO(1);
+            enderecoVO = new TabEnderecoVO(tipEnd);
             enderecoVO.setCep(jsonObject.getString("cep"));
             enderecoVO.setLogradouro(jsonObject.getString("logradouro"));
             enderecoVO.setNumero("");

@@ -43,7 +43,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
     Image imageDialog;
     ImageView imageViewDialog;
 
-    ProgressBar progressBarDialog;
+    ProgressBar progressBarDialog = new ProgressBar();
     ProgressIndicator progressIndicatorDialog;
 
     HBox hBoxDialog;
@@ -182,7 +182,8 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
             int random = (int) (Math.random() * IMAGE_SPLASH.length);
             imageViewDialog = new ImageView();
             addImagem(IMAGE_SPLASH[random]);
-            vBoxDialog.getChildren().addAll(imageViewDialog, lblMensagem);
+            vBoxDialog.getChildren().add(imageViewDialog);
+            vBoxDialog.getChildren().add(lblMensagem);
         } else {
             progressIndicatorDialog = new ProgressIndicator();
             progressIndicatorDialog.progressProperty().bind(taskDialog.progressProperty());
@@ -191,7 +192,6 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
             vBoxDialog.getChildren().add(hBoxDialog);
         }
 
-        progressBarDialog = new ProgressBar();
 
         if (geraMsgRetornoDialog) {
             textArea = new JFXTextArea();
@@ -219,7 +219,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         comboBox = new JFXComboBox();
         comboBox.getItems().setAll(list);
         comboBox.getSelectionModel().select(0);
-        //comboBox.setPromptText(getPromptText());
+        comboBox.setPromptText(getPromptText());
 
         vBoxDialog.getChildren().add(comboBox);
 
@@ -310,6 +310,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
             botaoOk.setDefaultButton(true);
             botaoOk.setDisable(true);
         }
+
         dialogPane.setContent(preencheDialogBasico());
 
         contagemRegressiva(30);

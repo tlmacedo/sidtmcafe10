@@ -2,6 +2,7 @@ module sidtmcafe {
     exports br.com.cafeperfeito.sidtmcafe;
     exports br.com.cafeperfeito.sidtmcafe.view;
     exports br.com.cafeperfeito.sidtmcafe.controller;
+    exports br.com.cafeperfeito.sidtmcafe.teste;
 
     requires javafx.controls;
     requires java.desktop;

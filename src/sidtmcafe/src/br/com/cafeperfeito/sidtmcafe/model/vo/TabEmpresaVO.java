@@ -1,5 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
+import br.com.cafeperfeito.sidtmcafe.model.dao.SisSituacaoSistemaDAO;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.*;
 
@@ -25,6 +26,17 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
     StringProperty cnpj, ie, razao, fantasia, naturezaJuridica;
 
     public TabEmpresaVO() {
+    }
+
+    public TabEmpresaVO(int sisSituacaoSistema_id) {
+        this.id = new SimpleIntegerProperty(0);
+        this.isEmpresa = new SimpleBooleanProperty(true);
+        this.isLoja = new SimpleBooleanProperty(false);
+        this.isCliente = new SimpleBooleanProperty(true);
+        this.isFornecedor = new SimpleBooleanProperty(false);
+        this.isTransportadora = new SimpleBooleanProperty(false);
+        this.sisSituacaoSistema_id = new SimpleIntegerProperty(sisSituacaoSistema_id);
+        this.sisSituacaoSistemaVO = new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(sisSituacaoSistema_id);
     }
 
     public SisSituacaoSistemaVO getSisSituacaoSistemaVO() {

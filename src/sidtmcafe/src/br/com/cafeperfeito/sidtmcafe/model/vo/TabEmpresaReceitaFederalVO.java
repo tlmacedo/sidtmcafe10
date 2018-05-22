@@ -90,7 +90,7 @@ public class TabEmpresaReceitaFederalVO extends RecursiveTreeObject<TabEmpresaRe
     public String getDetalheReceitaFederal() {
         if (str_KeyProperty().get() != "")
             return "[item]: " + str_KeyProperty().get() +
-                    ";    [descrição]: " + str_ValueProperty().get();
+                    ";      [descrição]: " + str_ValueProperty().get();
         return "";
     }
 

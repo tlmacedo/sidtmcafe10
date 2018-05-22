@@ -12,11 +12,8 @@ import javafx.util.Callback;
 import javafx.util.Pair;
 
 import javax.swing.text.MaskFormatter;
-import java.io.BufferedWriter;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ServiceFormatarDado {
     String mascara;
