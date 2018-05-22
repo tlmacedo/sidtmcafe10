@@ -14,133 +14,142 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 //import br.com.cafeperfeito.sidtmcafe.service.FormatarDado;
 
 public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
 
-    JSONObject jsonObject;
-    JSONArray jsonArray;
-
-    WsCnpjReceitaWsVO tabEmpresaVO;
+    WsCnpjReceitaWsVO wsCnpjReceitaWsVO;
 
     public WsCnpjReceitaWsVO getWsCnpjReceitaWsVO(String cnpj) {
-        jsonObject = getJsonObjectHttpUrlConnection(WS_RECEITAWS_URL + cnpj, WS_RECEITAWS_TOKEN, "/days/0");
+        JSONObject jsonObject = getJsonObjectHttpUrlConnection(WS_RECEITAWS_URL + cnpj, WS_RECEITAWS_TOKEN, "/days/0");
         if (jsonObject == null)
-            return tabEmpresaVO = null;
+            return wsCnpjReceitaWsVO = null;
         try {
-            tabEmpresaVO = new WsCnpjReceitaWsVO();
+            wsCnpjReceitaWsVO = new WsCnpjReceitaWsVO();
 
-            tabEmpresaVO.setStatus(jsonObject.getString("status"));
-            if (tabEmpresaVO.getStatus().equals("ERROR")) {
-                tabEmpresaVO.setMessage(jsonObject.getString("message"));
-                return tabEmpresaVO = null;
+            wsCnpjReceitaWsVO.setStatus(jsonObject.getString("status"));
+            if (wsCnpjReceitaWsVO.getStatus().equals("ERROR")) {
+                wsCnpjReceitaWsVO.setMessage(jsonObject.getString("message"));
+                return wsCnpjReceitaWsVO = null;
             }
-            tabEmpresaVO.setCnpj(jsonObject.getString("cnpj"));
-            tabEmpresaVO.setTipo(jsonObject.getString("tipo"));
-            tabEmpresaVO.setAbertura(jsonObject.getString("abertura"));
-            tabEmpresaVO.setNome(jsonObject.getString("nome"));
-            if (jsonObject.getString("fantasia").equals("")) tabEmpresaVO.setFantasia("***");
-            else tabEmpresaVO.setFantasia(jsonObject.getString("fantasia"));
+            wsCnpjReceitaWsVO.setCnpj(jsonObject.getString("cnpj"));
+            wsCnpjReceitaWsVO.setTipo(jsonObject.getString("tipo"));
+            if (jsonObject.getString("abertura") != null)
+                wsCnpjReceitaWsVO.setAbertura(Date.valueOf(LocalDate.parse(jsonObject.getString("abertura"), DTF_DATA)));
 
-            jsonArray = jsonObject.getJSONArray("atividade_principal");
-            List<Pair<String, String>> listAtividadePrincipal = new ArrayList<>();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                listAtividadePrincipal.add(new Pair<String, String>(jsonArray.getJSONObject(i).getString("code"),
-                        jsonArray.getJSONObject(i).getString("text")));
+
+            wsCnpjReceitaWsVO.setNome(jsonObject.getString("nome"));
+            wsCnpjReceitaWsVO.setFantasia(jsonObject.getString("fantasia"));
+            if (wsCnpjReceitaWsVO.getFantasia().equals("")) wsCnpjReceitaWsVO.setFantasia("***");
+
+            JSONArray listAtividadePrincipal = jsonObject.getJSONArray("atividade_principal");
+            if (listAtividadePrincipal != null) {
+                wsCnpjReceitaWsVO.setAtividadePrincipal(new ArrayList<>());
+                for (int i = 0; i < listAtividadePrincipal.length(); i++)
+                    wsCnpjReceitaWsVO.getAtividadePrincipal()
+                            .add(new TabEmpresaReceitaFederalVO(0, 0, 1,
+                                    listAtividadePrincipal.getJSONObject(i).getString("code"),
+                                    listAtividadePrincipal.getJSONObject(i).getString("text")));
             }
-            tabEmpresaVO.setAtividadePrincipal(listAtividadePrincipal);
 
-            jsonArray = jsonObject.getJSONArray("atividades_secundarias");
-            List<Pair<String, String>> listAtividadesSecundarias = new ArrayList<>();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                listAtividadesSecundarias.add(new Pair<String, String>(jsonArray.getJSONObject(i).getString("code"),
-                        jsonArray.getJSONObject(i).getString("text")));
+            JSONArray listAtividadeSecundaria = jsonObject.getJSONArray("atividades_secundarias");
+            if (listAtividadeSecundaria != null) {
+                wsCnpjReceitaWsVO.setAtividadesSecundarias(new ArrayList<>());
+                for (int i = 0; i < listAtividadeSecundaria.length(); i++)
+                    wsCnpjReceitaWsVO.getAtividadesSecundarias()
+                            .add(new TabEmpresaReceitaFederalVO(0, 0, 0,
+                                    listAtividadeSecundaria.getJSONObject(i).getString("code"),
+                                    listAtividadeSecundaria.getJSONObject(i).getString("text")));
             }
-            tabEmpresaVO.setAtividadesSecundarias(listAtividadesSecundarias);
 
-            jsonArray = jsonObject.getJSONArray("qsa");
-            List<Pair<String, String>> listQsa = new ArrayList<>();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                listQsa.add(new Pair<String, String>(jsonArray.getJSONObject(i).getString("qual"),
-                        jsonArray.getJSONObject(i).getString("nome")));
+            JSONArray listQsa = jsonObject.getJSONArray("qsa");
+            if (listQsa != null) {
+                wsCnpjReceitaWsVO.setQsa(new ArrayList<>());
+                for (int i = 0; i < listQsa.length(); i++) {
+                    wsCnpjReceitaWsVO.getQsa()
+                            .add(new TabEmpresaReceitaFederalVO(0, 0, 2,
+                                    listQsa.getJSONObject(i).getString("code"),
+                                    listQsa.getJSONObject(i).getString("text")));
+                }
             }
-            tabEmpresaVO.setQsa(listQsa);
 
-            tabEmpresaVO.setNaturezaJuridica(jsonObject.getString("natureza_juridica"));
-            tabEmpresaVO.setLogradouro(jsonObject.getString("logradouro"));
-            tabEmpresaVO.setNumero(jsonObject.getString("numero"));
-            tabEmpresaVO.setComplemento(jsonObject.getString("complemento"));
-            tabEmpresaVO.setCep(jsonObject.getString("cep"));
-            tabEmpresaVO.setBairro(jsonObject.getString("bairro"));
-            tabEmpresaVO.setMunicipio(jsonObject.getString("municipio"));
-            tabEmpresaVO.setUf(jsonObject.getString("uf"));
-            tabEmpresaVO.setEmail(jsonObject.getString("email"));
-            tabEmpresaVO.setTelefone(jsonObject.getString("telefone"));
-            tabEmpresaVO.setEfr(jsonObject.getString("efr"));
-            tabEmpresaVO.setSituacao(jsonObject.getString("situacao"));
-            tabEmpresaVO.setDataSituacao(jsonObject.getString("data_situacao"));
-            tabEmpresaVO.setMotivoSituacao(jsonObject.getString("motivo_situacao"));
-            tabEmpresaVO.setSituacaoEspecial(jsonObject.getString("situacao_especial"));
-            tabEmpresaVO.setDataSituacaoEspecial(jsonObject.getString("data_situacao_especial"));
-            tabEmpresaVO.setCapitalSocial(jsonObject.getString("capital_social"));
-            tabEmpresaVO.setExtra("");//jsonObject.getString("extra"));
+            wsCnpjReceitaWsVO.setNaturezaJuridica(jsonObject.getString("natureza_juridica"));
+            wsCnpjReceitaWsVO.setLogradouro(jsonObject.getString("logradouro"));
+            wsCnpjReceitaWsVO.setNumero(jsonObject.getString("numero"));
+            wsCnpjReceitaWsVO.setComplemento(jsonObject.getString("complemento"));
+            wsCnpjReceitaWsVO.setCep(jsonObject.getString("cep"));
+            wsCnpjReceitaWsVO.setBairro(jsonObject.getString("bairro"));
+            wsCnpjReceitaWsVO.setMunicipio(jsonObject.getString("municipio"));
+            wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCnpjReceitaWsVO.getMunicipio()));
+            wsCnpjReceitaWsVO.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipioVO().getId());
+            wsCnpjReceitaWsVO.setSisUFVO(wsCnpjReceitaWsVO.getSisMunicipioVO().getUfVO());
+            wsCnpjReceitaWsVO.setUf(wsCnpjReceitaWsVO.getSisUFVO().getSigla());
+            wsCnpjReceitaWsVO.setEmail(jsonObject.getString("email") + " teste@testegeral.com contato@cafeperfeito.com.br");
+            wsCnpjReceitaWsVO.setTelefone(jsonObject.getString("telefone"));
+            wsCnpjReceitaWsVO.setEfr(jsonObject.getString("efr"));
+            wsCnpjReceitaWsVO.setSituacao(jsonObject.getString("situacao"));
+            if (jsonObject.getString("data_situacao") != null && !jsonObject.getString("data_situacao").isEmpty())
+                wsCnpjReceitaWsVO.setDataSituacao(Date.valueOf(LocalDate.parse(jsonObject.getString("data_situacao"), DTF_DATA)));
+            wsCnpjReceitaWsVO.setMotivoSituacao(jsonObject.getString("motivo_situacao"));
+            wsCnpjReceitaWsVO.setSituacaoEspecial(jsonObject.getString("situacao_especial"));
+            if (jsonObject.getString("data_situacao_especial") != null && !jsonObject.getString("data_situacao_especial").isEmpty())
+                wsCnpjReceitaWsVO.setDataSituacaoEspecial(Date.valueOf(LocalDate.parse(jsonObject.getString("data_situacao_especial"), DTF_DATA)));
+            wsCnpjReceitaWsVO.setCapitalSocial(jsonObject.getString("capital_social"));
+            wsCnpjReceitaWsVO.setExtra("");//jsonObject.getString("extra"));
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return tabEmpresaVO;
+        return wsCnpjReceitaWsVO;
     }
 
     public TabEmpresaVO getTabEmpresaVO(TabEmpresaVO empresaVO, String cnpj) {
-        jsonObject = getJsonObjectHttpUrlConnection(WS_RECEITAWS_URL + cnpj, WS_RECEITAWS_TOKEN, "/days/0");
-        if (jsonObject == null)
+        if (((wsCnpjReceitaWsVO = getWsCnpjReceitaWsVO(cnpj)) == null) || (wsCnpjReceitaWsVO.getStatus().equals("ERROR")))
             return empresaVO;
 
-        if (jsonObject.getString("status").equals("ERROR"))
-            return empresaVO;
-
-        if (empresaVO == null) {
+        if (empresaVO == null)
             empresaVO = new TabEmpresaVO(1);
-        }
-        empresaVO.setCnpj(jsonObject.getString("cnpj"));
-        empresaVO.setRazao(jsonObject.getString("nome"));
-        empresaVO.setFantasia(jsonObject.getString("fantasia"));
-        if (empresaVO.getFantasia().equals("")) empresaVO.setFantasia("***");
-        if (jsonObject.getString("abertura") != null)
-            empresaVO.setDataAbertura(Date.valueOf(LocalDate.parse(jsonObject.getString("abertura"), DTF_DATA)));
-        empresaVO.setNaturezaJuridica(jsonObject.getString("natureza_juridica"));
+
+        empresaVO.setCnpj(wsCnpjReceitaWsVO.getCnpj());
+        empresaVO.setRazao(wsCnpjReceitaWsVO.getNome());
+        empresaVO.setFantasia(wsCnpjReceitaWsVO.getFantasia());
+        empresaVO.setDataAbertura(wsCnpjReceitaWsVO.getAbertura());
+        empresaVO.setNaturezaJuridica(wsCnpjReceitaWsVO.getNaturezaJuridica());
 
         TabEnderecoVO enderecoVO;
         if (empresaVO.getTabEnderecoVOList() == null)
             empresaVO.setTabEnderecoVOList(FXCollections.observableArrayList(enderecoVO = new TabEnderecoVO(1)));
         else
             empresaVO.getTabEnderecoVOList().set(0, enderecoVO = new TabEnderecoVO(1));
-        if (jsonObject.getString("situacao").toLowerCase().equals("ativa")) {
-            enderecoVO.setCep(jsonObject.getString("cep"));
-            enderecoVO.setLogradouro(jsonObject.getString("logradouro"));
-            enderecoVO.setNumero(jsonObject.getString("numero"));
-            enderecoVO.setComplemento(jsonObject.getString("complemento"));
-            enderecoVO.setBairro(jsonObject.getString("bairro"));
-            enderecoVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(jsonObject.getString("municipio")));
-            enderecoVO.setSisMunicipio_id(enderecoVO.getSisMunicipioVO().getId());
+        if (wsCnpjReceitaWsVO.getSituacao().toLowerCase().equals("ativa")) {
+            enderecoVO.setCep(wsCnpjReceitaWsVO.getCep());
+            enderecoVO.setLogradouro(wsCnpjReceitaWsVO.getLogradouro());
+            enderecoVO.setNumero(wsCnpjReceitaWsVO.getNumero());
+            enderecoVO.setComplemento(wsCnpjReceitaWsVO.getComplemento());
+            enderecoVO.setBairro(wsCnpjReceitaWsVO.getBairro());
+            enderecoVO.setSisMunicipioVO(wsCnpjReceitaWsVO.getSisMunicipioVO());
+            enderecoVO.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipio_id());
             enderecoVO.setPontoReferencia("");
         }
 
-        String wsEmail = jsonObject.getString("email");
         if (empresaVO.getTabEmailHomePageVOList() == null)
             empresaVO.setTabEmailHomePageVOList(new ArrayList<>());
-        if (!wsEmail.equals(""))
-            if (empresaVO.getTabEmailHomePageVOList().stream().noneMatch(e -> e.getDescricao().equals(wsEmail)))
-                empresaVO.getTabEmailHomePageVOList().add(new TabEmailHomePageVO(wsEmail, true));
+        if (!wsCnpjReceitaWsVO.getEmail().equals("")) {
+            Pattern p = Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}", Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(wsCnpjReceitaWsVO.getEmail());
+            String mail;
+            while (m.find())
+                if (empresaVO.getTabEmailHomePageVOList().stream().noneMatch(e -> e.getDescricao().equals(m.group())))
+                    empresaVO.getTabEmailHomePageVOList().add(new TabEmailHomePageVO(m.group(), true));
 
-        String wsTelefone = jsonObject.getString("telefone");
+        }
+
         if (empresaVO.getTabTelefoneVOList() == null)
             empresaVO.setTabTelefoneVOList(new ArrayList<>());
-        if (!wsTelefone.equals("")) {
+        if (!wsCnpjReceitaWsVO.getTelefone().equals("")) {
             Pattern p = Pattern.compile("\\d{4}-\\d{4}");
-            Matcher m = p.matcher(wsTelefone);
+            Matcher m = p.matcher(wsCnpjReceitaWsVO.getTelefone());
             String fone;
             while (m.find())
                 if (empresaVO.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(m.group().replaceAll("\\D", "")))) {
@@ -150,51 +159,14 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
                 }
         }
 
-        empresaVO.setTabEmpresaReceitaFederalVOList(getTabEmpresaReceitaFederalVO(jsonObject));
+        empresaVO.setTabEmpresaReceitaFederalVOList(new ArrayList<>());
+
+        empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadePrincipal());
+        empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadesSecundarias());
+        empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getQsa());
 
         return empresaVO;
     }
 
-
-    List<TabEmpresaReceitaFederalVO> getTabEmpresaReceitaFederalVO(JSONObject object) {
-        List<TabEmpresaReceitaFederalVO> receitaFederalVOList = new ArrayList<>();
-        jsonArray = jsonObject.getJSONArray("atividade_principal");
-        for (String atividade : jsonArray.getString())
-
-        for (int i = 0; i < jsonArray.length(); i++)
-            receitaFederalVOList.add(new TabEmpresaReceitaFederalVO(0, 0, 1, jsonArray.getJSONObject(i).getString("code"),
-                    jsonArray.getJSONObject(i).getString("text")));
-
-
-        jsonArray = jsonObject.getJSONArray("atividades_secundarias");
-        for (int i = 0; i < jsonArray.length(); i++)
-            receitaFederalVOList.add(new TabEmpresaReceitaFederalVO(0, 0, 2, jsonArray.getJSONObject(i).getString("code"),
-                    jsonArray.getJSONObject(i).getString("text")));
-
-        jsonArray = jsonObject.getJSONArray("qsa");
-        for (int i = 0; i < jsonArray.length(); i++)
-            receitaFederalVOList.add(new TabEmpresaReceitaFederalVO(0, 0, 0, jsonArray.getJSONObject(i).getString("qual"),
-                    jsonArray.getJSONObject(i).getString("nome")));
-
-        receitaFederalVOList.add(new TabEmpresaReceitaFederalVO(0, 0, 0, "situacao",
-                jsonObject.getString("situacao")));
-
-        receitaFederalVOList.add(new TabEmpresaReceitaFederalVO(0, 0, 0, "data_situacao",
-                jsonObject.getString("data_situacao")));
-
-        receitaFederalVOList.add(new TabEmpresaReceitaFederalVO(0, 0, 0, "motivo_situacao",
-                jsonObject.getString("motivo_situacao")));
-
-        receitaFederalVOList.add(new TabEmpresaReceitaFederalVO(0, 0, 0, "situacao_especial",
-                jsonObject.getString("situacao_especial")));
-
-        receitaFederalVOList.add(new TabEmpresaReceitaFederalVO(0, 0, 0, "data_situacao_especial",
-                jsonObject.getString("data_situacao_especial")));
-
-        receitaFederalVOList.add(new TabEmpresaReceitaFederalVO(0, 0, 0, "capital_social", "R$ " +
-                ServiceFormatarDado.getValueMoeda(jsonObject.getString("capital_social"), 2)));
-
-        return receitaFederalVOList;
-    }
 
 }

@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.concurrent.TimeoutException;
 
 public class BuscaWebService {
-    Object retorno;
+    Object wsCnpjReceitaWsVO;
     BufferedReader bufferedReader;
     StringBuilder stringBuilder;
     String linhaRetorno = null;
@@ -25,8 +25,8 @@ public class BuscaWebService {
     public JSONObject getJsonObjectWebService(String strURL) {
         jsonObject = null;
         try {
-            retorno = new URL(strURL).openStream();
-            jsonObject = new JSONObject(getStringBuilder(retorno).toString());
+            wsCnpjReceitaWsVO = new URL(strURL).openStream();
+            jsonObject = new JSONObject(getStringBuilder(wsCnpjReceitaWsVO).toString());
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -47,9 +47,9 @@ public class BuscaWebService {
                 urlConnection.setRequestProperty("Authorization", "Bearer " + token);
             }
             urlConnection.connect();
-            retorno = urlConnection.getInputStream();
+            wsCnpjReceitaWsVO = urlConnection.getInputStream();
             if (urlConnection.getResponseCode() == 200)
-                jsonObject = new JSONObject(getStringBuilder(retorno).toString());
+                jsonObject = new JSONObject(getStringBuilder(wsCnpjReceitaWsVO).toString());
         } catch (SocketTimeoutException ex) {
             try {
                 urlConnection = (HttpURLConnection) new URL(strURL + compl).openConnection();
@@ -62,9 +62,9 @@ public class BuscaWebService {
                     urlConnection.setRequestProperty("Authorization", "Bearer " + token);
                 }
                 urlConnection.connect();
-                retorno = urlConnection.getInputStream();
+                wsCnpjReceitaWsVO = urlConnection.getInputStream();
                 if (urlConnection.getResponseCode() == 200)
-                    jsonObject = new JSONObject(getStringBuilder(retorno));
+                    jsonObject = new JSONObject(getStringBuilder(wsCnpjReceitaWsVO));
             } catch (Exception ex1) {
                 if (!(ex1 instanceof TimeoutException))
                     ex1.printStackTrace();

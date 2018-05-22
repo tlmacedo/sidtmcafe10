@@ -1,46 +1,110 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.util.Pair;
 
+import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.List;
 
 public class WsCnpjReceitaWsVO extends RecursiveTreeObject<WsCnpjReceitaWsVO> {
 
-    List<Pair<String, String>> atividadePrincipal, atividadesSecundarias, qsa;
+    List<TabEmpresaReceitaFederalVO> atividadePrincipal, atividadesSecundarias, qsa;
 
-    StringProperty status, message, cnpj, tipo, abertura, nome, fantasia, naturezaJuridica,
+    SisMunicipioVO sisMunicipioVO;
+    SisUFVO sisUFVO;
+
+    IntegerProperty sisMunicipio_id;
+
+    Date abertura, dataSituacao, dataSituacaoEspecial;
+
+    StringProperty status, message, cnpj, tipo, nome, fantasia, naturezaJuridica,
             logradouro, numero, complemento, cep, bairro, municipio, uf, email, telefone, efr,
-            situacao, dataSituacao, motivoSituacao, situacaoEspecial, dataSituacaoEspecial,
+            situacao, motivoSituacao, situacaoEspecial,
             capitalSocial, extra;
 
     public WsCnpjReceitaWsVO() {
     }
 
-    public List<Pair<String, String>> getAtividadePrincipal() {
+    public List<TabEmpresaReceitaFederalVO> getAtividadePrincipal() {
         return atividadePrincipal;
     }
 
-    public void setAtividadePrincipal(List<Pair<String, String>> atividadePrincipal) {
+    public void setAtividadePrincipal(List<TabEmpresaReceitaFederalVO> atividadePrincipal) {
         this.atividadePrincipal = atividadePrincipal;
     }
 
-    public List<Pair<String, String>> getAtividadesSecundarias() {
+    public List<TabEmpresaReceitaFederalVO> getAtividadesSecundarias() {
         return atividadesSecundarias;
     }
 
-    public void setAtividadesSecundarias(List<Pair<String, String>> atividadesSecundarias) {
+    public void setAtividadesSecundarias(List<TabEmpresaReceitaFederalVO> atividadesSecundarias) {
         this.atividadesSecundarias = atividadesSecundarias;
     }
 
-    public List<Pair<String, String>> getQsa() {
+    public List<TabEmpresaReceitaFederalVO> getQsa() {
         return qsa;
     }
 
-    public void setQsa(List<Pair<String, String>> qsa) {
+    public void setQsa(List<TabEmpresaReceitaFederalVO> qsa) {
         this.qsa = qsa;
+    }
+
+    public SisMunicipioVO getSisMunicipioVO() {
+        return sisMunicipioVO;
+    }
+
+    public void setSisMunicipioVO(SisMunicipioVO sisMunicipioVO) {
+        this.sisMunicipioVO = sisMunicipioVO;
+    }
+
+    public SisUFVO getSisUFVO() {
+        return sisUFVO;
+    }
+
+    public void setSisUFVO(SisUFVO sisUFVO) {
+        this.sisUFVO = sisUFVO;
+    }
+
+    public int getSisMunicipio_id() {
+        return sisMunicipio_idProperty().get();
+    }
+
+    public IntegerProperty sisMunicipio_idProperty() {
+        if (sisMunicipio_id == null) sisMunicipio_id = new SimpleIntegerProperty(0);
+        return sisMunicipio_id;
+    }
+
+    public void setSisMunicipio_id(int sisMunicipio_id) {
+        sisMunicipio_idProperty().set(sisMunicipio_id);
+    }
+
+    public Date getAbertura() {
+        return abertura;
+    }
+
+    public void setAbertura(Date abertura) {
+        this.abertura = abertura;
+    }
+
+    public Date getDataSituacao() {
+        return dataSituacao;
+    }
+
+    public void setDataSituacao(Date dataSituacao) {
+        this.dataSituacao = dataSituacao;
+    }
+
+    public Date getDataSituacaoEspecial() {
+        return dataSituacaoEspecial;
+    }
+
+    public void setDataSituacaoEspecial(Date dataSituacaoEspecial) {
+        this.dataSituacaoEspecial = dataSituacaoEspecial;
     }
 
     public String getStatus() {
@@ -93,19 +157,6 @@ public class WsCnpjReceitaWsVO extends RecursiveTreeObject<WsCnpjReceitaWsVO> {
 
     public void setTipo(String tipo) {
         tipoProperty().set(tipo);
-    }
-
-    public String getAbertura() {
-        return aberturaProperty().get();
-    }
-
-    public StringProperty aberturaProperty() {
-        if (abertura == null) abertura = new SimpleStringProperty("");
-        return abertura;
-    }
-
-    public void setAbertura(String abertura) {
-        aberturaProperty().set(abertura);
     }
 
     public String getNome() {
@@ -290,19 +341,6 @@ public class WsCnpjReceitaWsVO extends RecursiveTreeObject<WsCnpjReceitaWsVO> {
         situacaoProperty().set(situacao);
     }
 
-    public String getDataSituacao() {
-        return dataSituacaoProperty().get();
-    }
-
-    public StringProperty dataSituacaoProperty() {
-        if (dataSituacao == null) dataSituacao = new SimpleStringProperty("");
-        return dataSituacao;
-    }
-
-    public void setDataSituacao(String dataSituacao) {
-        dataSituacaoProperty().set(dataSituacao);
-    }
-
     public String getMotivoSituacao() {
         return motivoSituacaoProperty().get();
     }
@@ -327,19 +365,6 @@ public class WsCnpjReceitaWsVO extends RecursiveTreeObject<WsCnpjReceitaWsVO> {
 
     public void setSituacaoEspecial(String situacaoEspecial) {
         situacaoEspecialProperty().set(situacaoEspecial);
-    }
-
-    public String getDataSituacaoEspecial() {
-        return dataSituacaoEspecialProperty().get();
-    }
-
-    public StringProperty dataSituacaoEspecialProperty() {
-        if (dataSituacaoEspecial == null) dataSituacaoEspecial = new SimpleStringProperty("");
-        return dataSituacaoEspecial;
-    }
-
-    public void setDataSituacaoEspecial(String dataSituacaoEspecial) {
-        dataSituacaoEspecialProperty().set(dataSituacaoEspecial);
     }
 
     public String getCapitalSocial() {
