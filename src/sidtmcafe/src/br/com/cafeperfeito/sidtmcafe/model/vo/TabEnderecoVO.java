@@ -8,7 +8,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class TabEnderecoVO extends RecursiveTreeObject<TabEnderecoVO> {
+import java.util.List;
+
+public class TabEnderecoVO extends RecursiveTreeObject<TabEnderecoVO>  {
 
     SisTipoEnderecoVO sisTipoEnderecoVO;
     SisMunicipioVO sisMunicipioVO;

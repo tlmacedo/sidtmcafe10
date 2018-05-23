@@ -1,6 +1,7 @@
 package br.com.cafeperfeito.sidtmcafe.controller;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
+import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.dao.*;
 import br.com.cafeperfeito.sidtmcafe.model.model.TabModel;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
@@ -9,7 +10,10 @@ import br.com.cafeperfeito.sidtmcafe.view.ViewCadastroEmpresa;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
@@ -22,7 +26,9 @@ import javafx.util.Callback;
 import javafx.util.Pair;
 
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -167,6 +173,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     case F5:
                         if (!getStatusBarTecla().contains(event.getCode().toString())) break;
                         if (!validarDados()) break;
+                        salvarEmpresa();
                         setStatusFormulario("pesquisa");
                         break;
                     case F3:
@@ -439,6 +446,21 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             setTabContatoVO(getTabContatoVOList().get(newValue.intValue()));
         });
 
+//        tabEnderecoVOList.addListener((ListChangeListener<? super TabEnderecoVO>) c -> atualizaListaEndereco());
+        tabEnderecoVOList.addListener((ListChangeListener) c -> atualizaListaEndereco());
+
+        tabEmailHomePageVOList.addListener(new ListChangeListener<TabEmailHomePageVO>() {
+            @Override
+            public void onChanged(Change<? extends TabEmailHomePageVO> c) {
+                atualizaListaEmailHomePage();
+                while (c.next()) {
+                    System.out.println("Was added? " + c.wasAdded());
+                    System.out.println("Was removed? " + c.wasRemoved());
+                    System.out.println("Was replaced? " + c.wasReplaced());
+                    System.out.println("Was permutated? " + c.wasPermutated());
+                }
+            }
+        });
 
     }
 
@@ -476,9 +498,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     FilteredList<TabEmpresaVO> tabEmpresaVOFilteredList;
     TabEmpresaVO tabEmpresaVO;
     TabContatoVO tabContatoVO;
-    List<TabEnderecoVO> tabEnderecoVOList;
+    ObservableList<TabEnderecoVO> tabEnderecoVOList = FXCollections.observableArrayList();
     List<TabEnderecoVO> deletadosTabEnderecoVOList;
-    List<TabEmailHomePageVO> tabEmailHomePageVOList;
+    ObservableList<TabEmailHomePageVO> tabEmailHomePageVOList = FXCollections.observableArrayList();
     List<TabEmailHomePageVO> deletadosTabEmailHomePageVOList;
     List<TabTelefoneVO> tabTelefoneVOList;
     List<TabTelefoneVO> deletadosTabTelefoneVOList;
@@ -543,6 +565,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             case "editar":
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroEmpresa.getContent(), true);
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoCadastral.getContent(), false);
+                guardaDadosEdicao();
                 txtCNPJ.requestFocus();
                 statusBarTecla = STATUS_BAR_TECLA_EDITAR;
                 break;
@@ -573,8 +596,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         if (tabEmpresaVO == null)
             tabEmpresaVO = new TabEmpresaVO();
         this.tabEmpresaVO = tabEmpresaVO;
-        setTabEnderecoVOList(getTabEmpresaVO().getTabEnderecoVOList());
-        setTabEmailHomePageVOList(getTabEmpresaVO().getTabEmailHomePageVOList());
+        setTabEnderecoVOList(FXCollections.observableArrayList(getTabEmpresaVO().getTabEnderecoVOList()));
+        setTabEmailHomePageVOList(FXCollections.observableArrayList(getTabEmpresaVO().getTabEmailHomePageVOList()));
         setTabTelefoneVOList(getTabEmpresaVO().getTabTelefoneVOList());
         setTabContatoVOList(getTabEmpresaVO().getTabContatoVOList());
         setTabEmpresaReceitaFederalVOList(getTabEmpresaVO().getTabEmpresaReceitaFederalVOList());
@@ -585,10 +608,10 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         return tabEnderecoVOList;
     }
 
-    public void setTabEnderecoVOList(List tabEnderecoVOList) {
+    public void setTabEnderecoVOList(ObservableList<TabEnderecoVO> tabEnderecoVOList) {
         if (tabEnderecoVOList == null)
             tabEnderecoVOList = FXCollections.observableArrayList(new TabEnderecoVO(1));
-        this.tabEnderecoVOList = tabEnderecoVOList;
+        this.tabEnderecoVOList.setAll(tabEnderecoVOList);
         //atualizaListaEndereco();
     }
 
@@ -605,10 +628,10 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         return tabEmailHomePageVOList;
     }
 
-    public void setTabEmailHomePageVOList(List tabEmailHomePageVOList) {
-        if (tabEmailHomePageVOList == null)
-            tabEmailHomePageVOList = new ArrayList<>();
-        this.tabEmailHomePageVOList = tabEmailHomePageVOList;
+    public void setTabEmailHomePageVOList(ObservableList<TabEmailHomePageVO> tabEmailHomePageVOList) {
+//        if (tabEmailHomePageVOList == null)
+//            tabEmailHomePageVOList = FXCollections.observableList();
+        this.tabEmailHomePageVOList.setAll(tabEmailHomePageVOList);
         //atualizaListaEmailHomePage();
     }
 
@@ -910,6 +933,10 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         cboEndUF.getSelectionModel().select(0);
     }
 
+    void guardaDadosEdicao() {
+        deletadosTabEmailHomePageVOList = new ArrayList<>(tabEmailHomePageVOList);
+    }
+
     boolean validarDados() {
         if (validarDetalheEmpresa() && validarEnderecoPrincipal()) return true;
         return false;
@@ -1086,6 +1113,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 //    }
 //
     void keyDelete() {
+        System.out.println("Tentando deletar");
         if (listEndereco.isFocused() && listEndereco.getSelectionModel().getSelectedItem() != null) {
             if (listEndereco.getSelectionModel().getSelectedIndex() == 0) {
                 new ServiceAlertMensagem("proteção de dados!",
@@ -1100,10 +1128,16 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             }
         }
         if (listHomePage.isFocused() && listHomePage.getSelectionModel().getSelectedItem() != null) {
-            if (deletadosTabEmailHomePageVOList == null)
-                deletadosTabEmailHomePageVOList = new ArrayList<>();
-            deletadosTabEmailHomePageVOList.add(listHomePage.getSelectionModel().getSelectedItem());
+//            if (deletadosTabEmailHomePageVOList == null)
+//                deletadosTabEmailHomePageVOList = new ArrayList<>();
+//            deletadosTabEmailHomePageVOList.add(listHomePage.getSelectionModel().getSelectedItem());
             getTabEmailHomePageVOList().remove(listHomePage.getSelectionModel().getSelectedItem());
+        }
+        if (listEmail.isFocused() && listEmail.getSelectionModel().getSelectedItem() != null) {
+//            if (deletadosTabEmailHomePageVOList == null)
+//                deletadosTabEmailHomePageVOList = new ArrayList<>();
+//            deletadosTabEmailHomePageVOList.add(listHomePage.getSelectionModel().getSelectedItem());
+            getTabEmailHomePageVOList().remove(listEmail.getSelectionModel().getSelectedItem());
         }
 
 
@@ -1354,7 +1388,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
         return emailHomePageVO;
     }
-//
+
+    //
 //    TabTelefoneVO addEditTelefone(boolean isEmpresa, TabTelefoneVO telefoneVO) {
 //        String donoTelefone, strIco;
 //        if (isEmpresa)
@@ -1444,10 +1479,10 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 //        return contatoVO;
 //    }
 //
-//    void salvarEmpresa() {
-//        Connection conn = ConnectionFactory.getConnection(); // cria conexao com banco de dados
-//        try {
-//            conn.setAutoCommit(false);
+    void salvarEmpresa() {
+        Connection conn = ConnectionFactory.getConnection(); // cria conexao com banco de dados
+        try {
+            conn.setAutoCommit(false);
 //
 //            if (getTabEmpresaVO().getId() == 0)  // se id empresa==0 (empresa nova) ele inclui no banco
 //                getTabEmpresaVO().setId(new TabEmpresaDAO().insertTabEmpresaVO(conn, getTabEmpresaVO()));
@@ -1467,6 +1502,26 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 //                new RelEmpresaEnderecoDAO().insertrelEmpresaEnderecoVO(conn, getTabEmpresaVO().getId(), getTabEnderecoVOList().get(i).getId());
 //            }
 //
+
+            deletadosTabEmailHomePageVOList.stream().filter(del -> !del.getDescricao().equals(tabEmailHomePageVOList.toString())).forEach(del -> {
+                try {
+                    new RelEmpresaEmailHomePageDAO().dedeteRelEmpresaEmailHomePageVO(conn, getTabEmpresaVO().getId());
+                    System.out.println("del: [" + del.toString() + "]");
+                    new TabEmailHomePageDAO().deleteTabEmailHomePageVO(conn, del);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+            tabEmailHomePageVOList.stream().filter(mail -> mail.getDescricao().equals(deletadosTabEmailHomePageVOList.toString())).forEach(mail -> {
+                try {
+                    new TabEmailHomePageDAO().updateTabEmailHomePageVO(conn, mail);
+                    //new RelEmpresaEmailHomePageDAO().insertRelEmpresaEmailHomePageVO(conn,)
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+
+
 //            new RelEmpresaEmailHomePageDAO().dedeteRelEmpresaEmailHomePageVO(conn, getTabEmpresaVO().getId()); // apaga todos relacionamentos da empresa com email e homePage
 //            if (deletadosTabEmailHomePageVOList != null) // se tiver algum email ou home page deletado abre para percorrer lista de emails e homePage deletados
 //                for (int i = 0; i < deletadosTabEmailHomePageVOList.size(); i++)  // percorre lista de emails e homePage deletados
@@ -1553,15 +1608,15 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 //                    new TabEmpresaReceitaFederalDAO().updateTabEmpresaReceitaFederalVO(conn, getTabEmpresaReceitaFederalVOList().get(i));
 //            }
 //
-//            conn.commit();
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//            try {
-//                conn.rollback();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
+            conn.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
