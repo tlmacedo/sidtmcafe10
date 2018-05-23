@@ -12,6 +12,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -152,6 +153,11 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     return;
                 if (!ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedItem().getText().equals(getTituloTab()))
                     return;
+                ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedItem().setOnCloseRequest(event1 -> {
+                    if (!getStatusFormulario().toLowerCase().equals("pesquisa")) {
+                        event1.consume();
+                    }
+                });
                 switch (event.getCode()) {
                     case F1:
                         if (!getStatusBarTecla().contains(event.getCode().toString())) break;
@@ -166,6 +172,28 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         break;
                     case F3:
                         if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+//                        if (!getStatusBarFormulario().contains(event.getCode().toString())) break;
+//                        switch (getStatusFormulario().toLowerCase()) {
+//                            case "incluir":
+//                                if (new AlertMensagem("Cancelar inclusão", USUARIO_LOGADO_APELIDO
+//                                        + ", deseja cancelar inclusão no cadastro de empresa?",
+//                                        "ic_cadastro_empresas_white_24dp.png").getRetornoAlert_YES_NO().get() == ButtonType.NO)
+//                                    return;
+//                                limparCampoDadoCadastral();
+//                                break;
+//                            case "editar":
+//                                if (new AlertMensagem("Cancelar edição", USUARIO_LOGADO_APELIDO
+//                                        + ", deseja cancelar edição do cadastro de empresa?",
+//                                        "ic_cadastro_empresas_white_24dp.png").getRetornoAlert_YES_NO().get() == ButtonType.NO)
+//                                    return;
+//                                limparCampoDadoCadastral();
+//                                carregarListaEmpresa();
+//                                preencherTabelaEmpresa();
+//                                carregarPesquisaEmpresa(txtPesquisa.getText());
+//                                setTabEmpresaVO(tabEmpresaVOObservableList.get(indexObservableEmpresa));
+//                                break;
+//                        }
+//                        setStatusFormulario("Pesquisa");
                         switch (getStatusBarTecla()) {
                             case "incluir":
                                 break;
@@ -222,10 +250,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 //                    return;
 //                switch (event.getCode()) {
 //                    case F1:
-//                        if (!getStatusBarFormulario().contains(event.getCode().toString())) break;
-//                        setTabEmpresaVO(novaEmpresa());
-//                        setStatusFormulario("Incluir");
-//                        break;
+//
 //                    case F2:
 //                    case F5:
 //                        if (!getStatusBarFormulario().contains(event.getCode().toString())) break;
@@ -412,6 +437,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             if (newValue == null || newValue.intValue() < 0) return;
             setTabContatoVO(getTabContatoVOList().get(newValue.intValue()));
         });
+
     }
 
     @Override
@@ -438,7 +464,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     EventHandler<KeyEvent> eventHandlerCadastroEmpresa;
     String statusFormulario, statusBarTecla;
 
-    static String STATUS_BAR_TECLA_PESQUISA = "[F1-Novo]  [F3-Excluir]  [F4-Editar]  [F7-Pesquisar]  [F12-Sair]  ";
+    static String STATUS_BAR_TECLA_PESQUISA = "[F1-Novo]  [F4-Editar]  [F7-Pesquisar]  [F12-Sair]  ";
     static String STATUS_BAR_TECLA_EDITAR = "[F3-Cancelar edição]  [F5-Atualizar]  ";
     static String STATUS_BAR_TECLA_INCLUIR = "[F2-Incluir]  [F3-Cancelar inclusão]  ";
 
