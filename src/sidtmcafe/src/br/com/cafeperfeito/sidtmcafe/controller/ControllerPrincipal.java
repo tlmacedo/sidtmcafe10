@@ -4,6 +4,7 @@ import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
 import br.com.cafeperfeito.sidtmcafe.model.dao.SisMenuPrincipalDAO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisMenuPrincipalVO;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceAlertMensagem;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceComandoTecladoMouse;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema;
 import br.com.cafeperfeito.sidtmcafe.view.ViewCadastroEmpresa;
@@ -213,8 +214,12 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
         }
         if (tabPaneViewPrincipal.getTabs().size() > 0) {
             tabPaneViewPrincipal.getSelectionModel().getSelectedItem().setOnCloseRequest(event -> {
-                if (!stbTeclasTela.getText().toLowerCase().contains("sair"))
+                if (!stbTeclasTela.getText().toLowerCase().contains("sair")) {
+                    new ServiceAlertMensagem("Opção não permitida!",
+                            USUARIO_LOGADO_APELIDO + ", para sair... Cancele a inclusão ou edição de dados",
+                            "ic_dados_invalidos_white_24dp.png").getRetornoAlert_OK();
                     event.consume();
+                }
             });
             tabPaneViewPrincipal.getSelectionModel().select(tabId);
         }

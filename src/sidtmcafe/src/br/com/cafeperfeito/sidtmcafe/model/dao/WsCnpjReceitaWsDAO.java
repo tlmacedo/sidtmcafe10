@@ -2,16 +2,13 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 import javafx.collections.FXCollections;
-import javafx.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
