@@ -3,9 +3,11 @@ package br.com.cafeperfeito.sidtmcafe.model.vo;
 import br.com.cafeperfeito.sidtmcafe.model.dao.SisSituacaoSistemaDAO;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
@@ -37,6 +39,11 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
         this.isTransportadora = new SimpleBooleanProperty(false);
         this.sisSituacaoSistema_id = new SimpleIntegerProperty(sisSituacaoSistema_id);
         this.sisSituacaoSistemaVO = new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(sisSituacaoSistema_id);
+        this.tabEnderecoVOList = FXCollections.observableArrayList(new TabEnderecoVO(1));
+        this.tabEmailHomePageVOList = new ArrayList<>();
+        this.tabTelefoneVOList = new ArrayList<>();
+        this.tabContatoVOList = new ArrayList<>();
+        this.tabEmpresaReceitaFederalVOList = new ArrayList<>();
     }
 
     public SisSituacaoSistemaVO getSisSituacaoSistemaVO() {

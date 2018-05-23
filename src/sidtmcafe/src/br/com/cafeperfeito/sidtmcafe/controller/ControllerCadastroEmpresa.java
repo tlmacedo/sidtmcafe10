@@ -22,9 +22,13 @@ import javafx.util.Callback;
 import javafx.util.Pair;
 
 import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.DTF_DATA;
@@ -151,6 +155,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 switch (event.getCode()) {
                     case F1:
                         if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        setTabEmpresaVO(new TabEmpresaVO(1));
                         setStatusFormulario("incluir");
                         break;
                     case F2:
@@ -352,7 +357,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         listEndereco.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.intValue() < 0) return;
             if (!getStatusFormulario().toLowerCase().equals("pesquisa") && newValue.intValue() != oldValue.intValue() && oldValue.intValue() >= 0)
-                guardarEndereco(oldValue.intValue());
+                guardarEndereco(getTabEnderecoVOList().get(oldValue.intValue()));
             exibirDadosEndereco();
         });
 
@@ -755,6 +760,11 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 if (empresa.getIe().contains(busca)) return true;
                 if (empresa.getRazao().toLowerCase().contains(busca)) return true;
                 if (empresa.getFantasia().toLowerCase().contains(busca)) return true;
+                if (empresa.getTabEnderecoVOList().get(0).getCep().toLowerCase().contains(busca)) return true;
+                if (empresa.getTabEnderecoVOList().get(0).getLogradouro().toLowerCase().contains(busca)) return true;
+                if (empresa.getTabEnderecoVOList().get(0).getNumero().toLowerCase().contains(busca)) return true;
+                if (empresa.getTabEnderecoVOList().get(0).getComplemento().toLowerCase().contains(busca)) return true;
+                if (empresa.getTabEnderecoVOList().get(0).getBairro().toLowerCase().contains(busca)) return true;
                 return false;
             });
         else
@@ -896,13 +906,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             new ServiceAlertMensagem("Dados inválido!",
                     USUARIO_LOGADO_APELIDO + ", precisa de dados válidos para empresa",
                     "ic_dados_invalidos_white_24dp.png").getRetornoAlert_OK();
-//        else result = guardarEmpresa();
+        else result = guardarEmpresa();
         return result;
     }
 
     boolean validarEnderecoPrincipal() {
         boolean result = true;
-        guardarEndereco(idEnderecoAtual);
 
         for (int i = 0; i < getTabEmpresaReceitaFederalVOList().size(); i++)
             if (getTabEmpresaReceitaFederalVOList().get(i).getStr_Key().toLowerCase().equals("situacao"))
@@ -927,58 +936,61 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             new ServiceAlertMensagem("Endereço inválido!",
                     USUARIO_LOGADO_APELIDO + ", precisa endereço válido para empresa",
                     "ic_endereco_invalido_white_24dp.png").getRetornoAlert_OK();
-        //else result = guardarEndereco(listEndereco.getSelectionModel().getSelectedIndex());
+        else result = guardarEndereco(listEndereco.getSelectionModel().getSelectedItem());
         return result;
     }
 
-    boolean guardarEndereco(int index) {
+    boolean guardarEndereco(TabEnderecoVO enderecoVO) {
+        if (enderecoVO == null)
+            if (listEndereco.getSelectionModel().getSelectedIndex() < 0) return false;
+        if ((enderecoVO = getTabEnderecoVOList().get(listEndereco.getSelectionModel().getSelectedIndex())) == null)
+            return false;
         try {
-            if (index < 0) return false;
-            //int idEnd = getTabEnderecoVOList().indexOf(listEndereco.getItems().get(index));
-            TabEnderecoVO endAntVO = getTabEnderecoVOList().get(index);
-            endAntVO.setSisTipoEnderecoVO(listEndereco.getItems().get(index).getSisTipoEnderecoVO());
-            endAntVO.setSisTipoEndereco_id(listEndereco.getItems().get(index).getSisTipoEndereco_id());
-            endAntVO.setCep(txtEndCEP.getText().replaceAll("[\\-/. \\[\\]]", ""));
-            endAntVO.setLogradouro(txtEndLogradouro.getText());
-            endAntVO.setNumero(txtEndNumero.getText());
-            endAntVO.setComplemento(txtEndComplemento.getText());
-            endAntVO.setBairro(txtEndBairro.getText());
-            endAntVO.setPontoReferencia(txtEndPontoReferencia.getText());
-            endAntVO.setSisMunicipio_id(cboEndMunicipio.getSelectionModel().getSelectedItem().getId());
-            endAntVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(cboEndMunicipio.getSelectionModel().getSelectedItem().getId()));
-            getTabEnderecoVOList().set(index, endAntVO);
-            listEndereco.getItems().set(index, endAntVO);
+            enderecoVO.setCep(txtEndCEP.getText().replaceAll("\\D", ""));
+            enderecoVO.setLogradouro(txtEndLogradouro.getText());
+            enderecoVO.setNumero(txtEndNumero.getText());
+            enderecoVO.setComplemento(txtEndComplemento.getText());
+            enderecoVO.setBairro(txtEndBairro.getText());
+            enderecoVO.setPontoReferencia(txtEndPontoReferencia.getText());
+            enderecoVO.setSisMunicipioVO(cboEndMunicipio.getSelectionModel().getSelectedItem());
+            enderecoVO.setSisMunicipio_id(cboEndMunicipio.getSelectionModel().getSelectedItem().getId());
+            int index = listEndereco.getSelectionModel().getSelectedIndex();
+            getTabEnderecoVOList().set(index, enderecoVO);
+            listEndereco.getItems().set(index, enderecoVO);
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
         return true;
     }
-//
-//    boolean guardarEmpresa() {
-//        try {
-//            getTabEmpresaVO().setIsEmpresa(cboClassificacaoJuridica.getSelectionModel().getSelectedIndex());
-//            getTabEmpresaVO().setCnpj(txtCNPJ.getText().replaceAll("[\\-/. \\[\\]]", ""));
-//            getTabEmpresaVO().setIe(txtIE.getText().replaceAll("[\\-/. \\[\\]]", ""));
-//            getTabEmpresaVO().setRazao(txtRazao.getText());
-//            getTabEmpresaVO().setFantasia(txtFantasia.getText());
-//            getTabEmpresaVO().setIsCliente(chkIsCliente.isSelected());
-//            getTabEmpresaVO().setIsFornecedor(chkIsFornecedor.isSelected());
-//            getTabEmpresaVO().setIsTransportadora(chkIsTransportadora.isSelected());
-//            getTabEmpresaVO().setSisSituacaoSistema_id(cboSituacaoSistema.getSelectionModel().getSelectedItem().getId());
-//            getTabEmpresaVO().setUsuarioCadastro_id(Integer.parseInt(USUARIO_LOGADO_ID));
-//            getTabEmpresaVO().setUsuarioAtualizacao_id(Integer.parseInt(USUARIO_LOGADO_ID));
-//
-//            LocalDate ldAbertura = LocalDate.parse(lblDataAbertura.getText().substring(15, 25), DTF_DATA);
-//            getTabEmpresaVO().setDataAbertura(Date.valueOf(ldAbertura));
-//
-//            getTabEmpresaVO().setNaturezaJuridica(lblNaturezaJuridica.getText().substring(19));
-//        } catch (Exception ex) {
-//            return false;
-//        }
-//        return true;
-//    }
-//
+
+    boolean guardarEmpresa() {
+        try {
+            getTabEmpresaVO().setIsEmpresa(cboClassificacaoJuridica.getSelectionModel().getSelectedIndex() == 1);
+            getTabEmpresaVO().setCnpj(txtCNPJ.getText().replaceAll("\\D", ""));
+            getTabEmpresaVO().setIe(txtIE.getText().replaceAll("\\D", ""));
+            getTabEmpresaVO().setRazao(txtRazao.getText());
+            getTabEmpresaVO().setFantasia(txtFantasia.getText());
+            getTabEmpresaVO().setIsCliente(chkIsCliente.isSelected());
+            getTabEmpresaVO().setIsFornecedor(chkIsFornecedor.isSelected());
+            getTabEmpresaVO().setIsTransportadora(chkIsTransportadora.isSelected());
+            getTabEmpresaVO().setSisSituacaoSistemaVO(cboSituacaoSistema.getSelectionModel().getSelectedItem());
+            getTabEmpresaVO().setSisSituacaoSistema_id(cboSituacaoSistema.getSelectionModel().getSelectedItem().getId());
+            getTabEmpresaVO().setUsuarioCadastro_id(Integer.parseInt(USUARIO_LOGADO_ID));
+            getTabEmpresaVO().setUsuarioAtualizacao_id(Integer.parseInt(USUARIO_LOGADO_ID));
+
+            Pattern p = Pattern.compile("\\d{2}/\\d{2}\\d{4}");
+            Matcher m = p.matcher(lblDataAbertura.getText());
+            while (m.find())
+                getTabEmpresaVO().setDataAbertura(Date.valueOf(m.group()));
+
+            getTabEmpresaVO().setNaturezaJuridica(lblNaturezaJuridica.getText().substring(19));
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
+    }
+
 //    void deletaEndereco(TabEnderecoVO enderecoVO) {
 //        if (enderecoVO.getId() != 0) {
 //            if (deletadosTabEnderecoVOList == null)

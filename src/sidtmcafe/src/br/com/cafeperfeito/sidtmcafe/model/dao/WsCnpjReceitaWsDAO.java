@@ -85,7 +85,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             wsCnpjReceitaWsVO.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipioVO().getId());
             wsCnpjReceitaWsVO.setSisUFVO(wsCnpjReceitaWsVO.getSisMunicipioVO().getUfVO());
             wsCnpjReceitaWsVO.setUf(wsCnpjReceitaWsVO.getSisUFVO().getSigla());
-            wsCnpjReceitaWsVO.setEmail(jsonObject.getString("email") + " teste@testegeral.com contato@cafeperfeito.com.br");
+            wsCnpjReceitaWsVO.setEmail(jsonObject.getString("email"));
             wsCnpjReceitaWsVO.setTelefone(jsonObject.getString("telefone"));
             wsCnpjReceitaWsVO.setEfr(jsonObject.getString("efr"));
             wsCnpjReceitaWsVO.setSituacao(jsonObject.getString("situacao"));
