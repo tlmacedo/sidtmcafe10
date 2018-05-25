@@ -29,7 +29,7 @@ public class SisSituacaoSistemaDAO extends BuscaBandoDados {
     void buscaSisSituacaoSistemaVO(int id) {
         comandoSql = "SELECT id, descricao, classificacao " +
                 "FROM sisSituacaoSistema ";
-        if (id > 0) comandoSql += "WHERE id = '" + id + "' ";
+        if (id != 0) comandoSql += "WHERE id = " + id + " ";
         comandoSql += "ORDER BY descricao ";
 
         if (id == 0) sisSituacaoSistemaVOList = new ArrayList<>();

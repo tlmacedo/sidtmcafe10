@@ -66,8 +66,8 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
                 for (int i = 0; i < listQsa.length(); i++) {
                     wsCnpjReceitaWsVO.getQsa()
                             .add(new TabEmpresaReceitaFederalVO(0, 0, 2,
-                                    listQsa.getJSONObject(i).getString("code"),
-                                    listQsa.getJSONObject(i).getString("text")));
+                                    listQsa.getJSONObject(i).getString("qual"),
+                                    listQsa.getJSONObject(i).getString("nome")));
                 }
             }
 
@@ -152,7 +152,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
                 if (empresaVO.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(m.group().replaceAll("\\D", "")))) {
                     if ((fone = m.group().replaceAll("\\D", "")).charAt(0) >= 8)
                         fone = "9" + fone;
-                    empresaVO.getTabTelefoneVOList().add(new TabTelefoneVO(fone));
+                    empresaVO.getTabTelefoneVOList().add(new TabTelefoneVO(fone, new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVO(2)));
                 }
         }
 

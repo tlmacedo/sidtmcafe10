@@ -21,10 +21,10 @@ public class TabTelefoneVO extends RecursiveTreeObject<TabTelefoneVO> {
 
     }
 
-    public TabTelefoneVO(String telefone) {
-        this.sisTelefoneOperadoraVO = new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVO(2);
+    public TabTelefoneVO(String telefone, SisTelefoneOperadoraVO operadoraVO) {
+        this.sisTelefoneOperadoraVO = operadoraVO;
         this.id = new SimpleIntegerProperty(0);
-        this.sisTelefoneOperadora_id = new SimpleIntegerProperty(2);
+        this.sisTelefoneOperadora_id = new SimpleIntegerProperty(operadoraVO.getId());
         this.descricao = new SimpleStringProperty(telefone);
     }
 

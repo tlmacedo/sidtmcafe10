@@ -1,6 +1,7 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
 import br.com.cafeperfeito.sidtmcafe.model.dao.SisSituacaoSistemaDAO;
+import br.com.cafeperfeito.sidtmcafe.model.dao.TabEmpresaDAO;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -28,6 +29,13 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
     StringProperty cnpj, ie, razao, fantasia, naturezaJuridica;
 
     public TabEmpresaVO() {
+    }
+
+    @Override
+    public TabEmpresaVO clone() throws CloneNotSupportedException {
+        TabEmpresaVO empresaVO = new TabEmpresaVO();
+        empresaVO = new TabEmpresaDAO().getTabEmpresaVO(getId());
+        return empresaVO;
     }
 
     public TabEmpresaVO(int sisSituacaoSistema_id) {

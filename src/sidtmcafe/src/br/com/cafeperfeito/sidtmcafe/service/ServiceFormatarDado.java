@@ -178,72 +178,80 @@ public class ServiceFormatarDado {
             setMascara(strMascara);
         textField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             if (textField.getText() == null) textField.setText("");
-            String value = textField.getText().replaceAll("[^0-9a-zA-Z ]", "");
-            StringBuilder resultado = new StringBuilder();
-            if (newValue.intValue() > oldValue.intValue()) {
-                if (textField.getText().length() <= getMascara().length()) {
-                    int digitado = 0;
-                    for (int i = 0; i < getMascara().length(); i++) {
-                        if (digitado < value.length()) {
-                            switch (getMascara().substring(i, i + 1)) {
-                                case "@":
-                                    resultado.append(value.substring(i, i + 1).toUpperCase());
-                                    digitado++;
-                                    break;
-                                case "?":
-                                    resultado.append(value.substring(i, i + 1).toLowerCase());
-                                    digitado++;
-                                    break;
-                                case "#":
+//            String value = textField.getText().replaceAll("[^0-9a-zA-Z\\ \\.\\;\\,\\<\\>\\^\\~\\´\\`\\+\\-\\_\\*\\/\\{\\}\\[\\]]", "");
+            String value;
+            value = textField.getText().replaceAll("[!\"#$%&'()*+,-./:;?@_`{|}]", "");
+//            if (getMascara().contains("[!\"#$%&'()*+,-./:;?@_`{|}]")) {
+//                System.out.println("comtem pontuação");
+////                value = textField.getText().replaceAll("\\W ", "");
+////            } else {
+////                value = textField.getText().replaceAll("\\W", "");
+//            }
+                StringBuilder resultado = new StringBuilder();
+                if (newValue.intValue() > oldValue.intValue()) {
+                    if (textField.getText().length() <= getMascara().length()) {
+                        int digitado = 0;
+                        for (int i = 0; i < getMascara().length(); i++) {
+                            if (digitado < value.length()) {
+                                switch (getMascara().substring(i, i + 1)) {
+                                    case "@":
+                                        resultado.append(value.substring(i, i + 1).toUpperCase());
+                                        digitado++;
+                                        break;
+                                    case "?":
+                                        resultado.append(value.substring(i, i + 1).toLowerCase());
+                                        digitado++;
+                                        break;
+                                    case "#":
 //                                    if (Character.isLetterOrDigit(value.charAt(digitado)))
 //                                        resultado.append(value.substring(digitado, digitado + 1));
 //                                    resultado.append(value.substring(i, i + 1));
 //                                    digitado++;
-                                    resultado.append(value.substring(i, i + 1));
-                                    digitado++;
-                                    break;
-                                case "0":
-                                    if (Character.isDigit(value.charAt(digitado)))
-                                        resultado.append(value.substring(digitado, digitado + 1));
-                                    digitado++;
-                                    break;
-                                default:
-                                    resultado.append(mascara.substring(i, i + 1));
+                                        resultado.append(value.substring(i, i + 1));
+                                        digitado++;
+                                        break;
+                                    case "0":
+                                        if (Character.isDigit(value.charAt(digitado)))
+                                            resultado.append(value.substring(digitado, digitado + 1));
+                                        digitado++;
+                                        break;
+                                    default:
+                                        resultado.append(mascara.substring(i, i + 1));
+                                }
                             }
                         }
+                        textField.setText(resultado.toString());
+                    } else {
+                        textField.setText(textField.getText(0, getMascara().length()));
                     }
-                    textField.setText(resultado.toString());
-                } else {
-                    textField.setText(textField.getText(0, getMascara().length()));
                 }
-            }
-        });
-    }
-
-    public void maskFieldMoeda(JFXTextField textField, int casaDecimal) {
-        textField.setAlignment(Pos.CENTER_RIGHT);
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            Platform.runLater(() -> {
-                textField.setText(getValueMoeda(newValue, casaDecimal));
-                textField.positionCaret(newValue.length());
             });
-        });
+        }
 
-    }
+        public void maskFieldMoeda (JFXTextField textField,int casaDecimal){
+            textField.setAlignment(Pos.CENTER_RIGHT);
+            textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                Platform.runLater(() -> {
+                    textField.setText(getValueMoeda(newValue, casaDecimal));
+                    textField.positionCaret(newValue.length());
+                });
+            });
 
-    public static void maxField(JFXTextField textField, int tamMax) {
+        }
+
+        public static void maxField (JFXTextField textField,int tamMax){
 //        textField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
 //            if (newValue.intValue() > tamMax)
 //                textField.setText(textField.getText().substring(0, tamMax));
 //
 //        });
-        textField.lengthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (newValue.intValue() > tamMax)
-                    textField.setText(textField.getText(0, tamMax));
-            }
-        });
+            textField.lengthProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    if (newValue.intValue() > tamMax)
+                        textField.setText(textField.getText(0, tamMax));
+                }
+            });
 //        textField.textProperty().addListener(new ChangeListener<String>() {
 //            @Override
 //            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -251,32 +259,32 @@ public class ServiceFormatarDado {
 //                    textField.setText(oldValue);
 //            }
 //        });
-    }
+        }
 
-    public static void fatorarColunaCheckBox(TreeTableColumn colunaGenerica) {
-        colunaGenerica.getStyleClass().add("chkbox");
-        colunaGenerica.setCellFactory(new Callback<TreeTableColumn, TreeTableCell>() {
-            @Override
-            public TreeTableCell call(TreeTableColumn param) {
-                CheckBoxTreeTableCell cell = new CheckBoxTreeTableCell();
-                cell.setAlignment(Pos.TOP_CENTER);
-                return cell;
-            }
-        });
-    }
+        public static void fatorarColunaCheckBox (TreeTableColumn colunaGenerica){
+            colunaGenerica.getStyleClass().add("chkbox");
+            colunaGenerica.setCellFactory(new Callback<TreeTableColumn, TreeTableCell>() {
+                @Override
+                public TreeTableCell call(TreeTableColumn param) {
+                    CheckBoxTreeTableCell cell = new CheckBoxTreeTableCell();
+                    cell.setAlignment(Pos.TOP_CENTER);
+                    return cell;
+                }
+            });
+        }
 
-    public static Pair<String, String> getFieldFormat(String accessibleText, String keyFormat) {
-        for (String strAccessibleText : accessibleText.toLowerCase().split(", ")) {
-            String key = null, value = null;
-            for (String detalhe : strAccessibleText.split(":")) {
-                if (key == null)
-                    key = detalhe.trim();
-                else value = detalhe.trim();
-                if (key.equals(keyFormat.toLowerCase()) && value != null) {
-                    return new Pair<String, String>(key, value);
+        public static Pair<String, String> getFieldFormat (String accessibleText, String keyFormat){
+            for (String strAccessibleText : accessibleText.toLowerCase().split(", ")) {
+                String key = null, value = null;
+                for (String detalhe : strAccessibleText.split(":")) {
+                    if (key == null)
+                        key = detalhe.trim();
+                    else value = detalhe.trim();
+                    if (key.equals(keyFormat.toLowerCase()) && value != null) {
+                        return new Pair<String, String>(key, value);
+                    }
                 }
             }
+            return null;
         }
-        return null;
     }
-}
