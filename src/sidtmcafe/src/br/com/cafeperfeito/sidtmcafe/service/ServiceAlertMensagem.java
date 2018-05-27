@@ -1,6 +1,7 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabTelefoneVO;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -8,6 +9,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -37,6 +39,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
     int qtdTarefasDialog = 2;
     boolean transparenteDialog = false;
     boolean geraMsgRetornoDialog = false;
+    ServiceFormatarDado formatTextField;
     Task<?> taskDialog;
 
     Random random;
@@ -231,6 +234,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         vBoxDialog.setAlignment(Pos.CENTER_LEFT);
 
         textField = new JFXTextField();
+        textField.setPromptText(getPromptText());
         ServiceFormatarDado formatTextField = new ServiceFormatarDado();
         formatTextField.maskField(textField, mascaraField);
 
@@ -246,8 +250,20 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
 
         textField = new JFXTextField();
         textField.setPromptText(getPromptTextField());
-        ServiceFormatarDado formatTextField = new ServiceFormatarDado();
-        formatTextField.maskField(textField, mascaraField);
+        formatTextField = new ServiceFormatarDado();
+        if (mascaraField.replaceAll("\\d", "").toLowerCase().contains("telefone")) {
+            formatTextField.maskField(textField, ServiceFormatarDado.gerarMascara("telefone", 9, "#"));
+            textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                String value = newValue.replaceAll("\\D", "");
+                if (newValue.length() > 0)
+                    if (Integer.parseInt(value.substring(0, 1)) > 7)
+                        formatTextField.setMascara(ServiceFormatarDado.gerarMascara("telefone", 9, "#"));
+                    else
+                        formatTextField.setMascara(ServiceFormatarDado.gerarMascara("telefone", 8, "#"));
+            });
+        } else {
+            formatTextField.maskField(textField, mascaraField);
+        }
 
         comboBox = new JFXComboBox();
         comboBox.getItems().setAll(list);

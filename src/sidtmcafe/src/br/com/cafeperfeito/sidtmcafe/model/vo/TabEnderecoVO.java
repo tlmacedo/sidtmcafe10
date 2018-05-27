@@ -10,7 +10,7 @@ import javafx.beans.property.StringProperty;
 
 import java.util.List;
 
-public class TabEnderecoVO extends RecursiveTreeObject<TabEnderecoVO>  {
+public class TabEnderecoVO extends RecursiveTreeObject<TabEnderecoVO> {
 
     SisTipoEnderecoVO sisTipoEnderecoVO;
     SisMunicipioVO sisMunicipioVO;
@@ -21,12 +21,17 @@ public class TabEnderecoVO extends RecursiveTreeObject<TabEnderecoVO>  {
     public TabEnderecoVO() {
     }
 
-    public TabEnderecoVO(int sisTipoEnd_id) {
+    public TabEnderecoVO(int sisTipoEnd_id, int idMunicipo) {
         this.id = new SimpleIntegerProperty(0);
         this.sisTipoEndereco_id = new SimpleIntegerProperty(sisTipoEnd_id);
         this.sisTipoEnderecoVO = new SisTipoEnderecoDAO().getSisTipoEnderecoVO(sisTipoEnd_id);
-        this.sisMunicipio_id = new SimpleIntegerProperty(112);
-        this.sisMunicipioVO = new SisMunicipioDAO().getSisMunicipioVO(112);
+        if (idMunicipo == 0) {
+            this.sisMunicipio_id = new SimpleIntegerProperty(112);
+            this.sisMunicipioVO = new SisMunicipioDAO().getSisMunicipioVO(112);
+        } else {
+            this.sisMunicipio_id = new SimpleIntegerProperty(idMunicipo);
+            this.sisMunicipioVO = new SisMunicipioDAO().getSisMunicipioVO(idMunicipo);
+        }
     }
 
     public SisTipoEnderecoVO getSisTipoEnderecoVO() {

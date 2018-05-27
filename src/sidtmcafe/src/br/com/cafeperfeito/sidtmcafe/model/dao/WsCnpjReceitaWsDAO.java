@@ -2,13 +2,16 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceValidarDado;
 import javafx.collections.FXCollections;
+import javafx.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -116,9 +119,9 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
 
         TabEnderecoVO enderecoVO;
         if (empresaVO.getTabEnderecoVOList() == null)
-            empresaVO.setTabEnderecoVOList(FXCollections.observableArrayList(enderecoVO = new TabEnderecoVO(1)));
+            empresaVO.setTabEnderecoVOList(FXCollections.observableArrayList(enderecoVO = new TabEnderecoVO(1,112)));
         else
-            empresaVO.getTabEnderecoVOList().set(0, enderecoVO = new TabEnderecoVO(1));
+            empresaVO.getTabEnderecoVOList().set(0, enderecoVO = new TabEnderecoVO(1,112));
         if (wsCnpjReceitaWsVO.getSituacao().toLowerCase().equals("ativa")) {
             enderecoVO.setCep(wsCnpjReceitaWsVO.getCep());
             enderecoVO.setLogradouro(wsCnpjReceitaWsVO.getLogradouro());
@@ -133,29 +136,23 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
         if (empresaVO.getTabEmailHomePageVOList() == null)
             empresaVO.setTabEmailHomePageVOList(new ArrayList<>());
         if (!wsCnpjReceitaWsVO.getEmail().equals("")) {
-            Pattern p = Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}", Pattern.CASE_INSENSITIVE);
-            Matcher m = p.matcher(wsCnpjReceitaWsVO.getEmail());
-            String mail;
-            while (m.find())
-                if (empresaVO.getTabEmailHomePageVOList().stream().noneMatch(e -> e.getDescricao().equals(m.group())))
-                    empresaVO.getTabEmailHomePageVOList().add(new TabEmailHomePageVO(m.group(), true));
+            List<String> emailList = ServiceValidarDado.getEmailsList(wsCnpjReceitaWsVO.getEmail());
+            if (emailList != null)
+                for (String mail : emailList) {
+                    if (empresaVO.getTabEmailHomePageVOList().stream().noneMatch(e -> e.getDescricao().equals(mail)))
+                        empresaVO.getTabEmailHomePageVOList().add(new TabEmailHomePageVO(mail, true));
+                }
 
         }
-
         if (empresaVO.getTabTelefoneVOList() == null)
             empresaVO.setTabTelefoneVOList(new ArrayList<>());
         if (!wsCnpjReceitaWsVO.getTelefone().equals("")) {
-            Pattern p = Pattern.compile("\\d{4}-\\d{4}");
-            Matcher m = p.matcher(wsCnpjReceitaWsVO.getTelefone());
-            String fone;
-            while (m.find())
-                if (empresaVO.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(m.group().replaceAll("\\D", "")))) {
-                    if ((fone = m.group().replaceAll("\\D", "")).charAt(0) >= 8)
-                        fone = "9" + fone;
-                    empresaVO.getTabTelefoneVOList().add(new TabTelefoneVO(fone, new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVO(2)));
-                }
+            List<Pair<String, Integer>> telefoneList = ServiceValidarDado.getTelefoneList(wsCnpjReceitaWsVO.getTelefone());
+            if (telefoneList != null)
+                for (Pair<String, Integer> telefone : telefoneList)
+                    if (empresaVO.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(telefone.getKey())))
+                        empresaVO.getTabTelefoneVOList().add(new TabTelefoneVO(telefone.getKey(), new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVO(2)));
         }
-
         empresaVO.setTabEmpresaReceitaFederalVOList(new ArrayList<>());
 
         empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadePrincipal());

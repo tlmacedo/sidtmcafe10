@@ -20,6 +20,14 @@ public class TabContatoVO extends RecursiveTreeObject<TabContatoVO> {
     public TabContatoVO() {
     }
 
+    public TabContatoVO(String contato, SisCargoVO cargoVO) {
+        this.sisCargoVO = cargoVO;
+        this.id = new SimpleIntegerProperty(0);
+        this.sisCargo_id = new SimpleIntegerProperty(cargoVO.getId());
+        this.descricao = new SimpleStringProperty(contato);
+    }
+
+
     public SisCargoVO getSisCargoVO() {
         return sisCargoVO;
     }

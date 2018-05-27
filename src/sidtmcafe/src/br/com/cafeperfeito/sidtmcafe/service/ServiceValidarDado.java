@@ -1,8 +1,24 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
-public class ServiceValidarDado {
+import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
+import br.com.cafeperfeito.sidtmcafe.model.dao.SisTelefoneOperadoraDAO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmailHomePageVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabTelefoneVO;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema.USUARIO_LOGADO_APELIDO;
+
+public class ServiceValidarDado implements Constants {
     static final int[] pesoCpf = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
     static final int[] pesoCnpj = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
+    static Pattern p;
+    static Matcher m;
 
     public static boolean isCnpjCpfValido(final String value) {
         value.replaceAll("\\W", "");
@@ -36,4 +52,55 @@ public class ServiceValidarDado {
         }
         return digitoDV[0].toString() + digitoDV[1].toString();
     }
+
+    public static boolean isEmailHomePageValido(final String value, boolean isEmail) {
+        if (isEmail)
+            p = Pattern.compile(REGEX_EMAIL, Pattern.CASE_INSENSITIVE);
+        else
+            p = Pattern.compile(REGEX_HOME_PAGE, Pattern.CASE_INSENSITIVE);
+        m = p.matcher(value);
+        if (m.find())
+            return true;
+        else if (isEmail)
+            new ServiceAlertMensagem("Dados inválidos", USUARIO_LOGADO_APELIDO
+                    + ", o email informado é inválido!", "ic_msg_alerta_triangulo_white_24dp.png").getRetornoAlert_OK();
+        else
+            new ServiceAlertMensagem("Dados inválidos", USUARIO_LOGADO_APELIDO
+                    + ", a home page informada é inválida!", "ic_msg_alerta_triangulo_white_24dp.png").getRetornoAlert_OK();
+        return false;
+    }
+
+    public static List<String> getEmailsList(final String value) {
+        p = Pattern.compile(REGEX_EMAIL, Pattern.CASE_INSENSITIVE);
+        m = p.matcher(value);
+        List<String> mail = new ArrayList<>();
+        while (m.find())
+            mail.add(m.group());
+        return mail;
+    }
+
+    public static boolean isTelefoneValido(final String value) {
+        p = Pattern.compile(REGEX_TELEFONE);
+        m = p.matcher(value);
+        if (m.find())
+            return true;
+        else
+            return false;
+    }
+
+    public static List<Pair<String, Integer>> getTelefoneList(final String value) {
+        p = Pattern.compile(REGEX_TELEFONE);
+        m = p.matcher(value);
+
+        List<Pair<String, Integer>> telefone = new ArrayList<>();
+        String fone = "";
+        while (m.find()) {
+            fone = m.group().replaceAll("\\D", "");
+            if (fone.charAt(0) >= 8)
+                fone = "9" + fone;
+            telefone.add(new Pair<>(fone, 2));
+        }
+        return telefone;
+    }
+
 }

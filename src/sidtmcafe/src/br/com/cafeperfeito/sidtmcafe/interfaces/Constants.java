@@ -13,6 +13,11 @@ public interface Constants {
     String COPYRIGHT = "Café Perfeito " + "\u00a9 " + LocalDate.now().getYear();
     String LOJA_ID = "1";
 
+    String REGEX_EMAIL = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}";
+    String REGEX_HOME_PAGE = "[A-Z0-9._%+-]+[A-Z0-9.-]+\\.[A-Z]{2,6}";
+    String REGEX_TELEFONE = "\\d{4}-\\d{4}";
+    String REGEX_PONTUACAO = "[!\"$%&'()*+,-./:;_`{|}]";
+
     /*
      * Constantes para conexão com banco de dados MySql
      */
