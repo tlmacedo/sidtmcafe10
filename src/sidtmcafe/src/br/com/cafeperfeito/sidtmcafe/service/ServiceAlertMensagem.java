@@ -1,7 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabTelefoneVO;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -9,12 +8,13 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -58,7 +58,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
     JFXTextField textField;
     List list;
     String strContagem, mascaraField;
-    Button botaoOk, botaoApply, botaoYes, botaoClose, botaoFinish, botaoNo, botaoCancel;
+    Button btnOk, btnApply, btnYes, btnClose, btnFinish, btnNo, btnCancel;
 
     Timeline tlRegressiva, tlLoop;
     int tempo = 0;
@@ -306,7 +306,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
     }
 
     void habilitarBotao() {
-        botaoOk.setDisable((comboBox.getSelectionModel().getSelectedIndex() < 0) || (textField.getText().length() == 0));
+        btnOk.setDisable((comboBox.getSelectionModel().getSelectedIndex() < 0) || (textField.getText().length() == 0));
     }
 
     public void getProgressBar(Task<?> task, boolean transparente, boolean showAndWait, int qtdTarefas) {
@@ -316,15 +316,15 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         carregaDialog();
         preparaDialogPane();
         if (showAndWait) {
-            botaoOk = new Button();
-            botaoOk.setOnAction(event -> {
+            btnOk = new Button();
+            btnOk.setOnAction(event -> {
                 closeDialog();
             });
 
             dialogPane.getButtonTypes().add(ButtonType.OK);
-            botaoOk = (Button) dialogPane.lookupButton(ButtonType.OK);
-            botaoOk.setDefaultButton(true);
-            botaoOk.setDisable(true);
+            btnOk = (Button) dialogPane.lookupButton(ButtonType.OK);
+            btnOk.setDefaultButton(true);
+            btnOk.setDisable(true);
         }
 
         dialogPane.setContent(preencheDialogBasico());
@@ -336,7 +336,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
                 closeDialog();
             } else {
                 addImagem(IC_CAFE_PERFEITO_240DP);
-                botaoOk.setDisable(false);
+                btnOk.setDisable(false);
                 if (getResultPromptText() != null) {
                     lblMensagem.setText(getResultPromptText());
                     progressBarDialog.setVisible(false);
@@ -364,12 +364,12 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
 //        });
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        botaoOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
-        botaoOk.setDefaultButton(true);
-        botaoOk.setCancelButton(false);
+        btnOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        btnOk.setDefaultButton(true);
+        btnOk.setCancelButton(false);
 
-        botaoOk = new Button();
-        botaoOk.setOnAction(event -> {
+        btnOk = new Button();
+        btnOk.setOnAction(event -> {
             closeDialog();
         });
 
@@ -382,14 +382,14 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         dialogPane.getStyleClass().add("dialog_yes_no");
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
-        botaoYes = (Button) dialog.getDialogPane().lookupButton(ButtonType.YES);
-        botaoYes.setDefaultButton(true);
-        botaoYes.setCancelButton(false);
+        btnYes = (Button) dialog.getDialogPane().lookupButton(ButtonType.YES);
+        btnYes.setDefaultButton(true);
+        btnYes.setCancelButton(false);
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
-        botaoNo = (Button) dialog.getDialogPane().lookupButton(ButtonType.NO);
-        botaoNo.setCancelButton(true);
-        botaoNo.setDefaultButton(false);
+        btnNo = (Button) dialog.getDialogPane().lookupButton(ButtonType.NO);
+        btnNo.setCancelButton(true);
+        btnNo.setDefaultButton(false);
 
         dialog.setResultConverter(new Callback() {
             @Override
@@ -411,24 +411,34 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         dialogPane.getStyleClass().add("dialog_text_field_e_combo_box");
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        botaoOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
-        botaoOk.setDefaultButton(true);
-        botaoOk.setCancelButton(false);
+        btnOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        btnOk.setDefaultButton(true);
+        btnOk.setCancelButton(false);
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-        botaoCancel = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
-        botaoCancel.setCancelButton(true);
-        botaoCancel.setDefaultButton(false);
+        btnCancel = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        btnCancel.setCancelButton(true);
+        btnCancel.setDefaultButton(false);
 
         dialogPane.setContent(preencheDialogTextBoxEComboBox());
 
         if (textoPreLoader != "")
             textField.setText(textoPreLoader);
 
-        botaoOk.setDisable(true);
+        btnOk.setDisable(true);
         comboBox.getSelectionModel().selectedIndexProperty().addListener((ov, o, n) -> {
             if (n != o)
                 habilitarBotao();
+        });
+
+        dialogPane.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
+            if (event.getCode() == KeyCode.ENTER && btnOk.isDisable())
+                if (comboBox.isFocused())
+                    textField.requestFocus();
+                else
+                    comboBox.requestFocus();
+            if (event.getCode() == KeyCode.F12)
+                btnCancel.fire();
         });
 
         textField.textProperty().addListener((ov, o, n) -> {
@@ -459,14 +469,14 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         dialogPane.getStyleClass().add("dialog_text_box");
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        botaoOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
-        botaoOk.setDefaultButton(true);
-        botaoOk.setCancelButton(false);
+        btnOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        btnOk.setDefaultButton(true);
+        btnOk.setCancelButton(false);
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-        botaoCancel = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
-        botaoCancel.setCancelButton(true);
-        botaoCancel.setDefaultButton(false);
+        btnCancel = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        btnCancel.setCancelButton(true);
+        btnCancel.setDefaultButton(false);
 
         dialogPane.setContent(preencheDialogTextBox());
 
@@ -495,14 +505,14 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         dialogPane.getStyleClass().add("dialog_combo_box");
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        botaoOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
-        botaoOk.setDefaultButton(true);
-        botaoOk.setCancelButton(false);
+        btnOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        btnOk.setDefaultButton(true);
+        btnOk.setCancelButton(false);
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-        botaoCancel = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
-        botaoCancel.setCancelButton(true);
-        botaoCancel.setDefaultButton(false);
+        btnCancel = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        btnCancel.setCancelButton(true);
+        btnCancel.setDefaultButton(false);
 
         dialogPane.setContent(preencheDialogComboBox());
 

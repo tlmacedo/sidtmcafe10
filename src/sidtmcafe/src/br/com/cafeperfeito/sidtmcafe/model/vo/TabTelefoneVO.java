@@ -78,7 +78,8 @@ public class TabTelefoneVO extends RecursiveTreeObject<TabTelefoneVO> {
     @Override
     public String toString() {
         String telefone = descricaoProperty().get();
-        if (telefone.length() > 0) telefone = ServiceFormatarDado.getValorFormatado(telefone, "telefone");
+        if (telefone.length() > 0) telefone = ServiceFormatarDado.getValorFormatado(telefone.replaceAll("\\D", ""),
+                "telefone");
         if (sisTelefoneOperadoraVO != null)
             if (sisTelefoneOperadoraVO.getTipo() == 0 || (Integer.parseInt(telefone.substring(0, 1)) < 8)) {
                 telefone += " fixo (" + sisTelefoneOperadoraVO.getDescricao() + ")";

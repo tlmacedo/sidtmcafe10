@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TabContatoVO extends RecursiveTreeObject<TabContatoVO> {
@@ -25,6 +26,8 @@ public class TabContatoVO extends RecursiveTreeObject<TabContatoVO> {
         this.id = new SimpleIntegerProperty(0);
         this.sisCargo_id = new SimpleIntegerProperty(cargoVO.getId());
         this.descricao = new SimpleStringProperty(contato);
+        this.tabEmailHomePageVOList = new ArrayList<>();
+        this.tabTelefoneVOList = new ArrayList<>();
     }
 
 
