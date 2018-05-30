@@ -58,9 +58,11 @@ public class TabEmailHomePageDAO extends BuscaBancoDados {
     }
 
     public void deleteTabEmailHomePageVO(Connection conn, TabEmailHomePageVO emailHomePageVO) throws SQLException {
+        int idEmailHome = emailHomePageVO.getId();
+        if (idEmailHome < 0) idEmailHome = idEmailHome * (-1);
         comandoSql = "DELETE " +
                 "FROM tabEmailHomePage " +
-                "WHERE id = '" + emailHomePageVO.getId() + "' ";
+                "WHERE id = " + idEmailHome + " ";
 
         getDeleteBancoDados(conn, comandoSql);
     }

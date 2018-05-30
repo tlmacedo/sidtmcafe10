@@ -117,11 +117,9 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
         empresaVO.setDataAbertura(wsCnpjReceitaWsVO.getAbertura());
         empresaVO.setNaturezaJuridica(wsCnpjReceitaWsVO.getNaturezaJuridica());
 
-        TabEnderecoVO enderecoVO;
-        if (empresaVO.getTabEnderecoVOList() == null)
-            empresaVO.setTabEnderecoVOList(FXCollections.observableArrayList(enderecoVO = new TabEnderecoVO(1,112)));
-        else
-            empresaVO.getTabEnderecoVOList().set(0, enderecoVO = new TabEnderecoVO(1,112));
+        if (empresaVO.getTabEnderecoVOList().get(0) == null)
+            empresaVO.getTabEnderecoVOList().add(new TabEnderecoVO(1, 112));
+        TabEnderecoVO enderecoVO = empresaVO.getTabEnderecoVOList().get(0);
         if (wsCnpjReceitaWsVO.getSituacao().toLowerCase().equals("ativa")) {
             enderecoVO.setCep(wsCnpjReceitaWsVO.getCep());
             enderecoVO.setLogradouro(wsCnpjReceitaWsVO.getLogradouro());
@@ -155,6 +153,8 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
         }
         empresaVO.setTabEmpresaReceitaFederalVOList(new ArrayList<>());
 
+        empresaVO.getTabEmpresaReceitaFederalVOList().stream()
+                .forEach(receita -> receita.setId(receita.getId() * (-1)));
         empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadePrincipal());
         empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadesSecundarias());
         empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getQsa());

@@ -12,7 +12,6 @@ public class BuscaBancoDados {
     Connection con;
     PreparedStatement stmt;
     ResultSet rs;
-    int idInclusao = 0;
 
     ResultSet getResultadosBandoDados(String instrucaoSql) {
         //System.out.println("BuscaBancoDados_getResultado ==>> " + instrucaoSql + "\n");
@@ -27,24 +26,24 @@ public class BuscaBancoDados {
     }
 
     void getUpdateBancoDados(Connection conn, String comandoSql) throws SQLException {
-        System.out.println("BuscaBancoDados_update ==>> " + comandoSql + "\n");
+        //System.out.println("BuscaBancoDados_update ==>> " + comandoSql + "\n");
         stmt = conn.prepareStatement(comandoSql);
         stmt.execute();
     }
 
     int getInsertBancoDados(Connection conn, String comandoSql) throws SQLException {
-        System.out.println("BuscaBancoDados_insert ==>> " + comandoSql + "\n");
+        //System.out.println("BuscaBancoDados_insert ==>> " + comandoSql + "\n");
         stmt = conn.prepareStatement(comandoSql);
         stmt.execute();
 
         rs = conn.prepareStatement("SELECT LAST_INSERT_ID()").executeQuery();
         if (rs.next())
-            idInclusao = rs.getInt("LAST_INSERT_ID()");
-        return idInclusao;
+            return rs.getInt("LAST_INSERT_ID()");
+        return 0;
     }
 
     void getDeleteBancoDados(Connection conn, String comandoSql) throws SQLException {
-        System.out.println("BuscaBancoDados_delete ==>> " + comandoSql + "\n");
+        //System.out.println("BuscaBancoDados_delete ==>> " + comandoSql + "\n");
         stmt = conn.prepareStatement(comandoSql);
         stmt.execute();
     }

@@ -81,10 +81,12 @@ public class TabEmpresaReceitaFederalDAO extends BuscaBancoDados {
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void deleteTabEmpresaReceitaFederalVO(Connection conn, TabEmpresaReceitaFederalVO tabEmpresaReceitaFederalVO) throws SQLException {
+    public void deleteTabEmpresaReceitaFederalVO(Connection conn, TabEmpresaReceitaFederalVO empresaReceitaFederalVO) throws SQLException {
+        int idReceita = empresaReceitaFederalVO.getId();
+        if (idReceita < 0) idReceita = idReceita * (-1);
         comandoSql = "DELETE ";
         comandoSql += "FROM tabEmpresaReceitaFederal ";
-        comandoSql += "WHERE id = " + tabEmpresaReceitaFederalVO.getId() + " ";
+        comandoSql += "WHERE id = " + idReceita + " ";
         getDeleteBancoDados(conn, comandoSql);
     }
 
