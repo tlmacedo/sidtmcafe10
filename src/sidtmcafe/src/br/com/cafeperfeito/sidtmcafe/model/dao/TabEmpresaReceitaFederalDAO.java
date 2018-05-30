@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabEmpresaReceitaFederalDAO extends BuscaBandoDados {
+public class TabEmpresaReceitaFederalDAO extends BuscaBancoDados {
 
     ResultSet rs;
 

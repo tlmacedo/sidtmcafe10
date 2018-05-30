@@ -5,7 +5,7 @@ import br.com.cafeperfeito.sidtmcafe.model.vo.TabEstoqueVO;
 import java.sql.ResultSet;
 import java.util.List;
 
-public class TabEstoqueDAO extends BuscaBandoDados {
+public class TabEstoqueDAO extends BuscaBancoDados {
 
     ResultSet rs;
 

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelEmpresaEmailHomePageDAO extends BuscaBandoDados {
+public class RelEmpresaEmailHomePageDAO extends BuscaBancoDados {
 
     ResultSet rs;
 

@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class BuscaBandoDados {
+public class BuscaBancoDados {
 
     Connection con;
     PreparedStatement stmt;
@@ -15,6 +15,7 @@ public class BuscaBandoDados {
     int idInclusao = 0;
 
     ResultSet getResultadosBandoDados(String instrucaoSql) {
+        //System.out.println("BuscaBancoDados_getResultado ==>> " + instrucaoSql + "\n");
         con = ConnectionFactory.getConnection();
         try {
             stmt = con.prepareStatement(instrucaoSql);
@@ -26,12 +27,13 @@ public class BuscaBandoDados {
     }
 
     void getUpdateBancoDados(Connection conn, String comandoSql) throws SQLException {
+        System.out.println("BuscaBancoDados_update ==>> " + comandoSql + "\n");
         stmt = conn.prepareStatement(comandoSql);
         stmt.execute();
-
     }
 
     int getInsertBancoDados(Connection conn, String comandoSql) throws SQLException {
+        System.out.println("BuscaBancoDados_insert ==>> " + comandoSql + "\n");
         stmt = conn.prepareStatement(comandoSql);
         stmt.execute();
 
@@ -42,9 +44,9 @@ public class BuscaBandoDados {
     }
 
     void getDeleteBancoDados(Connection conn, String comandoSql) throws SQLException {
+        System.out.println("BuscaBancoDados_delete ==>> " + comandoSql + "\n");
         stmt = conn.prepareStatement(comandoSql);
         stmt.execute();
-
     }
 
 

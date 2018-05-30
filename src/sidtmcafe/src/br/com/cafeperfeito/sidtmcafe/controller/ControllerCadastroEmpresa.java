@@ -439,7 +439,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     int idEnderecoAtual = 0;
     int qtdRegistrosLocalizados = 0;
-    int vlrIdDeletado = -1;
     String tituloTab = ViewCadastroEmpresa.getTituloJanela();
     EventHandler<KeyEvent> eventHandlerCadastroEmpresa;
     String statusFormulario, statusBarTecla;
@@ -951,9 +950,13 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         + listEndereco.getSelectionModel().getSelectedItem() + "]\nda empresa: " + txtRazao.getText() + "?");
                 alertMensagem.setStrIco("ic_endereco_add_white_24dp.png");
                 if (!retornoDelete(alertMensagem)) return;
-                index = getTabEnderecoVOObservableList().indexOf(enderecoVO);
-                enderecoVO.setId(vlrIdDeletado);
-                getTabEnderecoVOObservableList().set(index, enderecoVO);
+                if (enderecoVO.getId() == 0) {
+                    getTabEnderecoVOObservableList().remove(enderecoVO);
+                } else {
+                    index = getTabEnderecoVOObservableList().indexOf(enderecoVO);
+                    enderecoVO.setId(enderecoVO.getId() * (-1));
+                    getTabEnderecoVOObservableList().set(index, enderecoVO);
+                }
             }
             return;
         }
@@ -988,9 +991,14 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                             + listContatoNome.getSelectionModel().getSelectedItem() + "?");
                 }
                 if (!retornoDelete(alertMensagem)) return;
-                emailHomePageVO.setId(vlrIdDeletado);
-                if (isEmpresa) getTabEmailHomePageVOObservableList().set(index, emailHomePageVO);
-                else getTabContatoEmailHomePageVOObservableList().set(index, emailHomePageVO);
+                if (emailHomePageVO.getId() == 0) {
+                    if (isEmpresa) getTabEmailHomePageVOObservableList().remove(emailHomePageVO);
+                    else getTabContatoTelefoneVOObservableList().remove(emailHomePageVO);
+                } else {
+                    emailHomePageVO.setId(emailHomePageVO.getId() * (-1));
+                    if (isEmpresa) getTabEmailHomePageVOObservableList().set(index, emailHomePageVO);
+                    else getTabContatoEmailHomePageVOObservableList().set(index, emailHomePageVO);
+                }
             }
             return;
         }
@@ -1014,9 +1022,14 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                             + telefoneVO + "]\nda empresa: " + txtRazao.getText() + "?");
                 }
                 if (!retornoDelete(alertMensagem)) return;
-                telefoneVO.setId(vlrIdDeletado);
-                if (isContato) getTabContatoTelefoneVOObservableList().set(index, telefoneVO);
-                else getTabTelefoneVOObservableList().set(index, telefoneVO);
+                if (telefoneVO.getId() == 0) {
+                    if (isContato) getTabContatoTelefoneVOObservableList().remove(telefoneVO);
+                    else getTabTelefoneVOObservableList().remove(telefoneVO);
+                } else {
+                    telefoneVO.setId(telefoneVO.getId() * (-1));
+                    if (isContato) getTabContatoTelefoneVOObservableList().set(index, telefoneVO);
+                    else getTabTelefoneVOObservableList().set(index, telefoneVO);
+                }
             }
             return;
         }
@@ -1030,8 +1043,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 alertMensagem.setPromptText(USUARIO_LOGADO_APELIDO + ", deseja deletar o contato ["
                         + contatoVO + "]\nda empresa: " + txtRazao.getText() + "?");
                 if (!retornoDelete(alertMensagem)) return;
-                contatoVO.setId(vlrIdDeletado);
-                getTabContatoVOObservableList().set(index, contatoVO);
+                if (contatoVO.getId() == 0) {
+                    getTabContatoVOObservableList().remove(contatoVO);
+                } else {
+                    contatoVO.setId(contatoVO.getId() * (-1));
+                    getTabContatoVOObservableList().set(index, contatoVO);
+                }
             }
             return;
         }
@@ -1332,19 +1349,40 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void salvarEmpresa() {
-        Connection conn = ConnectionFactory.getConnection(); // cria conexao com banco de dados
+        Connection conn = ConnectionFactory.getConnection();
         try {
             conn.setAutoCommit(false);
-//
-//            if (getTabEmpresaVO().getId() == 0)  // se id empresa==0 (empresa nova) ele inclui no banco
-//                getTabEmpresaVO().setId(new TabEmpresaDAO().insertTabEmpresaVO(conn, getTabEmpresaVO()));
-//            else  // se id empresa != 0 (empresa no cadastro) ele atualiza os dados dela no banco
-//                new TabEmpresaDAO().updateTabEmpresaVO(conn, getTabEmpresaVO());
-//
-//            new RelEmpresaEnderecoDAO().dedeteRelEmpresaEnderecoVO(conn, getTabEmpresaVO().getId()); // apaga todos relacionamentos da empresa com enderecos
-//            if (deletadosTabEnderecoVOList != null) // se tiver algum endereco vlrIdDeletado abre para percorrer lista de enderecos deletados
-//                for (int i = 0; i < deletadosTabEnderecoVOList.size(); i++)  // percorre lista de enderecos deletados
-//                    new TabEnderecoDAO().deleteTabEnderecoVO(conn, deletadosTabEnderecoVOList.get(i)); // deleta endereco no banco de dados
+
+            if (getTabEmpresaVO().getId() == 0)
+                getTabEmpresaVO().setId(new TabEmpresaDAO().insertTabEmpresaVO(conn, getTabEmpresaVO()));
+            else
+                new TabEmpresaDAO().updateTabEmpresaVO(conn, getTabEmpresaVO());
+
+            new RelEmpresaEnderecoDAO().dedeteRelEmpresaEnderecoVO(conn, getTabEmpresaVO().getId());
+            getTabEnderecoVOObservableList().stream().filter(end -> end.getId() < 0)
+                    .forEach(end -> {
+                        try {
+                            new TabEnderecoDAO().deleteTabEnderecoVO(conn, (end.getId() * (-1)));
+                        } catch (SQLException ex) {
+                            throw new RuntimeException("Erro deleteTabEnderecoVO ", ex);
+                        }
+                    });
+            getTabEnderecoVOObservableList().forEach(end -> {
+                System.out.println("end_id: [" + end.getId() + "]");
+                try {
+                    if (end.getId() > 0)
+                        new TabEnderecoDAO().updateTabEnderecoVO(conn, end);
+                    else if (end.getId() == 0)
+                        end.setId(new TabEnderecoDAO().insertTabEnderecoVO(conn, end));
+                    new RelEmpresaEnderecoDAO().insertrelEmpresaEnderecoVO(conn, getTabEmpresaVO().getId(), end.getId());
+                } catch (SQLException ex) {
+                    throw new RuntimeException("Erro getTabEnderecoVOObservableList ", ex);
+                }
+            });
+
+//            if (deletadosTabEnderecoVOList != null)
+//                for (int i = 0; i < deletadosTabEnderecoVOList.size(); i++)
+//                    new TabEnderecoDAO().deleteTabEnderecoVO(conn, deletadosTabEnderecoVOList.get(i));
 //            for (int i = 0; i < getTabEnderecoVOObservableList().size(); i++) { // percorre lista de enderecos da empresa
 //                if (getTabEnderecoVOObservableList().get(i).getId() == 0)  // se id endereco==0 (endereco novo) ele inclui novo endereco no banco
 //                    getTabEnderecoVOObservableList().get(i).setId(new TabEnderecoDAO().insertTabEnderecoVO(conn, getTabEnderecoVOObservableList().get(i)));

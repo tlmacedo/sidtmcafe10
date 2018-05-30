@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SisMunicipioDAO extends BuscaBandoDados {
+public class SisMunicipioDAO extends BuscaBancoDados {
 
     ResultSet rs;
 

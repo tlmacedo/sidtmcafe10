@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FiscalPISCOFINSDAO extends BuscaBandoDados {
+public class FiscalPISCOFINSDAO extends BuscaBancoDados {
     ResultSet rs;
 
     String comandoSql = "";

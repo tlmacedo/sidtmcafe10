@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SisUnidadeComercialDAO extends BuscaBandoDados {
+public class SisUnidadeComercialDAO extends BuscaBancoDados {
 
     ResultSet rs;
 

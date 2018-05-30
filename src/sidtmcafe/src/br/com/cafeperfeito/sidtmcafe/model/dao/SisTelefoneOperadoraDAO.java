@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SisTelefoneOperadoraDAO extends BuscaBandoDados {
+public class SisTelefoneOperadoraDAO extends BuscaBancoDados {
 
     ResultSet rs;
 

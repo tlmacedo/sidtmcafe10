@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FiscalCestNcmDAO extends BuscaBandoDados {
+public class FiscalCestNcmDAO extends BuscaBancoDados {
 
     ResultSet rs;
 

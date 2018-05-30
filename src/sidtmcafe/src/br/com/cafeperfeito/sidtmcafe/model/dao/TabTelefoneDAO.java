@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TabTelefoneDAO extends BuscaBandoDados {
+public class TabTelefoneDAO extends BuscaBancoDados {
 
     ResultSet rs;
 

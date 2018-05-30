@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 //import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
-public class TabEnderecoDAO extends BuscaBandoDados {
+public class TabEnderecoDAO extends BuscaBancoDados {
 
     ResultSet rs;
 
@@ -87,10 +87,10 @@ public class TabEnderecoDAO extends BuscaBandoDados {
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void deleteTabEnderecoVO(Connection conn, TabEnderecoVO enderecoVO) throws SQLException {
+    public void deleteTabEnderecoVO(Connection conn, int endereco_id) throws SQLException {
         comandoSql = "DELETE " +
                 "FROM tabEndereco " +
-                "WHERE id = '" + enderecoVO.getId() + "' ";
+                "WHERE id = " + endereco_id + " ";
 
         getDeleteBancoDados(conn, comandoSql);
     }
