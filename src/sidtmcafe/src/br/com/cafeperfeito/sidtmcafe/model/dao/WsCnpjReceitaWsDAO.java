@@ -108,18 +108,20 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
         if (((wsCnpjReceitaWsVO = getWsCnpjReceitaWsVO(cnpj)) == null) || (wsCnpjReceitaWsVO.getStatus().equals("ERROR")))
             return empresaVO;
 
-        if (empresaVO == null)
-            empresaVO = new TabEmpresaVO(1);
+        TabEmpresaVO empresa = empresaVO;
+        //if (empresaVO == null)
+        //    empresaVO = new TabEmpresaVO(1);
 
-        empresaVO.setCnpj(wsCnpjReceitaWsVO.getCnpj());
-        empresaVO.setRazao(wsCnpjReceitaWsVO.getNome());
-        empresaVO.setFantasia(wsCnpjReceitaWsVO.getFantasia());
-        empresaVO.setDataAbertura(wsCnpjReceitaWsVO.getAbertura());
-        empresaVO.setNaturezaJuridica(wsCnpjReceitaWsVO.getNaturezaJuridica());
+        empresa.setCnpj(wsCnpjReceitaWsVO.getCnpj());
+        empresa.setRazao(wsCnpjReceitaWsVO.getNome());
+        empresa.setFantasia(wsCnpjReceitaWsVO.getFantasia());
+        empresa.setDataAbertura(wsCnpjReceitaWsVO.getAbertura());
+        empresa.setNaturezaJuridica(wsCnpjReceitaWsVO.getNaturezaJuridica());
 
-        if (empresaVO.getTabEnderecoVOList().get(0) == null)
-            empresaVO.getTabEnderecoVOList().add(new TabEnderecoVO(1, 112));
-        TabEnderecoVO enderecoVO = empresaVO.getTabEnderecoVOList().get(0);
+        empresa.getTabEnderecoVOList().forEach(System.out::println);
+        //if (empresaVO.getTabEnderecoVOList().get(0) == null)
+        //    empresaVO.getTabEnderecoVOList().add(new TabEnderecoVO(1, 112));
+        TabEnderecoVO enderecoVO = empresa.getTabEnderecoVOList().get(0);
         if (wsCnpjReceitaWsVO.getSituacao().toLowerCase().equals("ativa")) {
             enderecoVO.setCep(wsCnpjReceitaWsVO.getCep());
             enderecoVO.setLogradouro(wsCnpjReceitaWsVO.getLogradouro());
@@ -130,36 +132,37 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             enderecoVO.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipio_id());
             enderecoVO.setPontoReferencia("");
         }
+        empresa.getTabEnderecoVOList().set(0, enderecoVO);
 
-        if (empresaVO.getTabEmailHomePageVOList() == null)
-            empresaVO.setTabEmailHomePageVOList(new ArrayList<>());
+        if (empresa.getTabEmailHomePageVOList() == null)
+            empresa.setTabEmailHomePageVOList(new ArrayList<>());
         if (!wsCnpjReceitaWsVO.getEmail().equals("")) {
             List<String> emailList = ServiceValidarDado.getEmailsList(wsCnpjReceitaWsVO.getEmail());
             if (emailList != null)
                 for (String mail : emailList) {
-                    if (empresaVO.getTabEmailHomePageVOList().stream().noneMatch(e -> e.getDescricao().equals(mail)))
-                        empresaVO.getTabEmailHomePageVOList().add(new TabEmailHomePageVO(mail, true));
+                    if (empresa.getTabEmailHomePageVOList().stream().noneMatch(e -> e.getDescricao().equals(mail)))
+                        empresa.getTabEmailHomePageVOList().add(new TabEmailHomePageVO(mail, true));
                 }
 
         }
-        if (empresaVO.getTabTelefoneVOList() == null)
-            empresaVO.setTabTelefoneVOList(new ArrayList<>());
+        if (empresa.getTabTelefoneVOList() == null)
+            empresa.setTabTelefoneVOList(new ArrayList<>());
         if (!wsCnpjReceitaWsVO.getTelefone().equals("")) {
             List<Pair<String, Integer>> telefoneList = ServiceValidarDado.getTelefoneList(wsCnpjReceitaWsVO.getTelefone());
             if (telefoneList != null)
                 for (Pair<String, Integer> telefone : telefoneList)
-                    if (empresaVO.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(telefone.getKey())))
-                        empresaVO.getTabTelefoneVOList().add(new TabTelefoneVO(telefone.getKey(), new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVO(2)));
+                    if (empresa.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(telefone.getKey())))
+                        empresa.getTabTelefoneVOList().add(new TabTelefoneVO(telefone.getKey(), new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVO(2)));
         }
-        empresaVO.setTabEmpresaReceitaFederalVOList(new ArrayList<>());
+        empresa.setTabEmpresaReceitaFederalVOList(new ArrayList<>());
 
-        empresaVO.getTabEmpresaReceitaFederalVOList().stream()
+        empresa.getTabEmpresaReceitaFederalVOList().stream()
                 .forEach(receita -> receita.setId(receita.getId() * (-1)));
-        empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadePrincipal());
-        empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadesSecundarias());
-        empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getQsa());
+        empresa.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadePrincipal());
+        empresa.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadesSecundarias());
+        empresa.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getQsa());
 
-        return empresaVO;
+        return empresa;
     }
 
 

@@ -2,12 +2,14 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
+import javafx.collections.ListChangeListener;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TabEmpresaDAO extends BuscaBancoDados {
 
@@ -125,13 +127,20 @@ public class TabEmpresaDAO extends BuscaBancoDados {
                 tabTelefoneVOList.add(new TabTelefoneDAO().getTabTelefoneVO(relEmpresaTelefoneVOList.get(i).getTabTelefone_id()));
         empresa.setTabTelefoneVOList(tabTelefoneVOList);
 
-        List<RelEmpresaContatoVO> relEmpresaContatoVOList = new ArrayList<>(new RelEmpresaContatoDAO().getRelEmpresaContatoVOList(empresa.getId()));
-        List<TabContatoVO> tabContatoVOList = new ArrayList<>();
-        if (relEmpresaContatoVOList != null)
-            for (int i = 0; i < relEmpresaContatoVOList.size(); i++)
-                tabContatoVOList.add(new TabContatoDAO().getTabContatoVO(relEmpresaContatoVOList.get(i).getTabContato_id()));
-        empresa.setTabContatoVOList(tabContatoVOList);
+//        List<RelEmpresaContatoVO> relEmpresaContatoVOList = new ArrayList<>(new RelEmpresaContatoDAO().getRelEmpresaContatoVOList(empresa.getId()));
+//        List<TabContatoVO> tabContatoVOList = new ArrayList<>();
+//        if (relEmpresaContatoVOList != null)
+//            for (int i = 0; i < relEmpresaContatoVOList.size(); i++)
+//                tabContatoVOList.add(new TabContatoDAO().getTabContatoVO(relEmpresaContatoVOList.get(i).getTabContato_id()));
+//        empresa.setTabContatoVOList(tabContatoVOList);
 
+
+        List<TabContatoVO> tabContatoVOList = new ArrayList<>();
+        new RelEmpresaContatoDAO().getRelEmpresaContatoVOList(empresa.getId()).stream()
+                .forEach(relEmpresaContato -> {
+                    tabContatoVOList.add(new TabContatoDAO().getTabContatoVO(relEmpresaContato.getTabContato_id()));
+                });
+        empresa.setTabContatoVOList(tabContatoVOList);
     }
 
     public void updateTabEmpresaVO(Connection conn, TabEmpresaVO empresaVO) throws SQLException {

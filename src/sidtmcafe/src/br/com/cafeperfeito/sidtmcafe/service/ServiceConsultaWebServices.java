@@ -9,19 +9,21 @@ import javafx.util.Pair;
 
 public class ServiceConsultaWebServices {
 
-    public TabEnderecoVO getEnderecoCep_postmon(Pair<Integer, String> buscaEnd) {
+    public TabEnderecoVO getEnderecoCep_postmon(Pair<TabEnderecoVO, String> buscaEnd) {
         final TabEnderecoVO[] enderecoVO = {null};
         Task<Void> buscaCep = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 updateMessage("Pesquisando C.E.P. [" + ServiceFormatarDado.getValorFormatado(buscaEnd.getValue(), "cep") + "]");
                 Thread.sleep(200);
-                enderecoVO[0] = new WsCepPostmonDAO().getTabEnderecoVO(buscaEnd.getKey(), buscaEnd.getValue());
+                enderecoVO[0] = new WsCepPostmonDAO().getTabEnderecoVO(buscaEnd.getKey().getSisTipoEndereco_id(), buscaEnd.getValue());
                 return null;
             }
         };
         new ServiceAlertMensagem("Aguarde pesquisando cep nos correios...", "",
                 "ic_aguarde_sentado_orange_32dp.png").getProgressBar(buscaCep, true, false, 1);
+        if (enderecoVO[0] != null)
+            enderecoVO[0].setId(buscaEnd.getKey().getId());
         return enderecoVO[0];
     }
 
