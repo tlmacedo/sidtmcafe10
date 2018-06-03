@@ -29,6 +29,14 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
     StringProperty cnpj, ie, razao, fantasia, naturezaJuridica;
 
     public TabEmpresaVO() {
+        this.sisSituacaoSistemaVO = new SisSituacaoSistemaVO();
+        this.usuarioCadastroVO = new TabColaboradorVO();
+        this.usuarioAtualizacaoVO = new TabColaboradorVO();
+        this.tabEnderecoVOList = new ArrayList<>();
+        this.tabEmailHomePageVOList = new ArrayList<>();
+        this.tabTelefoneVOList = new ArrayList<>();
+        this.tabContatoVOList = new ArrayList<>();
+        this.tabEmpresaReceitaFederalVOList = new ArrayList<>();
     }
 
     @Override

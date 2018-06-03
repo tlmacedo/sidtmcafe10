@@ -35,7 +35,7 @@
                                        layoutX="5.0" layoutY="37.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="110.0"
                                        prefWidth="1330.0">
                             <tooltip>
-                                <Tooltip text="tabela com lista de produto"/>
+                                <Tooltip text="tabela com lista de empresa"/>
                             </tooltip>
                         </TreeTableView>
                         <JFXComboBox fx:id="cboFiltroPesquisa" labelFloat="true" layoutX="655.0" layoutY="10.0"

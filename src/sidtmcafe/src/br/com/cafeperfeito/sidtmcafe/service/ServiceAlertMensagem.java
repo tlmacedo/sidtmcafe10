@@ -57,7 +57,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
     JFXComboBox comboBox;
     JFXTextField textField;
     List list;
-    String strContagem, mascaraField;
+    String strContagem, mascaraField, txtPreLoader = "";
     Button btnOk, btnApply, btnYes, btnClose, btnFinish, btnNo, btnCancel;
 
     Timeline tlRegressiva, tlLoop;
@@ -250,6 +250,8 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
 
         textField = new JFXTextField();
         textField.setPromptText(getPromptTextField());
+        if (txtPreLoader != "")
+            textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader, "telefone"));
         formatTextField = new ServiceFormatarDado();
         if (mascaraField.replaceAll("\\d", "").toLowerCase().contains("telefone")) {
             formatTextField.maskField(textField, ServiceFormatarDado.gerarMascara("telefone", 9, "#"));
@@ -420,10 +422,10 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         btnCancel.setCancelButton(true);
         btnCancel.setDefaultButton(false);
 
-        dialogPane.setContent(preencheDialogTextBoxEComboBox());
-
         if (textoPreLoader != "")
-            textField.setText(textoPreLoader);
+            txtPreLoader = textoPreLoader;//textField.setText(textoPreLoader);
+
+        dialogPane.setContent(preencheDialogTextBoxEComboBox());
 
         btnOk.setDisable(true);
         comboBox.getSelectionModel().selectedIndexProperty().addListener((ov, o, n) -> {

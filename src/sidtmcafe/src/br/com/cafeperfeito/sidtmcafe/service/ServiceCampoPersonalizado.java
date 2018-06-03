@@ -92,6 +92,8 @@ public class ServiceCampoPersonalizado implements Constants {
                 if (!setDisable)
                     ((DatePicker) node).setEditable(fielEditable);
                 ((DatePicker) node).setDisable(setDisable || fieldDisable);
+            } else if (node instanceof JFXListView) {
+                ((JFXListView) node).setDisable(false);
             } else if (node instanceof JFXTextField) {
                 if (!setDisable)
                     ((JFXTextField) node).setEditable(fielEditable);

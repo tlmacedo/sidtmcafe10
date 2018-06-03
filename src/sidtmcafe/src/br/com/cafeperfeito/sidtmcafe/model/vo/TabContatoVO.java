@@ -1,5 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
+import br.com.cafeperfeito.sidtmcafe.model.dao.SisCargoDAO;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -19,6 +20,11 @@ public class TabContatoVO extends RecursiveTreeObject<TabContatoVO> {
     StringProperty descricao;
 
     public TabContatoVO() {
+        this.sisCargo_id = new SimpleIntegerProperty(11);
+        this.sisCargoVO = new SisCargoDAO().getSisCargoVO(11);
+        this.id = new SimpleIntegerProperty(0);
+        this.tabEmailHomePageVOList = new ArrayList<>();
+        this.tabTelefoneVOList = new ArrayList<>();
     }
 
     public TabContatoVO(String contato, SisCargoVO cargoVO) {

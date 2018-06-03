@@ -50,15 +50,15 @@ public class TabEmpresaDAO extends BuscaBancoDados {
                 "usuarioAtualizacao_id, dataAtualizacao, dataAbertura, naturezaJuridica " +
                 "FROM tabEmpresa ";
         if (id > 0) {
-            comandoSql += "WHERE id = '" + id + "' ";
+            comandoSql += "WHERE id = " + id + " ";
         } else {
             if (!cnpj.equals("")) {
                 comandoSql += "WHERE cnpj = '" + cnpj + "' ";
             } else {
                 if (isLoja) {
-                    comandoSql += "WHERE isLoja = '1' ";
+                    comandoSql += "WHERE isLoja = 1 ";
                 } else {
-                    comandoSql += "WHERE (isCliente = '1' OR isFornecedor= '1' OR isTransportadora = '1') ";
+                    comandoSql += "WHERE (isCliente = 1 OR isFornecedor = 1 OR isTransportadora = 1) ";
                 }
             }
         }
@@ -99,41 +99,30 @@ public class TabEmpresaDAO extends BuscaBancoDados {
 
     void addObjetosPesquisa(TabEmpresaVO empresa) {
         empresa.setSisSituacaoSistemaVO(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(empresa.getSisSituacaoSistema_id()));
-
         empresa.setUsuarioCadastroVO(new TabColaboradorDAO().getTabColaboradorVO_Simples(empresa.getUsuarioCadastro_id()));
         empresa.setUsuarioAtualizacaoVO(new TabColaboradorDAO().getTabColaboradorVO_Simples(empresa.getUsuarioAtualizacao_id()));
+        empresa.setTabEmpresaReceitaFederalVOList(new TabEmpresaReceitaFederalDAO().getTabEmpresaReceitaFederalVOList(empresa.getId()));
 
-        empresa.setTabEmpresaReceitaFederalVOList(
-                new TabEmpresaReceitaFederalDAO().getTabEmpresaReceitaFederalVOList(empresa.getId()));
-
-        List<RelEmpresaEnderecoVO> relEmpresaEnderecoVOList = new ArrayList<>(new RelEmpresaEnderecoDAO().getRelEmpresaEnderecoVOList(empresa.getId()));
         List<TabEnderecoVO> tabEnderecoVOList = new ArrayList<>();
-        if (relEmpresaEnderecoVOList != null)
-            for (int i = 0; i < relEmpresaEnderecoVOList.size(); i++)
-                tabEnderecoVOList.add(new TabEnderecoDAO().getTabEnderecoVO(relEmpresaEnderecoVOList.get(i).getTabEndereco_id()));
+        new RelEmpresaEnderecoDAO().getRelEmpresaEnderecoVOList(empresa.getId())
+                .forEach(relEmpresaEndereco -> {
+                    tabEnderecoVOList.add(new TabEnderecoDAO().getTabEnderecoVO(relEmpresaEndereco.getTabEndereco_id()));
+                });
         empresa.setTabEnderecoVOList(tabEnderecoVOList);
 
-        List<RelEmpresaEmailHomePageVO> relEmpresaEmailHomePageVOList = new ArrayList<>(new RelEmpresaEmailHomePageDAO().getRelEmpresaEmailHomePageVOList(empresa.getId()));
         List<TabEmailHomePageVO> tabEmailHomePageVOList = new ArrayList<>();
-        if (relEmpresaEmailHomePageVOList != null)
-            for (int i = 0; i < relEmpresaEmailHomePageVOList.size(); i++)
-                tabEmailHomePageVOList.add(new TabEmailHomePageDAO().getTabEmailHomePageVO(relEmpresaEmailHomePageVOList.get(i).getTabEmailHomePage_id()));
+        new RelEmpresaEmailHomePageDAO().getRelEmpresaEmailHomePageVOList(empresa.getId())
+                .forEach(relEmpresaEmailHomePage -> {
+                    tabEmailHomePageVOList.add(new TabEmailHomePageDAO().getTabEmailHomePageVO(relEmpresaEmailHomePage.getTabEmailHomePage_id()));
+                });
         empresa.setTabEmailHomePageVOList(tabEmailHomePageVOList);
 
-        List<RelEmpresaTelefoneVO> relEmpresaTelefoneVOList = new ArrayList<>(new RelEmpresaTelefoneDAO().getRelEmpresaTelefoneVOList(empresa.getId()));
         List<TabTelefoneVO> tabTelefoneVOList = new ArrayList<>();
-        if (relEmpresaTelefoneVOList != null)
-            for (int i = 0; i < relEmpresaTelefoneVOList.size(); i++)
-                tabTelefoneVOList.add(new TabTelefoneDAO().getTabTelefoneVO(relEmpresaTelefoneVOList.get(i).getTabTelefone_id()));
+        new RelEmpresaTelefoneDAO().getRelEmpresaTelefoneVOList(empresa.getId())
+                .forEach(relEmpresaTelefone -> {
+                    tabTelefoneVOList.add(new TabTelefoneDAO().getTabTelefoneVO(relEmpresaTelefone.getTabTelefone_id()));
+                });
         empresa.setTabTelefoneVOList(tabTelefoneVOList);
-
-//        List<RelEmpresaContatoVO> relEmpresaContatoVOList = new ArrayList<>(new RelEmpresaContatoDAO().getRelEmpresaContatoVOList(empresa.getId()));
-//        List<TabContatoVO> tabContatoVOList = new ArrayList<>();
-//        if (relEmpresaContatoVOList != null)
-//            for (int i = 0; i < relEmpresaContatoVOList.size(); i++)
-//                tabContatoVOList.add(new TabContatoDAO().getTabContatoVO(relEmpresaContatoVOList.get(i).getTabContato_id()));
-//        empresa.setTabContatoVOList(tabContatoVOList);
-
 
         List<TabContatoVO> tabContatoVOList = new ArrayList<>();
         new RelEmpresaContatoDAO().getRelEmpresaContatoVOList(empresa.getId()).stream()
