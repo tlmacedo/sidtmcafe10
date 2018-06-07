@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTextField?>
 <AnchorPane fx:id="painelViewEntradaProduto" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="785.0" prefWidth="1300.0" stylesheets="@../style/min/sidtm.min.css"
             xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"

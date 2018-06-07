@@ -1,10 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
-import br.com.cafeperfeito.sidtmcafe.model.dao.SisTelefoneOperadoraDAO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmailHomePageVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabTelefoneVO;
 import javafx.util.Pair;
 
 import java.util.ArrayList;

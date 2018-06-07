@@ -2,14 +2,12 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
-import javafx.collections.ListChangeListener;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TabEmpresaDAO extends BuscaBancoDados {
 

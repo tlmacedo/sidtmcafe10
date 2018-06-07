@@ -87,12 +87,11 @@ public class TabEnderecoDAO extends BuscaBancoDados {
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void deleteTabEnderecoVO(Connection conn, TabEnderecoVO enderecoVO) throws SQLException {
-        int idEndereco = enderecoVO.getId();
-        if (idEndereco < 0) idEndereco = idEndereco * (-1);
+    public void deleteTabEnderecoVO(Connection conn, int id_enderecoVO) throws SQLException {
+        if (id_enderecoVO < 0) id_enderecoVO = id_enderecoVO * (-1);
         comandoSql = "DELETE " +
                 "FROM tabEndereco " +
-                "WHERE id = " + idEndereco + " ";
+                "WHERE id = " + id_enderecoVO + " ";
 
         getDeleteBancoDados(conn, comandoSql);
     }

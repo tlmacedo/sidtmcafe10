@@ -2,7 +2,6 @@ package br.com.cafeperfeito.sidtmcafe.model.vo;
 
 //import br.com.cafeperfeito.sidtmcafe.service.FormatarDado;
 
-import br.com.cafeperfeito.sidtmcafe.model.dao.SisTelefoneOperadoraDAO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.IntegerProperty;

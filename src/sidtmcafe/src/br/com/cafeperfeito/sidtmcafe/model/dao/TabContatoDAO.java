@@ -83,11 +83,10 @@ public class TabContatoDAO extends BuscaBancoDados {
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void deleteTabContatoVO(Connection conn, TabContatoVO contatoVO) throws SQLException {
-        int idContato = contatoVO.getId();
-        if (idContato < 0) idContato = idContato * (-1);
+    public void deleteTabContatoVO(Connection conn, int id_contatoVO) throws SQLException {
+        if (id_contatoVO < 0) id_contatoVO = id_contatoVO * (-1);
         comandoSql = "DELETE FROM tabContato ";
-        comandoSql += "WHERE id = " + idContato + " ";
+        comandoSql += "WHERE id = " + id_contatoVO + " ";
 
         getDeleteBancoDados(conn, comandoSql);
     }

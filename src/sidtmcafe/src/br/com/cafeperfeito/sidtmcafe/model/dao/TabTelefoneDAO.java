@@ -67,12 +67,11 @@ public class TabTelefoneDAO extends BuscaBancoDados {
 
     }
 
-    public void deleteTabTelefoneVO(Connection conn, TabTelefoneVO telefoneVO) throws SQLException {
-        int idTelefone = telefoneVO.getId();
-        if (idTelefone < 0) idTelefone = idTelefone * (-1);
+    public void deleteTabTelefoneVO(Connection conn, int id_telefoneVO) throws SQLException {
+        if (id_telefoneVO < 0) id_telefoneVO = id_telefoneVO * (-1);
         comandoSql = "DELETE " +
                 "FROM tabTelefone " +
-                "WHERE id = " + idTelefone + " ";
+                "WHERE id = " + id_telefoneVO + " ";
 
         getDeleteBancoDados(conn, comandoSql);
     }

@@ -32,8 +32,8 @@ public class ServiceCampoPersonalizado implements Constants {
 //            } else if (node instanceof TabPane) {
 //                for (Tab tab : ((TabPane) node).getTabs())
 //                    fieldLenMax((AnchorPane) node);
-//            } else if (node instanceof JFXTabPane) {
-//                for (Tab tab : ((JFXTabPane) node).getTabs())
+//            } else if (node instanceof TabPane) {
+//                for (Tab tab : ((TabPane) node).getTabs())
 //                    fieldLenMax((AnchorPane) node);
 //            } else if (node instanceof AnchorPane) {
 //                fieldLenMax((AnchorPane) node);
@@ -58,8 +58,8 @@ public class ServiceCampoPersonalizado implements Constants {
                 ((JFXCheckBox) node).setSelected(valorInicial == "true");
             } else if (node instanceof JFXListView) {
                 ((JFXListView) node).getItems().clear();
-//            } else if (node instanceof JFXTreeTableView) {
-//                ((JFXTreeTableView) node)
+//            } else if (node instanceof TreeTableView) {
+//                ((TreeTableView) node)
             } else if (node instanceof AnchorPane) {
                 fieldClear((AnchorPane) node);
             } else if (node instanceof TitledPane) {
@@ -67,8 +67,8 @@ public class ServiceCampoPersonalizado implements Constants {
             } else if (node instanceof TabPane) {
                 for (Tab tab : ((TabPane) node).getTabs())
                     fieldClear((AnchorPane) tab.getContent());
-            } else if (node instanceof JFXTabPane) {
-                for (Tab tab : ((JFXTabPane) node).getTabs())
+            } else if (node instanceof TabPane) {
+                for (Tab tab : ((TabPane) node).getTabs())
                     fieldClear((AnchorPane) tab.getContent());
             }
         }
@@ -106,10 +106,10 @@ public class ServiceCampoPersonalizado implements Constants {
                 ((JFXComboBox) node).setDisable(setDisable || fieldDisable);
             } else if (node instanceof JFXCheckBox) {
                 ((JFXCheckBox) node).setDisable(setDisable || fieldDisable);
-            } else if (node instanceof JFXTreeTableView) {
+            } else if (node instanceof TreeTableView) {
                 if (!setDisable)
-                    ((JFXTreeTableView) node).setEditable(fielEditable);
-                ((JFXTreeTableView) node).setDisable(setDisable || fieldDisable);
+                    ((TreeTableView) node).setEditable(fielEditable);
+                ((TreeTableView) node).setDisable(setDisable || fieldDisable);
             } else if (node instanceof AnchorPane) {
                 fieldDisable((AnchorPane) node, setDisable);
             } else if (node instanceof TitledPane) {
@@ -117,8 +117,8 @@ public class ServiceCampoPersonalizado implements Constants {
             } else if (node instanceof TabPane) {
                 for (Tab tab : ((TabPane) node).getTabs())
                     fieldDisable((AnchorPane) tab.getContent(), setDisable);
-            } else if (node instanceof JFXTabPane) {
-                for (Tab tab : ((JFXTabPane) node).getTabs())
+            } else if (node instanceof TabPane) {
+                for (Tab tab : ((TabPane) node).getTabs())
                     fieldDisable((AnchorPane) tab.getContent(), setDisable);
             }
 
@@ -176,8 +176,8 @@ public class ServiceCampoPersonalizado implements Constants {
             } else if (node instanceof TabPane) {
                 for (Tab tab : ((TabPane) node).getTabs())
                     fieldMask((AnchorPane) tab.getContent());
-            } else if (node instanceof JFXTabPane) {
-                for (Tab tab : ((JFXTabPane) node).getTabs())
+            } else if (node instanceof TabPane) {
+                for (Tab tab : ((TabPane) node).getTabs())
                     fieldMask((AnchorPane) tab.getContent());
             }
         }
