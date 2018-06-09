@@ -42,29 +42,23 @@ public class WsCepPostmonDAO extends BuscaWebService implements Constants {
     }
 
     public TabEnderecoVO getTabEnderecoVO(int tipEnd, String cep) {
+        if ((wsCepPostmonVO = getCepPostmonVO(cep)) == null)
+            return null;
         TabEnderecoVO enderecoVO = null;
-        jsonObject = getJsonObjectWebService(WS_POSTMON_URL + cep);
-
-        if (jsonObject == null)
-            return enderecoVO;
-
         try {
             enderecoVO = new TabEnderecoVO(tipEnd, 112);
             enderecoVO.setSisTipoEnderecoVO(new SisTipoEnderecoDAO().getSisTipoEnderecoVO(tipEnd));
-            enderecoVO.setCep(jsonObject.getString("cep"));
-            enderecoVO.setLogradouro(jsonObject.getString("logradouro"));
+            enderecoVO.setCep(wsCepPostmonVO.getCep());
+            enderecoVO.setLogradouro(wsCepPostmonVO.getLogradouro());
             enderecoVO.setNumero("");
             enderecoVO.setComplemento("");
-            enderecoVO.setBairro(jsonObject.getString("bairro"));
-            enderecoVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(jsonObject.getString("cidade")));
+            enderecoVO.setBairro(wsCepPostmonVO.getBairro());
+            enderecoVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCepPostmonVO.getCidade() + "-" + wsCepPostmonVO.getEstado_codigo_ibge()));
             enderecoVO.setSisMunicipio_id(enderecoVO.getSisMunicipioVO().getId());
             enderecoVO.setPontoReferencia("");
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         return enderecoVO;
-
     }
 }

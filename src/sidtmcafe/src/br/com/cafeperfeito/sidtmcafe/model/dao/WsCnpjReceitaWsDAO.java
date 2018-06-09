@@ -106,8 +106,6 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             return empresaVO;
 
         TabEmpresaVO empresa = empresaVO;
-        //if (empresaVO == null)
-        //    empresaVO = new TabEmpresaVO(1);
 
         empresa.setCnpj(wsCnpjReceitaWsVO.getCnpj());
         empresa.setRazao(wsCnpjReceitaWsVO.getNome());
@@ -115,9 +113,6 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
         empresa.setDataAbertura(wsCnpjReceitaWsVO.getAbertura());
         empresa.setNaturezaJuridica(wsCnpjReceitaWsVO.getNaturezaJuridica());
 
-        empresa.getTabEnderecoVOList().forEach(System.out::println);
-        //if (empresaVO.getTabEnderecoVOList().get(0) == null)
-        //    empresaVO.getTabEnderecoVOList().add(new TabEnderecoVO(1, 112));
         TabEnderecoVO enderecoVO = empresa.getTabEnderecoVOList().get(0);
         if (wsCnpjReceitaWsVO.getSituacao().toLowerCase().equals("ativa")) {
             enderecoVO.setCep(wsCnpjReceitaWsVO.getCep());

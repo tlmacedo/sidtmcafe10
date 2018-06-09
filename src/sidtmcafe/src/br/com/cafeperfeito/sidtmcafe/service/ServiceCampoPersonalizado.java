@@ -43,7 +43,7 @@ public class ServiceCampoPersonalizado implements Constants {
     public static void fieldClear(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
 //            System.out.println("node: [" + node.toString() + "] node.getAccessibleText(): [" + node.getAccessibleText() + "]");
-            String valorInicial = null;
+            String valorInicial = "";
             if (node.getAccessibleText() != null && node.getAccessibleText().contains(":")) {
                 if ((valorInicial = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "value").getValue()) == null)
                     valorInicial = "";
@@ -52,8 +52,10 @@ public class ServiceCampoPersonalizado implements Constants {
             }
             if (node instanceof JFXTextField) {
                 ((JFXTextField) node).setText(valorInicial);
+                valorInicial = "";
             } else if (node instanceof JFXComboBox) {
-                ((JFXComboBox) node).getSelectionModel().select(0);
+                if (!valorInicial.equals("") && valorInicial != null)
+                    ((JFXComboBox) node).getSelectionModel().select(Integer.parseInt(valorInicial));
             } else if (node instanceof JFXCheckBox) {
                 ((JFXCheckBox) node).setSelected(valorInicial == "true");
             } else if (node instanceof JFXListView) {

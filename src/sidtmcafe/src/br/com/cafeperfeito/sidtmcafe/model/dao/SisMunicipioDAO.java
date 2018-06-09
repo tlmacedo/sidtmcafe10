@@ -3,6 +3,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisMunicipioVO;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,14 +19,14 @@ public class SisMunicipioDAO extends BuscaBancoDados {
 
     public SisMunicipioVO getSisMunicipioVO(int id) {
         buscaSisMunicipioVO(id, "", 0);
-        if (sisMunicipioVO!=null)
+        if (sisMunicipioVO != null)
             addDetalheObjeto(sisMunicipioVO);
         return sisMunicipioVO;
     }
 
     public SisMunicipioVO getSisMunicipioVO(String municipio) {
         buscaSisMunicipioVO(0, municipio, 0);
-        if (sisMunicipioVO!=null)
+        if (sisMunicipioVO != null)
             addDetalheObjeto(sisMunicipioVO);
         return sisMunicipioVO;
     }
@@ -56,7 +57,15 @@ public class SisMunicipioDAO extends BuscaBancoDados {
             } else {
                 comandoSql += "AND ";
             }
-            comandoSql += "descricao = '" + municipio + "' ";
+            String[] find = new String[2];
+            int i = 0;
+            for (String achado : municipio.split("-")) {
+                find[i] = achado;
+                i++;
+            }
+            if (find[1] != null)
+                comandoSql += "descricao = '" + find[0] + "' AND sisUF_id = " + Integer.parseInt(find[1]) + " ";
+            else comandoSql += "descricao = '" + municipio + "' ";
         }
         comandoSql += "ORDER BY isCapital DESC, descricao ";
 
@@ -80,7 +89,7 @@ public class SisMunicipioDAO extends BuscaBancoDados {
         }
     }
 
-    void addDetalheObjeto(SisMunicipioVO municipio){
+    void addDetalheObjeto(SisMunicipioVO municipio) {
         municipio.setUfVO(new SisUFDAO().getSisUFVO(municipio.getSisUF_id()));
     }
 

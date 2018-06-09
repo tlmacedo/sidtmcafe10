@@ -3,6 +3,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisUFVO;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class SisUFDAO extends BuscaBancoDados {
 
     public SisUFVO getSisUFVO_DetMunicipios(int id) {
         buscaSisUFVO(id, "");
-        if (sisUFVO!=null)
+        if (sisUFVO != null)
             addMunicipiosEmUF(sisUFVO);
         return sisUFVO;
     }
