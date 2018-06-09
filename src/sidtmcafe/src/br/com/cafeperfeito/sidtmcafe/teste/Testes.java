@@ -1,135 +1,31 @@
 package br.com.cafeperfeito.sidtmcafe.teste;
 
-import com.jfoenix.controls.JFXTextArea;
-import javafx.application.Application;
-import javafx.concurrent.Task;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import java.util.ArrayList;
+import java.util.Collections;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+public class Testes {
 
-import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.IMAGE_SPLASH;
-import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.STYLE_SHEETS;
-
-public class Testes extends Application {
-    static Dialog dialog;
-    static DialogPane dialogPane;
-    private HBox hBoxDialog;
-    private Task<?> taskDialog;
-    private VBox vBoxDialog;
-    Label lblMensagem, lblTextoMsg;
-    private ProgressBar progressBarDialog = new ProgressBar();
-    private ImageView imageViewDialog;
-    private ProgressIndicator progressIndicatorDialog;
-    int qtdTarefasDialog = 10;
-    private Image imageDialog;
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        taskDialog = new Task<Object>() {
-            @Override
-            protected Object call() throws Exception {
-                for (int i = 0; i < qtdTarefasDialog; i++) {
-                    Thread.sleep(500);
-                    updateProgress(i, 10);
-                    updateMessage("Tarefa: " + i);
-                }
-                updateProgress(qtdTarefasDialog, qtdTarefasDialog);
-                return null;
-            }
-        };
-
-        dialog = new Dialog();
-        dialogPane = dialog.getDialogPane();
-
-        dialog.initStyle(StageStyle.TRANSPARENT);
-        dialogPane.getScene().setFill(Color.TRANSPARENT);
-        dialogPane.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
-        dialogPane.getStyleClass().add("dialog-pane-transparent");
-
-        dialogPane.setContent(preencheDialogBasico());
-
-        taskDialog.setOnSucceeded(event -> {
-            closeDialog();
-        });
-
-        Thread thread = new Thread(taskDialog);
-        thread.start();
-
-        dialog.showAndWait();
-
-    }
-
-    void closeDialog() {
-        dialog.setResult(ButtonType.CANCEL);
-        dialog.close();
-    }
-
-    VBox preencheDialogBasico() {
-        hBoxDialog = new HBox();
-        hBoxDialog.setSpacing(7);
-        hBoxDialog.setAlignment(Pos.CENTER_LEFT);
-
-        vBoxDialog = new VBox();
-        vBoxDialog.setSpacing(15);
-        vBoxDialog.setAlignment(Pos.CENTER);
-
-        lblTextoMsg = new Label();
-        lblMensagem = new Label();
-        lblMensagem.getStyleClass().add("msg");
-        boolean transparenteDialog = false;
-        if (transparenteDialog) {
-            int random = (int) (Math.random() * IMAGE_SPLASH.length);
-            imageViewDialog = new ImageView();
-            addImagem(IMAGE_SPLASH[random]);
-            vBoxDialog.getChildren().add(imageViewDialog);
-            vBoxDialog.getChildren().add(lblTextoMsg);
-            vBoxDialog.getChildren().add(progressBarDialog);
-            vBoxDialog.getChildren().add(lblMensagem);
-        } else {
-            progressIndicatorDialog = new ProgressIndicator();
-            progressIndicatorDialog.progressProperty().bind(taskDialog.progressProperty());
-            progressIndicatorDialog.setPrefSize(25, 25);
-            hBoxDialog.getChildren().addAll(progressIndicatorDialog, lblMensagem);
-            vBoxDialog.getChildren().add(hBoxDialog);
+    public static void main(String... args) {
+        ArrayList<Integer> bloco = new ArrayList<Integer>();
+        bloco.add(100);
+        bloco.add(500);
+        bloco.add(200);
+        bloco.add(300);
+        bloco.add(600);
+        ArrayList<Integer> proc = new ArrayList<Integer>();
+        proc.add(210);
+        proc.add(410);
+        proc.add(110);
+        proc.add(220);
+        int maxi = 0;
+        System.out.println("Bloco: " + bloco);
+        System.out.println("proc: " + proc);
+        for (int j = 0; j < proc.size(); j++) {
+            maxi = Collections.max(bloco);
+            bloco.set(bloco.indexOf(maxi), maxi - proc.get(j));
+            System.out.println("Bloco: " + bloco);
         }
-
-
-        boolean geraMsgRetornoDialog = false;
-        if (geraMsgRetornoDialog) {
-            JFXTextArea textArea = new JFXTextArea();
-            textArea.setWrapText(true);
-            textArea.setEditable(false);
-            vBoxDialog.getChildren().add(textArea);
-            progressBarDialog.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
-        } else {
-            if (qtdTarefasDialog > 1) {
-                progressBarDialog.progressProperty().bind(taskDialog.progressProperty());
-            } else {
-                progressBarDialog.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
-            }
-        }
-
-        vBoxDialog.getChildren().add(progressBarDialog = new ProgressBar());
-
-        return vBoxDialog;
     }
-
-    void addImagem(String strImage) {
-        imageDialog = new Image(getClass().getResource(strImage).toString());
-        imageViewDialog.setImage(imageDialog);
-        imageViewDialog.setClip(new Circle(120, 120, 120));
-    }
-
 
 //    public static void main(String... args) {
 //        System.out.println("cnpj: [" + new ServiceFormatarDado().gerarMascara("cnpj", 0, "#") + "]");
@@ -192,27 +88,5 @@ public class Testes extends Application {
 //        System.out.println("retorno: [" + getMoeda(new Scanner(System.in).nextLine(), 2) + "]");
 //    }
 
-    static String getMoeda(String valor, int casaDecimal) {
-        boolean sinal = valor.contains("-");
-        Pattern p = Pattern.compile("(\\d+)");
-        Matcher m = p.matcher(valor.replaceAll("(\\D)", ""));
-        String value = "";
-        while (m.find())
-            value = m.group();
-        for (int i = value.length(); i < (casaDecimal + 1); i++)
-            value = "0" + value;
-
-        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 18) + "})$", "$1.$2");
-        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 15) + "})$", "$1.$2");
-        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 12) + "})$", "$1.$2");
-        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 9) + "})$", "$1.$2");
-        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 6) + "})$", "$1.$2");
-        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 3) + "})$", "$1.$2");
-        if (casaDecimal > 0)
-            value = value.replaceAll("(\\d{1})(\\d{" + casaDecimal + "})$", "$1,$2");
-
-        if (sinal) value = "-" + value;
-        return value;
-    }
 
 }

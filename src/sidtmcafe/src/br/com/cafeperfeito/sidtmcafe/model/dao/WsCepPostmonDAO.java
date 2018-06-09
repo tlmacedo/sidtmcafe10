@@ -21,17 +21,17 @@ public class WsCepPostmonDAO extends BuscaWebService implements Constants {
         try {
             wsCepPostmonVO = new WsCepPostmonVO();
 
-            wsCepPostmonVO.setBairro(jsonObject.getString("bairro"));
-            wsCepPostmonVO.setCidade(jsonObject.getString("cidade"));
-            wsCepPostmonVO.setCep(jsonObject.getString("cep"));
-            wsCepPostmonVO.setLogradouro(jsonObject.getString("logradouro"));
-            wsCepPostmonVO.setEstado_area(jsonObject.getJSONObject("estado_info").getString("area_km2"));
-            wsCepPostmonVO.setEstado_codigo_ibge(jsonObject.getJSONObject("estado_info").getString("codigo_ibge"));
-            wsCepPostmonVO.setEstado_nome(jsonObject.getJSONObject("estado_info").getString("nome"));
+            wsCepPostmonVO.setBairro(jsonObject.getString("bairro").toUpperCase());
+            wsCepPostmonVO.setCidade(jsonObject.getString("cidade").toUpperCase());
+            wsCepPostmonVO.setCep(jsonObject.getString("cep").toUpperCase());
+            wsCepPostmonVO.setLogradouro(jsonObject.getString("logradouro").toUpperCase());
+            wsCepPostmonVO.setEstado_area(jsonObject.getJSONObject("estado_info").getString("area_km2").toUpperCase());
+            wsCepPostmonVO.setEstado_codigo_ibge(jsonObject.getJSONObject("estado_info").getString("codigo_ibge").toUpperCase());
+            wsCepPostmonVO.setEstado_nome(jsonObject.getJSONObject("estado_info").getString("nome").toUpperCase());
 
-            wsCepPostmonVO.setCidade_area(jsonObject.getJSONObject("cidade_info").getString("area_km2"));
-            wsCepPostmonVO.setCidade_codigo_ibge(jsonObject.getJSONObject("cidade_info").getString("codigo_ibge"));
-            wsCepPostmonVO.setEstado_sigla(jsonObject.getString("estado"));
+            wsCepPostmonVO.setCidade_area(jsonObject.getJSONObject("cidade_info").getString("area_km2").toUpperCase());
+            wsCepPostmonVO.setCidade_codigo_ibge(jsonObject.getJSONObject("cidade_info").getString("codigo_ibge").toUpperCase());
+            wsCepPostmonVO.setEstado_sigla(jsonObject.getString("estado").toUpperCase());
 
         } catch (Exception ex) {
             ex.printStackTrace();
