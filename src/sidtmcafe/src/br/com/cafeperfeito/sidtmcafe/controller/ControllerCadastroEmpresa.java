@@ -298,17 +298,23 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     txtCNPJ.requestFocus();
                     return;
                 } else {
-                    TabEmpresaVO empresaVO = getEmpresaVO();
-                    if ((empresaVO = new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(empresaVO, valueCnpj)) == null) {
+                    TabEmpresaVO empresaCNPJ;
+                    if ((empresaCNPJ = new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(getEmpresaVO(), valueCnpj)) == null) {
                         new ServiceAlertMensagem("Dado não localizada!", USUARIO_LOGADO_APELIDO + ", o "
                                 + "C.N.P.J.: " + txtCNPJ.getText() + " não foi localizado na base de dados!",
                                 "ic_web_service_err_white_24dp").getRetornoAlert_OK();
                         txtEndCEP.requestFocus();
                         return;
                     } else {
-                        System.out.println("endereco(0): [" + empresaVO.getTabEnderecoVOList().get(0).getLogradouro() + "]");
-                        setEmpresaVO(empresaVO);
-                        txtCNPJ.requestFocus();
+                        System.out.println("001empresaCNPJ.getTabEnderecoVOList().get(0).getLogradouro(): [" + empresaCNPJ.getTabEnderecoVOList().get(0).getLogradouro() + "]");
+                        System.out.println("001getEnderecoVOObservableList().get(0): [" + getEnderecoVOObservableList().get(0).getLogradouro() + "]");
+                        System.out.println("001getEmpresaVO().getTabEnderecoVOList().get(0).getLogradouro(): [" + getEmpresaVO().getTabEnderecoVOList().get(0).getLogradouro() + "]");
+                        setEmpresaVO(empresaCNPJ);
+//                        exibirDadosEmpresa();
+                        System.out.println("002empresaCNPJ.getTabEnderecoVOList().get(0).getLogradouro(): [" + empresaCNPJ.getTabEnderecoVOList().get(0).getLogradouro() + "]");
+                        System.out.println("002getEnderecoVOObservableList().get(0): [" + getEnderecoVOObservableList().get(0).getLogradouro() + "]");
+                        System.out.println("002getEmpresaVO().getTabEnderecoVOList().get(0).getLogradouro(): [" + getEmpresaVO().getTabEnderecoVOList().get(0).getLogradouro() + "]");
+                        txtRazao.requestFocus();
                     }
 
                 }
@@ -557,18 +563,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         return empresaVO;
     }
 
-    public void setEmpresaVO(TabEmpresaVO empresaVO) {
-        System.out.println("Aqui 000");
+    public void setEmpresaVO(TabEmpresaVO empresa) {
         this.empresaVO = new TabEmpresaVO();
-        System.out.println("Aqui 001");
-        if (empresaVO != null) {
-            System.out.println("Aqui 002");
-            this.empresaVO = empresaVO;
-            System.out.println("Aqui 003");
+        if (empresa != null) {
+            this.empresaVO = empresa;
         }
-        System.out.println("Aqui 004");
         exibirDadosEmpresa();
-        System.out.println("Aqui 005");
     }
 
     public ObservableList<TabEnderecoVO> getEnderecoVOObservableList() {
@@ -577,8 +577,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     public void setEnderecoVOObservableList(List<TabEnderecoVO> enderecoVOList) {
         this.enderecoVOObservableList.clear();
-        if (enderecoVOList.size() > 0)
-            this.enderecoVOObservableList.setAll(FXCollections.observableArrayList(enderecoVOList));
+        if (enderecoVOList != null)
+            this.enderecoVOObservableList.setAll(FXCollections.observableArrayList(new ArrayList<>(enderecoVOList)));
     }
 
     public TabEnderecoVO getEnderecoVO() {
@@ -598,7 +598,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     public void setEmailHomePageVOObservableList(List<TabEmailHomePageVO> emailHomePageVOList) {
         this.emailHomePageVOObservableList.clear();
-        if (emailHomePageVOList.size() > 0)
+        if (emailHomePageVOList != null)
             this.emailHomePageVOObservableList.setAll(FXCollections.observableArrayList(emailHomePageVOList));
     }
 
@@ -608,7 +608,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     public void setTelefoneVOObservableList(List<TabTelefoneVO> telefoneVOList) {
         this.telefoneVOObservableList.clear();
-        if (telefoneVOList.size() > 0)
+        if (telefoneVOList != null)
             this.telefoneVOObservableList.setAll(FXCollections.observableArrayList(telefoneVOList));
     }
 
@@ -618,7 +618,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     public void setContatoVOObservableList(List<TabContatoVO> contatoVOList) {
         this.contatoVOObservableList.clear();
-        if (contatoVOList.size() > 0)
+        if (contatoVOList != null)
             this.contatoVOObservableList.setAll(FXCollections.observableArrayList(contatoVOList));
     }
 
@@ -639,7 +639,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     public void setContatoEmailHomePageVOObservableList(List<TabEmailHomePageVO> contatoEmailHomePageVOList) {
         this.contatoEmailHomePageVOObservableList.clear();
-        if (contatoEmailHomePageVOList.size() > 0)
+        if (contatoEmailHomePageVOList != null)
             this.contatoEmailHomePageVOObservableList.setAll(FXCollections.observableArrayList(contatoEmailHomePageVOList));
     }
 
@@ -649,7 +649,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     public void setContatoTelefoneVOObservableList(List<TabTelefoneVO> contatoTelefoneVOList) {
         this.contatoTelefoneVOObservableList.clear();
-        if (contatoTelefoneVOList.size() > 0)
+        if (contatoTelefoneVOList != null)
             this.contatoTelefoneVOObservableList.setAll(FXCollections.observableArrayList(contatoTelefoneVOList));
     }
 
@@ -659,7 +659,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     public void setEmpresaReceitaFederalVOObservableList(List<TabEmpresaReceitaFederalVO> empresaReceitaFederalVOList) {
         this.empresaReceitaFederalVOObservableList.clear();
-        if (empresaReceitaFederalVOList.size() > 0)
+        if (empresaReceitaFederalVOList != null)
             this.empresaReceitaFederalVOObservableList.setAll(FXCollections.observableArrayList(empresaReceitaFederalVOList));
     }
 
@@ -761,18 +761,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             clearFieldDadoCadastral((AnchorPane) tpnDadoCadastral.getContent());
             return;
         }
-        setEnderecoVOObservableList(getEmpresaVO().getTabEnderecoVOList());
-        setEmailHomePageVOObservableList(getEmpresaVO().getTabEmailHomePageVOList());
-        setTelefoneVOObservableList(getEmpresaVO().getTabTelefoneVOList());
-        setContatoVOObservableList(getEmpresaVO().getTabContatoVOList());
-        setEmpresaReceitaFederalVOObservableList(getEmpresaVO().getTabEmpresaReceitaFederalVOList());
 
-        System.out.println("endereco(1): [" + getEmpresaVO().getTabEnderecoVOList().get(0).getLogradouro() + "]");
-        System.out.println("endereco(2): [" + getEnderecoVOObservableList().get(0).getLogradouro() + "]");
-
-
-        listEndereco.getSelectionModel().selectFirst();
-        listContatoNome.getSelectionModel().selectFirst();
         cboClassificacaoJuridica.getSelectionModel().select(getEmpresaVO().isIsEmpresa() ? 1 : 0);
         txtCNPJ.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cnpj") : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cpf"));
         txtIE.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie" + getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()) : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie"));
@@ -791,6 +780,14 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         lblDataCadastroDiff.setText("tempo de cadastro: " + ((getEmpresaVO().getDataCadastro() != null) ? ServiceDataHora.getIntervaloData(getEmpresaVO().getDataCadastro().toLocalDateTime().toLocalDate(), null) : ""));
         lblDataAtualizacao.setText("data atualização: " + ((getEmpresaVO().getDataAtualizacao() != null) ? getEmpresaVO().getDataAtualizacao().toLocalDateTime().format(DTF_DATAHORA) + " [" + getEmpresaVO().getUsuarioCadastroVO().getApelido() + "]" : ""));
         lblDataAtualizacaoDiff.setText("tempo de atualização: " + ((getEmpresaVO().getDataAtualizacao() != null) ? ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAtualizacao().toLocalDateTime().toLocalDate(), null) : ""));
+
+        setEnderecoVOObservableList((getEmpresaVO().getTabEnderecoVOList().size() > 0) ? new ArrayList<>(getEmpresaVO().getTabEnderecoVOList()) : null);
+        setEmailHomePageVOObservableList((getEmpresaVO().getTabEmailHomePageVOList().size() > 0) ? new ArrayList<>(getEmpresaVO().getTabEmailHomePageVOList()) : null);
+        setTelefoneVOObservableList((getEmpresaVO().getTabTelefoneVOList().size() > 0) ? new ArrayList<>(getEmpresaVO().getTabTelefoneVOList()) : null);
+        setContatoVOObservableList((getEmpresaVO().getTabContatoVOList().size() > 0) ? new ArrayList<>(getEmpresaVO().getTabContatoVOList()) : null);
+        setEmpresaReceitaFederalVOObservableList((getEmpresaVO().getTabEmpresaReceitaFederalVOList().size() > 0) ? new ArrayList<>(getEmpresaVO().getTabEmpresaReceitaFederalVOList()) : null);
+        listEndereco.getSelectionModel().selectFirst();
+        listContatoNome.getSelectionModel().selectFirst();
     }
 
     void exibirDadosEndereco() {
