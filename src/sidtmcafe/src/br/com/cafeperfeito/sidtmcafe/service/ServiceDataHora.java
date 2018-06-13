@@ -9,25 +9,15 @@ public class ServiceDataHora {
         if (data1 == null) return null;
         if (data2 == null) data2 = LocalDate.now();
         Period period = Period.between(data1, data2);
-        if (period.equals(""))
-            return " hoje ";
         String strPeriodo = "";
-
-        if (period.getYears() > 0) {
-            strPeriodo += period.getYears();
-            if (period.getYears() == 1) strPeriodo += " ano ";
-            else strPeriodo += " anos ";
-        }
-        if (period.getMonths() > 0) {
-            strPeriodo += period.getMonths();
-            if (period.getMonths() == 1) strPeriodo += " mês ";
-            else strPeriodo += " meses ";
-        }
-        if (period.getDays() > 0) {
-            strPeriodo += period.getDays();
-            if (period.getDays() == 1) strPeriodo += " dia ";
-            else strPeriodo += " dias ";
-        }
+        if (period.getYears() > 0)
+            strPeriodo += period.getYears() + (period.getYears() == 1 ? " ano " : " anos ");
+        else if (period.getMonths() > 0)
+            strPeriodo += period.getMonths() + (period.getMonths() == 1 ? " mês " : " meses ");
+        else if (period.getDays() > 0)
+            strPeriodo += period.getDays() + (period.getDays() == 1 ? " dias " : " dia ");
+        else
+            strPeriodo = " hoje ";
         return strPeriodo;
     }
 

@@ -104,8 +104,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
     public TabEmpresaVO getTabEmpresaVO(TabEmpresaVO empresaVO, String cnpj) {
         if (((wsCnpjReceitaWsVO = getWsCnpjReceitaWsVO(cnpj)) == null) || (wsCnpjReceitaWsVO.getStatus().equals("ERROR")))
             return empresaVO;
-        TabEmpresaVO empresa = new TabEmpresaVO();
-        empresa = empresaVO;
+        TabEmpresaVO empresa = empresaVO;
 
         empresa.setCnpj(wsCnpjReceitaWsVO.getCnpj());
         empresa.setRazao(wsCnpjReceitaWsVO.getNome());
@@ -113,22 +112,19 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
         empresa.setDataAbertura(wsCnpjReceitaWsVO.getAbertura());
         empresa.setNaturezaJuridica(wsCnpjReceitaWsVO.getNaturezaJuridica());
 
-        TabEnderecoVO enderecoVO = new TabEnderecoVO();
-        enderecoVO = empresa.getTabEnderecoVOList().get(0);
         if (wsCnpjReceitaWsVO.getSituacao().toLowerCase().equals("ativa")) {
-            enderecoVO.setCep(wsCnpjReceitaWsVO.getCep());
-            enderecoVO.setLogradouro(wsCnpjReceitaWsVO.getLogradouro());
-            enderecoVO.setNumero(wsCnpjReceitaWsVO.getNumero());
-            enderecoVO.setComplemento(wsCnpjReceitaWsVO.getComplemento());
-            enderecoVO.setBairro(wsCnpjReceitaWsVO.getBairro());
-            enderecoVO.setSisMunicipioVO(wsCnpjReceitaWsVO.getSisMunicipioVO());
-            enderecoVO.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipio_id());
-            enderecoVO.setPontoReferencia("");
+            TabEnderecoVO endereco = new TabEnderecoVO(1, 0);
+            endereco.setCep(wsCnpjReceitaWsVO.getCep());
+            endereco.setLogradouro(wsCnpjReceitaWsVO.getLogradouro());
+            endereco.setNumero(wsCnpjReceitaWsVO.getNumero());
+            endereco.setComplemento(wsCnpjReceitaWsVO.getComplemento());
+            endereco.setBairro(wsCnpjReceitaWsVO.getBairro());
+            endereco.setSisMunicipioVO(wsCnpjReceitaWsVO.getSisMunicipioVO());
+            endereco.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipio_id());
+            endereco.setPontoReferencia("");
+            empresa.getTabEnderecoVOList().set(0, endereco);
         }
-        //empresa.getTabEnderecoVOList().set(0, enderecoVO);
 
-//        if (empresa.getTabEmailHomePageVOList() == null)
-//            empresa.setTabEmailHomePageVOList(new ArrayList<>());
         if (!wsCnpjReceitaWsVO.getEmail().equals("")) {
             List<String> emailList = ServiceValidarDado.getEmailsList(wsCnpjReceitaWsVO.getEmail());
             if (emailList != null)
@@ -138,8 +134,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
                 }
 
         }
-//        if (empresa.getTabTelefoneVOList() == null)
-//            empresa.setTabTelefoneVOList(new ArrayList<>());
+
         if (!wsCnpjReceitaWsVO.getTelefone().equals("")) {
             List<Pair<String, Integer>> telefoneList = ServiceValidarDado.getTelefoneList(wsCnpjReceitaWsVO.getTelefone());
             if (telefoneList != null)
@@ -147,7 +142,6 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
                     if (empresa.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(telefone.getKey())))
                         empresa.getTabTelefoneVOList().add(new TabTelefoneVO(telefone.getKey(), new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVO(2)));
         }
-//        empresa.setTabEmpresaReceitaFederalVOList(new ArrayList<>());
 
         empresa.getTabEmpresaReceitaFederalVOList().stream()
                 .forEach(receita -> receita.setId(receita.getId() * (-1)));

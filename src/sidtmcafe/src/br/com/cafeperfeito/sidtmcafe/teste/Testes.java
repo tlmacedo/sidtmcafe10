@@ -1,32 +1,53 @@
 package br.com.cafeperfeito.sidtmcafe.teste;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Testes {
 
-    public static void main(String... args) {
-        ArrayList<Integer> bloco = new ArrayList<Integer>();
-        bloco.add(100);
-        bloco.add(500);
-        bloco.add(200);
-        bloco.add(300);
-        bloco.add(600);
-        ArrayList<Integer> proc = new ArrayList<Integer>();
-        proc.add(210);
-        proc.add(410);
-        proc.add(110);
-        proc.add(220);
-        int maxi = 0;
-        System.out.println("Bloco: " + bloco);
-        System.out.println("proc: " + proc);
-        for (int j = 0; j < proc.size(); j++) {
-            maxi = Collections.max(bloco);
-            bloco.set(bloco.indexOf(maxi), maxi - proc.get(j));
-            System.out.println("Bloco: " + bloco);
-        }
+    public static void main(String[] args) {
+        ObservableList<String> list = FXCollections.observableArrayList("one",
+                "two");
+        System.out.println(list);
+
+        list.addListener(Testes::onChanged);
+        //list.addListener(Main::onChanged);
+
+        list.addAll("A", "B");
+        System.out.println("After addAll() - list: " + list);
+
+        list.remove(1, 3);
+        System.out.println("After remove() - list: " + list);
+
+        list.retainAll("one");
+        System.out.println("After retainAll() - list: " + list);
+
+        list.set(0, "ONE");
+        System.out.println("After set() - list: " + list);
     }
 
+    public static void onChanged(
+            ListChangeListener.Change<? extends String> change) {
+        while (change.next()) {
+            if (change.wasPermutated()) {
+                System.out.println("A permutation is detected.");
+            } else if (change.wasUpdated()) {
+                System.out.println("An update is detected.");
+            } else if (change.wasReplaced()) {
+                System.out.println("A replacement is detected.");
+            } else {
+                if (change.wasRemoved()) {
+                    System.out.println("A removal is detected.");
+                } else if (change.wasAdded()) {
+                    System.out.println("An addiiton is detected.");
+                }
+            }
+        }
+    }
 //    public static void main(String... args) {
 //        System.out.println("cnpj: [" + new ServiceFormatarDado().gerarMascara("cnpj", 0, "#") + "]");
 //        System.out.println("cpf: [" + new ServiceFormatarDado().gerarMascara("cpf", 0, "#") + "]");

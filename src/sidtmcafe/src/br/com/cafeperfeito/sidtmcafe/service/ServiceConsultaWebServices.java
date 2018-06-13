@@ -27,14 +27,14 @@ public class ServiceConsultaWebServices {
         return enderecoVO[0];
     }
 
-    public TabEmpresaVO getSistuacaoCNPJ_receitaWs(TabEmpresaVO tabEmpresaVO, String busca) {
+    public TabEmpresaVO getSistuacaoCNPJ_receitaWs(TabEmpresaVO empresa, String busca) {
         final TabEmpresaVO[] empresaVO = {null};
         Task<Void> buscaCNPJ = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 updateMessage("Pesquisando C.N.P.J [" + ServiceFormatarDado.getValorFormatado(busca, "cnpj") + "]");
                 Thread.sleep(300);
-                empresaVO[0] = new WsCnpjReceitaWsDAO().getTabEmpresaVO(tabEmpresaVO, busca);
+                empresaVO[0] = new WsCnpjReceitaWsDAO().getTabEmpresaVO(empresa, busca);
                 return null;
             }
         };

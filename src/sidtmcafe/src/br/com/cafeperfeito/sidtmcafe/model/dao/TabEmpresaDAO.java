@@ -122,7 +122,7 @@ public class TabEmpresaDAO extends BuscaBancoDados {
                 });
         empresa.setTabTelefoneVOList(tabTelefoneVOList);
 
-        List<TabContatoVO> tabContatoVOList = new ArrayList<>();
+        List<TabContatoVO> tabContatoVOList = new ArrayList<TabContatoVO>();
         new RelEmpresaContatoDAO().getRelEmpresaContatoVOList(empresa.getId()).stream()
                 .forEach(relEmpresaContato -> {
                     tabContatoVOList.add(new TabContatoDAO().getTabContatoVO(relEmpresaContato.getTabContato_id()));
