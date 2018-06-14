@@ -27,7 +27,7 @@ public class SisUFDAO extends BuscaBancoDados {
         return sisUFVO;
     }
 
-    public SisUFVO getSisUFVO_DetMunicipios(int id) {
+    public SisUFVO getSisUFVO_DetMunicipio(int id) {
         buscaSisUFVO(id, "");
         if (sisUFVO != null)
             addMunicipiosEmUF(sisUFVO);
@@ -39,7 +39,7 @@ public class SisUFDAO extends BuscaBancoDados {
         return sisUFVOList;
     }
 
-    public List<SisUFVO> getSisUFVOList_DetMunicipios() {
+    public List<SisUFVO> getSisUFVOList_DetMunicipio() {
         buscaSisUFVO(0, "");
         if (sisUFVOList != null)
             for (SisUFVO ufvo : sisUFVOList)

@@ -9,45 +9,14 @@ import java.util.Collections;
 
 public class Testes {
 
-    public static void main(String[] args) {
-        ObservableList<String> list = FXCollections.observableArrayList("one",
-                "two");
-        System.out.println(list);
-
-        list.addListener(Testes::onChanged);
-        //list.addListener(Main::onChanged);
-
-        list.addAll("A", "B");
-        System.out.println("After addAll() - list: " + list);
-
-        list.remove(1, 3);
-        System.out.println("After remove() - list: " + list);
-
-        list.retainAll("one");
-        System.out.println("After retainAll() - list: " + list);
-
-        list.set(0, "ONE");
-        System.out.println("After set() - list: " + list);
+    public static void main(String... args) {
+        String nome = "José";
+        String sobrenome = "Silva";
+        System.out.printf("O nome é.: %s %s", nome, sobrenome);
     }
 
-    public static void onChanged(
-            ListChangeListener.Change<? extends String> change) {
-        while (change.next()) {
-            if (change.wasPermutated()) {
-                System.out.println("A permutation is detected.");
-            } else if (change.wasUpdated()) {
-                System.out.println("An update is detected.");
-            } else if (change.wasReplaced()) {
-                System.out.println("A replacement is detected.");
-            } else {
-                if (change.wasRemoved()) {
-                    System.out.println("A removal is detected.");
-                } else if (change.wasAdded()) {
-                    System.out.println("An addiiton is detected.");
-                }
-            }
-        }
-    }
+
+
 //    public static void main(String... args) {
 //        System.out.println("cnpj: [" + new ServiceFormatarDado().gerarMascara("cnpj", 0, "#") + "]");
 //        System.out.println("cpf: [" + new ServiceFormatarDado().gerarMascara("cpf", 0, "#") + "]");

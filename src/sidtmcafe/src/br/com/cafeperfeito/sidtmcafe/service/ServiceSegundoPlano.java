@@ -23,53 +23,7 @@ public class ServiceSegundoPlano implements Constants {
 //    WsEanCosmosVO wsEanCosmosVO;
 
     int qtdTarefas = 1;
-    public void tarefaAbreCadastroEmpresa(ControllerCadastroEmpresa cadastroEmpresa, List<Pair> tarefas) {
-        qtdTarefas = tarefas.size();
-        Task<Void> voidTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                updateMessage("carregando");
-                for (Pair tarefaAtual : tarefas) {
-                    updateProgress(tarefas.indexOf(tarefaAtual), qtdTarefas);
-                    Thread.sleep(200);
-                    updateMessage(tarefaAtual.getValue().toString());
-                    switch (tarefaAtual.getKey().toString()) {
-                        case "criarTabelaEmpresa":
-                            TabModel.tabelaEmpresa();
-                            break;
-                        case "preencherCboFiltroPesquisa":
-                            cadastroEmpresa.preencherCboFiltroPesquisa();
-                            break;
-                        case "preencherCboClassificacaoJuridica":
-                            cadastroEmpresa.preencherCboClassificacaoJuridica();
-                            break;
-                        case "preencherCboSituacaoSistema":
-                            cadastroEmpresa.preencherCboSituacaoSistema();
-                            break;
-                        case "preencherCboEndUF":
-                            cadastroEmpresa.preencherCboEndUF();
-                            break;
-                        case "carregarTabCargo":
-                            cadastroEmpresa.carregarTabCargo();
-                            break;
-                        case "carregarSisTipoEndereco":
-                            cadastroEmpresa.carregarSisTipoEndereco();
-                            break;
-                        case "carregarSisTelefoneOperadora":
-                            cadastroEmpresa.carregarSisTelefoneOperadora();
-                            break;
-                        case "carregarListaEmpresa":
-                            cadastroEmpresa.carregarListaEmpresa();
-                            break;
-                        case "preencherTabelaEmpresa":
-                            cadastroEmpresa.preencherTabelaEmpresa();
-                            break;
-                    }
-                }
-                updateProgress(qtdTarefas, qtdTarefas);
-                return null;
-            }
-        };
+    public void tarefaAbreCadastroEmpresa(Task voidTask, int qtdTarefas) {
         new ServiceAlertMensagem("Aguarde carregando dados do sistema...", "",
                 "ic_aguarde_sentado_orange_32dp.png")
                 .getProgressBar(voidTask, true, false, qtdTarefas);
