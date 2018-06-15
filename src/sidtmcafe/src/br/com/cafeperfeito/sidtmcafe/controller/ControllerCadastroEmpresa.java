@@ -2,10 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.controller;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
-import br.com.cafeperfeito.sidtmcafe.model.dao.SisMunicipioDAO;
-import br.com.cafeperfeito.sidtmcafe.model.dao.SisSituacaoSistemaDAO;
-import br.com.cafeperfeito.sidtmcafe.model.dao.SisUFDAO;
-import br.com.cafeperfeito.sidtmcafe.model.dao.TabEmpresaDAO;
+import br.com.cafeperfeito.sidtmcafe.model.dao.*;
 import br.com.cafeperfeito.sidtmcafe.model.model.TabModel;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
 import br.com.cafeperfeito.sidtmcafe.service.*;
@@ -236,7 +233,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         break;
                     case HELP:
                         if (getStatusFormulario().toLowerCase().equals("pesquisa")) break;
-//                        keyInsert();
+                        if (listEndereco.isFocused() && listEndereco.getSelectionModel().getSelectedIndex() >= 0)
+                            addEndereco();
                         break;
                     case DELETE:
                         if (getStatusFormulario().toLowerCase().equals("pesquisa")) break;
@@ -383,10 +381,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         });
     }
 
-    EventHandler<KeyEvent> eventHandlerCadastroEmpresa;
-    List<Pair> listaTarefa = new ArrayList<>();
-    ServiceFormatarDado formatCnpj, formatIe;
-    String statusFormulario, statusBarTecla, tituloTab = ViewCadastroEmpresa.getTituloJanela();
     FilteredList<TabEmpresaVO> empresaVOFilteredList;
     TabEmpresaVO empresaVO;
     TabEnderecoVO enderecoVO;
@@ -395,6 +389,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     static String STATUS_BAR_TECLA_PESQUISA = "[F1-Novo]  [F4-Editar]  [F7-Pesquisar]  [F12-Sair]  ";
     static String STATUS_BAR_TECLA_EDITAR = "[F3-Cancelar edição]  [F5-Atualizar]  ";
     static String STATUS_BAR_TECLA_INCLUIR = "[F2-Incluir]  [F3-Cancelar inclusão]  ";
+
+    EventHandler<KeyEvent> eventHandlerCadastroEmpresa;
+    List<Pair> listaTarefa = new ArrayList<>();
+    ServiceFormatarDado formatCnpj, formatIe;
+    ServiceAlertMensagem alertMensagem;
+    String statusFormulario, statusBarTecla, tituloTab = ViewCadastroEmpresa.getTituloJanela();
 
     Task getTaskCadastroEmpresa() {
         int qtdTarefas = listaTarefa.size();
@@ -477,11 +477,11 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             case "editar":
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroEmpresa.getContent(), true);
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoCadastral.getContent(), false);
-//                try {
-//                    setEmpresaVO(getEmpresaVO().clone());
-//                } catch (CloneNotSupportedException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    setEmpresaVO(getEmpresaVO().clone());
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
                 txtCNPJ.requestFocus();
                 txtIE.setDisable(chkIeIsento.isSelected());
                 statusBarTecla = STATUS_BAR_TECLA_EDITAR;
@@ -723,13 +723,59 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         return true;
     }
 
-//    boolean guardarContato(TabContatoVO contAntigo) {
-//        try {
-//            contAntigo.setTabTelefoneVOList(listco);
-//        } catch (Exception ex){
-//            ex.printStackTrace();
-//            return false;
-//        }
-//        return true;
-//    }
+    List<SisTipoEnderecoVO> getEnderecoDisponivel() {
+        return new ArrayList<>(new SisTipoEnderecoDAO().getSisTipoEnderecoVOList()).stream()
+                .filter(tp -> getEmpresaVO().getTabEnderecoVOList().stream()
+                        .filter(end -> tp.getDescricao().equals(end.getSisTipoEnderecoVO().getDescricao()))
+                        .count() == 0)
+                .collect(Collectors.toList());
+    }
+
+    boolean enderecoIsValido(List list) {
+        if (list == null) {
+            if (getEnderecoVO() == null)
+                return false;
+            if (getEnderecoVO().getSisTipoEndereco_id() > 1)
+                return true;
+            alertMensagem.setCabecalho("Proteção de dados!");
+            alertMensagem.setPromptText(String.format("%s, o endereço principal não pode ser deletado!", USUARIO_LOGADO_APELIDO));
+            alertMensagem.setStrIco("ic_dados_invalidos_white_24dp.png");
+            alertMensagem.getRetornoAlert_OK();
+            return false;
+        } else {
+            if (list.size() <= 0) {
+                alertMensagem.setCabecalho("Endereço não disponivél");
+                alertMensagem.setPromptText(String.format("%s, a empresa: [%s] não endereço disponível!\nAtualize algum endereço já existente!",
+                        USUARIO_LOGADO_APELIDO, txtRazao.getText()));
+                alertMensagem.setStrIco("ic_endereco_add_white_24dp.png");
+                alertMensagem.getRetornoAlert_OK();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void addEndereco() {
+        alertMensagem = new ServiceAlertMensagem();
+        List list = getEnderecoDisponivel();
+        if (!enderecoIsValido(list)) return;
+        alertMensagem.setCabecalho("Adicionar dados [endereço]");
+        alertMensagem.setPromptText(String.format("%s, selecione o tipo endereço que vai ser adicionado\na empresa: [%s]", USUARIO_LOGADO_APELIDO, txtRazao.getText()));
+        Object obj = alertMensagem.getRetornoAlert_ComboBox(list).get();
+        if (obj == null) return;
+        int idMunicipio = getEmpresaVO().getTabEnderecoVOList().size() > 0 ? getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipio_id() : 0;
+        getEmpresaVO().getTabEnderecoVOList().add(new TabEnderecoVO(((SisTipoEnderecoVO) obj).getId(), idMunicipio));
+        atualizaListaEndereco();
+        listEndereco.getSelectionModel().selectLast();
+        txtEndCEP.requestFocus();
+
+    }
+
+
+    void atualizaListaEndereco() {
+        listEndereco.getItems().setAll(getEmpresaVO().getTabEnderecoVOList().stream()
+                .filter(end -> end.getId() >= 0)
+                .collect(Collectors.toList()));
+    }
+
 }
