@@ -15,7 +15,7 @@ public class ServiceDataHora {
         else if (period.getMonths() > 0)
             strPeriodo += period.getMonths() + (period.getMonths() == 1 ? " mês " : " meses ");
         else if (period.getDays() > 0)
-            strPeriodo += period.getDays() + (period.getDays() == 1 ? " dias " : " dia ");
+            strPeriodo += period.getDays() + (period.getDays() == 1 ? " dia " : " dias ");
         else
             strPeriodo = " hoje ";
         return strPeriodo;

@@ -55,43 +55,52 @@ public class TabEnderecoDAO extends BuscaBancoDados {
         endereco.setSisTipoEnderecoVO(new SisTipoEnderecoDAO().getSisTipoEnderecoVO(endereco.getSisTipoEndereco_id()));
     }
 
-    public void updateTabEnderecoVO(Connection conn, TabEnderecoVO enderecoVO) throws SQLException {
-        comandoSql = "UPDATE tabEndereco SET ";
-        comandoSql += "sisTipoEndereco_id = " + enderecoVO.getSisTipoEndereco_id() + ", ";
-        comandoSql += "cep = '" + enderecoVO.getCep() + "', ";
-        comandoSql += "logradouro = '" + enderecoVO.getLogradouro() + "', ";
-        comandoSql += "numero = '" + enderecoVO.getNumero() + "', ";
-        comandoSql += "complemento = '" + enderecoVO.getComplemento() + "', ";
-        comandoSql += "bairro = '" + enderecoVO.getBairro() + "', ";
-        comandoSql += "sisMunicipio_id = " + enderecoVO.getSisMunicipio_id() + ", ";
-        comandoSql += "pontoReferencia = '" + enderecoVO.getPontoReferencia() + "' ";
-        comandoSql += "WHERE id = " + enderecoVO.getId();
-
+    public void updateEnderecoEmpresa(Connection conn, TabEnderecoVO endereco, int empresa_id) throws SQLException {
+//        new RelEmpresaEnderecoDAO().dedeteRelEmpresaEnderecoVO(conn, empresa_id, endereco.getId());
+        comandoSql = String.format("UPDATE tabEndereco " +
+                        "SET sisTipoEndereco_id = %d, " +
+                        "cep = '%s', " +
+                        "logradouro = '%s', " +
+                        "numero = '%s', " +
+                        "complemento = '%s', " +
+                        "bairro = '%s', " +
+                        "sisMunicipio_id = %d, " +
+                        "pontoReferencia = '%s' " +
+                        "WHERE id = %d",
+                endereco.getSisTipoEndereco_id(),
+                endereco.getCep(),
+                endereco.getLogradouro(),
+                endereco.getNumero(),
+                endereco.getComplemento(),
+                endereco.getBairro(),
+                endereco.getSisMunicipio_id(),
+                endereco.getPontoReferencia(),
+                endereco.getId());
         getUpdateBancoDados(conn, comandoSql);
+//        new RelEmpresaEnderecoDAO().insertrelEmpresaEnderecoVO(conn, empresa_id, endereco.getId());
     }
 
-    public int insertTabEnderecoVO(Connection conn, TabEnderecoVO enderecoVO) throws SQLException {
-        comandoSql = "INSERT INTO tabEndereco ";
-        comandoSql += "(sisTipoEndereco_id, cep, logradouro, numero, complemento, bairro, sisMunicipio_id, pontoReferencia) ";
-        comandoSql += "VALUES(";
-        comandoSql += enderecoVO.getSisTipoEndereco_id() + ", ";
-        comandoSql += "'" + enderecoVO.getCep().replaceAll("[\\-/. \\[\\]]", "") + "', ";
-        comandoSql += "'" + enderecoVO.getLogradouro() + "', ";
-        comandoSql += "'" + enderecoVO.getNumero() + "', ";
-        comandoSql += "'" + enderecoVO.getComplemento() + "', ";
-        comandoSql += "'" + enderecoVO.getBairro() + "', ";
-        comandoSql += enderecoVO.getSisMunicipio_id() + ", ";
-        comandoSql += "'" + enderecoVO.getPontoReferencia() + "'";
-        comandoSql += ") ";
-
-        return getInsertBancoDados(conn, comandoSql);
+    public int insertEnderecoEmpresa(Connection conn, TabEnderecoVO endereco, int empresa_id) throws SQLException {
+        comandoSql = String.format("INSERT INTO tabEndereco " +
+                        "(sisTipoEndereco_id, cep, logradouro, numero, complemento, bairro, sisMunicipio_id, pontoReferencia) " +
+                        "VALUES('%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s')",
+                endereco.getSisTipoEndereco_id(),
+                endereco.getCep().replaceAll("\\D", ""),
+                endereco.getLogradouro(),
+                endereco.getNumero(),
+                endereco.getComplemento(),
+                endereco.getBairro(),
+                endereco.getSisMunicipio_id(),
+                endereco.getPontoReferencia());
+        int endereco_id = getInsertBancoDados(conn, comandoSql);
+        new RelEmpresaEnderecoDAO().insertrelEmpresaEnderecoVO(conn, empresa_id, endereco_id);
+        return endereco_id;
     }
 
-    public void deleteTabEnderecoVO(Connection conn, int id_enderecoVO) throws SQLException {
-        if (id_enderecoVO < 0) id_enderecoVO = id_enderecoVO * (-1);
-        comandoSql = "DELETE " +
-                "FROM tabEndereco " +
-                "WHERE id = " + id_enderecoVO + " ";
+    public void deleteEnderecoEmpresa(Connection conn, int endereco_id, int empresa_id) throws SQLException {
+        if (endereco_id < 0) endereco_id = endereco_id * (-1);
+        new RelEmpresaEnderecoDAO().dedeteRelEmpresaEnderecoVO(conn, empresa_id, endereco_id);
+        comandoSql = String.format("DELETE FROM tabEndereco WHERE id = %d", endereco_id);
 
         getDeleteBancoDados(conn, comandoSql);
     }

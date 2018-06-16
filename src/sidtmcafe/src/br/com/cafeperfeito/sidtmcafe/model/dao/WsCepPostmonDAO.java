@@ -41,13 +41,13 @@ public class WsCepPostmonDAO extends BuscaWebService implements Constants {
         return wsCepPostmonVO;
     }
 
-    public TabEnderecoVO getTabEnderecoVO(int tipEnd, String cep) {
+    public TabEnderecoVO getTabEnderecoVO(int endereco_id, int sisTipoEndereco_id, String cep) {
         if ((wsCepPostmonVO = getCepPostmonVO(cep)) == null)
             return null;
         TabEnderecoVO enderecoVO = null;
         try {
-            enderecoVO = new TabEnderecoVO(tipEnd, 112);
-            enderecoVO.setSisTipoEnderecoVO(new SisTipoEnderecoDAO().getSisTipoEnderecoVO(tipEnd));
+            enderecoVO = new TabEnderecoVO(sisTipoEndereco_id, 0);
+            enderecoVO.setId(endereco_id);
             enderecoVO.setCep(wsCepPostmonVO.getCep());
             enderecoVO.setLogradouro(wsCepPostmonVO.getLogradouro());
             enderecoVO.setNumero("");

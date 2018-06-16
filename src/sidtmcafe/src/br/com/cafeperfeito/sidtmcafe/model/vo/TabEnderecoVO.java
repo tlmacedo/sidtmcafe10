@@ -19,10 +19,6 @@ public class TabEnderecoVO extends RecursiveTreeObject<TabEnderecoVO> {
     public TabEnderecoVO() {
     }
 
-    public TabEnderecoVO(int sisTipoEnd_id) {
-        new TabEnderecoVO(sisTipoEnd_id, 0);
-    }
-
     public TabEnderecoVO(int sisTipoEnd_id, int idMunicipo) {
         this.id = new SimpleIntegerProperty(0);
         this.sisTipoEndereco_id = new SimpleIntegerProperty(sisTipoEnd_id);

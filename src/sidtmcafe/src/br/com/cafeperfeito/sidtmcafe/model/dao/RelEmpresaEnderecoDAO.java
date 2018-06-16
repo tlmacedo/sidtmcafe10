@@ -62,11 +62,14 @@ public class RelEmpresaEnderecoDAO extends BuscaBancoDados {
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void dedeteRelEmpresaEnderecoVO(Connection conn, int empresa_id) throws SQLException {
-        comandoSql = "DELETE " +
-                "FROM relEmpresaEndereco " +
-                "WHERE tabEmpresa_id = '" + empresa_id + "' ";
+    public void dedeteRelEmpresaEnderecoVO(Connection conn, int empresa_id, int endereco_id) throws SQLException {
 
+        if (endereco_id > 0)
+            comandoSql = String.format("DELETE FROM relEmpresaEndereco WHERE tabEmpresa_id = %d AND tabEndereco_id = %d",
+                    empresa_id, endereco_id);
+        else
+            comandoSql = String.format("DELETE FROM relEmpresaEndereco WHERE tabEmpresa_id = %d",
+                    empresa_id);
         getDeleteBancoDados(conn, comandoSql);
     }
 
