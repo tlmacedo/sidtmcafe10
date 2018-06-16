@@ -18,21 +18,22 @@ public class RelEmpresaEmailHomePageDAO extends BuscaBancoDados {
     List<RelEmpresaEmailHomePageVO> relEmpresaEmailHomePageVOList;
 
     public RelEmpresaEmailHomePageVO getRelEmpresaEmailHomePageVO(int empresa_id, int emailHoePage_id) {
-        buscaRelEmpresaEmailHomePageVO(empresa_id, emailHoePage_id);
+        buscaRelEmpresaEmailHomePage(empresa_id, emailHoePage_id);
         return relEmpresaEmailHomePageVO;
     }
 
     public List<RelEmpresaEmailHomePageVO> getRelEmpresaEmailHomePageVOList(int empresa_id) {
-        buscaRelEmpresaEmailHomePageVO(empresa_id, 0);
+        buscaRelEmpresaEmailHomePage(empresa_id, 0);
         return relEmpresaEmailHomePageVOList;
     }
 
-    void buscaRelEmpresaEmailHomePageVO(int empresa_id, int emailHomePage_id) {
-        comandoSql = "SELECT tabEmpresa_id, tabEmailHomePage_id ";
-        comandoSql += "FROM relEmpresaEmailHomePage ";
-        comandoSql += "WHERE tabEmpresa_id = " + empresa_id + " ";
-        if (emailHomePage_id > 0) comandoSql += "AND tabEmailHomePage_id = " + emailHomePage_id + " ";
-        comandoSql += "ORDER BY tabEmpresa_id, tabEmailHomePage_id";
+    void buscaRelEmpresaEmailHomePage(int empresa_id, int emailHomePage_id) {
+        comandoSql = String.format("SELECT tabEmpresa_id, tabEmailHomePage_id " +
+                        "FROM relEmpresaEmailHomePage " +
+                        "WHERE tabEmpresa_id = %d %s" +
+                        "ORDER BY tabEmpresa_id, tabEmailHomePage_id",
+                empresa_id,
+                emailHomePage_id > 0 ? String.format("And tabEmailHomePage_id = %d ", emailHomePage_id) : "");
 
         if (emailHomePage_id == 0) relEmpresaEmailHomePageVOList = new ArrayList<>();
         rs = getResultadosBandoDados(comandoSql);
@@ -52,21 +53,20 @@ public class RelEmpresaEmailHomePageDAO extends BuscaBancoDados {
 
     }
 
-    public int insertRelEmpresaEmailHomePageVO(Connection conn, int empresa_id, int emailHomePage_id) throws SQLException {
-        comandoSql = "INSERT INTO relEmpresaEmailHomePage ";
-        comandoSql += "(tabEmpresa_id, tabEmailHomePage_id) ";
-        comandoSql += "VALUES(";
-        comandoSql += empresa_id + ", ";
-        comandoSql += emailHomePage_id + " ";
-        comandoSql += ") ";
-
+    public int insertRelEmpresaEmailHomePage(Connection conn, int empresa_id, int emailHomePage_id) throws SQLException {
+        comandoSql = String.format("INSERT INTO relEmpresaEmailHomePage (tabEmpresa_id, tabEmailHomePage_id) VALUES(%d, %d)",
+                empresa_id,
+                emailHomePage_id);
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void dedeteRelEmpresaEmailHomePageVO(Connection conn, int empresa_id) throws SQLException {
-        comandoSql = "DELETE ";
-        comandoSql += "FROM relEmpresaEmailHomePage ";
-        comandoSql += "WHERE tabEmpresa_id = " + empresa_id + " ";
+    public void dedeteRelEmpresaEmailHomePage(Connection conn, int empresa_id, int emailHome_id) throws SQLException {
+        if (emailHome_id > 0)
+            comandoSql = String.format("DELETE FROM relEmpresaEmailHomePage WHERE tabEmpresa_id = %d AND tabEmailHomePage_id = %d",
+                    empresa_id, emailHome_id);
+        else
+            comandoSql = String.format("DELETE FROM relEmpresaEmailHomePage WHERE tabEmpresa_id = %d",
+                    empresa_id);
         getDeleteBancoDados(conn, comandoSql);
     }
 

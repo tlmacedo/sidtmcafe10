@@ -15,6 +15,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -30,10 +31,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -184,16 +182,19 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         if (!validarDados()) break;
                         if (buscaDuplicidade()) break;
                         salvarEmpresa();
-//                        if (getStatusFormulario().toLowerCase().equals("editar"))
+                        if (getStatusFormulario().toLowerCase().equals("editar"))
 //                            empresaVOObservableList.set(
 //                                    empresaVOObservableList.indexOf(empresaVOObservableList.stream()
 //                                            .filter(empList -> empList.getCnpj().equals(getEmpresaVO().getCnpj()))
 //                                            .findFirst().orElse(null))
 //                                    , new TabEmpresaDAO().getTabEmpresaVO(getEmpresaVO().getId()));
-//                        else if (getStatusFormulario().toLowerCase().equals("incluir"))
-//                            empresaVOObservableList.add(new TabEmpresaDAO().getTabEmpresaVO(getEmpresaVO().getId()));
-//
-//
+                            empresaVOObservableList.set(empresaVOObservableList.indexOf(ttvEmpresa.getSelectionModel().getSelectedItem().getValue())
+                                    , getEmpresaVO());
+                        else if (getStatusFormulario().toLowerCase().equals("incluir"))
+                            //empresaVOObservableList.add(new TabEmpresaDAO().getTabEmpresaVO(getEmpresaVO().getId()));
+                            empresaVOObservableList.add(getEmpresaVO());
+
+
                         setStatusFormulario("pesquisa");
                         break;
                     case F3:
@@ -242,16 +243,16 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     case HELP:
                     case DELETE:
                         if (getStatusFormulario().toLowerCase().equals("pesquisa")) break;
-                        if (listEndereco.isFocused() && listEndereco.getSelectionModel().getSelectedIndex() >= 0)
+                        if (listEndereco.isFocused())
                             if (event.getCode() == KeyCode.HELP)
                                 addEndereco();
                             else
                                 delEndereco();
-                        if (listHomePage.isFocused() && listHomePage.getSelectionModel().getSelectedIndex() >= 0)
+                        if (listHomePage.isFocused() || listEmail.isFocused())
                             if (event.getCode() == KeyCode.HELP)
                                 addEmailHomePage();
                             else
-                                delEndereco();
+                                delEmailHomePage();
                         break;
                 }
             }
@@ -391,6 +392,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         });
     }
 
+    ObservableList<TabEmpresaVO> empresaVOObservableList;
     FilteredList<TabEmpresaVO> empresaVOFilteredList;
     TabEmpresaVO empresaVO;
     TabEnderecoVO enderecoVO;
@@ -528,7 +530,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void carregarListaEmpresa() {
-        empresaVOFilteredList = new FilteredList<>(FXCollections.observableArrayList(new TabEmpresaDAO().getTabEmpresaVOList(false)));
+        empresaVOFilteredList = new FilteredList<>(
+                empresaVOObservableList = FXCollections.observableArrayList(new TabEmpresaDAO().getTabEmpresaVOList(false))
+        );
     }
 
     void preencherTabelaEmpresa() {
@@ -686,9 +690,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
         atualizaListaTelefone();
 
-        listContatoNome.getItems().setAll(getEmpresaVO().getTabContatoVOList().stream()
-                .filter(contato -> contato.getId() >= 0)
-                .collect(Collectors.toList()));
+        atualizaListaContato();
         listContatoNome.getSelectionModel().selectFirst();
     }
 
@@ -792,15 +794,15 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             alertMensagem.getRetornoAlert_OK();
             return;
         } else {
-            if (alertMensagem.getRetornoAlert_YES_NO().get() == ButtonType.YES) {
-                limparEndereco();
-                if (getEnderecoVO().getId() == 0)
-                    getEmpresaVO().getTabEnderecoVOList().remove(getEnderecoVO());
-                else
-                    getEnderecoVO().setId(getEnderecoVO().getId() * (-1));
-                atualizaListaEndereco();
-                listEndereco.getSelectionModel().selectFirst();
-            }
+            if (alertMensagem.getRetornoAlert_YES_NO().get() == ButtonType.NO) return;
+            limparEndereco();
+            if (getEnderecoVO().getId() == 0)
+                getEmpresaVO().getTabEnderecoVOList().remove(getEnderecoVO());
+            else
+                getEnderecoVO().setId(getEnderecoVO().getId() * (-1));
+            atualizaListaEndereco();
+            listEndereco.getSelectionModel().selectFirst();
+
         }
     }
 
@@ -816,8 +818,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         }
         alertMensagem.setCabecalho("Adicionar dados [endereço]");
         alertMensagem.setPromptText(String.format("%s, selecione o tipo endereço que vai ser adicionado\na empresa: [%s]", USUARIO_LOGADO_APELIDO, txtRazao.getText()));
-        Object obj = alertMensagem.getRetornoAlert_ComboBox(getEnderecoDisponivel()).get();
-        if (obj == null) return;
+        Object obj;
+        if ((obj = alertMensagem.getRetornoAlert_ComboBox(getEnderecoDisponivel()).orElse(null)) == null) return;
         int idMunicipio = getEmpresaVO().getTabEnderecoVOList().size() > 0 ? getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipio_id() : 0;
         getEmpresaVO().getTabEnderecoVOList().add(new TabEnderecoVO(((SisTipoEnderecoVO) obj).getId(), idMunicipio));
         atualizaListaEndereco();
@@ -827,15 +829,22 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     void delEmailHomePage() {
         alertMensagem = new ServiceAlertMensagem();
+        TabEmailHomePageVO emailHomePage = listEmail.isFocused() ?
+                listEmail.getSelectionModel().getSelectedItem() :
+                listHomePage.getSelectionModel().getSelectedItem();
         alertMensagem.setStrIco(listEmail.isFocused() ? "ic_web_email_white_24dp.png" : "ic_web_home_page_white_24dp.png");
         alertMensagem.setCabecalho(String.format("Deletar dados [%s]", listEmail.isFocused() ? "email" : "home page"));
         alertMensagem.setPromptText(String.format("%s, deseja deletar %s: [%s]\nda empresa: [%s] ?",
-                USUARIO_LOGADO_APELIDO, listEmail.isFocused() ? "email": "home page",
+                USUARIO_LOGADO_APELIDO, listEmail.isFocused() ? "email" : "home page",
                 listEmail.isFocused() ? listEmail.getSelectionModel().getSelectedItem() : listHomePage.getSelectionModel().getSelectedItem(),
                 txtRazao.getText()));
-        if (alertMensagem.getRetornoAlert_YES_NO().get() == ButtonType.YES) return;
-
-
+        if (alertMensagem.getRetornoAlert_YES_NO().get() == ButtonType.NO) return;
+        if (emailHomePage.getId() == 0)
+            getEmpresaVO().getTabEmailHomePageVOList().remove(emailHomePage);
+        else
+            getEmpresaVO().getTabEmailHomePageVOList().get(getEmpresaVO().getTabEmailHomePageVOList().indexOf(emailHomePage))
+                    .setId(emailHomePage.getId() * (-1));
+        atualizaListaEmailHomePage();
     }
 
     void addEmailHomePage() {
@@ -844,11 +853,11 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         alertMensagem.setCabecalho(String.format("Adicionar dados [%s]", listEmail.isFocused() ? "email" : "home page"));
         alertMensagem.setPromptText(String.format("%s, qual %s a ser adicionado para a empresa: [%s] ?",
                 USUARIO_LOGADO_APELIDO, listEmail.isFocused() ? "email" : "home page", txtRazao.getText()));
-        String mailHome = alertMensagem.getRetornoAlert_TextField(
+        String mailHome;
+        if ((mailHome = alertMensagem.getRetornoAlert_TextField(
                 ServiceFormatarDado.gerarMascara("email", 120, "?"), "")
-                .get();
-        if (mailHome == null || mailHome.equals("")) return;
-        while (ServiceValidarDado.isEmailHomePageValido(mailHome, listEmail.isFocused()))
+                .orElse(null)) == null) return;
+        while (!ServiceValidarDado.isEmailHomePageValido(mailHome, listEmail.isFocused()))
             addEmailHomePage();
         getEmpresaVO().getTabEmailHomePageVOList().add(new TabEmailHomePageVO(mailHome, listEmail.isFocused()));
         atualizaListaEmailHomePage();
@@ -874,6 +883,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     void atualizaListaTelefone() {
         listTelefone.getItems().setAll(getEmpresaVO().getTabTelefoneVOList().stream()
                 .filter(tel -> tel.getId() >= 0)
+                .collect(Collectors.toList()));
+    }
+
+    void atualizaListaContato() {
+        listContatoNome.getItems().setAll(getEmpresaVO().getTabContatoVOList().stream()
+                .filter(contato -> contato.getId() >= 0)
                 .collect(Collectors.toList()));
     }
 
@@ -977,6 +992,15 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                             throw new RuntimeException("Erro no endereco ===>> ", ex);
                         }
                     });
+//            getEmpresaVO().getTabEmailHomePageVOList().stream().sorted(Comparator.comparing(TabEmailHomePageVO::getId))
+//                    .forEach(mailHome -> {
+//                        try {
+//                            if (mailHome.getId() < 0)
+//                                new TabEmailHomePageDAO().deleteTabEmailHomePageVO(conn, mailHome.getId(), getEmpresaVO().getId());
+//                        } catch (Exception ex) {
+//                            throw new RuntimeException("Erro no emailHome ===>>", ex);
+//                        }
+//                    });
 
 
             conn.commit();

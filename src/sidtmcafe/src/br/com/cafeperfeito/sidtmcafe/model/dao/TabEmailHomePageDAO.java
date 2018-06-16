@@ -20,9 +20,7 @@ public class TabEmailHomePageDAO extends BuscaBancoDados {
     }
 
     void buscaTabEmailHomePageVO(int id) {
-        comandoSql = "SELECT id, descricao, isEmail " +
-                "FROM tabEmailHomePage " +
-                "WHERE id = '" + id + "' ";
+        comandoSql = String.format("SELECT id, descricao, isEmail FROM tabEmailHomePage WHERE id = %d", id);
         rs = getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
@@ -38,30 +36,24 @@ public class TabEmailHomePageDAO extends BuscaBancoDados {
         }
     }
 
-    public void updateTabEmailHomePageVO(Connection conn, TabEmailHomePageVO emailHomePageVO) throws SQLException {
-        comandoSql = "UPDATE tabEmailHomePage SET ";
-        comandoSql += "descricao = '" + emailHomePageVO.getDescricao() + "' ";
-        comandoSql += "WHERE id = " + emailHomePageVO.getId();
-
+    public void updateTabEmailHomePageVO(Connection conn, TabEmailHomePageVO emailHomePage) throws SQLException {
+        comandoSql = String.format("UPDATE tabEmailHomePage SET descricao = '%s' WHERE id = %d",
+                emailHomePage.getDescricao(), emailHomePage.getId());
         getUpdateBancoDados(conn, comandoSql);
     }
 
-    public int insertTabEmailHomePageVO(Connection conn, TabEmailHomePageVO emailHomePageVO) throws SQLException {
-        comandoSql = "INSERT INTO tabEmailHomePage ";
-        comandoSql += "(descricao, isEmail) ";
-        comandoSql += "VALUES(";
-        comandoSql += "'" + emailHomePageVO.getDescricao() + "', ";
-        comandoSql += emailHomePageVO.isIsEmail() + " ";
-        comandoSql += ") ";
-
+    public int insertTabEmailHomePageVO(Connection conn, TabEmailHomePageVO emailHomePage) throws SQLException {
+        comandoSql = String.format("INSERT INTO tabEmailHomePage (descricao, isEmail) VALUES('%s', %d)",
+                emailHomePage.getDescricao(), emailHomePage.isIsEmail());
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void deleteTabEmailHomePageVO(Connection conn, int id_emailHomePageVO) throws SQLException {
-        if (id_emailHomePageVO < 0) id_emailHomePageVO = id_emailHomePageVO * (-1);
+    public void deleteEmailHomeEmpresa(Connection conn, int emailHome_id, int empresa_id) throws SQLException {
+        if (emailHome_id < 0) emailHome_id = emailHome_id * (-1);
+        new RelEmpresaEmailHomePageDAO().dedeteRelEmpresaEmailHomePage(conn, emailHome_id, empresa_id);
         comandoSql = "DELETE " +
                 "FROM tabEmailHomePage " +
-                "WHERE id = " + id_emailHomePageVO + " ";
+                "WHERE id = " + emailHome_id + " ";
 
         getDeleteBancoDados(conn, comandoSql);
     }

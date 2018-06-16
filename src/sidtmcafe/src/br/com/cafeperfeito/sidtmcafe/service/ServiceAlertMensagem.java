@@ -523,10 +523,10 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         dialog.setResultConverter(new Callback<ButtonType, Object>() {
             @Override
             public Object call(ButtonType param) {
-                if (param.getButtonData().isDefaultButton()) {
+                if (param.getButtonData().isDefaultButton())
                     return comboBox.getSelectionModel().getSelectedItem();
-                }
-                return null;
+                else
+                    return null;
             }
         });
 

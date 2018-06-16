@@ -27,9 +27,8 @@ public class BuscaWebService {
         try {
             wsCnpjReceitaWsVO = new URL(strURL).openStream();
             jsonObject = new JSONObject(getStringBuilder(wsCnpjReceitaWsVO).toString());
-        } catch (MalformedURLException ex) {
-            ex.printStackTrace();
         } catch (IOException ex) {
+            ex.printStackTrace();
         }
         return jsonObject;
     }

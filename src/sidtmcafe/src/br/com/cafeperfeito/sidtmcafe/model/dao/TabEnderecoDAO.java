@@ -85,7 +85,7 @@ public class TabEnderecoDAO extends BuscaBancoDados {
                         "(sisTipoEndereco_id, cep, logradouro, numero, complemento, bairro, sisMunicipio_id, pontoReferencia) " +
                         "VALUES('%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s')",
                 endereco.getSisTipoEndereco_id(),
-                endereco.getCep().replaceAll("\\D", ""),
+                endereco.getCep(),
                 endereco.getLogradouro(),
                 endereco.getNumero(),
                 endereco.getComplemento(),
@@ -93,15 +93,14 @@ public class TabEnderecoDAO extends BuscaBancoDados {
                 endereco.getSisMunicipio_id(),
                 endereco.getPontoReferencia());
         int endereco_id = getInsertBancoDados(conn, comandoSql);
-        new RelEmpresaEnderecoDAO().insertrelEmpresaEnderecoVO(conn, empresa_id, endereco_id);
+        new RelEmpresaEnderecoDAO().insertRelEmpresaEndereco(conn, empresa_id, endereco_id);
         return endereco_id;
     }
 
     public void deleteEnderecoEmpresa(Connection conn, int endereco_id, int empresa_id) throws SQLException {
         if (endereco_id < 0) endereco_id = endereco_id * (-1);
-        new RelEmpresaEnderecoDAO().dedeteRelEmpresaEnderecoVO(conn, empresa_id, endereco_id);
+        new RelEmpresaEnderecoDAO().dedeteRelEmpresaEndereco(conn, empresa_id, endereco_id);
         comandoSql = String.format("DELETE FROM tabEndereco WHERE id = %d", endereco_id);
-
         getDeleteBancoDados(conn, comandoSql);
     }
 
