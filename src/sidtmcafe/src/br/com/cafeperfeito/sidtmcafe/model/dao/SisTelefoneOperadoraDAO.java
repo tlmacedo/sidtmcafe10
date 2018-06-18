@@ -17,21 +17,18 @@ public class SisTelefoneOperadoraDAO extends BuscaBancoDados {
     List<SisTelefoneOperadoraVO> sisTelefoneOperadoraVOList;
 
     public SisTelefoneOperadoraVO getSisTelefoneOperadoraVO(int id) {
-        buscaSisTelefoneOperadoraVO(id);
+        buscaSisTelefoneOperadora(id);
         return sisTelefoneOperadoraVO;
     }
 
     public List<SisTelefoneOperadoraVO> getSisTelefoneOperadoraVOList() {
-        buscaSisTelefoneOperadoraVO(0);
+        buscaSisTelefoneOperadora(0);
         return sisTelefoneOperadoraVOList;
     }
 
-    void buscaSisTelefoneOperadoraVO(int id) {
-        comandoSql = "SELECT id, descricao, tipo, ddd " +
-                "FROM sisTelefoneOperadora ";
-        if (id > 0) comandoSql += "WHERE id ='" + id + "' ";
-        comandoSql += "ORDER BY tipo DESC, descricao ";
-
+    void buscaSisTelefoneOperadora(int id) {
+        comandoSql = String .format("SELECT id, descricao, tipo, ddd FROM sisTelefoneOperadora %sORDER BY tipo DESC, descricao",
+                id>0?String .format("WHERE id = %d ", id):"");
         if (id == 0) sisTelefoneOperadoraVOList = new ArrayList<>();
         rs = getResultadosBandoDados(comandoSql);
         try {

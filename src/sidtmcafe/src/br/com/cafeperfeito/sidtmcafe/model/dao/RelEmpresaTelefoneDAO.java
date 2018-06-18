@@ -12,37 +12,34 @@ import java.util.List;
 public class RelEmpresaTelefoneDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     RelEmpresaTelefoneVO relEmpresaTelefoneVO;
     List<RelEmpresaTelefoneVO> relEmpresaTelefoneVOList;
 
     public RelEmpresaTelefoneVO getRelEmpresaTelefoneVO(int empresa_id, int telefone_id) {
-        buscaRelEmpresaTelefoneVO(empresa_id, telefone_id);
+        getResultSet(String.format("SELECT * FROM relEmpresaTelefone WHERE tabEmpresa_id = %d " +
+                "AND tabTelefone_id = %d ORDER BY tabEmpresa_id, tabTelefone_id", empresa_id, telefone_id));
         return relEmpresaTelefoneVO;
     }
 
     public List<RelEmpresaTelefoneVO> getRelEmpresaTelefoneVOList(int empresa_id) {
-        buscaRelEmpresaTelefoneVO(empresa_id, 0);
+        getResultSet(String.format("SELECT * FROM relEmpresaTelefone WHERE tabEmpresa_id = %d " +
+                "ORDER BY tabEmpresa_id, tabTelefone_id", empresa_id));
         return relEmpresaTelefoneVOList;
     }
 
-    void buscaRelEmpresaTelefoneVO(int empresa_id, int telefone_id) {
-        comandoSql = "SELECT tabEmpresa_id, tabTelefone_id " +
-                "FROM relEmpresaTelefone " +
-                "WHERE tabEmpresa_id = '" + empresa_id + "' ";
-        if (telefone_id > 0) comandoSql += "AND tabTelefone_id = '" + telefone_id + "' ";
-        comandoSql += "ORDER BY tabEmpresa_id, tabTelefone_id ";
-
+    void getResultSet(String comandoSql) {
+        boolean returnList = false;
         rs = getResultadosBandoDados(comandoSql);
-        if (telefone_id == 0) relEmpresaTelefoneVOList = new ArrayList<>();
         try {
+            if (rs.last())
+                if (returnList = (rs.getRow() > 1))
+                    relEmpresaTelefoneVOList = new ArrayList<>();
+            rs.beforeFirst();
             while (rs.next()) {
                 relEmpresaTelefoneVO = new RelEmpresaTelefoneVO();
                 relEmpresaTelefoneVO.setTabEmpresa_id(rs.getInt("tabEmpresa_id"));
                 relEmpresaTelefoneVO.setTabTelefone_id(rs.getInt("tabTelefone_id"));
-
-                if (telefone_id == 0) relEmpresaTelefoneVOList.add(relEmpresaTelefoneVO);
+                if (returnList) relEmpresaTelefoneVOList.add(relEmpresaTelefoneVO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -52,21 +49,15 @@ public class RelEmpresaTelefoneDAO extends BuscaBancoDados {
     }
 
     public int insertRelEmpresaTelefoneVO(Connection conn, int empresa_id, int telefone_id) throws SQLException {
-        comandoSql = "INSERT INTO relEmpresaTelefone ";
-        comandoSql += "(tabEmpresa_id, tabTelefone_id) ";
-        comandoSql += "VALUES (";
-        comandoSql += empresa_id + ", ";
-        comandoSql += telefone_id + " ";
-        comandoSql += ") ";
-
+        String comandoSql = String.format("INSERT INTO relEmpresaTelefone (tabEmpresa_id, tabTelefone_id) " +
+                "VALUES(%d, %d)", empresa_id, telefone_id);
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void deleteRelEmpresaTelefoneVO(Connection conn, int empresa_id) throws SQLException {
-        comandoSql = "DELETE " +
-                "FROM relEmpresaTelefone " +
-                "WHERE tabEmpresa_id = '" + empresa_id + "' ";
-
+    public void deleteRelEmpresaTelefoneVO(Connection conn, int empresa_id, int telefone_id) throws SQLException {
+        String comandoSql = String.format("DELETE FROM relEmpresaTelefone WHERE tabEmpresa_id %d ", empresa_id);
+        if (telefone_id > 0)
+            comandoSql += String.format("AND tabTelefone_id = %d", telefone_id);
         getDeleteBancoDados(conn, comandoSql);
     }
 }

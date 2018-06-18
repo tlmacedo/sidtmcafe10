@@ -10,37 +10,29 @@ import java.util.List;
 public class FiscalCestNcmDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     FiscalCestNcmVO fiscalCestNcmVO;
     List<FiscalCestNcmVO> fiscalCestNcmVOList;
 
     public FiscalCestNcmVO getFiscalCestNcmVO(int id) {
-        buscaFiscalCestNcmDAO(id, "");
+        getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE id = %d", id));
         return fiscalCestNcmVO;
     }
 
     public List<FiscalCestNcmVO> getFiscalCestNcmVOList(String ncm) {
-        buscaFiscalCestNcmDAO(0, ncm);
+        getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE ncm LIKE '%s' ORDER BY id", ncm));
         if (fiscalCestNcmVOList.size() == 0)
-            buscaFiscalCestNcmDAO(0, ncm.substring(0, 4));
+            getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE ncm LIKE = '%s' ORDER BY id", ncm.substring(0, 4)));
         return fiscalCestNcmVOList;
     }
 
-    void buscaFiscalCestNcmDAO(int id, String ncm) {
-        comandoSql = "SELECT id, segmento, descricao, cest, ncm ";
-        comandoSql += "FROM fiscalCestNcm ";
-        if (id > 0)
-            comandoSql += "WHERE id = " + id + " ";
-        else if (!ncm.equals(""))
-            comandoSql += "WHERE ncm Like '" + ncm + "%' ";
-
-        comandoSql += "ORDER BY id ";
-
-        if (id == 0) fiscalCestNcmVOList = new ArrayList<>();
+    void getResultSet(String comandoSql) {
+        boolean returnList = false;
         rs = getResultadosBandoDados(comandoSql);
-
         try {
+            if (rs.last())
+                if (returnList = (rs.getRow() > 1))
+                    fiscalCestNcmVOList = new ArrayList<>();
+            rs.beforeFirst();
             while (rs.next()) {
                 fiscalCestNcmVO = new FiscalCestNcmVO();
                 fiscalCestNcmVO.setId(rs.getInt("id"));
@@ -48,14 +40,12 @@ public class FiscalCestNcmDAO extends BuscaBancoDados {
                 fiscalCestNcmVO.setDescricao(rs.getString("descricao"));
                 fiscalCestNcmVO.setCest(rs.getString("cest"));
                 fiscalCestNcmVO.setNcm(rs.getString("ncm"));
-
-                if (id == 0) fiscalCestNcmVOList.add(fiscalCestNcmVO);
+                if (returnList) fiscalCestNcmVOList.add(fiscalCestNcmVO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-
     }
 }

@@ -8,7 +8,7 @@ import javafx.beans.property.StringProperty;
 
 public class SisMunicipioVO extends RecursiveTreeObject<SisMunicipioVO> {
 
-    SisUFVO ufVO;
+    SisUfVO ufVO;
 
     IntegerProperty id, sisUF_id, isCapital, ibge_id;
     StringProperty descricao;
@@ -16,11 +16,11 @@ public class SisMunicipioVO extends RecursiveTreeObject<SisMunicipioVO> {
     public SisMunicipioVO() {
     }
 
-    public SisUFVO getUfVO() {
+    public SisUfVO getUfVO() {
         return ufVO;
     }
 
-    public void setUfVO(SisUFVO ufVO) {
+    public void setUfVO(SisUfVO ufVO) {
         this.ufVO = ufVO;
     }
 

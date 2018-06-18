@@ -1,12 +1,5 @@
 package br.com.cafeperfeito.sidtmcafe.teste;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
 public class Testes {
 
     public static void main(String... args) {

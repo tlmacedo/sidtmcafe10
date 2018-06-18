@@ -5,7 +5,6 @@ import br.com.cafeperfeito.sidtmcafe.model.dao.WsCnpjReceitaWsDAO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEnderecoVO;
 import javafx.concurrent.Task;
-import javafx.util.Pair;
 
 public class ServiceConsultaWebServices {
 

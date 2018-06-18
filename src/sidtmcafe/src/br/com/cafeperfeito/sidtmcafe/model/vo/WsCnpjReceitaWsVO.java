@@ -14,7 +14,7 @@ public class WsCnpjReceitaWsVO extends RecursiveTreeObject<WsCnpjReceitaWsVO> {
     List<TabEmpresaReceitaFederalVO> atividadePrincipal, atividadesSecundarias, qsa;
 
     SisMunicipioVO sisMunicipioVO;
-    SisUFVO sisUFVO;
+    SisUfVO sisUfVO;
 
     IntegerProperty sisMunicipio_id;
 
@@ -60,12 +60,12 @@ public class WsCnpjReceitaWsVO extends RecursiveTreeObject<WsCnpjReceitaWsVO> {
         this.sisMunicipioVO = sisMunicipioVO;
     }
 
-    public SisUFVO getSisUFVO() {
-        return sisUFVO;
+    public SisUfVO getSisUfVO() {
+        return sisUfVO;
     }
 
-    public void setSisUFVO(SisUFVO sisUFVO) {
-        this.sisUFVO = sisUFVO;
+    public void setSisUfVO(SisUfVO sisUfVO) {
+        this.sisUfVO = sisUfVO;
     }
 
     public int getSisMunicipio_id() {

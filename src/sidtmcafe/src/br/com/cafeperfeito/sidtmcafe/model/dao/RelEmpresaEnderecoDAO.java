@@ -12,37 +12,34 @@ import java.util.List;
 public class RelEmpresaEnderecoDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     RelEmpresaEnderecoVO relEmpresaEnderecoVO;
     List<RelEmpresaEnderecoVO> relEmpresaEnderecoVOList;
 
     public RelEmpresaEnderecoVO getRelEmpresaEnderecoVO(int empresa_id, int endereco_id) {
-        buscaRelEmpresaEndereco(empresa_id, endereco_id);
+        getResultSet(String.format("SELECT * FROM relEmpresaEndereco WHERE tabEmpresa_id = %d " +
+                "AND tabEndereco_id = %d ORDER BY tabEmpresa_id, tabEndereco_id", empresa_id, endereco_id));
         return relEmpresaEnderecoVO;
     }
 
     public List<RelEmpresaEnderecoVO> getRelEmpresaEnderecoVOList(int empresa_id) {
-        buscaRelEmpresaEndereco(empresa_id, 0);
+        getResultSet(String.format("SELECT * FROM relEmpresaEndereco WHERE tabEmpresa_id = %d " +
+                "ORDER BY tabEmpresa_id, tabEndereco_id", empresa_id));
         return relEmpresaEnderecoVOList;
     }
 
-    void buscaRelEmpresaEndereco(int empresa_id, int endereco_id) {
-        comandoSql = String.format("SELECT tabEmpresa_id, tabEndereco_id " +
-                        "FROM relEmpresaEndereco " +
-                        "WHERE tabEmpresa_id = %d %s " +
-                        "ORDER BY tabEmpresa_id, tabEndereco_id",
-                empresa_id, endereco_id > 0 ? String.format("AND tabEndereco_id = %d ", endereco_id) : "");
-
-        if (endereco_id == 0) relEmpresaEnderecoVOList = new ArrayList<>();
+    void getResultSet(String comandoSql) {
+        boolean returnList = false;
         rs = getResultadosBandoDados(comandoSql);
         try {
+            if (rs.last())
+                if (returnList = (rs.getRow() > 1))
+                    relEmpresaEnderecoVOList = new ArrayList<>();
+            rs.beforeFirst();
             while (rs.next()) {
                 relEmpresaEnderecoVO = new RelEmpresaEnderecoVO();
                 relEmpresaEnderecoVO.setTabEmpresa_id(rs.getInt("tabEmpresa_id"));
                 relEmpresaEnderecoVO.setTabEndereco_id(rs.getInt("tabEndereco_id"));
-
-                if (endereco_id == 0) relEmpresaEnderecoVOList.add(relEmpresaEnderecoVO);
+                if (returnList) relEmpresaEnderecoVOList.add(relEmpresaEnderecoVO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -52,21 +49,15 @@ public class RelEmpresaEnderecoDAO extends BuscaBancoDados {
     }
 
     public int insertRelEmpresaEndereco(Connection conn, int empresa_id, int endereco_id) throws SQLException {
-        comandoSql = String.format("INSERT INTO relEmpresaEndereco " +
-                        "(tabEmpresa_id, tabEndereco_id) " +
-                        "VALUES(%d, %d) ",
-                empresa_id,
-                endereco_id);
+        String comandoSql = String.format("INSERT INTO relEmpresaEndereco (tabEmpresa_id, tabEndereco_id) " +
+                "VALUES(%d, %d)", empresa_id, endereco_id);
         return getInsertBancoDados(conn, comandoSql);
     }
 
     public void dedeteRelEmpresaEndereco(Connection conn, int empresa_id, int endereco_id) throws SQLException {
+        String comandoSql = String.format("DELETE FROM relEmpresaEndereco WHERE tabEmpresa_id = %d ", empresa_id);
         if (endereco_id > 0)
-            comandoSql = String.format("DELETE FROM relEmpresaEndereco WHERE tabEmpresa_id = %d AND tabEndereco_id = %d",
-                    empresa_id, endereco_id);
-        else
-            comandoSql = String.format("DELETE FROM relEmpresaEndereco WHERE tabEmpresa_id = %d",
-                    empresa_id);
+            comandoSql = String.format("AND tabEndereco_id = %d", endereco_id);
         getDeleteBancoDados(conn, comandoSql);
     }
 

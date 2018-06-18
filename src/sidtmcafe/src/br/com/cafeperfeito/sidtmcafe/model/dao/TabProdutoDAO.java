@@ -87,13 +87,13 @@ public class TabProdutoDAO extends BuscaBancoDados {
 
         produto.setFiscalCestNcmVO(new FiscalCestNcmDAO().getFiscalCestNcmVO(produto.getFiscalCestNcm_id()));
 
-        produto.setFiscalCSTOrigemVO(new FiscalCSTOrigemDAO().getFiscalCSTOrigemVO(produto.getFiscalCSTOrigem_id()));
+        produto.setFiscalCstOrigemVO(new FiscalCstOrigemDAO().getFiscalCstOrigemVO(produto.getFiscalCSTOrigem_id()));
 
-        produto.setFiscalICMSVO(new FiscalICMSDAO().getFiscalICMSVO(produto.getFiscalICMS_id()));
+        produto.setFiscalIcmsVO(new FiscalIcmsDAO().getFiscalIcmsVO((produto.getFiscalICMS_id())));
 
-        produto.setFiscalPISVO(new FiscalPISCOFINSDAO().getFiscalPISCOFINSVO(produto.getFiscalPIS_id()));
+        produto.setFiscalPisVO(new FiscalPisCofinsDAO().getFiscalPisCofinsVO(produto.getFiscalPIS_id()));
 
-        produto.setFiscalCOFINSVO(new FiscalPISCOFINSDAO().getFiscalPISCOFINSVO(produto.getFiscalCOFINS_id()));
+        produto.setFiscalCofinsVO(new FiscalPisCofinsDAO().getFiscalPisCofinsVO(produto.getFiscalCOFINS_id()));
 
         produto.setUsuarioCadastroVO(new TabColaboradorDAO().getTabColaboradorVO_Simples(produto.getUsuarioCadastro_id()));
 

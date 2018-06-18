@@ -1,9 +1,8 @@
 package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
-import br.com.cafeperfeito.sidtmcafe.model.vo.SisUFVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.SisUfVO;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,40 +13,40 @@ public class SisUFDAO extends BuscaBancoDados {
     ResultSet rs;
 
     String comandoSql = "";
-    SisUFVO sisUFVO;
-    List<SisUFVO> sisUFVOList;
+    SisUfVO sisUfVO;
+    List<SisUfVO> sisUFVOList;
 
-    public SisUFVO getSisUFVO(int id) {
-        buscaSisUFVO(id, "");
-        return sisUFVO;
+    public SisUfVO getSisUFVO(int id) {
+        buscaSisUF(id, "");
+        return sisUfVO;
     }
 
-    public SisUFVO getSisUFVO(String sigla) {
-        buscaSisUFVO(0, sigla);
-        return sisUFVO;
+    public SisUfVO getSisUFVO(String sigla) {
+        buscaSisUF(0, sigla);
+        return sisUfVO;
     }
 
-    public SisUFVO getSisUFVO_DetMunicipio(int id) {
-        buscaSisUFVO(id, "");
-        if (sisUFVO != null)
-            addMunicipiosEmUF(sisUFVO);
-        return sisUFVO;
+    public SisUfVO getSisUFVO_DetMunicipio(int id) {
+        buscaSisUF(id, "");
+        if (sisUfVO != null)
+            addMunicipiosEmUF(sisUfVO);
+        return sisUfVO;
     }
 
-    public List<SisUFVO> getSisUFVOList() {
-        buscaSisUFVO(0, "");
+    public List<SisUfVO> getSisUFVOList() {
+        buscaSisUF(0, "");
         return sisUFVOList;
     }
 
-    public List<SisUFVO> getSisUFVOList_DetMunicipio() {
-        buscaSisUFVO(0, "");
+    public List<SisUfVO> getSisUFVOList_DetMunicipio() {
+        buscaSisUF(0, "");
         if (sisUFVOList != null)
-            for (SisUFVO ufvo : sisUFVOList)
+            for (SisUfVO ufvo : sisUFVOList)
                 addMunicipiosEmUF(ufvo);
         return sisUFVOList;
     }
 
-    void buscaSisUFVO(int id, String sigla) {
+    void buscaSisUF(int id, String sigla) {
         comandoSql = "SELECT id, descricao, sigla " +
                 "FROM sisUF ";
         if (id > 0) comandoSql += "WHERE id = '" + id + "' ";
@@ -65,12 +64,12 @@ public class SisUFDAO extends BuscaBancoDados {
         rs = getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
-                sisUFVO = new SisUFVO();
-                sisUFVO.setId(rs.getInt("id"));
-                sisUFVO.setDescricao(rs.getString("descricao"));
-                sisUFVO.setSigla(rs.getString("sigla"));
+                sisUfVO = new SisUfVO();
+                sisUfVO.setId(rs.getInt("id"));
+                sisUfVO.setDescricao(rs.getString("descricao"));
+                sisUfVO.setSigla(rs.getString("sigla"));
 
-                if (id == 0 && sigla == "") sisUFVOList.add(sisUFVO);
+                if (id == 0 && sigla == "") sisUFVOList.add(sisUfVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -79,7 +78,7 @@ public class SisUFDAO extends BuscaBancoDados {
         }
     }
 
-    void addMunicipiosEmUF(SisUFVO uf) {
+    void addMunicipiosEmUF(SisUfVO uf) {
         uf.setMunicipioVOList(new SisMunicipioDAO().getMunicipioVOList(uf.getId()));
     }
 

@@ -11,10 +11,10 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
     SisUnidadeComercialVO sisUnidadeComercialVO;
     SisSituacaoSistemaVO sisSituacaoSistemaVO;
     FiscalCestNcmVO fiscalCestNcmVO;
-    FiscalCSTOrigemVO fiscalCSTOrigemVO;
-    FiscalICMSVO fiscalICMSVO;
-    FiscalPISCOFINSVO fiscalPISVO;
-    FiscalPISCOFINSVO fiscalCOFINSVO;
+    FiscalCstOrigemVO fiscalCstOrigemVO;
+    FiscalIcmsVO fiscalIcmsVO;
+    FiscalPisCofinsVO fiscalPisVO;
+    FiscalPisCofinsVO fiscalCofinsVO;
     TabColaboradorVO usuarioCadastroVO;
     TabColaboradorVO usuarioAtualizacaoVO;
     List<TabProdutoEanVO> tabProdutoEanVOList;
@@ -55,36 +55,36 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
         this.fiscalCestNcmVO = fiscalCestNcmVO;
     }
 
-    public FiscalCSTOrigemVO getFiscalCSTOrigemVO() {
-        return fiscalCSTOrigemVO;
+    public FiscalCstOrigemVO getFiscalCstOrigemVO() {
+        return fiscalCstOrigemVO;
     }
 
-    public void setFiscalCSTOrigemVO(FiscalCSTOrigemVO fiscalCSTOrigemVO) {
-        this.fiscalCSTOrigemVO = fiscalCSTOrigemVO;
+    public void setFiscalCstOrigemVO(FiscalCstOrigemVO fiscalCstOrigemVO) {
+        this.fiscalCstOrigemVO = fiscalCstOrigemVO;
     }
 
-    public FiscalICMSVO getFiscalICMSVO() {
-        return fiscalICMSVO;
+    public FiscalIcmsVO getFiscalIcmsVO() {
+        return fiscalIcmsVO;
     }
 
-    public void setFiscalICMSVO(FiscalICMSVO fiscalICMSVO) {
-        this.fiscalICMSVO = fiscalICMSVO;
+    public void setFiscalIcmsVO(FiscalIcmsVO fiscalIcmsVO) {
+        this.fiscalIcmsVO = fiscalIcmsVO;
     }
 
-    public FiscalPISCOFINSVO getFiscalPISVO() {
-        return fiscalPISVO;
+    public FiscalPisCofinsVO getFiscalPisVO() {
+        return fiscalPisVO;
     }
 
-    public void setFiscalPISVO(FiscalPISCOFINSVO fiscalPISVO) {
-        this.fiscalPISVO = fiscalPISVO;
+    public void setFiscalPisVO(FiscalPisCofinsVO fiscalPisVO) {
+        this.fiscalPisVO = fiscalPisVO;
     }
 
-    public FiscalPISCOFINSVO getFiscalCOFINSVO() {
-        return fiscalCOFINSVO;
+    public FiscalPisCofinsVO getFiscalCofinsVO() {
+        return fiscalCofinsVO;
     }
 
-    public void setFiscalCOFINSVO(FiscalPISCOFINSVO fiscalCOFINSVO) {
-        this.fiscalCOFINSVO = fiscalCOFINSVO;
+    public void setFiscalCofinsVO(FiscalPisCofinsVO fiscalCofinsVO) {
+        this.fiscalCofinsVO = fiscalCofinsVO;
     }
 
     public TabColaboradorVO getUsuarioCadastroVO() {

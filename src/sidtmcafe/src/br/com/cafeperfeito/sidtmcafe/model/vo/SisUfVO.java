@@ -6,12 +6,24 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class FiscalICMSVO extends RecursiveTreeObject<FiscalICMSVO> {
+import java.util.List;
+
+public class SisUfVO extends RecursiveTreeObject<SisUfVO> {
+
+    List<SisMunicipioVO> municipioVOList;
 
     IntegerProperty id;
-    StringProperty descricao;
+    StringProperty descricao, sigla;
 
-    public FiscalICMSVO() {
+    public SisUfVO() {
+    }
+
+    public List<SisMunicipioVO> getMunicipioVOList() {
+        return municipioVOList;
+    }
+
+    public void setMunicipioVOList(List<SisMunicipioVO> municipioVOList) {
+        this.municipioVOList = municipioVOList;
     }
 
     public int getId() {
@@ -40,11 +52,22 @@ public class FiscalICMSVO extends RecursiveTreeObject<FiscalICMSVO> {
         descricaoProperty().set(descricao);
     }
 
+    public String getSigla() {
+        return siglaProperty().get();
+    }
+
+    public StringProperty siglaProperty() {
+        if (sigla == null) sigla = new SimpleStringProperty("");
+        return sigla;
+    }
+
+    public void setSigla(String sigla) {
+        siglaProperty().set(sigla);
+    }
+
     @Override
     public String toString() {
-        String cod = String.valueOf(idProperty().get());
-        for (int i = cod.length(); i < 2; i++)
-            cod = "0" + cod;
-        return cod + " - " + descricaoProperty().get();
+        return siglaProperty().get();
     }
+
 }

@@ -1,6 +1,5 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
-import br.com.cafeperfeito.sidtmcafe.controller.ControllerCadastroEmpresa;
 import br.com.cafeperfeito.sidtmcafe.controller.ControllerCadastroProduto;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.model.TabModel;

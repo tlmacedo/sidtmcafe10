@@ -17,21 +17,18 @@ public class SisSituacaoSistemaDAO extends BuscaBancoDados {
     List<SisSituacaoSistemaVO> sisSituacaoSistemaVOList;
 
     public SisSituacaoSistemaVO getSisSituacaoSistemaVO(int id) {
-        buscaSisSituacaoSistemaVO(id);
+        buscaSisSituacaoSistema(id);
         return sisSituacaoSistemaVO;
     }
 
     public List<SisSituacaoSistemaVO> getSisSituacaoSistemaVOList() {
-        buscaSisSituacaoSistemaVO(0);
+        buscaSisSituacaoSistema(0);
         return sisSituacaoSistemaVOList;
     }
 
-    void buscaSisSituacaoSistemaVO(int id) {
-        comandoSql = "SELECT id, descricao, classificacao " +
-                "FROM sisSituacaoSistema ";
-        if (id != 0) comandoSql += "WHERE id = " + id + " ";
-        comandoSql += "ORDER BY descricao ";
-
+    void buscaSisSituacaoSistema(int id) {
+        comandoSql = String.format("SELECT id, descricao, classificacao FROM sisSituacaoSistema %sORDER BY descricao",
+                id > 0 ? String.format("WHERE id = %d ", id) : "");
         if (id == 0) sisSituacaoSistemaVOList = new ArrayList<>();
         rs = getResultadosBandoDados(comandoSql);
         try {

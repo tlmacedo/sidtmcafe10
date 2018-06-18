@@ -42,15 +42,23 @@ public class TabEmailHomePageDAO extends BuscaBancoDados {
         getUpdateBancoDados(conn, comandoSql);
     }
 
-    public int insertTabEmailHomePageVO(Connection conn, TabEmailHomePageVO emailHomePage) throws SQLException {
+    public int insertEmailHomePage(Connection conn, TabEmailHomePageVO emailHomePage, int empresa_id, int contato_id) throws SQLException {
         comandoSql = String.format("INSERT INTO tabEmailHomePage (descricao, isEmail) VALUES('%s', %d)",
                 emailHomePage.getDescricao(), emailHomePage.isIsEmail());
-        return getInsertBancoDados(conn, comandoSql);
+        int emailHomePage_id = getInsertBancoDados(conn, comandoSql);
+        if (empresa_id > 0)
+            new RelEmpresaEmailHomePageDAO().insertRelEmpresaEmailHomePage(conn, empresa_id, emailHomePage_id);
+        if (contato_id > 0)
+            new RelContatoEmailHomePageDAO().insertRelContatoEmailHomePageVO(conn, contato_id, emailHomePage_id);
+        return emailHomePage_id;
     }
 
-    public void deleteEmailHomeEmpresa(Connection conn, int emailHome_id, int empresa_id) throws SQLException {
+    public void deleteEmailHomePage(Connection conn, int emailHome_id, int empresa_id, int contato_id) throws SQLException {
         if (emailHome_id < 0) emailHome_id = emailHome_id * (-1);
+        if (empresa_id>0)
         new RelEmpresaEmailHomePageDAO().dedeteRelEmpresaEmailHomePage(conn, emailHome_id, empresa_id);
+//        if (contato_id>0)
+//            new RelContatoEmailHomePageDAO().deleteRelContatoEmailHomePageVO(conn,);
         comandoSql = "DELETE " +
                 "FROM tabEmailHomePage " +
                 "WHERE id = " + emailHome_id + " ";

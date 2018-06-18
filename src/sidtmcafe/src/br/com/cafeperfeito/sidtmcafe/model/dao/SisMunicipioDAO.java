@@ -3,7 +3,6 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisMunicipioVO;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,28 +17,28 @@ public class SisMunicipioDAO extends BuscaBancoDados {
     List<SisMunicipioVO> sisMunicipioVOList;
 
     public SisMunicipioVO getSisMunicipioVO(int id) {
-        buscaSisMunicipioVO(id, "", 0);
+        buscaSisMunicipio(id, "", 0);
         if (sisMunicipioVO != null)
             addDetalheObjeto(sisMunicipioVO);
         return sisMunicipioVO;
     }
 
     public SisMunicipioVO getSisMunicipioVO(String municipio) {
-        buscaSisMunicipioVO(0, municipio, 0);
+        buscaSisMunicipio(0, municipio, 0);
         if (sisMunicipioVO != null)
             addDetalheObjeto(sisMunicipioVO);
         return sisMunicipioVO;
     }
 
     public List<SisMunicipioVO> getMunicipioVOList(int uf_id) {
-        buscaSisMunicipioVO(0, "", uf_id);
+        buscaSisMunicipio(0, "", uf_id);
 //        if (sisMunicipioVOList!=null)
 //            for (SisMunicipioVO municipioVO : sisMunicipioVOList)
 //                addDetalheObjeto(municipioVO);
         return sisMunicipioVOList;
     }
 
-    void buscaSisMunicipioVO(int id, String municipio, int uf_id) {
+    void buscaSisMunicipio(int id, String municipio, int uf_id) {
         comandoSql = "SELECT id, descricao, sisUF_id, isCapital, ibge_id " +
                 "FROM sisMunicipio ";
         if (id > 0) comandoSql += "WHERE id = '" + id + "' ";

@@ -17,21 +17,18 @@ public class SisTipoEnderecoDAO extends BuscaBancoDados {
     List<SisTipoEnderecoVO> sisTipoEnderecoVOList;
 
     public SisTipoEnderecoVO getSisTipoEnderecoVO(int id) {
-        buscaSisTipoEnderecoVO(id);
+        buscaSisTipoEndereco(id);
         return sisTipoEnderecoVO;
     }
 
     public List<SisTipoEnderecoVO> getSisTipoEnderecoVOList() {
-        buscaSisTipoEnderecoVO(0);
+        buscaSisTipoEndereco(0);
         return sisTipoEnderecoVOList;
     }
 
-    void buscaSisTipoEnderecoVO(int id) {
-        comandoSql = "SELECT id, descricao " +
-                "FROM sisTipoEndereco ";
-        if (id > 0) comandoSql += "WHERE id = '" + id + "' ";
-        comandoSql += "ORDER BY id ";
-
+    void buscaSisTipoEndereco(int id) {
+        comandoSql = String.format("SELECT id, descricao FROM sisTipoEndereco %sORDER BY id",
+                id > 0 ? String.format("WHERE id = %d ", id) : "");
         if (id == 0) sisTipoEnderecoVOList = new ArrayList<>();
         rs = getResultadosBandoDados(comandoSql);
         try {

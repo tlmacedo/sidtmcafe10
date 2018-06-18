@@ -201,10 +201,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     List<SisUnidadeComercialVO> sisUnidadeComercialVOList;
     List<SisSituacaoSistemaVO> sisSituacaoSistemaVOList;
-    List<FiscalCSTOrigemVO> fiscalCSTOrigemVOList;
-    List<FiscalICMSVO> fiscalICMSVOList;
-    List<FiscalPISCOFINSVO> fiscalPISVOList;
-    List<FiscalPISCOFINSVO> fiscalCOFINSVOList;
+    List<FiscalCstOrigemVO> fiscalCstOrigemVOList;
+    List<FiscalIcmsVO> fiscalIcmsVOList;
+    List<FiscalPisCofinsVO> fiscalPisVOList;
+    List<FiscalPisCofinsVO> fiscalCofinsVOList;
 
     public int getQtdRegistrosLocalizados() {
         return qtdRegistrosLocalizados;
@@ -291,30 +291,30 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     public void preencherCboFiscalOrigem() {
         cboFiscalOrigem.getItems().clear();
-        if ((fiscalCSTOrigemVOList = new ArrayList<FiscalCSTOrigemVO>(new FiscalCSTOrigemDAO().getFiscalCSTOrigemVOList())) == null)
+        if ((fiscalCstOrigemVOList = new ArrayList<FiscalCstOrigemVO>(new FiscalCstOrigemDAO().getFiscalCstOrigemVOList())) == null)
             return;
-        cboFiscalOrigem.getItems().setAll(fiscalCSTOrigemVOList);
+        cboFiscalOrigem.getItems().setAll(fiscalCstOrigemVOList);
     }
 
     public void preencherCboFiscalIcms() {
         cboFiscalIcms.getItems().clear();
-        if ((fiscalICMSVOList = new ArrayList<FiscalICMSVO>(new FiscalICMSDAO().getFiscalICMSVOList())) == null)
+        if ((fiscalIcmsVOList = new ArrayList<FiscalIcmsVO>(new FiscalIcmsDAO().getFiscalIcmsVOList())) == null)
             return;
-        cboFiscalIcms.getItems().setAll(fiscalICMSVOList);
+        cboFiscalIcms.getItems().setAll(fiscalIcmsVOList);
     }
 
     public void preencherCboFiscalPis() {
         cboFiscalPis.getItems().clear();
-        if ((fiscalPISVOList = new ArrayList<FiscalPISCOFINSVO>(new FiscalPISCOFINSDAO().getFiscalPISCOFINSVOList())) == null)
+        if ((fiscalPisVOList = new ArrayList<FiscalPisCofinsVO>(new FiscalPisCofinsDAO().getFiscalPisCofinsVOList())) == null)
             return;
-        cboFiscalPis.getItems().setAll(fiscalPISVOList);
+        cboFiscalPis.getItems().setAll(fiscalPisVOList);
     }
 
     public void preencherCboFiscalCofins() {
         cboFiscalCofins.getItems().clear();
-        if ((fiscalCOFINSVOList = new ArrayList<FiscalPISCOFINSVO>(new FiscalPISCOFINSDAO().getFiscalPISCOFINSVOList())) == null)
+        if ((fiscalCofinsVOList = new ArrayList<FiscalPisCofinsVO>(new FiscalPisCofinsDAO().getFiscalPisCofinsVOList())) == null)
             return;
-        cboFiscalCofins.getItems().setAll(fiscalCOFINSVOList);
+        cboFiscalCofins.getItems().setAll(fiscalCofinsVOList);
     }
 
     void pesquisaProduto() {

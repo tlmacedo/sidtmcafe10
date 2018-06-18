@@ -80,8 +80,8 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             wsCnpjReceitaWsVO.setMunicipio(jsonObject.getString("municipio").toUpperCase());
             wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCnpjReceitaWsVO.getMunicipio()));
             wsCnpjReceitaWsVO.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipioVO().getId());
-            wsCnpjReceitaWsVO.setSisUFVO(wsCnpjReceitaWsVO.getSisMunicipioVO().getUfVO());
-            wsCnpjReceitaWsVO.setUf(wsCnpjReceitaWsVO.getSisUFVO().getSigla());
+            wsCnpjReceitaWsVO.setSisUfVO(wsCnpjReceitaWsVO.getSisMunicipioVO().getUfVO());
+            wsCnpjReceitaWsVO.setUf(wsCnpjReceitaWsVO.getSisUfVO().getSigla());
             wsCnpjReceitaWsVO.setEmail(jsonObject.getString("email").toLowerCase());
             wsCnpjReceitaWsVO.setTelefone(jsonObject.getString("telefone").toUpperCase());
             wsCnpjReceitaWsVO.setEfr(jsonObject.getString("efr").toUpperCase());

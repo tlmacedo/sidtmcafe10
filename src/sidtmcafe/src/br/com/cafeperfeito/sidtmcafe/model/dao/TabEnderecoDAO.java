@@ -83,7 +83,7 @@ public class TabEnderecoDAO extends BuscaBancoDados {
     public int insertEnderecoEmpresa(Connection conn, TabEnderecoVO endereco, int empresa_id) throws SQLException {
         comandoSql = String.format("INSERT INTO tabEndereco " +
                         "(sisTipoEndereco_id, cep, logradouro, numero, complemento, bairro, sisMunicipio_id, pontoReferencia) " +
-                        "VALUES('%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s')",
+                        "VALUES(%d, '%s', '%s', '%s', '%s', '%s', %d, '%s')",
                 endereco.getSisTipoEndereco_id(),
                 endereco.getCep(),
                 endereco.getLogradouro(),

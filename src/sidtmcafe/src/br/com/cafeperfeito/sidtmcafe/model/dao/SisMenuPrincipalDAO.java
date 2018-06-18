@@ -11,42 +11,32 @@ import java.util.List;
 public class SisMenuPrincipalDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     SisMenuPrincipalVO menuPrincipalVO;
     List<SisMenuPrincipalVO> menuPrincipalVOList;
 
-    public SisMenuPrincipalVO getMenuPrincipalVO(int idSisMenuPrincipalVO) {
-        buscaSisMenuPrincipalVO(idSisMenuPrincipalVO, "");
+    public SisMenuPrincipalVO getMenuPrincipalVO(int id) {
+        getResultSet(String.format("SELECT * FROM sisMenuPrincipal WHERE id = %d ORDER BY id", id));
         return menuPrincipalVO;
     }
 
     public SisMenuPrincipalVO getMenuPrincipalVO(String teclaAtalho) {
-        buscaSisMenuPrincipalVO(-1, teclaAtalho.toLowerCase());
+        getResultSet(String.format("SELECT * FROM sisMenuPrincipal WHERE teclaAtalho = '%s' ORDER BY id", teclaAtalho));
         return menuPrincipalVO;
     }
 
     public List<SisMenuPrincipalVO> getMenuPrincipalVOList() {
-        buscaSisMenuPrincipalVO(-1, "");
+        getResultSet(String.format("SELECT * FROM sisMenuPrincipal ORDER BY id"));
         return menuPrincipalVOList;
     }
 
-    void buscaSisMenuPrincipalVO(int idSisMenuPrincipalVO, String teclaAtalho) {
-        comandoSql = "SELECT * FROM sisMenuPrincipal ";
-        if (idSisMenuPrincipalVO > 0) comandoSql += "WHERE id '" + idSisMenuPrincipalVO + "' ";
-        if (teclaAtalho != "") {
-            if (!comandoSql.contains("WHERE")) {
-                comandoSql += "WHERE ";
-            } else {
-                comandoSql += "AND ";
-            }
-            comandoSql += "teclaAtalho = '" + teclaAtalho + "' ";
-        }
-        comandoSql += "ORDER BY id ";
-
-        menuPrincipalVOList = new ArrayList<>();
+    void getResultSet(String comandoSql) {
+        boolean returnList = false;
         rs = getResultadosBandoDados(comandoSql);
         try {
+            if (rs.last())
+                if (returnList = (rs.getRow() > 1))
+                    menuPrincipalVOList = new ArrayList<>();
+            rs.beforeFirst();
             while (rs.next()) {
                 menuPrincipalVO = new SisMenuPrincipalVO();
                 menuPrincipalVO.setId(rs.getInt("id"));
@@ -56,8 +46,8 @@ public class SisMenuPrincipalDAO extends BuscaBancoDados {
                 menuPrincipalVO.setIcoMenu(rs.getString("icoMenu"));
                 menuPrincipalVO.setTabPane(rs.getBoolean("tabPane"));
                 menuPrincipalVO.setTeclaAtalho(rs.getString("teclaAtalho"));
-
-                menuPrincipalVOList.add(menuPrincipalVO);
+                if (returnList)
+                    menuPrincipalVOList.add(menuPrincipalVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

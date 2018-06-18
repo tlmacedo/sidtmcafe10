@@ -31,7 +31,10 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -65,7 +68,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     public JFXTextField txtEndNumero;
     public JFXTextField txtEndComplemento;
     public JFXTextField txtEndBairro;
-    public JFXComboBox<SisUFVO> cboEndUF;
+    public JFXComboBox<SisUfVO> cboEndUF;
     public JFXComboBox<SisMunicipioVO> cboEndMunicipio;
     public JFXTextField txtEndPontoReferencia;
     public JFXListView<TabEmpresaReceitaFederalVO> listAtividadePrincipal;
@@ -363,7 +366,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 txtIE.setText(ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie" + getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()));
         });
 
-        cboEndUF.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends SisUFVO> observable, SisUFVO oldValue, SisUFVO newValue) -> {
+        cboEndUF.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends SisUfVO> observable, SisUfVO oldValue, SisUfVO newValue) -> {
             if (newValue == null) return;
             cboEndMunicipio.getItems().setAll(newValue.getMunicipioVOList());
             cboEndMunicipio.getSelectionModel().selectFirst();
