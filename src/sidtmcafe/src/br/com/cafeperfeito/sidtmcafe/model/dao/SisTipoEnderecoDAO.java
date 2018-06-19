@@ -11,33 +11,29 @@ import java.util.List;
 public class SisTipoEnderecoDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     SisTipoEnderecoVO sisTipoEnderecoVO;
     List<SisTipoEnderecoVO> sisTipoEnderecoVOList;
+    boolean returnList = false;
 
     public SisTipoEnderecoVO getSisTipoEnderecoVO(int id) {
-        buscaSisTipoEndereco(id);
+        getResultSet(String.format("SELECT * FROM sisTipoEndereco WHERE id = %d ORDER BY id", id), false);
         return sisTipoEnderecoVO;
     }
 
     public List<SisTipoEnderecoVO> getSisTipoEnderecoVOList() {
-        buscaSisTipoEndereco(0);
+        sisTipoEnderecoVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM sisTipoEndereco ORDER BY id"), true);
         return sisTipoEnderecoVOList;
     }
 
-    void buscaSisTipoEndereco(int id) {
-        comandoSql = String.format("SELECT id, descricao FROM sisTipoEndereco %sORDER BY id",
-                id > 0 ? String.format("WHERE id = %d ", id) : "");
-        if (id == 0) sisTipoEnderecoVOList = new ArrayList<>();
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 sisTipoEnderecoVO = new SisTipoEnderecoVO();
                 sisTipoEnderecoVO.setId(rs.getInt("id"));
                 sisTipoEnderecoVO.setDescricao(rs.getString("descricao"));
-
-                if (id == 0) sisTipoEnderecoVOList.add(sisTipoEnderecoVO);
+                if (returnList) sisTipoEnderecoVOList.add(sisTipoEnderecoVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -45,5 +41,4 @@ public class SisTipoEnderecoDAO extends BuscaBancoDados {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-
 }

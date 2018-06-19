@@ -11,25 +11,22 @@ public class FiscalPisCofinsDAO extends BuscaBancoDados {
     ResultSet rs;
     FiscalPisCofinsVO fiscalPisCofinsVO;
     List<FiscalPisCofinsVO> fiscalPisCofinsVOList;
+    boolean returnList = false;
 
     public FiscalPisCofinsVO getFiscalPisCofinsVO(int id) {
-        getResultSet(String.format("SELECT * FROM fiscalPisCofins WHERE id = %d ORDER BY id", id));
+        getResultSet(String.format("SELECT * FROM fiscalPisCofins WHERE id = %d ORDER BY id", id), false);
         return fiscalPisCofinsVO;
     }
 
     public List<FiscalPisCofinsVO> getFiscalPisCofinsVOList() {
-        getResultSet(String.format("SELECT * FROM fiscalPisCofins ORDER BY id"));
+        fiscalPisCofinsVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM fiscalPisCofins ORDER BY id"), true);
         return fiscalPisCofinsVOList;
     }
 
-    void getResultSet(String comandoSql) {
-        boolean returnList = false;
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
-            if (rs.last())
-                if (returnList = (rs.getRow() > 1))
-                    fiscalPisCofinsVOList = new ArrayList<>();
-            rs.beforeFirst();
             while (rs.next()) {
                 fiscalPisCofinsVO = new FiscalPisCofinsVO();
                 fiscalPisCofinsVO.setId(rs.getInt("id"));

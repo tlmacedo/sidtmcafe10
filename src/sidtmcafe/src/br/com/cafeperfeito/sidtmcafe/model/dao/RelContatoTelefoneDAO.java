@@ -14,27 +14,24 @@ public class RelContatoTelefoneDAO extends BuscaBancoDados {
     ResultSet rs;
     RelContatoTelefoneVO relContatoTelefoneVO;
     List<RelContatoTelefoneVO> relContatoTelefoneVOList;
+    boolean returnList = false;
 
     public RelContatoTelefoneVO getRelContatoTelefoneVO(int contato_id, int telefone_id) {
         getResultSet(String.format("SELECT * FROM relContatoTelefone WHERE tabContato_id = %d " +
-                "AND tabTelefone_id = %d ORDER BY tabContato_id, tabTelefone_id", contato_id, telefone_id));
+                "AND tabTelefone_id = %d ORDER BY tabContato_id, tabTelefone_id", contato_id, telefone_id), false);
         return relContatoTelefoneVO;
     }
 
     public List<RelContatoTelefoneVO> getRelContatoTelefoneVOList(int contato_id) {
+        relContatoTelefoneVOList = new ArrayList<>();
         getResultSet(String.format("SELECT * FROM relContatoTelefone WHERE tabContato_id = %d " +
-                "ORDER BY tabContato_id, tabTelefone_id", contato_id));
+                "ORDER BY tabContato_id, tabTelefone_id", contato_id), true);
         return relContatoTelefoneVOList;
     }
 
-    void getResultSet(String comandoSql) {
-        boolean returnList = false;
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
-            if (rs.last())
-                if (returnList = (rs.getRow() > 1))
-                    relContatoTelefoneVOList = new ArrayList<>();
-            rs.beforeFirst();
             while (rs.next()) {
                 relContatoTelefoneVO = new RelContatoTelefoneVO();
                 relContatoTelefoneVO.setTabContato_id(rs.getInt("tabContato_id"));

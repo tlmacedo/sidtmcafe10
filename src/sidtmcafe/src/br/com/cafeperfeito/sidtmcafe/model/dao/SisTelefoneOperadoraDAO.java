@@ -11,25 +11,22 @@ import java.util.List;
 public class SisTelefoneOperadoraDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     SisTelefoneOperadoraVO sisTelefoneOperadoraVO;
     List<SisTelefoneOperadoraVO> sisTelefoneOperadoraVOList;
+    boolean returnList = false;
 
     public SisTelefoneOperadoraVO getSisTelefoneOperadoraVO(int id) {
-        buscaSisTelefoneOperadora(id);
+        getResultSet(String.format("SELECT * FROM sisTelefoneOperadora WHERE id = %d ORDER BY tipo DESC, descricao", id), false);
         return sisTelefoneOperadoraVO;
     }
 
     public List<SisTelefoneOperadoraVO> getSisTelefoneOperadoraVOList() {
-        buscaSisTelefoneOperadora(0);
+        sisTelefoneOperadoraVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM sisTelefoneOperadora ORDER BY tipo DESC, descricao"), true);
         return sisTelefoneOperadoraVOList;
     }
 
-    void buscaSisTelefoneOperadora(int id) {
-        comandoSql = String .format("SELECT id, descricao, tipo, ddd FROM sisTelefoneOperadora %sORDER BY tipo DESC, descricao",
-                id>0?String .format("WHERE id = %d ", id):"");
-        if (id == 0) sisTelefoneOperadoraVOList = new ArrayList<>();
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
@@ -38,8 +35,7 @@ public class SisTelefoneOperadoraDAO extends BuscaBancoDados {
                 sisTelefoneOperadoraVO.setDescricao(rs.getString("descricao"));
                 sisTelefoneOperadoraVO.setTipo(rs.getInt("tipo"));
                 sisTelefoneOperadoraVO.setCodigoDDD(rs.getInt("ddd"));
-
-                if (id == 0) sisTelefoneOperadoraVOList.add(sisTelefoneOperadoraVO);
+                if (returnList) sisTelefoneOperadoraVOList.add(sisTelefoneOperadoraVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -47,5 +43,4 @@ public class SisTelefoneOperadoraDAO extends BuscaBancoDados {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-
 }

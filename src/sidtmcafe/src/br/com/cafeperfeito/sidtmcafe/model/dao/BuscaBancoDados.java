@@ -30,8 +30,9 @@ public class BuscaBancoDados {
     int getInsertBancoDados(Connection conn, String comandoSql) throws SQLException {
         (stmt = conn.prepareStatement(comandoSql)).execute();
         rs = conn.prepareStatement("SELECT LAST_INSERT_ID()").executeQuery();
-        if (rs.wasNull()) return 0;
-        return rs.getInt("LAST_INSERT_ID()");
+        if (rs.next())
+            return rs.getInt("LAST_INSERT_ID()");
+        return 0;
     }
 
     void getDeleteBancoDados(Connection conn, String comandoSql) throws SQLException {

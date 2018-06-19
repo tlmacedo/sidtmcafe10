@@ -12,25 +12,22 @@ public class FiscalIcmsDAO extends BuscaBancoDados {
     ResultSet rs;
     FiscalIcmsVO fiscalIcmsVO;
     List<FiscalIcmsVO> fiscalIcmsVOList;
+    boolean returnList = false;
 
     public FiscalIcmsVO getFiscalIcmsVO(int id) {
-        getResultSet(String.format("SELECT * FROM fiscalIcms WHERE id = %d ORDER BY id", id));
+        getResultSet(String.format("SELECT * FROM fiscalIcms WHERE id = %d ORDER BY id", id), false);
         return fiscalIcmsVO;
     }
 
     public List<FiscalIcmsVO> getFiscalIcmsVOList() {
-        getResultSet(String.format("SELECT * FROM fiscalIcms ORDER BY id"));
+        fiscalIcmsVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM fiscalIcms ORDER BY id"), true);
         return fiscalIcmsVOList;
     }
 
-    void getResultSet(String comandoSql) {
-        boolean returnList = false;
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
-            if (rs.last())
-                if (returnList = (rs.getRow() > 1))
-                    fiscalIcmsVOList = new ArrayList<>();
-            rs.beforeFirst();
             while (rs.next()) {
                 fiscalIcmsVO = new FiscalIcmsVO();
                 fiscalIcmsVO.setId(rs.getInt("id"));

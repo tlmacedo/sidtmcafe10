@@ -22,7 +22,7 @@ public class ServiceVariavelSistema {
 
     public static void newServiceVariavelSistema(TabColaboradorVO colaboradorVO) {
         if (colaboradorVO == null)
-            colaboradorVO = new TabColaboradorDAO().getTabColaboradorVO(1);
+            colaboradorVO = new TabColaboradorDAO().getTabColaboradorVO(1, false);
         ServiceVariavelSistema.USUARIO_LOGADO_ID = String.valueOf(colaboradorVO.getId());
         ServiceVariavelSistema.USUARIO_LOGADO_NOME = colaboradorVO.getNome();
         ServiceVariavelSistema.USUARIO_LOGADO_APELIDO = colaboradorVO.getApelido();

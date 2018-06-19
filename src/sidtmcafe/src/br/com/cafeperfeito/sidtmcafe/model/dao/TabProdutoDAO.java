@@ -13,37 +13,26 @@ import java.util.List;
 public class TabProdutoDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     TabProdutoVO tabProdutoVO;
     List<TabProdutoVO> tabProdutoVOList;
+    boolean returnList = false;
 
     public TabProdutoVO getTabProdutoVO(int id) {
-        buscaTabProdutoVO(id);
-        if (tabProdutoVO != null)
-            addObjetosPesquisa(tabProdutoVO);
+        getResultSet(String.format("SELECT * FROM tabProduto WHERE id = %d ORDER BY descricao", id), false);
+        addObjetosPesquisa(tabProdutoVO);
         return tabProdutoVO;
     }
 
     public List<TabProdutoVO> getTabProdutoVOList() {
-        buscaTabProdutoVO(0);
-        if (tabProdutoVOList != null)
-            for (TabProdutoVO produtoVO : tabProdutoVOList)
-                addObjetosPesquisa(produtoVO);
+        tabProdutoVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM tabProduto ORDER BY descricao"), true);
+        for (TabProdutoVO produtoVO : tabProdutoVOList)
+            addObjetosPesquisa(produtoVO);
         return tabProdutoVOList;
     }
 
-    void buscaTabProdutoVO(int id) {
-        comandoSql = "SELECT id, codigo, descricao, peso, sisUnidadeComercial_id, sisSituacaoSistema_id, precoFabrica, precoVenda, varejo, ";
-        comandoSql += "precoUltimoFrete, comissao, fiscalNcm, fiscalCestNcm_id, fiscalCSTOrigem_id, fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, ";
-        comandoSql += "nfeGenero, usuarioCadastro_id, dataCadastro, usuarioAtualizacao_id, dataAtualizacao ";
-        comandoSql += "FROM tabProduto ";
-        if (id > 0) comandoSql += "WHERE id = " + id + " ";
-        comandoSql += "ORDER BY descricao ";
-
-        if (id == 0) tabProdutoVOList = new ArrayList<TabProdutoVO>();
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
-
         try {
             while (rs.next()) {
                 tabProdutoVO = new TabProdutoVO();
@@ -69,15 +58,13 @@ public class TabProdutoDAO extends BuscaBancoDados {
                 tabProdutoVO.setDataCadastro(rs.getTimestamp("dataCadastro"));
                 tabProdutoVO.setUsuarioAtualizacao_id(rs.getInt("usuarioAtualizacao_id"));
                 tabProdutoVO.setDataAtualizacao(rs.getTimestamp("dataAtualizacao"));
-
-                if (id == 0) tabProdutoVOList.add(tabProdutoVO);
+                if (returnList) tabProdutoVOList.add(tabProdutoVO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-
     }
 
     void addObjetosPesquisa(TabProdutoVO produto) {
@@ -95,74 +82,47 @@ public class TabProdutoDAO extends BuscaBancoDados {
 
         produto.setFiscalCofinsVO(new FiscalPisCofinsDAO().getFiscalPisCofinsVO(produto.getFiscalCOFINS_id()));
 
-        produto.setUsuarioCadastroVO(new TabColaboradorDAO().getTabColaboradorVO_Simples(produto.getUsuarioCadastro_id()));
+        produto.setUsuarioCadastroVO(new TabColaboradorDAO().getTabColaboradorVO(produto.getUsuarioCadastro_id(), false));
 
-        produto.setUsuarioAtualizacaoVO(new TabColaboradorDAO().getTabColaboradorVO_Simples(produto.getUsuarioAtualizacao_id()));
+        produto.setUsuarioAtualizacaoVO(new TabColaboradorDAO().getTabColaboradorVO(produto.getUsuarioAtualizacao_id(), false));
 
         List<TabProdutoEanVO> tabProdutoEanVOList = new ArrayList<TabProdutoEanVO>(new TabProdutoEanDAO().getTabProdutoEanVOList(produto.getId()));
 
         produto.setTabProdutoEanVOList(tabProdutoEanVOList);
     }
 
-    public void updateTabProdutoVO(Connection conn, TabProdutoVO produtoVO) throws SQLException {
-        comandoSql = "UPDATE tabProduto SET ";
-        comandoSql += "codigo = '" + produtoVO.getCodigo() + "', ";
-        comandoSql += "descricao = '" + produtoVO.getDescricao() + "', ";
-        comandoSql += "peso = " + produtoVO.getPeso() + ", ";
-        comandoSql += "sisUnidadeComercial_id = " + produtoVO.getSisUnidadeComercial_id() + ", ";
-        comandoSql += "sisSituacaoSistema_id = " + produtoVO.getSisSituacaoSistema_id() + ", ";
-        comandoSql += "precoFabrica = " + produtoVO.getPrecoFabrica() + ", ";
-        comandoSql += "precoVenda = " + produtoVO.getPrecoVenda() + ", ";
-        comandoSql += "varejo = " + produtoVO.getVarejo() + ", ";
-        comandoSql += "precoUltimoFrete = " + produtoVO.getPrecoUltimoFrete() + ", ";
-        comandoSql += "comissao = " + produtoVO.getComissao() + ", ";
-        comandoSql += "fiscalNcm = '" + produtoVO.getFiscalNcm() + "', ";
-        comandoSql += "fiscalCestNcm_id = " + produtoVO.getFiscalCestNcm_id() + ", ";
-        comandoSql += "fiscalCSTOrigem_id = " + produtoVO.getFiscalCSTOrigem_id() + ", ";
-        comandoSql += "fiscalICMS_id = " + produtoVO.getFiscalICMS_id() + ", ";
-        comandoSql += "fiscalPIS_id = " + produtoVO.getFiscalPIS_id() + ", ";
-        comandoSql += "fiscalCOFINS_id = " + produtoVO.getFiscalCOFINS_id() + ", ";
-        comandoSql += "nfeGenero = '" + produtoVO.getNfeGenero() + "', ";
-        comandoSql += "usuarioAtualizacao_id = " + produtoVO.getUsuarioAtualizacao_id() + " ";
-        comandoSql += "WHERE id = " + produtoVO.getId() + " ";
-
+    public void updateTabProdutoVO(Connection conn, TabProdutoVO produto) throws SQLException {
+        String comandoSql = String.format("UPDATE tabProduto SET codigo = '%s', descricao = '%s', peso = %f, " +
+                        "sisUnidadeComercial_id = %d, sisSituacaoSistema_id = %d, precoFabrica = %f, precoVenda = %f, " +
+                        "varejo = %d, precoUltimoFrete = %f, comissao = %f, fiscalNcm = '%s', fiscalCestNcm_id = %d, " +
+                        "fiscalCstOrigem_id = %d, fiscalIcms_id = %d, fiscalPis_id = %d, fiscalCofins_id = %d, " +
+                        "nfeGenero = '%s', usuarioAtualizacao_id = %d WHERE id = %d",
+                produto.getCodigo(), produto.getDescricao(), produto.getPeso(), produto.getSisUnidadeComercial_id(),
+                produto.getSisSituacaoSistema_id(), produto.getPrecoFabrica(), produto.getPrecoVenda(),
+                produto.getVarejo(), produto.getPrecoUltimoFrete(), produto.getComissao(), produto.getFiscalNcm(),
+                produto.getFiscalCestNcm_id(), produto.getFiscalCSTOrigem_id(), produto.getFiscalICMS_id(),
+                produto.getFiscalPIS_id(), produto.getFiscalCOFINS_id(), produto.getNfeGenero(),
+                produto.getUsuarioAtualizacao_id(), produto.getId());
         getUpdateBancoDados(conn, comandoSql);
     }
 
     public int insertTabProdutoVO(Connection conn, TabProdutoVO produtoVO) throws SQLException {
-        comandoSql = "INSERT INTO tabProduto ";
-        comandoSql += "(codigo, descricao, peso, sisUnidadeComercial_id, sisSituacaoSistema_id, precoFabrica, precoVenda, varejo, ";
-        comandoSql += "precoUltimoFrete, comissao, fiscalNcm, fiscalCestNcm_id, fiscalCSTOrigem_id, fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, ";
-        comandoSql += "nfeGenero, usuarioCadastro_id) ";
-        comandoSql += "VALUES ( ";
-        comandoSql += "'" + produtoVO.getCodigo() + "', ";
-        comandoSql += "'" + produtoVO.getDescricao() + "', ";
-        comandoSql += produtoVO.getPeso() + ", ";
-        comandoSql += produtoVO.getSisUnidadeComercial_id() + ", ";
-        comandoSql += produtoVO.getSisSituacaoSistema_id() + ", ";
-        comandoSql += produtoVO.getPrecoFabrica() + ", ";
-        comandoSql += produtoVO.getPrecoVenda() + ", ";
-        comandoSql += produtoVO.getVarejo() + ", ";
-        comandoSql += produtoVO.getPrecoUltimoFrete() + ", ";
-        comandoSql += produtoVO.getComissao() + ", ";
-        comandoSql += "'" + produtoVO.getFiscalNcm() + "', ";
-        comandoSql += produtoVO.getFiscalCestNcm_id() + ", ";
-        comandoSql += produtoVO.getFiscalCSTOrigem_id() + ", ";
-        comandoSql += produtoVO.getFiscalICMS_id() + ", ";
-        comandoSql += produtoVO.getFiscalPIS_id() + ", ";
-        comandoSql += produtoVO.getFiscalCOFINS_id() + ", ";
-        comandoSql += "'" + produtoVO.getNfeGenero() + "', ";
-        comandoSql += produtoVO.getUsuarioCadastro_id() + " ";
-        comandoSql += ") ";
-
+        String comandoSql = String.format("INSERT INTO tabProduto (codigo, descricao, peso, sisUnidadeComercial_id, " +
+                        "sisSituacaoSistema_id, precoFabrica, precoVenda, varejo, precoUltimoFrete, comissao, fiscalNcm, " +
+                        "fiscalCestNcm_id, fiscalCSTOrigem_id, fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, nfeGenero, " +
+                        "usuarioCadastro_id) VALUES('%s', '%s', %f, %d, %d, %f, %f, %d, %f, %f, '%s', %d, %d, %d, %d, %d, '%s', %d)",
+                produtoVO.getCodigo(), produtoVO.getDescricao(), produtoVO.getPeso(), produtoVO.getSisUnidadeComercial_id(),
+                produtoVO.getSisSituacaoSistema_id(), produtoVO.getPrecoFabrica(), produtoVO.getPrecoVenda(),
+                produtoVO.getVarejo(), produtoVO.getPrecoUltimoFrete(), produtoVO.getComissao(), produtoVO.getFiscalNcm(),
+                produtoVO.getFiscalCestNcm_id(), produtoVO.getFiscalCSTOrigem_id(), produtoVO.getFiscalICMS_id(),
+                produtoVO.getFiscalPIS_id(), produtoVO.getFiscalCOFINS_id(), produtoVO.getNfeGenero(),
+                produtoVO.getUsuarioCadastro_id());
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void deleteTabProdutoVO(Connection conn, TabProdutoVO produtoVO) throws SQLException {
-        comandoSql = "DELETE ";
-        comandoSql += "FROM tabProduto ";
-        comandoSql += "WHERE id = " + produtoVO.getId();
-
+    public void deleteTabProdutoVO(Connection conn, int produto_id) throws SQLException {
+        if (produto_id < 0) produto_id = produto_id * (-1);
+        String comandoSql = String.format("DELETE FROM tabProduto WHERE id = %d", produto_id);
         getDeleteBancoDados(conn, comandoSql);
     }
 }

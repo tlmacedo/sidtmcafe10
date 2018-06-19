@@ -12,25 +12,22 @@ public class FiscalCstOrigemDAO extends BuscaBancoDados {
     ResultSet rs;
     FiscalCstOrigemVO fiscalCstOrigemVO;
     List<FiscalCstOrigemVO> fiscalCstOrigemVOList;
+    boolean returnList = false;
 
     public FiscalCstOrigemVO getFiscalCstOrigemVO(int id) {
-        getResultSet(String.format("SELECT * FROM fiscalCstOrigem WHERE id = %d ORDER BY id", id));
+        getResultSet(String.format("SELECT * FROM fiscalCstOrigem WHERE id = %d ORDER BY id", id), false);
         return fiscalCstOrigemVO;
     }
 
     public List<FiscalCstOrigemVO> getFiscalCstOrigemVOList() {
-        getResultSet(String.format("SELECT * FROM fiscalCstOrigem ORDER BY id"));
+        fiscalCstOrigemVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM fiscalCstOrigem ORDER BY id"), true);
         return fiscalCstOrigemVOList;
     }
 
-    void getResultSet(String comandoSql) {
-        boolean returnList = false;
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
-            if (rs.last())
-                if (returnList = (rs.getRow() > 1))
-                    fiscalCstOrigemVOList = new ArrayList<>();
-            rs.beforeFirst();
             while (rs.next()) {
                 fiscalCstOrigemVO = new FiscalCstOrigemVO();
                 fiscalCstOrigemVO.setId(rs.getInt("id"));

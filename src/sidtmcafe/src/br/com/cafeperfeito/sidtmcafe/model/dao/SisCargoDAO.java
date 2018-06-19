@@ -11,33 +11,29 @@ import java.util.List;
 public class SisCargoDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     SisCargoVO sisCargoVO;
     List<SisCargoVO> sisCargoVOList;
+    boolean returnList = false;
 
     public SisCargoVO getSisCargoVO(int id) {
-        buscaSisCargo(id);
+        getResultSet(String.format("SELECT * FROM sisCargo WHERE id = %d ORDER BY descricao", id), false);
         return sisCargoVO;
     }
 
     public List<SisCargoVO> getSisCargoVOList() {
-        buscaSisCargo(0);
+        sisCargoVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM sisCargo ORDER BY descricao"), true);
         return sisCargoVOList;
     }
 
-    void buscaSisCargo(int id) {
-        comandoSql = String.format("SELECT id, descricao FROM sisCargo %sORDER BY descricao",
-                id > 0 ? String.format("WHERE id = %d ", id) : "");
-        if (id == 0) sisCargoVOList = new ArrayList<>();
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 sisCargoVO = new SisCargoVO();
                 sisCargoVO.setId(rs.getInt("id"));
                 sisCargoVO.setDescricao(rs.getString("descricao"));
-
-                if (id == 0) sisCargoVOList.add(sisCargoVO);
+                if (returnList) sisCargoVOList.add(sisCargoVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

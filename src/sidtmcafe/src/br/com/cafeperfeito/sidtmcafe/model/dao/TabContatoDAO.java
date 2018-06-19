@@ -12,22 +12,16 @@ import java.util.List;
 public class TabContatoDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     TabContatoVO tabContatoVO;
 
-    public TabContatoVO getTabContatoVO(int id) {
-        buscaTabContatoVO(id);
-        if (tabContatoVO != null)
+    public TabContatoVO getTabContatoVO(int id, boolean getDetalheContato) {
+        getResultSet(String.format("SELECT * FROM tabContato WHERE id = %d ORDER BY descricao", id));
+        if (getDetalheContato)
             addObjetosPesquisa(tabContatoVO);
         return tabContatoVO;
     }
 
-    void buscaTabContatoVO(int id) {
-        comandoSql = "SELECT id, descricao, sisCargo_id " +
-                "FROM tabContato " +
-                "WHERE id = '" + id + "' ";
-
+    void getResultSet(String comandoSql) {
         rs = getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
@@ -35,7 +29,6 @@ public class TabContatoDAO extends BuscaBancoDados {
                 tabContatoVO.setId(rs.getInt("id"));
                 tabContatoVO.setDescricao(rs.getString("descricao"));
                 tabContatoVO.setSisCargo_id(rs.getInt("sisCargo_id"));
-
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -63,31 +56,24 @@ public class TabContatoDAO extends BuscaBancoDados {
 
     }
 
-    public void updateTabContatoVO(Connection conn, TabContatoVO contatoVO) throws SQLException {
-        comandoSql = "UPDATE tabContato SET ";
-        comandoSql += "descricao = '" + contatoVO.getDescricao() + "', ";
-        comandoSql += "sisCargo_id = " + contatoVO.getSisCargo_id() + " ";
-        comandoSql += "WHERE id = " + contatoVO.getId() + " ";
-
+    public void updateTabContatoVO(Connection conn, TabContatoVO contato) throws SQLException {
+        String comandoSql = String.format("UPDATE tabContato SET descricao = '%s', sisCargo_id = %d WHERE id = %d",
+                contato.getDescricao(), contato.getSisCargo_id(), contato.getId());
         getUpdateBancoDados(conn, comandoSql);
     }
 
-    public int insertTabContatoVO(Connection conn, TabContatoVO contatoVO) throws SQLException {
-        comandoSql = "INSERT INTO tabContato ";
-        comandoSql += "(descricao, sisCargo_id) ";
-        comandoSql += "VALUES (";
-        comandoSql += "'" + contatoVO.getDescricao() + "', ";
-        comandoSql += +contatoVO.getSisCargo_id() + " ";
-        comandoSql += ")";
-
-        return getInsertBancoDados(conn, comandoSql);
+    public int insertTabContatoVO(Connection conn, TabContatoVO contato, int empresa_id) throws SQLException {
+        String comandoSql = String.format("INSERT INTO tabContato (descricao, sisCargo_id) VALUES('%s', %d)",
+                contato.getDescricao(), contato.getSisCargo_id());
+        int contato_id = getInsertBancoDados(conn, comandoSql);
+        new RelEmpresaContatoDAO().insertRelEmpresaContatoVO(conn, empresa_id, contato_id);
+        return contato_id;
     }
 
-    public void deleteTabContatoVO(Connection conn, int id_contatoVO) throws SQLException {
-        if (id_contatoVO < 0) id_contatoVO = id_contatoVO * (-1);
-        comandoSql = "DELETE FROM tabContato ";
-        comandoSql += "WHERE id = " + id_contatoVO + " ";
-
+    public void deleteTabContatoVO(Connection conn, int contato_id, int empresa_id) throws SQLException {
+        if (contato_id < 0) contato_id = contato_id * (-1);
+        new RelEmpresaContatoDAO().deleteRelEmpresaContatoVO(conn, empresa_id, contato_id);
+        String comandoSql = String.format("DELETE FROM tabContato WHERE id = %d", contato_id);
         getDeleteBancoDados(conn, comandoSql);
     }
 

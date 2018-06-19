@@ -53,7 +53,7 @@ public class WsCepPostmonDAO extends BuscaWebService implements Constants {
             enderecoVO.setNumero("");
             enderecoVO.setComplemento("");
             enderecoVO.setBairro(wsCepPostmonVO.getBairro());
-            enderecoVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCepPostmonVO.getCidade() + "-" + wsCepPostmonVO.getEstado_codigo_ibge()));
+            enderecoVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCepPostmonVO.getCidade() + "-" + wsCepPostmonVO.getEstado_codigo_ibge(), true));
             enderecoVO.setSisMunicipio_id(enderecoVO.getSisMunicipioVO().getId());
             enderecoVO.setPontoReferencia("");
         } catch (Exception ex) {

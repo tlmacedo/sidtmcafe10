@@ -12,57 +12,32 @@ import java.util.List;
 public class TabEmpresaDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     TabEmpresaVO tabEmpresaVO;
     List<TabEmpresaVO> tabEmpresaVOList;
-
-    public TabEmpresaVO getTabEmpresaVO_Simples(int id) {
-        buscaTabEmpresaVO(id, false, "");
-        return tabEmpresaVO;
-    }
-
-    public TabEmpresaVO getTabEmpresaVO_Simples(String cnpj) {
-        buscaTabEmpresaVO(0, false, cnpj);
-        return tabEmpresaVO;
-    }
+    boolean returnList = false;
 
     public TabEmpresaVO getTabEmpresaVO(int id) {
-        buscaTabEmpresaVO(id, false, "");
-        if (tabEmpresaVO != null)
-            addObjetosPesquisa(tabEmpresaVO);
+        getResultSet(String.format("SELECT * FROM tabEmpresa WHERE id = %d ORDER BY razao", id), false);
+        addObjetosPesquisa(tabEmpresaVO);
+        return tabEmpresaVO;
+    }
+
+    public TabEmpresaVO getTabEmpresaVO(String cnpj) {
+        getResultSet(String.format("SELECT * FROM tabEmpresa WHERE cnpj = '%s' ORDER BY razao", cnpj), false);
+        addObjetosPesquisa(tabEmpresaVO);
         return tabEmpresaVO;
     }
 
     public List<TabEmpresaVO> getTabEmpresaVOList(boolean isLoja) {
-        buscaTabEmpresaVO(0, isLoja, "");
-        if (tabEmpresaVOList != null)
-            for (TabEmpresaVO empresaVO : tabEmpresaVOList)
-                addObjetosPesquisa(empresaVO);
+        tabEmpresaVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM tabEmpresa %sORDER BY razao",
+                isLoja ? String.format("WHERE isLoja = %d ", 1) : ""), true);
+        for (TabEmpresaVO empresa : tabEmpresaVOList)
+            addObjetosPesquisa(empresa);
         return tabEmpresaVOList;
     }
 
-    void buscaTabEmpresaVO(int id, boolean isLoja, String cnpj) {
-        comandoSql = "SELECT id, isEmpresa, cnpj, ieIsento, ie, razao, fantasia, isLoja, isCliente, isFornecedor, " +
-                "isTransportadora, sisSituacaoSistema_id, usuarioCadastro_id, dataCadastro, " +
-                "usuarioAtualizacao_id, dataAtualizacao, dataAbertura, naturezaJuridica " +
-                "FROM tabEmpresa ";
-        if (id > 0) {
-            comandoSql += "WHERE id = " + id + " ";
-        } else {
-            if (!cnpj.equals("")) {
-                comandoSql += "WHERE cnpj = '" + cnpj + "' ";
-            } else {
-                if (isLoja) {
-                    comandoSql += "WHERE isLoja = 1 ";
-                } else {
-                    comandoSql += "WHERE (isCliente = 1 OR isFornecedor = 1 OR isTransportadora = 1) ";
-                }
-            }
-        }
-        comandoSql += "ORDER BY razao ";
-
-        if (id == 0) tabEmpresaVOList = new ArrayList<>();
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
@@ -85,8 +60,7 @@ public class TabEmpresaDAO extends BuscaBancoDados {
                 tabEmpresaVO.setDataAtualizacao(rs.getTimestamp("dataAtualizacao"));
                 tabEmpresaVO.setDataAbertura(rs.getDate("dataAbertura"));
                 tabEmpresaVO.setNaturezaJuridica(rs.getString("naturezaJuridica"));
-
-                if (id == 0) tabEmpresaVOList.add(tabEmpresaVO);
+                if (returnList) tabEmpresaVOList.add(tabEmpresaVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -97,11 +71,12 @@ public class TabEmpresaDAO extends BuscaBancoDados {
 
     void addObjetosPesquisa(TabEmpresaVO empresa) {
         empresa.setSisSituacaoSistemaVO(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(empresa.getSisSituacaoSistema_id()));
-        empresa.setUsuarioCadastroVO(new TabColaboradorDAO().getTabColaboradorVO_Simples(empresa.getUsuarioCadastro_id()));
-        empresa.setUsuarioAtualizacaoVO(new TabColaboradorDAO().getTabColaboradorVO_Simples(empresa.getUsuarioAtualizacao_id()));
+        empresa.setUsuarioCadastroVO(new TabColaboradorDAO().getTabColaboradorVO(empresa.getUsuarioCadastro_id(), false));
+        empresa.setUsuarioAtualizacaoVO(new TabColaboradorDAO().getTabColaboradorVO(empresa.getUsuarioAtualizacao_id(), false));
         empresa.setTabEmpresaReceitaFederalVOList(new TabEmpresaReceitaFederalDAO().getTabEmpresaReceitaFederalVOList(empresa.getId()));
 
         List<TabEnderecoVO> tabEnderecoVOList = new ArrayList<>();
+
         new RelEmpresaEnderecoDAO().getRelEmpresaEnderecoVOList(empresa.getId())
                 .forEach(relEmpresaEndereco -> {
                     tabEnderecoVOList.add(new TabEnderecoDAO().getTabEnderecoVO(relEmpresaEndereco.getTabEndereco_id()));
@@ -125,63 +100,42 @@ public class TabEmpresaDAO extends BuscaBancoDados {
         List<TabContatoVO> tabContatoVOList = new ArrayList<TabContatoVO>();
         new RelEmpresaContatoDAO().getRelEmpresaContatoVOList(empresa.getId()).stream()
                 .forEach(relEmpresaContato -> {
-                    tabContatoVOList.add(new TabContatoDAO().getTabContatoVO(relEmpresaContato.getTabContato_id()));
+                    tabContatoVOList.add(new TabContatoDAO().getTabContatoVO(relEmpresaContato.getTabContato_id(), true));
                 });
         empresa.setTabContatoVOList(tabContatoVOList);
     }
 
-    public void updateTabEmpresaVO(Connection conn, TabEmpresaVO empresaVO) throws SQLException {
-        comandoSql = "UPDATE tabEmpresa SET ";
-        comandoSql += "isEmpresa = " + empresaVO.isIsEmpresa() + ", ";
-        comandoSql += "cnpj = '" + empresaVO.getCnpj().replaceAll("[\\D]", "") + "', ";
-        comandoSql += "ieIsento = " + empresaVO.isIeIsento() + ", ";
-        comandoSql += "ie = '" + empresaVO.getIe().replaceAll("[\\D]", "") + "', ";
-        comandoSql += "razao = '" + empresaVO.getRazao().trim().replaceAll("'", "\'") + "', ";
-        comandoSql += "fantasia = '" + empresaVO.getFantasia().trim().replaceAll("'", "\'") + "', ";
-        comandoSql += "isLoja = " + empresaVO.isIsLoja() + ", ";
-        comandoSql += "isCliente = " + empresaVO.isIsCliente() + ", ";
-        comandoSql += "isFornecedor = " + empresaVO.isIsFornecedor() + ", ";
-        comandoSql += "isTransportadora = " + empresaVO.isIsTransportadora() + ", ";
-        comandoSql += "sisSituacaoSistema_id = " + empresaVO.getSisSituacaoSistema_id() + ", ";
-        comandoSql += "usuarioAtualizacao_id = " + empresaVO.getUsuarioAtualizacao_id() + ", ";
-        comandoSql += "dataAbertura = '" + empresaVO.getDataAbertura() + "', ";
-        comandoSql += "naturezaJuridica = '" + empresaVO.getNaturezaJuridica().trim().replaceAll("[']", "\'") + "' ";
-        comandoSql += "WHERE id = " + empresaVO.getId();
-
+    public void updateTabEmpresaVO(Connection conn, TabEmpresaVO empresa) throws SQLException {
+        String comandoSql = String.format("UPDATE tabEmpresa SET isEmpresa = %b, cnpj = '%s', ieIsento = %b, " +
+                        "ie = '%s', razao = '%s', fantasia = '%s', isLoja = %b, isCliente = %b, isFornecedor = %b, " +
+                        "isTransportadora = %b, sisSituacaoSistema_id = %d, usuarioAtualizacao_id = %d, " +
+                        "dataAbertura = '%s', naturezaJuridica = '%s' WHERE id = %d",
+                empresa.isIsEmpresa(), empresa.getCnpj(), empresa.isIeIsento(), empresa.getIe(), empresa.getRazao(),
+                empresa.getFantasia(), empresa.isIsLoja(), empresa.isIsCliente(), empresa.isIsFornecedor(),
+                empresa.isIsTransportadora(), empresa.getSisSituacaoSistema_id(), empresa.getUsuarioAtualizacao_id(),
+                empresa.getDataAbertura(), empresa.getNaturezaJuridica(), empresa.getId());
         getUpdateBancoDados(conn, comandoSql);
-
     }
 
-    public int insertTabEmpresaVO(Connection conn, TabEmpresaVO empresaVO) throws SQLException {
-        comandoSql = "INSERT INTO tabEmpresa ";
-        comandoSql += "(isEmpresa, cnpj, ieIsento, ie, razao, fantasia, isLoja, isCliente, isFornecedor, isTransportadora, ";
-        comandoSql += "sisSituacaoSistema_id, usuarioCadastro_id, dataAbertura, naturezaJuridica) ";
-        comandoSql += "VALUES(";
-        comandoSql += empresaVO.isIsEmpresa() + ", ";
-        comandoSql += "'" + empresaVO.getCnpj().replaceAll("[\\D]", "") + "', ";
-        comandoSql += empresaVO.isIeIsento() + ", ";
-        comandoSql += "'" + empresaVO.getIe().replaceAll("[\\D]", "") + "', ";
-        comandoSql += "'" + empresaVO.getRazao().trim().replaceAll("'", "\'") + "', ";
-        comandoSql += "'" + empresaVO.getFantasia().trim().replaceAll("'", "\'") + "', ";
-        comandoSql += empresaVO.isIsLoja() + ", ";
-        comandoSql += empresaVO.isIsCliente() + ", ";
-        comandoSql += empresaVO.isIsFornecedor() + ", ";
-        comandoSql += empresaVO.isIsTransportadora() + ", ";
-        comandoSql += empresaVO.getSisSituacaoSistema_id() + ", ";
-        comandoSql += empresaVO.getUsuarioCadastro_id() + ", ";
-        comandoSql += "'" + empresaVO.getDataAbertura() + "', ";
-        comandoSql += "'" + empresaVO.getNaturezaJuridica().trim().replaceAll("'", "\'") + "'";
-        comandoSql += ") ";
-
+    public int insertTabEmpresaVO(Connection conn, TabEmpresaVO empresa) throws SQLException {
+        String comandoSql = String.format("INSERT INTO tabEmpresa (isEmpresa, cnpj, ieIsento, ie, " +
+                        "razao, fantasia, isLoja, isCliente, isFornecedor, isTransportadora, sisSituacaoSistema_id, " +
+                        "usuarioCadastro_id, dataAbertura, naturezaJuridica) VALUES(%b, '%s', %b, '%s', '%s', '%s', " +
+                        "%b, %b, %b, %b, %d, %d, '%tdtmty', '%s')",
+                empresa.isIsEmpresa(), empresa.getCnpj().replaceAll("[\\D]", ""),
+                empresa.isIeIsento(), empresa.getIe().replaceAll("[\\D]", ""),
+                empresa.getRazao().trim().replaceAll("'", "\'"),
+                empresa.getFantasia().trim().replaceAll("'", "\'"),
+                empresa.isIsLoja(), empresa.isIsCliente(), empresa.isIsFornecedor(),
+                empresa.isIsTransportadora(), empresa.getSisSituacaoSistema_id(),
+                empresa.getUsuarioCadastro_id(), empresa.getDataAbertura(),
+                empresa.getNaturezaJuridica().trim().replaceAll("'", "\'") + "'");
         return getInsertBancoDados(conn, comandoSql);
-
     }
 
-    public void deleteTabEmpresaVO(Connection conn, TabEmpresaVO empresaVO) throws SQLException {
-        comandoSql = "DELETE ";
-        comandoSql += "FROM tabEmpresa ";
-        comandoSql += "WHERE id = " + empresaVO.getId() + " ";
-
+    public void deleteTabEmpresaVO(Connection conn, int empresa_id) throws SQLException {
+        if (empresa_id < 0) empresa_id = empresa_id * (-1);
+        String comandoSql = String.format("DELETE FROM tabEmpresa WHERE id = %d", empresa_id);
         getDeleteBancoDados(conn, comandoSql);
     }
 

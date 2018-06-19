@@ -924,10 +924,10 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="233" parent="5" name="fiscalCSTOrigem"/>
-    <table id="234" parent="5" name="fiscalCestNcm"/>
-    <table id="235" parent="5" name="fiscalICMS"/>
-    <table id="236" parent="5" name="fiscalPISCOFINS"/>
+    <table id="233" parent="5" name="fiscalCestNcm"/>
+    <table id="234" parent="5" name="fiscalCstOrigem"/>
+    <table id="235" parent="5" name="fiscalIcms"/>
+    <table id="236" parent="5" name="fiscalPisCofins"/>
     <table id="237" parent="5" name="relContatoEmailHomePage"/>
     <table id="238" parent="5" name="relContatoTelefone"/>
     <table id="239" parent="5" name="relEmpresaContato"/>
@@ -940,7 +940,7 @@
     <table id="246" parent="5" name="sisSituacaoSistema"/>
     <table id="247" parent="5" name="sisTelefoneOperadora"/>
     <table id="248" parent="5" name="sisTipoEndereco"/>
-    <table id="249" parent="5" name="sisUF"/>
+    <table id="249" parent="5" name="sisUf"/>
     <table id="250" parent="5" name="sisUnidadeComercial"/>
     <table id="251" parent="5" name="tabColaborador"/>
     <table id="252" parent="5" name="tabContato"/>
@@ -956,51 +956,52 @@
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="262" parent="233" name="descricao">
-      <Position>2</Position>
-      <DataType>varchar(180)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-      <Collation>utf8_general_ci</Collation>
-    </column>
-    <key id="263" parent="233" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="264" parent="234" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="265" parent="234" name="segmento">
+    <column id="262" parent="233" name="segmento">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="266" parent="234" name="descricao">
+    <column id="263" parent="233" name="descricao">
       <Position>3</Position>
       <DataType>varchar(600)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="267" parent="234" name="cest">
+    <column id="264" parent="233" name="cest">
       <Position>4</Position>
       <DataType>varchar(7)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="268" parent="234" name="ncm">
+    <column id="265" parent="233" name="ncm">
       <Position>5</Position>
       <DataType>varchar(8)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+      <Collation>utf8_general_ci</Collation>
+    </column>
+    <key id="266" parent="233" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="267" parent="234" name="id">
+      <Position>1</Position>
+      <Comment>Fiscal</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="268" parent="234" name="descricao">
+      <Position>2</Position>
+      <DataType>varchar(180)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
@@ -1321,7 +1322,7 @@
       <ColumnKind>normal</ColumnKind>
       <Collation>utf8_general_ci</Collation>
     </column>
-    <column id="325" parent="245" name="sisUF_id">
+    <column id="325" parent="245" name="sisUf_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
@@ -1341,7 +1342,7 @@
       <Collation>utf8_general_ci</Collation>
     </column>
     <index id="328" parent="245" name="fk_sisMunicipio_sisUF1_idx">
-      <ColNames>sisUF_id</ColNames>
+      <ColNames>sisUf_id</ColNames>
       <Type>btree</Type>
     </index>
     <key id="329" parent="245" name="PRIMARY">
@@ -1350,9 +1351,9 @@
       <Primary>1</Primary>
     </key>
     <foreign-key id="330" parent="245" name="fk_sisMunicipio_sisUF1">
-      <ColNames>sisUF_id</ColNames>
+      <ColNames>sisUf_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
-      <RefTableName>sisUF</RefTableName>
+      <RefTableName>sisuf</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <column id="331" parent="246" name="id">
@@ -2117,25 +2118,25 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="456" parent="258" name="fiscalCSTOrigem_id">
+    <column id="456" parent="258" name="fiscalCstOrigem_id">
       <Position>14</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="457" parent="258" name="fiscalICMS_id">
+    <column id="457" parent="258" name="fiscalIcms_id">
       <Position>15</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="458" parent="258" name="fiscalPIS_id">
+    <column id="458" parent="258" name="fiscalPis_id">
       <Position>16</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="459" parent="258" name="fiscalCOFINS_id">
+    <column id="459" parent="258" name="fiscalCofins_id">
       <Position>17</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
@@ -2185,19 +2186,19 @@
       <Type>btree</Type>
     </index>
     <index id="468" parent="258" name="fk_tabProduto_fiscalCSTOrigem1_idx">
-      <ColNames>fiscalCSTOrigem_id</ColNames>
+      <ColNames>fiscalCstOrigem_id</ColNames>
       <Type>btree</Type>
     </index>
     <index id="469" parent="258" name="fk_tabProduto_fiscalICMS1_idx">
-      <ColNames>fiscalICMS_id</ColNames>
+      <ColNames>fiscalIcms_id</ColNames>
       <Type>btree</Type>
     </index>
     <index id="470" parent="258" name="fk_tabProduto_fiscalPISCOFINS1_idx">
-      <ColNames>fiscalPIS_id</ColNames>
+      <ColNames>fiscalPis_id</ColNames>
       <Type>btree</Type>
     </index>
     <index id="471" parent="258" name="fk_tabProduto_fiscalPISCOFINS1_idx1">
-      <ColNames>fiscalCOFINS_id</ColNames>
+      <ColNames>fiscalCofins_id</ColNames>
       <Type>btree</Type>
     </index>
     <index id="472" parent="258" name="fk_tabProduto_tabColaborador1_idx">
@@ -2232,27 +2233,27 @@
       <RefColNames>id</RefColNames>
     </foreign-key>
     <foreign-key id="478" parent="258" name="fk_tabProduto_fiscalCSTOrigem1">
-      <ColNames>fiscalCSTOrigem_id</ColNames>
+      <ColNames>fiscalCstOrigem_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
-      <RefTableName>fiscalCSTOrigem</RefTableName>
+      <RefTableName>fiscalcstorigem</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <foreign-key id="479" parent="258" name="fk_tabProduto_fiscalICMS1">
-      <ColNames>fiscalICMS_id</ColNames>
+      <ColNames>fiscalIcms_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
-      <RefTableName>fiscalICMS</RefTableName>
+      <RefTableName>fiscalicms</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <foreign-key id="480" parent="258" name="fk_tabProduto_fiscalPIS1">
-      <ColNames>fiscalPIS_id</ColNames>
+      <ColNames>fiscalPis_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
-      <RefTableName>fiscalPISCOFINS</RefTableName>
+      <RefTableName>fiscalpiscofins</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <foreign-key id="481" parent="258" name="fk_tabProduto_fiscalCOFINS1">
-      <ColNames>fiscalCOFINS_id</ColNames>
+      <ColNames>fiscalCofins_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
-      <RefTableName>fiscalPISCOFINS</RefTableName>
+      <RefTableName>fiscalpiscofins</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <foreign-key id="482" parent="258" name="fk_tabProduto_tabColaborador1">

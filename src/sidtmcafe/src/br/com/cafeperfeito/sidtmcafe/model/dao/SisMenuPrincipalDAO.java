@@ -13,30 +13,27 @@ public class SisMenuPrincipalDAO extends BuscaBancoDados {
     ResultSet rs;
     SisMenuPrincipalVO menuPrincipalVO;
     List<SisMenuPrincipalVO> menuPrincipalVOList;
+    boolean returnList = false;
 
     public SisMenuPrincipalVO getMenuPrincipalVO(int id) {
-        getResultSet(String.format("SELECT * FROM sisMenuPrincipal WHERE id = %d ORDER BY id", id));
+        getResultSet(String.format("SELECT * FROM sisMenuPrincipal WHERE id = %d ORDER BY id", id), false);
         return menuPrincipalVO;
     }
 
     public SisMenuPrincipalVO getMenuPrincipalVO(String teclaAtalho) {
-        getResultSet(String.format("SELECT * FROM sisMenuPrincipal WHERE teclaAtalho = '%s' ORDER BY id", teclaAtalho));
+        getResultSet(String.format("SELECT * FROM sisMenuPrincipal WHERE teclaAtalho = '%s' ORDER BY id", teclaAtalho), false);
         return menuPrincipalVO;
     }
 
     public List<SisMenuPrincipalVO> getMenuPrincipalVOList() {
-        getResultSet(String.format("SELECT * FROM sisMenuPrincipal ORDER BY id"));
+        menuPrincipalVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM sisMenuPrincipal ORDER BY id"), true);
         return menuPrincipalVOList;
     }
 
-    void getResultSet(String comandoSql) {
-        boolean returnList = false;
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
-            if (rs.last())
-                if (returnList = (rs.getRow() > 1))
-                    menuPrincipalVOList = new ArrayList<>();
-            rs.beforeFirst();
             while (rs.next()) {
                 menuPrincipalVO = new SisMenuPrincipalVO();
                 menuPrincipalVO.setId(rs.getInt("id"));

@@ -14,27 +14,24 @@ public class RelContatoEmailHomePageDAO extends BuscaBancoDados {
     ResultSet rs;
     RelContatoEmailHomePageVO relContatoEmailHomePageVO;
     List<RelContatoEmailHomePageVO> relContatoEmailHomePageVOList;
+    boolean returnList = false;
 
     public RelContatoEmailHomePageVO getRelContatoEmailHomePageVO(int contato_id, int emailHomePage_id) {
         getResultSet(String.format("SELECT * FROM relContatoEmailHomePage WHERE tabContato_id = %d " +
-                "AND tabEmailHomePage_id = %d ORDER BY tabContato_id, tabEmailHomePage_id", contato_id, emailHomePage_id));
+                "AND tabEmailHomePage_id = %d ORDER BY tabContato_id, tabEmailHomePage_id", contato_id, emailHomePage_id), false);
         return relContatoEmailHomePageVO;
     }
 
     public List<RelContatoEmailHomePageVO> getRelContatoEmailHomePageVOList(int contato_id) {
+        relContatoEmailHomePageVOList = new ArrayList<>();
         getResultSet(String.format("SELECT * FROM relContatoEmailHomePage WHERE tabContato_id = %d " +
-                "ORDER BY tabContato_id, tabEmailHomePage_id", contato_id));
+                "ORDER BY tabContato_id, tabEmailHomePage_id", contato_id), true);
         return relContatoEmailHomePageVOList;
     }
 
-    void getResultSet(String comandoSql) {
-        boolean returnList = false;
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
-            if (rs.last())
-                if (returnList = (rs.getRow() > 1))
-                    relContatoEmailHomePageVOList = new ArrayList<>();
-            rs.beforeFirst();
             while (rs.next()) {
                 relContatoEmailHomePageVO = new RelContatoEmailHomePageVO();
                 relContatoEmailHomePageVO.setTabContato_id(rs.getInt("tabContato_id"));

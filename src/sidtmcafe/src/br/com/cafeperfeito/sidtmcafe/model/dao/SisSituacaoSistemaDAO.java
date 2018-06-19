@@ -11,25 +11,22 @@ import java.util.List;
 public class SisSituacaoSistemaDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     SisSituacaoSistemaVO sisSituacaoSistemaVO;
     List<SisSituacaoSistemaVO> sisSituacaoSistemaVOList;
+    boolean returnList = false;
 
     public SisSituacaoSistemaVO getSisSituacaoSistemaVO(int id) {
-        buscaSisSituacaoSistema(id);
+        getResultSet(String.format("SELECT * FROM sisSituacaoSistema WHERE id = %d ORDER BY descricao", id), false);
         return sisSituacaoSistemaVO;
     }
 
     public List<SisSituacaoSistemaVO> getSisSituacaoSistemaVOList() {
-        buscaSisSituacaoSistema(0);
+        sisSituacaoSistemaVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM sisSituacaoSistema ORDER BY descricao"), true);
         return sisSituacaoSistemaVOList;
     }
 
-    void buscaSisSituacaoSistema(int id) {
-        comandoSql = String.format("SELECT id, descricao, classificacao FROM sisSituacaoSistema %sORDER BY descricao",
-                id > 0 ? String.format("WHERE id = %d ", id) : "");
-        if (id == 0) sisSituacaoSistemaVOList = new ArrayList<>();
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
@@ -37,8 +34,7 @@ public class SisSituacaoSistemaDAO extends BuscaBancoDados {
                 sisSituacaoSistemaVO.setId(rs.getInt("id"));
                 sisSituacaoSistemaVO.setDescricao(rs.getString("descricao"));
                 sisSituacaoSistemaVO.setClassificacao(rs.getInt("classificacao"));
-
-                if (id == 0) sisSituacaoSistemaVOList.add(sisSituacaoSistemaVO);
+                if (returnList) sisSituacaoSistemaVOList.add(sisSituacaoSistemaVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -46,5 +42,4 @@ public class SisSituacaoSistemaDAO extends BuscaBancoDados {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-
 }

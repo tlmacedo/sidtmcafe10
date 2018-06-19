@@ -32,13 +32,11 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             }
             wsCnpjReceitaWsVO.setCnpj(jsonObject.getString("cnpj").toUpperCase());
             wsCnpjReceitaWsVO.setTipo(jsonObject.getString("tipo").toUpperCase());
-            if (jsonObject.getString("abertura") != null)
-                wsCnpjReceitaWsVO.setAbertura(Date.valueOf(LocalDate.parse(jsonObject.getString("abertura").toUpperCase(), DTF_DATA)));
+            wsCnpjReceitaWsVO.setAbertura(jsonObject.getString("abertura") != null ? Date.valueOf(LocalDate.parse(jsonObject.getString("abertura").toUpperCase(), DTF_DATA)) : null);
 
 
             wsCnpjReceitaWsVO.setNome(jsonObject.getString("nome").toUpperCase());
-            wsCnpjReceitaWsVO.setFantasia(jsonObject.getString("fantasia").toUpperCase());
-            if (wsCnpjReceitaWsVO.getFantasia().equals("")) wsCnpjReceitaWsVO.setFantasia("***");
+            wsCnpjReceitaWsVO.setFantasia(jsonObject.getString("fantasia").equals("") ? "***" : jsonObject.getString("fantasia").toUpperCase());
 
             JSONArray listAtividadePrincipal = jsonObject.getJSONArray("atividade_principal");
             if (listAtividadePrincipal != null) {
@@ -78,7 +76,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             wsCnpjReceitaWsVO.setCep(jsonObject.getString("cep").toUpperCase());
             wsCnpjReceitaWsVO.setBairro(jsonObject.getString("bairro").toUpperCase());
             wsCnpjReceitaWsVO.setMunicipio(jsonObject.getString("municipio").toUpperCase());
-            wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCnpjReceitaWsVO.getMunicipio()));
+            wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCnpjReceitaWsVO.getMunicipio(), false));
             wsCnpjReceitaWsVO.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipioVO().getId());
             wsCnpjReceitaWsVO.setSisUfVO(wsCnpjReceitaWsVO.getSisMunicipioVO().getUfVO());
             wsCnpjReceitaWsVO.setUf(wsCnpjReceitaWsVO.getSisUfVO().getSigla());

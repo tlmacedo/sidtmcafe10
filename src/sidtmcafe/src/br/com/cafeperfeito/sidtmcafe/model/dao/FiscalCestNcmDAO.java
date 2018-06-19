@@ -12,27 +12,24 @@ public class FiscalCestNcmDAO extends BuscaBancoDados {
     ResultSet rs;
     FiscalCestNcmVO fiscalCestNcmVO;
     List<FiscalCestNcmVO> fiscalCestNcmVOList;
+    boolean returnList = false;
 
     public FiscalCestNcmVO getFiscalCestNcmVO(int id) {
-        getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE id = %d", id));
+        getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE id = %d", id), false);
         return fiscalCestNcmVO;
     }
 
     public List<FiscalCestNcmVO> getFiscalCestNcmVOList(String ncm) {
-        getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE ncm LIKE '%s' ORDER BY id", ncm));
+        fiscalCestNcmVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE ncm LIKE '%s' ORDER BY id", ncm), true);
         if (fiscalCestNcmVOList.size() == 0)
-            getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE ncm LIKE = '%s' ORDER BY id", ncm.substring(0, 4)));
+            getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE ncm LIKE = '%s' ORDER BY id", ncm.substring(0, 4)), true);
         return fiscalCestNcmVOList;
     }
 
-    void getResultSet(String comandoSql) {
-        boolean returnList = false;
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
-            if (rs.last())
-                if (returnList = (rs.getRow() > 1))
-                    fiscalCestNcmVOList = new ArrayList<>();
-            rs.beforeFirst();
             while (rs.next()) {
                 fiscalCestNcmVO = new FiscalCestNcmVO();
                 fiscalCestNcmVO.setId(rs.getInt("id"));

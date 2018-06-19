@@ -529,7 +529,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void preencherCboEndUF() {
-        cboEndUF.getItems().setAll(new ArrayList<>(new SisUFDAO().getSisUFVOList_DetMunicipio()));
+        cboEndUF.getItems().setAll(new ArrayList<>(new SisUfDAO().getSisUfVOList()));
     }
 
     void carregarListaEmpresa() {
@@ -767,7 +767,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             endAntigo.setComplemento(txtEndComplemento.getText());
             endAntigo.setBairro(txtEndBairro.getText());
             endAntigo.setPontoReferencia(txtEndPontoReferencia.getText());
-            endAntigo.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(cboEndMunicipio.getSelectionModel().getSelectedItem().getId()));
+            endAntigo.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(cboEndMunicipio.getSelectionModel().getSelectedItem().getId(), true));
             endAntigo.setSisMunicipio_id(cboEndMunicipio.getSelectionModel().getSelectedItem().getId());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -956,7 +956,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     boolean buscaDuplicidade() {
         String valueCnpj = txtCNPJ.getText().replaceAll("\\D", "");
         try {
-            if (getEmpresaVO().getId() != new TabEmpresaDAO().getTabEmpresaVO_Simples(valueCnpj).getId()) {
+            if (getEmpresaVO().getId() != new TabEmpresaDAO().getTabEmpresaVO(valueCnpj).getId()) {
                 alertMensagem = new ServiceAlertMensagem();
                 alertMensagem.setCabecalho("C.N.P.J. duplicado");
                 alertMensagem.setPromptText(String.format("%s, o C.N.P.J.: [%s] já está cadastrado no sistema!",
@@ -986,11 +986,11 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     .forEach(endereco -> {
                         try {
                             if (endereco.getId() < 0)
-                                new TabEnderecoDAO().deleteEnderecoEmpresa(conn, endereco.getId(), getEmpresaVO().getId());
+                                new TabEnderecoDAO().deleteTabEnderecoVO(conn, endereco.getId(), getEmpresaVO().getId());
                             else if (endereco.getId() > 0)
-                                new TabEnderecoDAO().updateEnderecoEmpresa(conn, endereco, getEmpresaVO().getId());
+                                new TabEnderecoDAO().updateTabEnderecoVO(conn, endereco);
                             else
-                                endereco.setId(new TabEnderecoDAO().insertEnderecoEmpresa(conn, endereco, getEmpresaVO().getId()));
+                                endereco.setId(new TabEnderecoDAO().insertTabEnderecoVO(conn, endereco, getEmpresaVO().getId()));
                         } catch (SQLException ex) {
                             throw new RuntimeException("Erro no endereco ===>> ", ex);
                         }

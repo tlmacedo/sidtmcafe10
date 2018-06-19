@@ -14,27 +14,24 @@ public class RelEmpresaTelefoneDAO extends BuscaBancoDados {
     ResultSet rs;
     RelEmpresaTelefoneVO relEmpresaTelefoneVO;
     List<RelEmpresaTelefoneVO> relEmpresaTelefoneVOList;
+    boolean returnList = false;
 
     public RelEmpresaTelefoneVO getRelEmpresaTelefoneVO(int empresa_id, int telefone_id) {
         getResultSet(String.format("SELECT * FROM relEmpresaTelefone WHERE tabEmpresa_id = %d " +
-                "AND tabTelefone_id = %d ORDER BY tabEmpresa_id, tabTelefone_id", empresa_id, telefone_id));
+                "AND tabTelefone_id = %d ORDER BY tabEmpresa_id, tabTelefone_id", empresa_id, telefone_id), false);
         return relEmpresaTelefoneVO;
     }
 
     public List<RelEmpresaTelefoneVO> getRelEmpresaTelefoneVOList(int empresa_id) {
+        relEmpresaTelefoneVOList = new ArrayList<>();
         getResultSet(String.format("SELECT * FROM relEmpresaTelefone WHERE tabEmpresa_id = %d " +
-                "ORDER BY tabEmpresa_id, tabTelefone_id", empresa_id));
+                "ORDER BY tabEmpresa_id, tabTelefone_id", empresa_id), true);
         return relEmpresaTelefoneVOList;
     }
 
-    void getResultSet(String comandoSql) {
-        boolean returnList = false;
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
-            if (rs.last())
-                if (returnList = (rs.getRow() > 1))
-                    relEmpresaTelefoneVOList = new ArrayList<>();
-            rs.beforeFirst();
             while (rs.next()) {
                 relEmpresaTelefoneVO = new RelEmpresaTelefoneVO();
                 relEmpresaTelefoneVO.setTabEmpresa_id(rs.getInt("tabEmpresa_id"));

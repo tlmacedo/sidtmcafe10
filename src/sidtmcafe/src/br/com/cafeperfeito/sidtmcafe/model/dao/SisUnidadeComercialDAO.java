@@ -10,38 +10,30 @@ import java.util.List;
 public class SisUnidadeComercialDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     SisUnidadeComercialVO sisUnidadeComercialVO;
     List<SisUnidadeComercialVO> sisUnidadeComercialVOList;
+    boolean returnList = false;
 
     public SisUnidadeComercialVO getSisUnidadeComercialVO(int id) {
-        buscaSisUnidadeComercialVO(id);
+        getResultSet(String.format("SELECT * sisUnidadeComercial WHERE id = %d ORDER BY sigla", id), false);
         return sisUnidadeComercialVO;
     }
 
     public List<SisUnidadeComercialVO> getSisUnidadeComercialVOList() {
-        buscaSisUnidadeComercialVO(0);
+        sisUnidadeComercialVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * sisUnidadeComercialORDER BY sigla"), true);
         return sisUnidadeComercialVOList;
     }
 
-    void buscaSisUnidadeComercialVO(int id) {
-        comandoSql = "SELECT id, descricao, sigla ";
-        comandoSql += "FROM sisUnidadeComercial ";
-        if (id > 0) comandoSql += "WHERE id = " + id + " ";
-        comandoSql += "ORDER BY sigla ";
-
-        if (id == 0) sisUnidadeComercialVOList = new ArrayList<>();
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
-
         try {
             while (rs.next()) {
                 sisUnidadeComercialVO = new SisUnidadeComercialVO();
                 sisUnidadeComercialVO.setId(rs.getInt("id"));
                 sisUnidadeComercialVO.setDescricao(rs.getString("descricao"));
                 sisUnidadeComercialVO.setSigla(rs.getString("sigla"));
-
-                if (id == 0) sisUnidadeComercialVOList.add(sisUnidadeComercialVO);
+                if (returnList) sisUnidadeComercialVOList.add(sisUnidadeComercialVO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

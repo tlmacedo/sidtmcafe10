@@ -25,10 +25,10 @@ public class TabEnderecoVO extends RecursiveTreeObject<TabEnderecoVO> {
         this.sisTipoEnderecoVO = new SisTipoEnderecoDAO().getSisTipoEnderecoVO(sisTipoEnd_id);
         if (idMunicipo == 0) {
             this.sisMunicipio_id = new SimpleIntegerProperty(112);
-            this.sisMunicipioVO = new SisMunicipioDAO().getSisMunicipioVO(112);
+            this.sisMunicipioVO = new SisMunicipioDAO().getSisMunicipioVO(112, true);
         } else {
             this.sisMunicipio_id = new SimpleIntegerProperty(idMunicipo);
-            this.sisMunicipioVO = new SisMunicipioDAO().getSisMunicipioVO(idMunicipo);
+            this.sisMunicipioVO = new SisMunicipioDAO().getSisMunicipioVO(idMunicipo, true);
         }
     }
 

@@ -12,40 +12,30 @@ import java.util.List;
 public class TabProdutoEanDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     TabProdutoEanVO tabProdutoEanVO;
     List<TabProdutoEanVO> tabProdutoEanVOList;
+    boolean returnList = false;
 
     public TabProdutoEanVO getTabProdutoEanVO(int id) {
-        buscaTabProdutoEanVO(id, 0);
+        getResultSet(String.format("SELECT * FROM tabProdutoEan WHERE id = %d ORDER BY id", id), false);
         return tabProdutoEanVO;
     }
 
     public List<TabProdutoEanVO> getTabProdutoEanVOList(int produto_id) {
-        buscaTabProdutoEanVO(0, produto_id);
+        tabProdutoEanVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM tabProdutoEan WHERE produto_id = %d ORDER BY id", produto_id), true);
         return tabProdutoEanVOList;
     }
 
-    void buscaTabProdutoEanVO(int id, int produto_id) {
-        comandoSql = "SELECT id, produto_id, codigoEan ";
-        comandoSql += "FROM tabProdutoEan ";
-        if (id > 0)
-            comandoSql += "WHERE id = " + id + " ";
-        else if (produto_id > 0) comandoSql += "WHERE produto_id = " + produto_id + " ";
-        comandoSql += "ORDER BY id ";
-
-        if (id == 0) tabProdutoEanVOList = new ArrayList<TabProdutoEanVO>();
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
-
         try {
             while (rs.next()) {
                 tabProdutoEanVO = new TabProdutoEanVO();
                 tabProdutoEanVO.setId(rs.getInt("id"));
                 tabProdutoEanVO.setProduto_id(rs.getInt("produto_id"));
                 tabProdutoEanVO.setCodigoEan(rs.getString("codigoEan"));
-
-                if (id == 0) tabProdutoEanVOList.add(tabProdutoEanVO);
+                if (returnList) tabProdutoEanVOList.add(tabProdutoEanVO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -54,29 +44,20 @@ public class TabProdutoEanDAO extends BuscaBancoDados {
         }
     }
 
-    public void updateTabProdutoEanVO(Connection conn, TabProdutoEanVO produtoEanVO) throws SQLException {
-        comandoSql = "UPDATE tabProdutoEan SET ";
-        comandoSql += "produto_id = " + produtoEanVO.getProduto_id() + ", ";
-        comandoSql += "codigoEan =  '" + produtoEanVO.getCodigoEan() + "' ";
-        comandoSql += "WHERE id = " + produtoEanVO.getId() + " ";
+    public void updateTabProdutoEanVO(Connection conn, TabProdutoEanVO produtoEan) throws SQLException {
+        String comandoSql = String.format("UPDATE tabProdutoEan SET produto_id = %d, codigoEan = '%s', WHERE id = %d",
+                produtoEan.getProduto_id(), produtoEan.getCodigoEan(), produtoEan.getId());
         getUpdateBancoDados(conn, comandoSql);
     }
 
-    public int insertTabProdutoEanVO(Connection conn, TabProdutoEanVO produtoEanVO) throws SQLException {
-        comandoSql = "INSERT INTO tabProdutoEan ";
-        comandoSql += "(produto_id, codigoEan) ";
-        comandoSql += "VALUES ( ";
-        comandoSql += produtoEanVO.getProduto_id() + ", ";
-        comandoSql += "'" + produtoEanVO.getCodigoEan() + "' ";
-        comandoSql += ") ";
+    public int insertTabProdutoEanVO(Connection conn, TabProdutoEanVO produtoEan) throws SQLException {
+        String comandoSql = String.format("INSERT INTO tabProdutoEan (produto_id, codigoEan) " +
+                "VALUES(%d, '%s')", produtoEan.getProduto_id(), produtoEan.getCodigoEan());
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void deleteTabProdutoEanVO(Connection conn, TabProdutoEanVO produtoEanVO) throws SQLException {
-        comandoSql = "DELETE ";
-        comandoSql += "FROM tabProdutoEan ";
-        comandoSql += "WHERE id = " + produtoEanVO.getId();
-
+    public void deleteTabProdutoEanVO(Connection conn, int produtoEan_id) throws SQLException {
+        String comandoSql = String.format("DELETE FROM tabProdutoEan WHERE id = %d", produtoEan_id);
         getDeleteBancoDados(conn, comandoSql);
     }
 

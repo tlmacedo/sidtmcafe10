@@ -11,38 +11,26 @@ import java.util.List;
 public class TabColaboradorDAO extends BuscaBancoDados {
 
     ResultSet rs;
-
-    String comandoSql = "";
     TabColaboradorVO tabColaboradorVO;
     List<TabColaboradorVO> tabColaboradorVOList;
+    boolean returnList = false;
 
-    public TabColaboradorVO getTabColaboradorVO_Simples(int id) {
-        buscaTabColaboradorVO(id);
-        return tabColaboradorVO;
-    }
-
-    public TabColaboradorVO getTabColaboradorVO(int id) {
-        buscaTabColaboradorVO(id);
-        if (tabColaboradorVO != null)
+    public TabColaboradorVO getTabColaboradorVO(int id, boolean getDetalhe) {
+        getResultSet(String.format("SELECT * FROM tabColaborador WHERE id = %d ORDER BY nome", id), false);
+        if (getDetalhe)
             addDetalheObjeto(tabColaboradorVO);
         return tabColaboradorVO;
     }
 
     public List<TabColaboradorVO> getTabColaboradorVOList() {
-        buscaTabColaboradorVO(0);
-        if (tabColaboradorVOList != null)
-            for (TabColaboradorVO colaboradorVO : tabColaboradorVOList)
-                addDetalheObjeto(colaboradorVO);
+        tabColaboradorVOList = new ArrayList<>();
+        getResultSet(String.format("SELECT * FROM tabColaborador ORDER BY nome"), true);
+        for (TabColaboradorVO colaborador : tabColaboradorVOList)
+            addDetalheObjeto(colaborador);
         return tabColaboradorVOList;
     }
 
-    void buscaTabColaboradorVO(int id) {
-        comandoSql = "SELECT id, nome, apelido, senha, senhaSalt, sisCargo_id, sisSituacaoSistema_id, tabLoja_id " +
-                "FROM tabColaborador ";
-        if (id > 0) comandoSql += " WHERE id = '" + id + "' ";
-        comandoSql += "ORDER BY nome ";
-
-        if (id == 0) tabColaboradorVOList = new ArrayList<>();
+    void getResultSet(String comandoSql, boolean returnList) {
         rs = getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
@@ -55,8 +43,8 @@ public class TabColaboradorDAO extends BuscaBancoDados {
                 tabColaboradorVO.setSisCargo_id(rs.getInt("sisCargo_id"));
                 tabColaboradorVO.setSisSituacaoSistema_id(rs.getInt("sisSituacaoSistema_id"));
                 tabColaboradorVO.setTabLoja_id(rs.getInt("tabLoja_id"));
-
-                if (id == 0) tabColaboradorVOList.add(tabColaboradorVO);
+                if (returnList)
+                    tabColaboradorVOList.add(tabColaboradorVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -66,6 +54,7 @@ public class TabColaboradorDAO extends BuscaBancoDados {
     }
 
     void addDetalheObjeto(TabColaboradorVO colaborador) {
+        if (colaborador == null) return;
         colaborador.setSisCargoVO(new SisCargoDAO().getSisCargoVO(colaborador.getSisCargo_id()));
         colaborador.setSisSituacaoSistemaVO(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(colaborador.getSisSituacaoSistema_id()));
         colaborador.setLojaVO(new TabEmpresaDAO().getTabEmpresaVO(colaborador.getTabLoja_id()));
