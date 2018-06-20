@@ -18,22 +18,25 @@ public class TabEmpresaDAO extends BuscaBancoDados {
 
     public TabEmpresaVO getTabEmpresaVO(int id) {
         getResultSet(String.format("SELECT * FROM tabEmpresa WHERE id = %d ORDER BY razao", id), false);
-        addObjetosPesquisa(tabEmpresaVO);
+        if (tabEmpresaVO != null)
+            addObjetosPesquisa(tabEmpresaVO);
         return tabEmpresaVO;
     }
 
     public TabEmpresaVO getTabEmpresaVO(String cnpj) {
         getResultSet(String.format("SELECT * FROM tabEmpresa WHERE cnpj = '%s' ORDER BY razao", cnpj), false);
-        addObjetosPesquisa(tabEmpresaVO);
+        if (tabEmpresaVO != null)
+            addObjetosPesquisa(tabEmpresaVO);
         return tabEmpresaVO;
     }
 
     public List<TabEmpresaVO> getTabEmpresaVOList(boolean isLoja) {
         tabEmpresaVOList = new ArrayList<>();
         getResultSet(String.format("SELECT * FROM tabEmpresa %sORDER BY razao",
-                isLoja ? String.format("WHERE isLoja = %d ", 1) : ""), true);
-        for (TabEmpresaVO empresa : tabEmpresaVOList)
-            addObjetosPesquisa(empresa);
+                isLoja ? String.format("WHERE isLoja = %b ", 1) : ""), true);
+        if (tabEmpresaVOList != null)
+            for (TabEmpresaVO empresa : tabEmpresaVOList)
+                addObjetosPesquisa(empresa);
         return tabEmpresaVOList;
     }
 
@@ -121,7 +124,7 @@ public class TabEmpresaDAO extends BuscaBancoDados {
         String comandoSql = String.format("INSERT INTO tabEmpresa (isEmpresa, cnpj, ieIsento, ie, " +
                         "razao, fantasia, isLoja, isCliente, isFornecedor, isTransportadora, sisSituacaoSistema_id, " +
                         "usuarioCadastro_id, dataAbertura, naturezaJuridica) VALUES(%b, '%s', %b, '%s', '%s', '%s', " +
-                        "%b, %b, %b, %b, %d, %d, '%tdtmty', '%s')",
+                        "%b, %b, %b, %b, %d, %d, '%s', '%s')",
                 empresa.isIsEmpresa(), empresa.getCnpj().replaceAll("[\\D]", ""),
                 empresa.isIeIsento(), empresa.getIe().replaceAll("[\\D]", ""),
                 empresa.getRazao().trim().replaceAll("'", "\'"),
@@ -129,7 +132,7 @@ public class TabEmpresaDAO extends BuscaBancoDados {
                 empresa.isIsLoja(), empresa.isIsCliente(), empresa.isIsFornecedor(),
                 empresa.isIsTransportadora(), empresa.getSisSituacaoSistema_id(),
                 empresa.getUsuarioCadastro_id(), empresa.getDataAbertura(),
-                empresa.getNaturezaJuridica().trim().replaceAll("'", "\'") + "'");
+                empresa.getNaturezaJuridica().trim().replaceAll("'", "\'"));
         return getInsertBancoDados(conn, comandoSql);
     }
 

@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class TabContatoDAO extends BuscaBancoDados {
@@ -17,7 +18,8 @@ public class TabContatoDAO extends BuscaBancoDados {
     public TabContatoVO getTabContatoVO(int id, boolean getDetalheContato) {
         getResultSet(String.format("SELECT * FROM tabContato WHERE id = %d ORDER BY descricao", id));
         if (getDetalheContato)
-            addObjetosPesquisa(tabContatoVO);
+            if (tabContatoVO != null)
+                addObjetosPesquisa(tabContatoVO);
         return tabContatoVO;
     }
 
@@ -59,6 +61,7 @@ public class TabContatoDAO extends BuscaBancoDados {
     public void updateTabContatoVO(Connection conn, TabContatoVO contato) throws SQLException {
         String comandoSql = String.format("UPDATE tabContato SET descricao = '%s', sisCargo_id = %d WHERE id = %d",
                 contato.getDescricao(), contato.getSisCargo_id(), contato.getId());
+        verificaDetalhes(conn, contato, contato.getId());
         getUpdateBancoDados(conn, comandoSql);
     }
 
@@ -67,14 +70,65 @@ public class TabContatoDAO extends BuscaBancoDados {
                 contato.getDescricao(), contato.getSisCargo_id());
         int contato_id = getInsertBancoDados(conn, comandoSql);
         new RelEmpresaContatoDAO().insertRelEmpresaContatoVO(conn, empresa_id, contato_id);
+        verificaDetalhes(conn, contato, contato_id);
         return contato_id;
     }
 
-    public void deleteTabContatoVO(Connection conn, int contato_id, int empresa_id) throws SQLException {
-        if (contato_id < 0) contato_id = contato_id * (-1);
-        new RelEmpresaContatoDAO().deleteRelEmpresaContatoVO(conn, empresa_id, contato_id);
-        String comandoSql = String.format("DELETE FROM tabContato WHERE id = %d", contato_id);
+    public void deleteTabContatoVO(Connection conn, TabContatoVO contato, int empresa_id) throws SQLException {
+        verificaDetalhes(conn, contato, contato.getId());
+        if (contato.getId() < 0) contato.setId(contato.getId() * (-1));
+        new RelEmpresaContatoDAO().deleteRelEmpresaContatoVO(conn, empresa_id, contato.getId());
+        String comandoSql = String.format("DELETE FROM tabContato WHERE id = %d", contato.getId());
         getDeleteBancoDados(conn, comandoSql);
     }
 
+    void verificaDetalhes(Connection conn, TabContatoVO contato, int contato_id) {
+        if (contato_id < 0) {
+            contato.getTabEmailHomePageVOList().stream()
+                    .filter(contatoEmailHomePage -> contatoEmailHomePage.getId() > 0)
+                    .forEach(contatoEmailHomePage -> {
+                        try {
+                            new TabEmailHomePageDAO().deleteEmailHomePageVO(conn, contatoEmailHomePage.getId(), 0, (contato_id * (-1)));
+                        } catch (SQLException ex) {
+                            throw new RuntimeException("Erro deleteTabcontatoVO.emailHomePage ===>> ", ex);
+                        }
+                    });
+            contato.getTabTelefoneVOList().stream()
+                    .filter(contatoTelefone -> contatoTelefone.getId() > 0)
+                    .forEach(contatoTelefone -> {
+                        try {
+                            new TabTelefoneDAO().deleteTabTelefoneVO(conn, contatoTelefone.getId(), 0, (contato_id * (-1)));
+                        } catch (SQLException ex) {
+                            throw new RuntimeException("Erro deleteTabContatoVO.telefone ===>> ", ex);
+                        }
+                    });
+        } else {
+            contato.getTabEmailHomePageVOList().stream().sorted(Comparator.comparing(TabEmailHomePageVO::getId))
+                    .forEach(contatoEmailHomePage -> {
+                        try {
+                            if (contatoEmailHomePage.getId() < 0)
+                                new TabEmailHomePageDAO().deleteEmailHomePageVO(conn, contatoEmailHomePage.getId(), 0, contatoEmailHomePage.getId());
+                            else if (contatoEmailHomePage.getId() > 0)
+                                new TabEmailHomePageDAO().updateTabEmailHomePageVO(conn, contatoEmailHomePage);
+                            else
+                                contatoEmailHomePage.setId(new TabEmailHomePageDAO().insertEmailHomePageVO(conn, contatoEmailHomePage, 0, contato_id));
+                        } catch (Exception ex) {
+                            throw new RuntimeException("Erro insertTabContatoVO.emailHomePage ===>> ", ex);
+                        }
+                    });
+            contato.getTabTelefoneVOList().stream().sorted(Comparator.comparing(TabTelefoneVO::getId))
+                    .forEach(contatoTelefone -> {
+                        try {
+                            if (contatoTelefone.getId() < 0)
+                                new TabTelefoneDAO().deleteTabTelefoneVO(conn, contatoTelefone.getId(), 0, contatoTelefone.getId());
+                            else if (contatoTelefone.getId() > 0)
+                                new TabTelefoneDAO().updateTabTelefoneVO(conn, contatoTelefone);
+                            else
+                                contatoTelefone.setId(new TabTelefoneDAO().insertTabTelefoneVO(conn, contatoTelefone, 0, contato_id));
+                        } catch (Exception ex) {
+                            throw new RuntimeException("Erro insertTabContatoVO.telefone ===>> ", ex);
+                        }
+                    });
+        }
+    }
 }

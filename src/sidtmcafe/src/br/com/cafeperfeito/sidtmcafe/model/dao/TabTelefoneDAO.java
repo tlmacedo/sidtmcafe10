@@ -10,22 +10,23 @@ import java.sql.SQLException;
 public class TabTelefoneDAO extends BuscaBancoDados {
 
     ResultSet rs;
-    TabTelefoneVO telefoneVO;
+    TabTelefoneVO tabTelefoneVO;
 
     public TabTelefoneVO getTabTelefoneVO(int id) {
         getResultSet(String.format("SELECT * FROM tabTelefone WHERE id = %d", id));
-        addObjetosPesquisa(telefoneVO);
-        return telefoneVO;
+        if (tabTelefoneVO != null)
+            addObjetosPesquisa(tabTelefoneVO);
+        return tabTelefoneVO;
     }
 
     void getResultSet(String comandoSql) {
         rs = getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
-                telefoneVO = new TabTelefoneVO();
-                telefoneVO.setId(rs.getInt("id"));
-                telefoneVO.setDescricao(rs.getString("descricao"));
-                telefoneVO.setSisTelefoneOperadora_id(rs.getInt("sisTelefoneOperadora_id"));
+                tabTelefoneVO = new TabTelefoneVO();
+                tabTelefoneVO.setId(rs.getInt("id"));
+                tabTelefoneVO.setDescricao(rs.getString("descricao"));
+                tabTelefoneVO.setSisTelefoneOperadora_id(rs.getInt("sisTelefoneOperadora_id"));
             }
         } catch (Exception ex) {
             ex.printStackTrace();

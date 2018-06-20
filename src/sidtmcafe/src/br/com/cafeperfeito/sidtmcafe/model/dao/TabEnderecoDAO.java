@@ -17,7 +17,8 @@ public class TabEnderecoDAO extends BuscaBancoDados {
 
     public TabEnderecoVO getTabEnderecoVO(int id) {
         getResultSet(String.format("SELECT * FROM tabEndereco WHERE id = %d ORDER BY id", id));
-        addObjetosPesquisa(tabEnderecoVO);
+        if (tabEnderecoVO != null)
+            addObjetosPesquisa(tabEnderecoVO);
         return tabEnderecoVO;
     }
 

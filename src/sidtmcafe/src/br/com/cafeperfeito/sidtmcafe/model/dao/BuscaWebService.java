@@ -82,7 +82,7 @@ public class BuscaWebService {
             bufferedReader = new BufferedReader(new InputStreamReader((InputStream) retorno, "UTF-8"));
             stringBuilder = new StringBuilder();
             while ((linhaRetorno = bufferedReader.readLine()) != null) {
-                System.out.printf("BuscaWebService.getStringBuilder ===>> %s", linhaRetorno);
+                System.out.printf("BuscaWebService.getStringBuilder ===>> %s\n", linhaRetorno);
                 stringBuilder.append(linhaRetorno);
             }
         } catch (Exception ex) {

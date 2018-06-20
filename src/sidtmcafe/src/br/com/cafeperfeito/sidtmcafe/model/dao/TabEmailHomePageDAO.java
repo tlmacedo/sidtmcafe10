@@ -40,7 +40,7 @@ public class TabEmailHomePageDAO extends BuscaBancoDados {
     }
 
     public int insertEmailHomePageVO(Connection conn, TabEmailHomePageVO emailHomePage, int empresa_id, int contato_id) throws SQLException {
-        String comandoSql = String.format("INSERT INTO tabEmailHomePage (descricao, isEmail) VALUES('%s', %d)",
+        String comandoSql = String.format("INSERT INTO tabEmailHomePage (descricao, isEmail) VALUES('%s', %b)",
                 emailHomePage.getDescricao(), emailHomePage.isIsEmail());
         int emailHomePage_id = getInsertBancoDados(conn, comandoSql);
         if (empresa_id > 0)

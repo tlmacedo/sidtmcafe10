@@ -55,7 +55,8 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
         this.isTransportadora = new SimpleBooleanProperty(false);
         this.sisSituacaoSistema_id = new SimpleIntegerProperty(sisSituacaoSistema_id);
         this.sisSituacaoSistemaVO = new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(sisSituacaoSistema_id);
-        this.tabEnderecoVOList = FXCollections.observableArrayList(new TabEnderecoVO(1, 112));
+        this.tabEnderecoVOList = new ArrayList<>();
+        this.tabEnderecoVOList.add(new TabEnderecoVO(1, 112));
         this.tabEmailHomePageVOList = new ArrayList<>();
         this.tabTelefoneVOList = new ArrayList<>();
         this.tabContatoVOList = new ArrayList<>();

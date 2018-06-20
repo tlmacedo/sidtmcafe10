@@ -19,15 +19,17 @@ public class TabProdutoDAO extends BuscaBancoDados {
 
     public TabProdutoVO getTabProdutoVO(int id) {
         getResultSet(String.format("SELECT * FROM tabProduto WHERE id = %d ORDER BY descricao", id), false);
-        addObjetosPesquisa(tabProdutoVO);
+        if (tabProdutoVO != null)
+            addObjetosPesquisa(tabProdutoVO);
         return tabProdutoVO;
     }
 
     public List<TabProdutoVO> getTabProdutoVOList() {
         tabProdutoVOList = new ArrayList<>();
         getResultSet(String.format("SELECT * FROM tabProduto ORDER BY descricao"), true);
-        for (TabProdutoVO produtoVO : tabProdutoVOList)
-            addObjetosPesquisa(produtoVO);
+        if (tabProdutoVO != null)
+            for (TabProdutoVO produtoVO : tabProdutoVOList)
+                addObjetosPesquisa(produtoVO);
         return tabProdutoVOList;
     }
 

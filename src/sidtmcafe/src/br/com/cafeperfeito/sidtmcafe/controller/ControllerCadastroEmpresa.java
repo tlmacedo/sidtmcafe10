@@ -116,9 +116,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         new ServiceSegundoPlano().tarefaAbreCadastroEmpresa(getTaskCadastroEmpresa(), listaTarefa.size());
 
         formatCnpj = new ServiceFormatarDado();
-//        formatCnpj.maskField(txtCNPJ, ServiceFormatarDado.gerarMascara("cnpj", 0, "#"));
+        formatCnpj.maskField(txtCNPJ, ServiceFormatarDado.gerarMascara("cnpj", 0, "#"));
         formatIe = new ServiceFormatarDado();
-//        formatIE.maskField(txtIE, ServiceFormatarDado.gerarMascara("ie", 0, "#"));
+        formatIe.maskField(txtIE, ServiceFormatarDado.gerarMascara("ie", 0, "#"));
     }
 
     @Override
@@ -272,7 +272,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                                 addContatoTelefone();
                             else
                                 delContatoTelefone();
-
                         break;
                 }
             }
@@ -297,43 +296,49 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         });
 
         cboClassificacaoJuridica.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            txtCNPJ.setPromptText(newValue.intValue() == 0 ? "C.P.F." : "C.N.P.J.");
             txtIE.setPromptText(newValue.intValue() == 0 ? "RG" : "IE");
             txtRazao.setPromptText(newValue.intValue() == 0 ? "Nome" : "Razão");
             txtFantasia.setPromptText(newValue.intValue() == 0 ? "Apelido" : "Fantasia");
-            txtCNPJ.setPromptText(newValue.intValue() == 0 ? "C.P.F." : "C.N.P.J.");
             formatCnpj.setMascara(ServiceFormatarDado.gerarMascara(newValue.intValue() == 0 ? "cpf" : "cnpj", 0, "#"));
-            if (txtCNPJ.getText().replaceAll("\\D", "").length() > 0)
-                txtCNPJ.setText(ServiceFormatarDado.getValorFormatado(txtCNPJ.getText().replaceAll("\\D", ""), txtCNPJ.getPromptText().toLowerCase().replaceAll(".", "")));
+            if (txtCNPJ.getLength() > 0)
+                txtCNPJ.setText(ServiceFormatarDado.getValorFormatado(txtCNPJ.getText().replaceAll("\\D", ""), txtCNPJ.getPromptText().toLowerCase().replace(".", "")));
         });
 
-//        txtCNPJ.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-//            if (event.getCode() == KeyCode.ENTER) {
-//                String valueCnpj = txtCNPJ.getText().replaceAll("\\D", "");
-//                if (!ServiceValidarDado.isCnpjCpfValido(valueCnpj)) {
-//                    new ServiceAlertMensagem("Dado inválido!", USUARIO_LOGADO_APELIDO + ", o "
-//                            + txtCNPJ.getPromptText() + ": " + txtCNPJ.getText() + " é inválido!",
-//                            "ic_web_service_err_white_24dp").getRetornoAlert_OK();
-//                    txtCNPJ.requestFocus();
-//                    return;
-//                } else if (buscaDuplicidade(valueCnpj)) {
-//                    txtCNPJ.requestFocus();
-//                    return;
-//                } else {
-//                    TabEmpresaVO buscaEmpresaCNPJ;
-//                    if ((buscaEmpresaCNPJ = new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(getEmpresaVO(), valueCnpj)) == null) {
-//                        new ServiceAlertMensagem("Dado não localizada!", USUARIO_LOGADO_APELIDO + ", o "
-//                                + "C.N.P.J.: " + txtCNPJ.getText() + " não foi localizado na base de dados!",
-//                                "ic_web_service_err_white_24dp").getRetornoAlert_OK();
-//                        txtEndCEP.requestFocus();
-//                        return;
-//                    } else {
-//                        setEmpresaVO(buscaEmpresaCNPJ);
-//                        txtRazao.requestFocus();
-//                    }
-//
-//                }
-//            }
-//        });
+        txtCNPJ.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                String valueCnpj;
+                if ((valueCnpj = txtCNPJ.getText().replaceAll("\\D", "")).length() == 0) return;
+                if (!ServiceValidarDado.isCnpjCpfValido(valueCnpj)) {
+                    alertMensagem = new ServiceAlertMensagem();
+                    alertMensagem.setCabecalho("Dado inválido!");
+                    alertMensagem.setPromptText(String.format("%s, o %s: [%s] informado é inválido!",
+                            USUARIO_LOGADO_APELIDO, txtCNPJ.getPromptText(), txtCNPJ.getText()));
+                    alertMensagem.setStrIco("ic_web_service_err_white_24dp.png");
+                    alertMensagem.getRetornoAlert_OK();
+                    txtCNPJ.requestFocus();
+                    return;
+                } else if (buscaDuplicidade()) {
+                    txtCNPJ.requestFocus();
+                    return;
+                } else {
+                    TabEmpresaVO buscaEmpresaCNPJ;
+                    if ((buscaEmpresaCNPJ = new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(getEmpresaVO(), valueCnpj)) == null) {
+                        alertMensagem = new ServiceAlertMensagem();
+                        alertMensagem.setCabecalho("Retorno inválido!");
+                        alertMensagem.setPromptText(String.format("%s, o %s: [%s] informado, não foi localizado na base de dados!",
+                                USUARIO_LOGADO_APELIDO, txtCNPJ.getPromptText(), txtCNPJ.getText()));
+                        alertMensagem.setStrIco("ic_web_service_err_white_24dp.png");
+                        alertMensagem.getRetornoAlert_OK();
+                        txtCNPJ.requestFocus();
+                        return;
+                    } else {
+                        setEmpresaVO(buscaEmpresaCNPJ);
+                        txtRazao.requestFocus();
+                    }
+                }
+            }
+        });
 
         listEndereco.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (!getStatusFormulario().toLowerCase().equals("pesquisa"))
@@ -344,9 +349,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         });
 
         listContatoNome.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-//            if (!getStatusFormulario().toLowerCase().equals("pesquisa"))
-//                if (oldValue != null && newValue != oldValue)
-//                    guardarContato(oldValue);
             if (newValue != null && newValue != oldValue)
                 setContatoVO(newValue);
         });
@@ -488,7 +490,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void atualizaQtdRegistroLocalizado() {
-        lblRegistrosLocalizados.setText(String.format("[%s] %d registro(s) localizado(s).", getStatusFormulario(), empresaVOFilteredList.size()));
+        int qtd = empresaVOFilteredList.size();
+        lblRegistrosLocalizados.setText(String.format("[%s] %d registro%s localizado%s.", getStatusFormulario(), qtd,
+                qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));
     }
 
     public String getStatusBarTecla() {
@@ -677,6 +681,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void exibirDadosEmpresa() {
+        cboClassificacaoJuridica.getSelectionModel().select(getEmpresaVO().isIsEmpresa() ? 1 : 0);
         txtCNPJ.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cnpj") : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cpf"));
         txtIE.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie" + getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()) : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie"));
         chkIeIsento.setSelected(getEmpresaVO().isIeIsento());
@@ -694,18 +699,18 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         lblDataAberturaDiff.setText(String.format("tempo de abertura: %s",
                 getEmpresaVO().getDataAbertura() == null ? "sem data abertura" :
                         ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAbertura().toLocalDate(), null)));
-        lblDataCadastro.setText(String.format("data cadastro: %s [%s]",
-                getEmpresaVO().getDataCadastro() == null ? "" : getEmpresaVO().getDataCadastro().toLocalDateTime().format(DTF_DATAHORA),
-                getEmpresaVO().getUsuarioCadastroVO().getApelido()));
-        lblDataCadastroDiff.setText(String.format("tempo de cadastro: %s",
+        lblDataCadastro.setText(String.format("data cadastro:%s%s",
+                getEmpresaVO().getDataCadastro() == null ? "" : String.format(" %s", getEmpresaVO().getDataCadastro().toLocalDateTime().format(DTF_DATAHORA)),
+                getEmpresaVO().getUsuarioCadastroVO() == null ? "" : String.format(" [%s]", getEmpresaVO().getUsuarioCadastroVO().getApelido())));
+        lblDataCadastroDiff.setText(String.format("tempo de cadastro:%s",
                 getEmpresaVO().getDataCadastro() == null ? "" :
-                        ServiceDataHora.getIntervaloData(getEmpresaVO().getDataCadastro().toLocalDateTime().toLocalDate(), null)));
-        lblDataAtualizacao.setText(String.format("data atualização: %s [%s]",
-                getEmpresaVO().getDataAtualizacao() == null ? "sem atualização" : getEmpresaVO().getDataAtualizacao().toLocalDateTime().format(DTF_DATAHORA),
-                getEmpresaVO().getUsuarioCadastroVO().getApelido()));
-        lblDataAtualizacaoDiff.setText(String.format("tempo de atualização: %s",
-                getEmpresaVO().getDataAtualizacao() == null ? "sem atualização" :
-                        ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAtualizacao().toLocalDateTime().toLocalDate(), null)));
+                        String.format(" %s", ServiceDataHora.getIntervaloData(getEmpresaVO().getDataCadastro().toLocalDateTime().toLocalDate(), null))));
+        lblDataAtualizacao.setText(String.format("data atualização:%s%s",
+                getEmpresaVO().getDataAtualizacao() == null ? " sem atualização" : String.format(" %s", getEmpresaVO().getDataAtualizacao().toLocalDateTime().format(DTF_DATAHORA)),
+                getEmpresaVO().getUsuarioAtualizacaoVO() == null ? "" : String.format(" [%s]", getEmpresaVO().getUsuarioAtualizacaoVO().getApelido())));
+        lblDataAtualizacaoDiff.setText(String.format("tempo de atualização:%s",
+                getEmpresaVO().getDataAtualizacao() == null ? " sem atualização" :
+                        String.format(" %s", ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAtualizacao().toLocalDateTime().toLocalDate(), null))));
 
         atualizaListaEndereco();
         listEndereco.getSelectionModel().selectFirst();
@@ -719,9 +724,10 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void exibirDadosEndereco() {
-        tpnEndereco.setText(listEndereco.getItems().size() + " Endereços cadastrados ");
+        int qtd = listEndereco.getItems().size();
+        tpnEndereco.setText(String.format("%d Endereço%s cadastrado%s ", qtd, qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));
         if (getEnderecoVO() == null) return;
-        tpnEndereco.setText(listEndereco.getItems().size() + " Endereços cadastrados: [" + getEnderecoVO() + "]");
+        tpnEndereco.setText(String.format("%d Endereço%s cadastrado%s: [%s]", qtd, qtd > 1 ? "s" : "", qtd > 1 ? "s" : "", getEnderecoVO()));
         txtEndCEP.setText(ServiceFormatarDado.getValorFormatado(getEnderecoVO().getCep(), "cep"));
         txtEndLogradouro.setText(getEnderecoVO().getLogradouro());
         txtEndNumero.setText(getEnderecoVO().getNumero());
@@ -737,7 +743,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void exibirDadosContato() {
-        tpnPessoaContato.setText("Pessoa de contato");
         if (getContatoVO() == null) return;
         tpnPessoaContato.setText(String.format("Pessoa de contato: [%s]", getContatoVO().getDescricao()));
         atualizaListaContatoEmailHomePage();
@@ -1032,24 +1037,41 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void atualizaListaContato() {
-        listContatoNome.getItems().setAll(getEmpresaVO().getTabContatoVOList().stream()
-                .filter(contato -> contato.getId() >= 0)
-                .collect(Collectors.toList()));
+        tpnPessoaContato.setText("Pessoa de contato");
+        if (getEmpresaVO().getTabContatoVOList().size() > 0) {
+            listContatoNome.getItems().setAll(getEmpresaVO().getTabContatoVOList().stream()
+                    .filter(contato -> contato.getId() >= 0)
+                    .collect(Collectors.toList()));
+        } else {
+            listContatoNome.getItems().clear();
+            listContatoHomePage.getItems().clear();
+            listContatoEmail.getItems().clear();
+            listContatoTelefone.getItems().clear();
+        }
     }
 
     void atualizaListaContatoEmailHomePage() {
-        listContatoHomePage.getItems().setAll(getContatoVO().getTabEmailHomePageVOList().stream()
-                .filter(contatoHome -> contatoHome.getId() >= 0 && !contatoHome.isIsEmail())
-                .collect(Collectors.toList()));
-        listContatoEmail.getItems().setAll(getContatoVO().getTabEmailHomePageVOList().stream()
-                .filter(contatoEmail -> contatoEmail.getId() >= 0 && contatoEmail.isIsEmail())
-                .collect(Collectors.toList()));
+        if (getContatoVO().getTabEmailHomePageVOList().size() > 0) {
+            listContatoHomePage.getItems().setAll(getContatoVO().getTabEmailHomePageVOList().stream()
+                    .filter(contatoHome -> contatoHome.getId() >= 0 && !contatoHome.isIsEmail())
+                    .collect(Collectors.toList()));
+            listContatoEmail.getItems().setAll(getContatoVO().getTabEmailHomePageVOList().stream()
+                    .filter(contatoEmail -> contatoEmail.getId() >= 0 && contatoEmail.isIsEmail())
+                    .collect(Collectors.toList()));
+        } else {
+            listContatoHomePage.getItems().clear();
+            listContatoEmail.getItems().clear();
+        }
     }
 
     void atualizaListaContatoTelefone() {
-        listContatoTelefone.getItems().setAll(getContatoVO().getTabTelefoneVOList().stream()
-                .filter(contatoTel -> contatoTel.getId() >= 0)
-                .collect(Collectors.toList()));
+        if (getContatoVO().getTabTelefoneVOList().size() > 0) {
+            listContatoTelefone.getItems().setAll(getContatoVO().getTabTelefoneVOList().stream()
+                    .filter(contatoTel -> contatoTel.getId() >= 0)
+                    .collect(Collectors.toList()));
+        } else {
+            listContatoTelefone.getItems().clear();
+        }
     }
 
     void limparEndereco() {
@@ -1089,33 +1111,49 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     boolean validarEnderecoPrincipal() {
         boolean result = true;
-        if (getEmpresaVO().getTabEmpresaReceitaFederalVOList().size() > 0)
-            if (!getEmpresaVO().getTabEmpresaReceitaFederalVOList().stream()
-                    .filter(receita -> receita.getStr_Key().toLowerCase().equals("situacao"))
-                    .findFirst().orElse(null).getStr_Value().toLowerCase().equals("ativa")) {
+        String campoInvalido = "";
+        TabEmpresaReceitaFederalVO empresaReceitaFederal;
+
+//        if (getEmpresaVO().getTabEmpresaReceitaFederalVOList().size() > 0)
+        if ((empresaReceitaFederal = getEmpresaVO().getTabEmpresaReceitaFederalVOList().stream()
+                .filter(receita -> receita.getStr_Key().toLowerCase().equals("situacao"))
+                .findFirst().orElse(null)) != null)
+            if (!empresaReceitaFederal.getStr_Value().toLowerCase().equals("ativa")) {
                 limparEndereco();
                 return true;
             }
-        if (!(result = (txtEndCEP.getText().replaceAll("\\D", "").length() == 8 && result == true)))
+        if (!(result = (txtEndCEP.getText().replaceAll("\\D", "").length() == 8 && result == true))) {
             txtEndCEP.requestFocus();
-        if (!(result = (txtEndLogradouro.getText().length() >= 3 && result == true)))
+            campoInvalido = "cep valido!";
+        }
+        if (!(result = (txtEndLogradouro.getText().length() >= 3 && result == true))) {
             txtEndLogradouro.requestFocus();
-        if (!(result = (txtEndNumero.getText().length() >= 1 && result == true)))
+            campoInvalido = "logradouro com no mínimo de 3 digitos!";
+        }
+        if (!(result = (txtEndNumero.getText().length() >= 1 && result == true))) {
             txtEndNumero.requestFocus();
-        if (!(result = (txtEndBairro.getText().length() >= 3 && result == true)))
+            campoInvalido = "número com no mínimo 1 digito!";
+        }
+        if (!(result = (txtEndBairro.getText().length() >= 3 && result == true))) {
             txtEndBairro.requestFocus();
-        if (!result)
-            new ServiceAlertMensagem("Endereço inválido!",
-                    USUARIO_LOGADO_APELIDO + ", precisa endereço válido para empresa",
-                    "ic_endereco_invalido_white_24dp.png").getRetornoAlert_OK();
-        else result = guardarEndereco(getEnderecoVO());
+            campoInvalido = "bairro com no mínimo de 3 digitos!";
+        }
+        if (!result) {
+            alertMensagem = new ServiceAlertMensagem();
+            alertMensagem.setCabecalho("Endereço inválido!");
+            alertMensagem.setPromptText(String.format("%s, precisa informar %s", USUARIO_LOGADO_APELIDO, campoInvalido));
+            alertMensagem.setStrIco("ic_endereco_invalido_white_24dp.png");
+            alertMensagem.getRetornoAlert_OK();
+        } else result = guardarEndereco(getEnderecoVO());
         return result;
     }
 
     boolean buscaDuplicidade() {
-        String valueCnpj = txtCNPJ.getText().replaceAll("\\D", "");
+        TabEmpresaVO duplicEmpresa;
         try {
-            if (getEmpresaVO().getId() != new TabEmpresaDAO().getTabEmpresaVO(valueCnpj).getId()) {
+            if ((duplicEmpresa = new TabEmpresaDAO().getTabEmpresaVO(txtCNPJ.getText().replaceAll("\\D", ""))) == null)
+                return false;
+            if (getEmpresaVO().getId() != duplicEmpresa.getId()) {
                 alertMensagem = new ServiceAlertMensagem();
                 alertMensagem.setCabecalho("C.N.P.J. duplicado");
                 alertMensagem.setPromptText(String.format("%s, o C.N.P.J.: [%s] já está cadastrado no sistema!",
@@ -1178,8 +1216,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                             else if (telefone.getId() > 0)
                                 new TabTelefoneDAO().updateTabTelefoneVO(conn, telefone);
                             else
-                                new TabTelefoneDAO().insertTabTelefoneVO(conn, telefone,
-                                        getEmpresaVO().getId(), 0);
+                                telefone.setId(new TabTelefoneDAO().insertTabTelefoneVO(conn, telefone,
+                                        getEmpresaVO().getId(), 0));
                         } catch (Exception ex) {
                             throw new RuntimeException("Erro no telefone ==>>", ex);
                         }
@@ -1188,16 +1226,15 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     .forEach(contato -> {
                         try {
                             if (contato.getId() < 0)
-                                return;
+                                new TabContatoDAO().deleteTabContatoVO(conn, contato, getEmpresaVO().getId());
                             else if (contato.getId() > 0)
-                                return;
+                                new TabContatoDAO().updateTabContatoVO(conn, contato);
                             else
-                                return;
+                                contato.setId(new TabContatoDAO().insertTabContatoVO(conn, contato, getEmpresaVO().getId()));
                         } catch (Exception ex) {
                             throw new RuntimeException("Erro no contato ===>> ", ex);
                         }
                     });
-
             conn.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();

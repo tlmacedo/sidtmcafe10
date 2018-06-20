@@ -28,7 +28,6 @@ public class SisMunicipioDAO extends BuscaBancoDados {
         int i = 0;
         for (String achado : municipio.split("-")) {
             find[i] = achado;
-            System.out.printf("SisMunicipioDAO.getSisMunicipioVO_achado ===>> %s", achado);
             i++;
         }
         getResultSet(String.format("SELECT * FROM sisMunicipio WHERE descricao = '%s' %sORDER BY isCapital DESC, descricao",

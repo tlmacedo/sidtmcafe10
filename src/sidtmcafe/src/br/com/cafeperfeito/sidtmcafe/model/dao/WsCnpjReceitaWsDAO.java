@@ -76,7 +76,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             wsCnpjReceitaWsVO.setCep(jsonObject.getString("cep").toUpperCase());
             wsCnpjReceitaWsVO.setBairro(jsonObject.getString("bairro").toUpperCase());
             wsCnpjReceitaWsVO.setMunicipio(jsonObject.getString("municipio").toUpperCase());
-            wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCnpjReceitaWsVO.getMunicipio(), false));
+            wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCnpjReceitaWsVO.getMunicipio(), true));
             wsCnpjReceitaWsVO.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipioVO().getId());
             wsCnpjReceitaWsVO.setSisUfVO(wsCnpjReceitaWsVO.getSisMunicipioVO().getUfVO());
             wsCnpjReceitaWsVO.setUf(wsCnpjReceitaWsVO.getSisUfVO().getSigla());
@@ -110,8 +110,9 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
         empresa.setDataAbertura(wsCnpjReceitaWsVO.getAbertura());
         empresa.setNaturezaJuridica(wsCnpjReceitaWsVO.getNaturezaJuridica());
 
+        TabEnderecoVO endereco = new TabEnderecoVO(1, 0);
         if (wsCnpjReceitaWsVO.getSituacao().toLowerCase().equals("ativa")) {
-            TabEnderecoVO endereco = new TabEnderecoVO(1, 0);
+            endereco.setId(empresa.getTabEnderecoVOList().get(0).getId());
             endereco.setCep(wsCnpjReceitaWsVO.getCep());
             endereco.setLogradouro(wsCnpjReceitaWsVO.getLogradouro());
             endereco.setNumero(wsCnpjReceitaWsVO.getNumero());
@@ -120,8 +121,8 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             endereco.setSisMunicipioVO(wsCnpjReceitaWsVO.getSisMunicipioVO());
             endereco.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipio_id());
             endereco.setPontoReferencia("");
-            empresa.getTabEnderecoVOList().set(0, endereco);
         }
+        empresa.getTabEnderecoVOList().set(0, endereco);
 
         if (!wsCnpjReceitaWsVO.getEmail().equals("")) {
             List<String> emailList = ServiceValidarDado.getEmailsList(wsCnpjReceitaWsVO.getEmail());
