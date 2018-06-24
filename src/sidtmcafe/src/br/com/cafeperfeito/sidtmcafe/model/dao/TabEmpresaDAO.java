@@ -79,7 +79,6 @@ public class TabEmpresaDAO extends BuscaBancoDados {
         empresa.setTabEmpresaReceitaFederalVOList(new TabEmpresaReceitaFederalDAO().getTabEmpresaReceitaFederalVOList(empresa.getId()));
 
         List<TabEnderecoVO> tabEnderecoVOList = new ArrayList<>();
-
         new RelEmpresaEnderecoDAO().getRelEmpresaEnderecoVOList(empresa.getId())
                 .forEach(relEmpresaEndereco -> {
                     tabEnderecoVOList.add(new TabEnderecoDAO().getTabEnderecoVO(relEmpresaEndereco.getTabEndereco_id()));
@@ -105,6 +104,10 @@ public class TabEmpresaDAO extends BuscaBancoDados {
                 .forEach(relEmpresaContato -> {
                     tabContatoVOList.add(new TabContatoDAO().getTabContatoVO(relEmpresaContato.getTabContato_id(), true));
                 });
+        if (tabContatoVOList == null)
+            tabContatoVOList.size();
+        else
+            tabContatoVOList.size();
         empresa.setTabContatoVOList(tabContatoVOList);
     }
 

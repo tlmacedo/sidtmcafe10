@@ -345,6 +345,11 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
         naturezaJuridicaProperty().set(naturezaJuridica);
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s - %s", razaoProperty().get(), fantasiaProperty().get());
+    }
+
 //    public String getDetalheTransportadora() {
 //        if ((razaoProperty().get() != "") & enderecoVOList.size() > 0)
 //            return "[Transp]: " + razaoProperty().get() + " (" + fantasiaProperty().get() + ") "

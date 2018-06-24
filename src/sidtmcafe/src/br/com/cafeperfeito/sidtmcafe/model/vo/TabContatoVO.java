@@ -23,8 +23,8 @@ public class TabContatoVO extends RecursiveTreeObject<TabContatoVO> {
 //        this.sisCargo_id = new SimpleIntegerProperty(11);
 //        this.sisCargoVO = new SisCargoDAO().getSisCargoVO(11);
 //        this.id = new SimpleIntegerProperty(0);
-//        this.tabEmailHomePageVOList = new ArrayList<>();
-//        this.tabTelefoneVOList = new ArrayList<>();
+        this.tabEmailHomePageVOList = new ArrayList<>();
+        this.tabTelefoneVOList = new ArrayList<>();
     }
 
     public TabContatoVO(String contato, SisCargoVO cargoVO) {
@@ -102,9 +102,9 @@ public class TabContatoVO extends RecursiveTreeObject<TabContatoVO> {
 
     @Override
     public String toString() {
-        if (descricaoProperty().get() == null)
+        if (descricaoProperty().get() == null || getSisCargo_id() == 0)
             return "";
         else
-            return descricaoProperty().get() + " (" + getSisCargoVO().getDescricao() + ")";
+            return descricaoProperty().get() + " (" + getSisCargoVO().descricaoProperty().get() + ")";
     }
 }
