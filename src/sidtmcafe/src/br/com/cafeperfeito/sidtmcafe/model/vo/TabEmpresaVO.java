@@ -4,7 +4,6 @@ import br.com.cafeperfeito.sidtmcafe.model.dao.SisSituacaoSistemaDAO;
 import br.com.cafeperfeito.sidtmcafe.model.dao.TabEmpresaDAO;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.*;
-import javafx.collections.FXCollections;
 
 import java.sql.Date;
 import java.sql.Timestamp;
