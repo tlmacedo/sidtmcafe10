@@ -181,7 +181,8 @@
                                         text="tempo que a foi feita a ultima atualizacao no cadastro da empresa no sistema"/>
                             </tooltip>
                         </Label>
-                        <TitledPane fx:id="tpnEndereco" collapsible="false" focusTraversable="false" layoutX="5.0" layoutY="68.0"
+                        <TitledPane fx:id="tpnEndereco" collapsible="false" focusTraversable="false" layoutX="5.0"
+                                    layoutY="68.0"
                                     maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                     minWidth="-Infinity" prefHeight="95.0" prefWidth="1330.0" text="Enderecos">
                             <content>
@@ -354,8 +355,9 @@
                                                                     prefWidth="1268.0">
                                                             <children>
                                                                 <JFXListView fx:id="listContatoNome"
-                                                                             accessibleText="value: " layoutX="5.0"
-                                                                             layoutY="5.0" maxHeight="-Infinity"
+                                                                             accessibleText="value: "
+                                                                             layoutX="5.0" layoutY="5.0"
+                                                                             maxHeight="-Infinity"
                                                                              maxWidth="-Infinity" minHeight="-Infinity"
                                                                              minWidth="-Infinity" prefHeight="195.0"
                                                                              prefWidth="170.0"/>
@@ -401,6 +403,8 @@
                                                                                     prefHeight="72.0" prefWidth="318.0">
                                                                             <children>
                                                                                 <JFXListView fx:id="listContatoEmail"
+                                                                                             layoutX="180.0"
+                                                                                             layoutY="105.0"
                                                                                              accessibleText="value: "
                                                                                              maxHeight="-Infinity"
                                                                                              maxWidth="-Infinity"
@@ -430,6 +434,8 @@
                                                                                     prefWidth="208.0">
                                                                             <children>
                                                                                 <JFXListView fx:id="listContatoTelefone"
+                                                                                             layoutX="507.0"
+                                                                                             layoutY="5.0"
                                                                                              maxHeight="-Infinity"
                                                                                              maxWidth="-Infinity"
                                                                                              minHeight="-Infinity"

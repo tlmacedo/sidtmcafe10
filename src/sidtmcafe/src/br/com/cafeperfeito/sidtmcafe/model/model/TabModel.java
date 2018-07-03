@@ -1,8 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.model.model;
 
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaReceitaFederalVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.*;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Pos;
@@ -38,7 +36,6 @@ public class TabModel {
     static TreeTableColumn<TabEmpresaVO, Boolean> colunaIsTransportadora;
     static TreeTableColumn<TabEmpresaReceitaFederalVO, String> colunaQsaKey;
     static TreeTableColumn<TabEmpresaReceitaFederalVO, String> colunaQsaValue;
-
 
     public static TreeTableColumn<TabProdutoVO, Integer> getColunaIdProduto() {
         return colunaIdProduto;
