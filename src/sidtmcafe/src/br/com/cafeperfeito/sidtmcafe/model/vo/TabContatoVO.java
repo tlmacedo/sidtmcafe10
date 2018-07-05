@@ -20,8 +20,8 @@ public class TabContatoVO extends RecursiveTreeObject<TabContatoVO> {
     StringProperty descricao;
 
     public TabContatoVO() {
-//        this.tabEmailHomePageVOList = new ArrayList<>();
-//        this.tabTelefoneVOList = new ArrayList<>();
+        this.tabEmailHomePageVOList = new ArrayList<>();
+        this.tabTelefoneVOList = new ArrayList<>();
     }
 
     public TabContatoVO(String contato, SisCargoVO cargoVO) {

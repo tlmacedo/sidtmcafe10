@@ -68,6 +68,7 @@ public interface Constants {
     String FXML_PRINCIPAL_ICON_ORANGE = PATH_ICONE + "ic_grao_cafe_orange_24dp.png";
 
     String FXML_CADASTRO_EMPRESA = PATH_FXML + "FxmlCadastroEmpresa.fxml";
+//    String FXML_CADASTRO_EMPRESA = PATH_FXML + "teste.fxml";
 
     String FXML_CADASTRO_PRODUTO = PATH_FXML + "FxmlCadastroProduto.fxml";
 
