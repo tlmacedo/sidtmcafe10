@@ -141,7 +141,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
                     if (empresa.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(telefone.getKey())))
                         empresa.getTabTelefoneVOList().add(new TabTelefoneVO(telefone.getKey(), new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVO(2)));
         }
-
+        empresa.getTabTelefoneVOList();
         empresa.getTabEmpresaReceitaFederalVOList().stream()
                 .forEach(receita -> receita.setId(receita.getId() * (-1)));
         empresa.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadePrincipal());

@@ -76,6 +76,7 @@ public class TabEmpresaDAO extends BuscaBancoDados {
         empresa.setSisSituacaoSistemaVO(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(empresa.getSisSituacaoSistema_id()));
         empresa.setUsuarioCadastroVO(new TabColaboradorDAO().getTabColaboradorVO(empresa.getUsuarioCadastro_id(), false));
         empresa.setUsuarioAtualizacaoVO(new TabColaboradorDAO().getTabColaboradorVO(empresa.getUsuarioAtualizacao_id(), false));
+        System.out.printf("TabEmpresaDAO.addObjetosPesquisa_setUsuarioAtualizacaoVO: %s[%s]%s%n", empresa, empresa.getUsuarioAtualizacaoVO(), empresa.getDataAtualizacao());
         empresa.setTabEmpresaReceitaFederalVOList(new TabEmpresaReceitaFederalDAO().getTabEmpresaReceitaFederalVOList(empresa.getId()));
 
         List<TabEnderecoVO> tabEnderecoVOList = new ArrayList<>();
@@ -104,10 +105,6 @@ public class TabEmpresaDAO extends BuscaBancoDados {
                 .forEach(relEmpresaContato -> {
                     tabContatoVOList.add(new TabContatoDAO().getTabContatoVO(relEmpresaContato.getTabContato_id(), true));
                 });
-        if (tabContatoVOList == null)
-            tabContatoVOList.size();
-        else
-            tabContatoVOList.size();
         empresa.setTabContatoVOList(tabContatoVOList);
     }
 
