@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
@@ -56,51 +57,97 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     ObservableList<TabEmailHomePageVO> listContatoHomePageVOObservableList = FXCollections.observableArrayList();
     ObservableList<TabEmailHomePageVO> listContatoEmailVOObservableList = FXCollections.observableArrayList();
     ObservableList<TabTelefoneVO> listContatoTelefoneVOObservableList = FXCollections.observableArrayList();
+    @FXML
     public AnchorPane painelViewCadastroEmpresa;
+    @FXML
     public TitledPane tpnCadastroEmpresa;
+    @FXML
     public JFXTextField txtPesquisaEmpresa;
+    @FXML
     public TreeTableView<TabEmpresaVO> ttvEmpresa;
+    @FXML
     public JFXComboBox cboFiltroPesquisa;
+    @FXML
     public Label lblRegistrosLocalizados;
+    @FXML
     public TitledPane tpnDadoCadastral;
+    @FXML
     public JFXComboBox cboClassificacaoJuridica;
+    @FXML
     public JFXTextField txtCNPJ;
+    @FXML
     public JFXCheckBox chkIeIsento;
+    @FXML
     public JFXTextField txtIE;
+    @FXML
     public JFXComboBox<SisSituacaoSistemaVO> cboSituacaoSistema;
+    @FXML
     public JFXTextField txtRazao;
+    @FXML
     public JFXTextField txtFantasia;
+    @FXML
     public JFXCheckBox chkIsCliente;
+    @FXML
     public JFXCheckBox chkIsFornecedor;
+    @FXML
     public JFXCheckBox chkIsTransportadora;
+    @FXML
     public Label lblDataCadastro;
+    @FXML
     public Label lblDataCadastroDiff;
+    @FXML
     public Label lblDataAtualizacao;
+    @FXML
     public Label lblDataAtualizacaoDiff;
+    @FXML
     public JFXListView<TabEnderecoVO> listEndereco;
+    @FXML
     public JFXTextField txtEndCEP;
+    @FXML
     public JFXTextField txtEndLogradouro;
+    @FXML
     public JFXTextField txtEndNumero;
+    @FXML
     public JFXTextField txtEndComplemento;
+    @FXML
     public JFXTextField txtEndBairro;
+    @FXML
     public JFXComboBox<SisUfVO> cboEndUF;
+    @FXML
     public JFXComboBox<SisMunicipioVO> cboEndMunicipio;
+    @FXML
     public JFXTextField txtEndPontoReferencia;
+    @FXML
     public JFXListView<TabEmpresaReceitaFederalVO> listAtividadePrincipal;
+    @FXML
     public JFXListView<TabEmpresaReceitaFederalVO> listAtividadeSecundaria;
+    @FXML
     public Label lblDataAbertura;
+    @FXML
     public Label lblDataAberturaDiff;
+    @FXML
     public Label lblNaturezaJuridica;
+    @FXML
     public JFXListView listInformacoesReceita;
+    @FXML
     public TabPane tpnContatoPrazosCondicoes;
+    @FXML
     public JFXListView<TabEmailHomePageVO> listHomePage;
+    @FXML
     public JFXListView<TabEmailHomePageVO> listEmail;
+    @FXML
     public JFXListView<TabTelefoneVO> listTelefone;
+    @FXML
     public JFXListView<TabContatoVO> listContatoNome;
+    @FXML
     public JFXListView<TabEmailHomePageVO> listContatoHomePage;
+    @FXML
     public JFXListView<TabEmailHomePageVO> listContatoEmail;
+    @FXML
     public JFXListView<TabTelefoneVO> listContatoTelefone;
+    @FXML
     public TitledPane tpnPessoaContato;
+    @FXML
     public TitledPane tpnEndereco;
 
     @Override
@@ -752,7 +799,11 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 getEmpresaVO().getDataCadastro() == null ? "" : String.format(" %s", getEmpresaVO().getDataCadastro().toLocalDateTime().format(DTF_DATAHORA)),
                 getEmpresaVO().getUsuarioCadastroVO() == null ? "" : String.format(" [%s]", getEmpresaVO().getUsuarioCadastroVO())));
         lblDataCadastroDiff.setText(String.format("tempo de cadastro:%s",
-                getEmpresaVO().getDataCadastro() == null ? "" : String.format(" %s", ServiceDataHora.getIntervaloData(getEmpresaVO().getDataCadastro().toLocalDateTime().toLocalDate(), null))));
+                getEmpresaVO().getDataCadastro() == null ? "" :
+                        String.format(" %s", ServiceDataHora.getIntervaloData(getEmpresaVO().getDataCadastro().toLocalDateTime().toLocalDate(), null))));
+        lblDataAtualizacao.setText(String.format("data atualização:%s%s",
+                getEmpresaVO().getDataAtualizacao() == null ? "" : String.format(" %s", getEmpresaVO().getDataAtualizacao().toLocalDateTime().format(DTF_DATAHORA)),
+                getEmpresaVO().getUsuarioAtualizacaoVO() == null ? "" : String.format(" [%s]", getEmpresaVO().getUsuarioAtualizacaoVO())));
 //        if (getEmpresaVO().getDataAtualizacao() == null)
 //            lblDataAtualizacao.setText("sem atualização");
 //        else
