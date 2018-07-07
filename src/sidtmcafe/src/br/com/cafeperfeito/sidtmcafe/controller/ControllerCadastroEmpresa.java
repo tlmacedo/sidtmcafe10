@@ -14,7 +14,6 @@ import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
@@ -36,8 +35,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -57,97 +54,51 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     ObservableList<TabEmailHomePageVO> listContatoHomePageVOObservableList = FXCollections.observableArrayList();
     ObservableList<TabEmailHomePageVO> listContatoEmailVOObservableList = FXCollections.observableArrayList();
     ObservableList<TabTelefoneVO> listContatoTelefoneVOObservableList = FXCollections.observableArrayList();
-    @FXML
     public AnchorPane painelViewCadastroEmpresa;
-    @FXML
     public TitledPane tpnCadastroEmpresa;
-    @FXML
     public JFXTextField txtPesquisaEmpresa;
-    @FXML
     public TreeTableView<TabEmpresaVO> ttvEmpresa;
-    @FXML
     public JFXComboBox cboFiltroPesquisa;
-    @FXML
     public Label lblRegistrosLocalizados;
-    @FXML
     public TitledPane tpnDadoCadastral;
-    @FXML
     public JFXComboBox cboClassificacaoJuridica;
-    @FXML
     public JFXTextField txtCNPJ;
-    @FXML
     public JFXCheckBox chkIeIsento;
-    @FXML
     public JFXTextField txtIE;
-    @FXML
     public JFXComboBox<SisSituacaoSistemaVO> cboSituacaoSistema;
-    @FXML
     public JFXTextField txtRazao;
-    @FXML
     public JFXTextField txtFantasia;
-    @FXML
     public JFXCheckBox chkIsCliente;
-    @FXML
     public JFXCheckBox chkIsFornecedor;
-    @FXML
     public JFXCheckBox chkIsTransportadora;
-    @FXML
     public Label lblDataCadastro;
-    @FXML
     public Label lblDataCadastroDiff;
-    @FXML
     public Label lblDataAtualizacao;
-    @FXML
     public Label lblDataAtualizacaoDiff;
-    @FXML
     public JFXListView<TabEnderecoVO> listEndereco;
-    @FXML
     public JFXTextField txtEndCEP;
-    @FXML
     public JFXTextField txtEndLogradouro;
-    @FXML
     public JFXTextField txtEndNumero;
-    @FXML
     public JFXTextField txtEndComplemento;
-    @FXML
     public JFXTextField txtEndBairro;
-    @FXML
     public JFXComboBox<SisUfVO> cboEndUF;
-    @FXML
     public JFXComboBox<SisMunicipioVO> cboEndMunicipio;
-    @FXML
     public JFXTextField txtEndPontoReferencia;
-    @FXML
     public JFXListView<TabEmpresaReceitaFederalVO> listAtividadePrincipal;
-    @FXML
     public JFXListView<TabEmpresaReceitaFederalVO> listAtividadeSecundaria;
-    @FXML
     public Label lblDataAbertura;
-    @FXML
     public Label lblDataAberturaDiff;
-    @FXML
     public Label lblNaturezaJuridica;
-    @FXML
     public JFXListView listInformacoesReceita;
-    @FXML
     public TabPane tpnContatoPrazosCondicoes;
-    @FXML
     public JFXListView<TabEmailHomePageVO> listHomePage;
-    @FXML
     public JFXListView<TabEmailHomePageVO> listEmail;
-    @FXML
     public JFXListView<TabTelefoneVO> listTelefone;
-    @FXML
     public JFXListView<TabContatoVO> listContatoNome;
-    @FXML
     public JFXListView<TabEmailHomePageVO> listContatoHomePage;
-    @FXML
     public JFXListView<TabEmailHomePageVO> listContatoEmail;
-    @FXML
     public JFXListView<TabTelefoneVO> listContatoTelefone;
-    @FXML
     public TitledPane tpnPessoaContato;
-    @FXML
     public TitledPane tpnEndereco;
 
     @Override
@@ -193,6 +144,13 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         listContatoHomePage.setItems(listContatoHomePageVOObservableList);
         listContatoEmail.setItems(listContatoEmailVOObservableList);
         listContatoTelefone.setItems(listContatoTelefoneVOObservableList);
+        lblNaturezaJuridica.setText(strNaturezaJuridica);
+        lblDataAbertura.setText(strDataAbertura);
+        lblDataAberturaDiff.setText(strDataAberturaDif);
+        lblDataCadastro.setText(strDataCadastro);
+        lblDataCadastroDiff.setText(strDataCadastroDif);
+        lblDataAtualizacao.setText(strDataAtualizacao);
+        lblDataAtualizacaoDiff.setText(strDataAtualizacaoDif);
         ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsCliente());
         ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsFornecedor());
         ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsTransportadora());
@@ -349,9 +307,13 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
         ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.addEventHandler(KeyEvent.KEY_PRESSED, eventHandlerCadastroEmpresa);
 
-        txtPesquisaEmpresa.textProperty().addListener((observable, oldValue, newValue) -> pesquisaEmpresa());
+        txtPesquisaEmpresa.textProperty().addListener((observable, oldValue, newValue) -> {
+            pesquisaEmpresa();
+        });
 
-        cboFiltroPesquisa.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> pesquisaEmpresa());
+        cboFiltroPesquisa.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            pesquisaEmpresa();
+        });
 
         txtPesquisaEmpresa.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() != KeyCode.ENTER) return;
@@ -437,7 +399,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             cboEndMunicipio.getItems().setAll(newValue.getMunicipioVOList());
             cboEndMunicipio.getSelectionModel().selectFirst();
             formatIe.setMascara(ServiceFormatarDado.gerarMascara("ie" + newValue.getSigla(), 0, "#"));
-
             if (getEmpresaVO() != null && getEmpresaVO().getIe().length() > 0)
                 txtIE.setText(ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie" + newValue.getSigla()));
         });
@@ -482,11 +443,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         preencherObjetos();
         escutarTecla();
         fatorarObjetos();
+        setStatusFormulario("Pesquisa");
         ServiceCampoPersonalizado.fieldMask(painelViewCadastroEmpresa);
-        Platform.runLater(() -> {
-            setStatusFormulario("Pesquisa");
-            ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7));
-        });
+        Platform.runLater(() -> ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7)));
     }
 
     ObservableList<TabEmpresaVO> empresaVOObservableList;
@@ -504,6 +463,13 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     ServiceFormatarDado formatCnpj, formatIe;
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewCadastroEmpresa.getTituloJanela();
+    String strNaturezaJuridica;
+    String strDataAbertura;
+    String strDataAberturaDif;
+    String strDataCadastro;
+    String strDataCadastroDif;
+    String strDataAtualizacao;
+    String strDataAtualizacaoDif;
 
     Task getTaskCadastroEmpresa() {
         int qtdTarefas = listaTarefa.size();
@@ -781,36 +747,25 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         listContatoVOObservableList.setAll(getEmpresaVO().getTabContatoVOList().stream()
                 .filter(contato -> contato.getId() >= 0)
                 .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-        if (listContatoVOObservableList.size() > 0)
-            listContatoNome.getSelectionModel().selectFirst();
-        else
-            setContatoVO(null);
-
-        lblDataAbertura.setText(String.format("data abertura:%s",
-                empresaVO.getDataAbertura() == null ? "null"
-                        : String.format(" %s", empresaVO.getDataAbertura().toLocalDate().format(DTF_DATA))));
-        lblDataAberturaDiff.setText(String.format("tempo de abertura:%s",
-                empresaVO.getDataAbertura() == null ? "sem data abertura"
-                        : String.format(" %s", ServiceDataHora.getIntervaloData(empresaVO.getDataAbertura().toLocalDate(), null))));
-        lblNaturezaJuridica.setText(String.format("Natureza Júridica: f%s",
-                getEmpresaVO().getNaturezaJuridica() == null ? "sem natureza júridica" : getEmpresaVO().getNaturezaJuridica()));
-
-        lblDataCadastro.setText(String.format("data cadastro:%s%s",
-                getEmpresaVO().getDataCadastro() == null ? "" : String.format(" %s", getEmpresaVO().getDataCadastro().toLocalDateTime().format(DTF_DATAHORA)),
-                getEmpresaVO().getUsuarioCadastroVO() == null ? "" : String.format(" [%s]", getEmpresaVO().getUsuarioCadastroVO())));
-        lblDataCadastroDiff.setText(String.format("tempo de cadastro:%s",
-                getEmpresaVO().getDataCadastro() == null ? "" :
-                        String.format(" %s", ServiceDataHora.getIntervaloData(getEmpresaVO().getDataCadastro().toLocalDateTime().toLocalDate(), null))));
-        lblDataAtualizacao.setText(String.format("data atualização:%s%s",
-                getEmpresaVO().getDataAtualizacao() == null ? "" : String.format(" %s", getEmpresaVO().getDataAtualizacao().toLocalDateTime().format(DTF_DATAHORA)),
-                getEmpresaVO().getUsuarioAtualizacaoVO() == null ? "" : String.format(" [%s]", getEmpresaVO().getUsuarioAtualizacaoVO())));
-//        if (getEmpresaVO().getDataAtualizacao() == null)
-//            lblDataAtualizacao.setText("sem atualização");
+//        if (listContatoVOObservableList.size() > 0)
+        listContatoNome.getSelectionModel().selectFirst();
 //        else
-//            lblDataAtualizacao.setText(String.format("data atualização: %s",
-//                    getEmpresaVO().getDataAtualizacao().toLocalDateTime().format(DTF_DATAHORA)));
+//            setContatoVO(null);
 
-
+        strDataAbertura = String.format("data abertura: %s",
+                empresaVO.getDataAbertura() == null ? "null" : empresaVO.getDataAbertura().toLocalDate().format(DTF_DATA));
+        strDataAberturaDif = String.format("tempo de abertura: %s",
+                empresaVO.getDataAbertura() == null ? "sem data abertura" : ServiceDataHora.getIntervaloData(empresaVO.getDataAbertura().toLocalDate(), null));
+        strNaturezaJuridica = String.format("Natureza Júridica: %s",
+                getEmpresaVO().getNaturezaJuridica() == null ? "sem natureza júridica" : getEmpresaVO().getNaturezaJuridica());
+        strDataCadastro = String.format("data cadastro: %s [%s]",
+                getEmpresaVO().getDataCadastro() == null ? "" : getEmpresaVO().getDataCadastro().toLocalDateTime().format(DTF_DATAHORA),
+                getEmpresaVO().getDataCadastro() == null ? "" : getEmpresaVO().getUsuarioCadastroVO());
+        strDataCadastroDif = String.format("tempo de cadastro: %s",
+                getEmpresaVO().getDataCadastro() == null ? "" : ServiceDataHora.getIntervaloData(getEmpresaVO().getDataCadastro().toLocalDateTime().toLocalDate(), null));
+        strDataAtualizacao = String.format("data atualização: %s [%s]",
+                getEmpresaVO().getDataAtualizacao() == null ? "" : getEmpresaVO().getDataAtualizacao().toLocalDateTime().format(DTF_DATAHORA),
+                getEmpresaVO().getDataAtualizacao() == null ? "" : getEmpresaVO().getUsuarioAtualizacaoVO());
     }
 
     void exibirDadosEndereco() {
