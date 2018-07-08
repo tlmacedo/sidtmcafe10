@@ -463,13 +463,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     ServiceFormatarDado formatCnpj, formatIe;
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewCadastroEmpresa.getTituloJanela();
-    String strNaturezaJuridica;
-    String strDataAbertura;
-    String strDataAberturaDif;
-    String strDataCadastro;
-    String strDataCadastroDif;
-    String strDataAtualizacao;
-    String strDataAtualizacaoDif;
+    String strNaturezaJuridica, strDataAbertura, strDataAberturaDif, strDataCadastro, strDataCadastroDif, strDataAtualizacao, strDataAtualizacaoDif;
 
     Task getTaskCadastroEmpresa() {
         int qtdTarefas = listaTarefa.size();
@@ -752,8 +746,11 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 //        else
 //            setContatoVO(null);
 
-        strDataAbertura = String.format("data abertura: %s",
-                empresaVO.getDataAbertura() == null ? "null" : empresaVO.getDataAbertura().toLocalDate().format(DTF_DATA));
+
+        if (getEmpresaVO().getDataAtualizacao()==null)
+            strDataAtualizacao = "data abertura: null";
+        else
+            strDataAtualizacao = "data abertura: " + getEmpresaVO().getDataAtualizacao().toLocalDateTime().format(DTF_DATA);
         strDataAberturaDif = String.format("tempo de abertura: %s",
                 empresaVO.getDataAbertura() == null ? "sem data abertura" : ServiceDataHora.getIntervaloData(empresaVO.getDataAbertura().toLocalDate(), null));
         strNaturezaJuridica = String.format("Natureza Júridica: %s",
