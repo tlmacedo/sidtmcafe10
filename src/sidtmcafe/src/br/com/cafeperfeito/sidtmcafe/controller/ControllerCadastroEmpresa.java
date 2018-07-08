@@ -35,6 +35,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -136,6 +137,14 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     @Override
     public void fatorarObjetos() {
+//        lblNaturezaJuridica.setText(strNaturezaJuridica);
+//        lblDataAbertura.setText(strDataAbertura);
+//        lblDataAberturaDiff.setText(strDataAberturaDif);
+//        lblDataCadastro.setText(strDataCadastro);
+//        lblDataCadastroDiff.setText(strDataCadastroDif);
+//        lblDataAtualizacao.setText(strDataAtualizacao);
+//        lblDataAtualizacaoDiff.setText(strDataAtualizacaoDif);
+
         listEndereco.setItems(listEnderecoVOObservableList);
         listHomePage.setItems(listHomePageVOObservableList);
         listEmail.setItems(listEmailVOObservableList);
@@ -144,13 +153,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         listContatoHomePage.setItems(listContatoHomePageVOObservableList);
         listContatoEmail.setItems(listContatoEmailVOObservableList);
         listContatoTelefone.setItems(listContatoTelefoneVOObservableList);
-        lblNaturezaJuridica.setText(strNaturezaJuridica);
-        lblDataAbertura.setText(strDataAbertura);
-        lblDataAberturaDiff.setText(strDataAberturaDif);
-        lblDataCadastro.setText(strDataCadastro);
-        lblDataCadastroDiff.setText(strDataCadastroDif);
-        lblDataAtualizacao.setText(strDataAtualizacao);
-        lblDataAtualizacaoDiff.setText(strDataAtualizacaoDif);
         ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsCliente());
         ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsFornecedor());
         ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsTransportadora());
@@ -712,6 +714,14 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void exibirDadosEmpresa() {
+        strNaturezaJuridica = "natureza júridica:";
+        strDataAbertura = "data de abertura:";
+        strDataAberturaDif = "tempo de abertura:";
+        strDataCadastro = "data de cadastro:";
+        strDataCadastroDif = "tempo de cadastro:";
+        strDataAtualizacao = "data de atualização:";
+        strDataAtualizacaoDif = "tempo de atualização:";
+
         cboClassificacaoJuridica.getSelectionModel().select(getEmpresaVO().isIsEmpresa() ? 1 : 0);
         txtCNPJ.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cnpj") : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cpf"));
         txtIE.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie" + getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()) : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie"));
@@ -741,28 +751,29 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         listContatoVOObservableList.setAll(getEmpresaVO().getTabContatoVOList().stream()
                 .filter(contato -> contato.getId() >= 0)
                 .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-//        if (listContatoVOObservableList.size() > 0)
         listContatoNome.getSelectionModel().selectFirst();
-//        else
-//            setContatoVO(null);
-
-
-        if (getEmpresaVO().getDataAtualizacao()==null)
-            strDataAtualizacao = "data abertura: null";
-        else
-            strDataAtualizacao = "data abertura: " + getEmpresaVO().getDataAtualizacao().toLocalDateTime().format(DTF_DATA);
-        strDataAberturaDif = String.format("tempo de abertura: %s",
-                empresaVO.getDataAbertura() == null ? "sem data abertura" : ServiceDataHora.getIntervaloData(empresaVO.getDataAbertura().toLocalDate(), null));
-        strNaturezaJuridica = String.format("Natureza Júridica: %s",
-                getEmpresaVO().getNaturezaJuridica() == null ? "sem natureza júridica" : getEmpresaVO().getNaturezaJuridica());
-        strDataCadastro = String.format("data cadastro: %s [%s]",
-                getEmpresaVO().getDataCadastro() == null ? "" : getEmpresaVO().getDataCadastro().toLocalDateTime().format(DTF_DATAHORA),
-                getEmpresaVO().getDataCadastro() == null ? "" : getEmpresaVO().getUsuarioCadastroVO());
-        strDataCadastroDif = String.format("tempo de cadastro: %s",
-                getEmpresaVO().getDataCadastro() == null ? "" : ServiceDataHora.getIntervaloData(getEmpresaVO().getDataCadastro().toLocalDateTime().toLocalDate(), null));
-        strDataAtualizacao = String.format("data atualização: %s [%s]",
-                getEmpresaVO().getDataAtualizacao() == null ? "" : getEmpresaVO().getDataAtualizacao().toLocalDateTime().format(DTF_DATAHORA),
-                getEmpresaVO().getDataAtualizacao() == null ? "" : getEmpresaVO().getUsuarioAtualizacaoVO());
+//        if (getEmpresaVO().getNaturezaJuridica() != null)
+        strNaturezaJuridica += " " + getEmpresaVO().getNaturezaJuridica();
+//        if (getEmpresaVO().getDataAbertura() != null) {
+        strDataAbertura += " " + getEmpresaVO().getDataAbertura().toLocalDate().format(DTF_DATA);
+//            strDataAberturaDif += " " + ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAbertura().toLocalDate(), null);
+//        }
+//        if (getEmpresaVO().getDataCadastro() != null) {
+        strDataCadastro += " " + getEmpresaVO().getDataCadastro().toLocalDateTime().format(DTF_DATAHORA);
+//            strDataCadastroDif += " " + ServiceDataHora.getIntervaloData(getEmpresaVO().getDataCadastro().toLocalDateTime().toLocalDate(), null);
+//        }
+//        if (getEmpresaVO().getDataAtualizacao() != null) {
+//            strDataAtualizacao += " " + getEmpresaVO().getDataAtualizacao().toLocalDateTime().format(DTF_DATAHORA);
+//            strDataAtualizacaoDif += " " + ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAtualizacao().toLocalDateTime().toLocalDate(), null);
+//        }
+//            strDataAtualizacao = "";
+        lblNaturezaJuridica.setText(strNaturezaJuridica);
+        lblDataAbertura.setText(strDataAbertura);
+        lblDataAberturaDiff.setText(strDataAberturaDif);
+        lblDataCadastro.setText(strDataCadastro);
+        lblDataCadastroDiff.setText(strDataCadastroDif);
+        lblDataAtualizacao.setText(strDataAtualizacao);
+        lblDataAtualizacaoDiff.setText(strDataAtualizacaoDif);
     }
 
     void exibirDadosEndereco() {
