@@ -21,14 +21,14 @@ public interface Constants {
     /*
      * Constantes para conexão com banco de dados MySql
      */
-    String BD_DRIVER = "com.mysql.jdbc.Driver";
+    String BD_DRIVER = "com.mysql.cj.jdbc.Driver";
     String BD_DATABASE = "cafeperfeito";
     String BD_HOST = "127.0.0.1";
     String BD_DRIVER_CONN = "jdbc:mysql://";
     String BD_PORTA = ":3306/";
     String BD_USER = "root";
-    String BD_PASS = "4879";
-    String BD_URL = BD_DRIVER_CONN + BD_HOST + BD_PORTA + BD_DATABASE + "?useSSL=true";//"?useTimezone=true&serverTimezone=UTC&useSSL=true";
+    String BD_PASS = "Tlm487901";
+    String BD_URL = BD_DRIVER_CONN + BD_HOST + BD_PORTA + BD_DATABASE + "?useSSL=false";//"?useTimezone=true&serverTimezone=UTC&useSSL=true";
     String BD_DATABASE_STB = BD_HOST + BD_PORTA + BD_DATABASE;
 
     /*
