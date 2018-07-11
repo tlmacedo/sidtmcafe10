@@ -18,7 +18,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
@@ -35,7 +34,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -735,35 +733,29 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 .filter(contato -> contato.getId() >= 0)
                 .collect(Collectors.toCollection(FXCollections::observableArrayList)));
         listContatoNome.getSelectionModel().selectFirst();
-//        if (getEmpresaVO().getNaturezaJuridica() != null)
-        strNaturezaJuridica += " " + getEmpresaVO().getNaturezaJuridica();
-//        if (getEmpresaVO().getDataAbertura() != null) {
-        strDataAbertura += " " + getEmpresaVO().getDataAbertura().toLocalDate().format(DTF_DATA);
-//            strDataAberturaDif += " " + ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAbertura().toLocalDate(), null);
-//        }
-//        if (getEmpresaVO().getDataCadastro() != null) {
-        strDataCadastro += " " + getEmpresaVO().getDataCadastro().toLocalDateTime().format(DTF_DATAHORA);
-//            strDataCadastroDif += " " + ServiceDataHora.getIntervaloData(getEmpresaVO().getDataCadastro().toLocalDateTime().toLocalDate(), null);
-//        }
-//        if (getEmpresaVO().getDataAtualizacao() != null) {
-//            strDataAtualizacao += " " + getEmpresaVO().getDataAtualizacao().toLocalDateTime().format(DTF_DATAHORA);
-//            strDataAtualizacaoDif += " " + ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAtualizacao().toLocalDateTime().toLocalDate(), null);
-//        }
-//            strDataAtualizacao = "";
-        lblNaturezaJuridica.setText(strNaturezaJuridica);
-        lblDataAbertura.setText(strDataAbertura);
-        lblDataAberturaDiff.setText(strDataAberturaDif);
-        lblDataCadastro.setText(strDataCadastro);
-        lblDataCadastroDiff.setText(strDataCadastroDif);
-        lblDataAtualizacao.setText(strDataAtualizacao);
-        lblDataAtualizacaoDiff.setText(strDataAtualizacaoDif);
+
+        lblNaturezaJuridica.setText(String.format("natureza júridica%s",
+                getEmpresaVO().getNaturezaJuridica() == null ? "" : String.format(": %s", getEmpresaVO().getNaturezaJuridica())));
+        lblDataAbertura.setText(String.format("data de abertura%s",
+                getEmpresaVO().getDataAbertura() == null ? "" : String.format(": %s", DTF_DATA.format(getEmpresaVO().getDataAbertura().toLocalDate()))));
+        lblDataAberturaDiff.setText(String.format("tempo de abertura%s",
+                getEmpresaVO().getDataAbertura() == null ? "" : String.format(": %s", ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAbertura().toLocalDate(), null))));
+        lblDataCadastro.setText(String.format("data de cadastro%s",
+                getEmpresaVO().getDataCadastro() == null ? "" : String.format(": %s [%s]", DTF_DATAHORA.format(getEmpresaVO().getDataCadastro().toLocalDateTime()),
+                        getEmpresaVO().getUsuarioCadastroVO())));
+        lblDataCadastroDiff.setText(String.format("tempo de cadastro%s",
+                getEmpresaVO().getDataCadastro() == null ? "" : String.format(": %s", ServiceDataHora.getIntervaloData(getEmpresaVO().getDataCadastro().toLocalDateTime().toLocalDate(), null))));
+        lblDataAtualizacao.setText(String.format("data de atualização%s",
+                getEmpresaVO().getDataAtualizacao() == null ? "" : String.format(": %s [%s]", DTF_DATAHORA.format(getEmpresaVO().getDataAtualizacao().toLocalDateTime()),
+                        getEmpresaVO().getUsuarioAtualizacaoVO())));
+        lblDataAtualizacaoDiff.setText(String.format("tempo de atualização%s",
+                getEmpresaVO().getDataAtualizacao() == null ? "" : String.format(": %s", ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAtualizacao().toLocalDateTime().toLocalDate(), null))));
     }
 
     void exibirDadosEndereco() {
         int qtd = listEndereco.getItems().size();
-        tpnEndereco.setText(String.format("%d Endereço%s cadastrado%s ", qtd, qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));
+        tpnEndereco.setText(String.format("%d Endereço%s cadastrado%s%s", qtd, qtd > 1 ? "s" : "", qtd > 1 ? "s" : "", getEnderecoVO() == null ? "" : String.format(" [%s]", getEnderecoVO())));
         if (getEnderecoVO() == null) return;
-        tpnEndereco.setText(String.format("%d Endereço%s cadastrado%s: [%s]", qtd, qtd > 1 ? "s" : "", qtd > 1 ? "s" : "", getEnderecoVO()));
         txtEndCEP.setText(ServiceFormatarDado.getValorFormatado(getEnderecoVO().getCep(), "cep"));
         txtEndLogradouro.setText(getEnderecoVO().getLogradouro());
         txtEndNumero.setText(getEnderecoVO().getNumero());
@@ -779,7 +771,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void exibirDadosContato() {
-        tpnPessoaContato.setText(String.format("Pessoa de contato"));
         listContatoHomePageVOObservableList.setAll(getContatoVO().getTabEmailHomePageVOList().stream()
                 .filter(contatoHomePage -> contatoHomePage.getId() >= 0 && !contatoHomePage.isIsEmail())
                 .collect(Collectors.toCollection(FXCollections::observableArrayList)));
@@ -789,8 +780,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         listContatoTelefoneVOObservableList.setAll(getContatoVO().getTabTelefoneVOList().stream()
                 .filter(contatoTelefone -> contatoTelefone.getId() >= 0)
                 .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-        tpnPessoaContato.setText(String.format("Pessoa de contato: %s",
-                getContatoVO().getDescricao().equals("") ? "" : String.format("[%s]", getContatoVO().getDescricao())));
+        tpnPessoaContato.setText(String.format("Pessoa de contato:%s",
+                getContatoVO().getDescricao().equals("") ? "" : String.format(" [%s]", getContatoVO().getDescricao())));
     }
 
     boolean guardarEmpresa() {
