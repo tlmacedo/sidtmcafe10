@@ -137,14 +137,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     @Override
     public void fatorarObjetos() {
-//        lblNaturezaJuridica.setText(strNaturezaJuridica);
-//        lblDataAbertura.setText(strDataAbertura);
-//        lblDataAberturaDiff.setText(strDataAberturaDif);
-//        lblDataCadastro.setText(strDataCadastro);
-//        lblDataCadastroDiff.setText(strDataCadastroDif);
-//        lblDataAtualizacao.setText(strDataAtualizacao);
-//        lblDataAtualizacaoDiff.setText(strDataAtualizacaoDif);
-
         listEndereco.setItems(listEnderecoVOObservableList);
         listHomePage.setItems(listHomePageVOObservableList);
         listEmail.setItems(listEmailVOObservableList);
@@ -465,7 +457,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     ServiceFormatarDado formatCnpj, formatIe;
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewCadastroEmpresa.getTituloJanela();
-    String strNaturezaJuridica, strDataAbertura, strDataAberturaDif, strDataCadastro, strDataCadastroDif, strDataAtualizacao, strDataAtualizacaoDif;
 
     Task getTaskCadastroEmpresa() {
         int qtdTarefas = listaTarefa.size();
@@ -714,14 +705,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void exibirDadosEmpresa() {
-        strNaturezaJuridica = "natureza júridica:";
-        strDataAbertura = "data de abertura:";
-        strDataAberturaDif = "tempo de abertura:";
-        strDataCadastro = "data de cadastro:";
-        strDataCadastroDif = "tempo de cadastro:";
-        strDataAtualizacao = "data de atualização:";
-        strDataAtualizacaoDif = "tempo de atualização:";
-
         cboClassificacaoJuridica.getSelectionModel().select(getEmpresaVO().isIsEmpresa() ? 1 : 0);
         txtCNPJ.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cnpj") : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cpf"));
         txtIE.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie" + getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()) : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie"));
