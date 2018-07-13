@@ -38,6 +38,10 @@ public interface Constants {
     String PATH_IMAGE = "/image/";
     String PATH_FAVICON = PATH_IMAGE + "favicon/";
     String PATH_ICONE = PATH_IMAGE + "ico/";
+    String PATH_IC_MENU = PATH_ICONE + "menu/";
+    String PATH_IC_BLACK = PATH_ICONE + "black/";
+    String PATH_IC_ORANGE = PATH_ICONE + "orange/";
+    String PATH_IC_WHITE = PATH_ICONE + "white/";
     String PATH_PAINEL = PATH_IMAGE + "painel/";
     String[] IMAGE_SPLASH = {PATH_ICONE + "img_loading_coffee0.gif",
             PATH_ICONE + "img_loading_coffee1.gif",
@@ -64,8 +68,9 @@ public interface Constants {
 
     String FXML_PRINCIPAL = PATH_FXML + "FxmlPrincipal.fxml";
     String FXML_PRINCIPAL_TITLE = "Café Perfeito";
-    String FXML_PRINCIPAL_ICON_BLACK = PATH_ICONE + "ic_grao_cafe_black_24dp.png";
-    String FXML_PRINCIPAL_ICON_ORANGE = PATH_ICONE + "ic_grao_cafe_orange_24dp.png";
+    String FXML_PRINCIPAL_ICON_BLACK = PATH_ICONE + "ic_principal_black_24dp.png";
+    String FXML_PRINCIPAL_ICON_ORANGE = PATH_ICONE + "ic_principal_orange_24dp.png";
+    String FXML_PRINCIPAL_ICON_WHITE = PATH_ICONE + "ic_principal_white_24dp.png";
 
     String FXML_CADASTRO_EMPRESA = PATH_FXML + "FxmlCadastroEmpresa.fxml";
 //    String FXML_CADASTRO_EMPRESA = PATH_FXML + "teste.fxml";

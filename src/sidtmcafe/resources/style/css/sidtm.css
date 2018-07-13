@@ -53,13 +53,13 @@
   -fx-font-size: 10px;
   -fx-font-style: normal; }
   .label.usuario_login {
-    -fx-background-image: url("../../image/ico/ic_usuario_circulo_black_24dp.png"); }
+    -fx-background-image: url("../../image/ico/orange/ic_usuario_circulo_black_24dp.png"); }
   .label.usuario_senha {
-    -fx-background-image: url("../../image/ico/ic_password_black_24dp.png"); }
+    -fx-background-image: url("../../image/ico/orange/ic_password_black_24dp.png"); }
   .label.lbl_btn_retrai_menu_view_principal {
-    -fx-background-image: url("../../image/ico/ic_remove_quadrado_black_24dp.png"); }
+    -fx-background-image: url("../../image/ico/orange/ic_remove_quadrado_black_24dp.png"); }
   .label.lbl_btn_expande_menu_view_principal {
-    -fx-background-image: url("../../image/ico/ic_adiciona_quadrado_black_24dp.png"); }
+    -fx-background-image: url("../../image/ico/orange/ic_add_circulo_24dp.png"); }
   .label.lbl_img_fundo_principal {
     -fx-background-color: transparent;
     -fx-background-size: cover;
@@ -97,13 +97,13 @@
   .label.lbl_h6 {
     -fx-font-size: 10px; }
   .label.lbl_ico_cliente {
-    -fx-background-image: url("../../image/ico/ic_cliente_loja_orange_24dp.png");
+    -fx-background-image: url("../../image/ico/orange/ic_cliente_loja_orange_24dp.png");
     -fx-pref-height: 24; }
   .label.lbl_ico_fornecedor {
-    -fx-background-image: url("../../image/ico/ic_fornecedor_orange_24dp.png");
+    -fx-background-image: url("../../image/ico/orange/ic_fornecedor_orange_24dp.png");
     -fx-pref-height: 24; }
   .label.lbl_ico_transportadora {
-    -fx-background-image: url("../../image/ico/ic_transportadora_caminhao_orange_24dp.png");
+    -fx-background-image: url("../../image/ico/orange/ic_transportadora_caminhao_orange_24dp.png");
     -fx-pref-height: 24; }
 
 .button {
@@ -119,12 +119,12 @@
 .btn_ok {
   -fx-pref-width: 90; }
   .btn_ok > .label {
-    -fx-graphic: url("../../image/ico/ic_check_circulo_black_24dp.png"); }
+    -fx-graphic: url("../../image/ico/orange/ic_check_circulo_black_24dp.png"); }
 
 .btn_cancel {
   -fx-pref-width: 100; }
   .btn_cancel > .label {
-    -fx-graphic: url("../../image/ico/ic_cancel_circulo_black_24dp.png"); }
+    -fx-graphic: url("../../image/ico/orange/ic_cancel_circulo_black_24dp.png"); }
 
 .jfx-password-field, .password-field {
   -fx-font-family: sans-serif;
@@ -151,7 +151,7 @@
     -fx-padding: 2 4;
     -fx-font-size: 12px;
     -fx-alignment: center-right;
-    -fx-background-image: url("../../image/ico/ic_relogio_orange_18dp.png");
+    -fx-background-image: url("../../image/ico/orange/ic_relogio_orange_18dp.png");
     -fx-background-repeat: no-repeat; }
   .jfx-tool-bar .hora, .tool-bar .hora {
     -fx-padding: 2 4;
@@ -248,17 +248,17 @@
   -jfx-checked-color: #ff6600;
   -jfx-unchecked-color: #000000; }
   .jfx-check-box .lbl_ico_cliente, .check-box .lbl_ico_cliente {
-    -fx-background-image: url("../../image/ico/ic_cliente_loja_black_24dp.png"); }
+    -fx-background-image: url("../../image/ico/orange/ic_cliente_loja_black_24dp.png"); }
   .jfx-check-box .lbl_ico_fornecedor, .check-box .lbl_ico_fornecedor {
-    -fx-background-image: url("../../image/ico/ic_fornecedor_black_24dp.png"); }
+    -fx-background-image: url("../../image/ico/orange/ic_fornecedor_black_24dp.png"); }
   .jfx-check-box .lbl_ico_transportadora, .check-box .lbl_ico_transportadora {
-    -fx-background-image: url("../../image/ico/ic_transportadora_caminhao_black_24dp.png"); }
+    -fx-background-image: url("../../image/ico/orange/ic_transportadora_caminhao_black_24dp.png"); }
   .jfx-check-box:selected .lbl_ico_cliente, .check-box:selected .lbl_ico_cliente {
-    -fx-background-image: url("../../image/ico/ic_cliente_loja_orange_24dp.png"); }
+    -fx-background-image: url("../../image/ico/orange/ic_cliente_loja_orange_24dp.png"); }
   .jfx-check-box:selected .lbl_ico_fornecedor, .check-box:selected .lbl_ico_fornecedor {
-    -fx-background-image: url("../../image/ico/ic_fornecedor_orange_24dp.png"); }
+    -fx-background-image: url("../../image/ico/orange/ic_fornecedor_orange_24dp.png"); }
   .jfx-check-box:selected .lbl_ico_transportadora, .check-box:selected .lbl_ico_transportadora {
-    -fx-background-image: url("../../image/ico/ic_transportadora_caminhao_orange_24dp.png"); }
+    -fx-background-image: url("../../image/ico/orange/ic_transportadora_caminhao_orange_24dp.png"); }
   .jfx-check-box :disabled, .check-box :disabled {
     -fx-opacity: 1.0; }
 

@@ -279,7 +279,7 @@
                                         <Label fx:id="lblDataAbertura" accessibleText="value: " layoutX="5.0" layoutY="2.0" prefHeight="10.0" prefWidth="440.0" styleClass="lbl-informacoes" />
                                         <Label fx:id="lblDataAberturaDiff" accessibleText="value: " layoutX="5.0" layoutY="12.0" prefHeight="10.0" prefWidth="440.0" styleClass="lbl-informacoes" />
                                         <Label fx:id="lblNaturezaJuridica" accessibleText="value: " layoutX="5.0" layoutY="22.0" prefHeight="10.0" prefWidth="440.0" styleClass="lbl-informacoes" />
-                                        <TitledPane collapsible="false" focusTraversable="false" layoutY="35.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="450.0" text="Atividade principal">
+                                        <TitledPane fx:id="tpnReceitaAtividadePrincipal" collapsible="false" focusTraversable="false" layoutY="35.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="450.0" text="Atividade principal">
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="400.0">
                                                     <children>
@@ -291,7 +291,7 @@
                                                 <Font name="SansSerif Bold Italic" size="11.0" />
                                             </font>
                                         </TitledPane>
-                                        <TitledPane collapsible="false" focusTraversable="false" layoutX="450.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="105.0" prefWidth="480.0" text="Atividade secundaria">
+                                        <TitledPane fx:id="tpnReceitaAtividadeSecundaria" collapsible="false" focusTraversable="false" layoutX="450.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="105.0" prefWidth="480.0" text="Atividade secundaria">
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="478.0">
                                                     <children>
@@ -303,7 +303,7 @@
                                                 <Font name="SansSerif Bold Italic" size="11.0" />
                                             </font>
                                         </TitledPane>
-                                        <TitledPane collapsible="false" focusTraversable="false" layoutX="930.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="105.0" prefWidth="398.0" text="Informação complementar">
+                                        <TitledPane fx:id="tpnReceitaInformacao" collapsible="false" focusTraversable="false" layoutX="930.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="105.0" prefWidth="398.0" text="Informação complementar">
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="396.0">
                                                     <children>

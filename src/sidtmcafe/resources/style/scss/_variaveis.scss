@@ -1,4 +1,9 @@
-$sisPathIcone: "../../image/ico/";
+$sisIcBlack: "black/";
+$sisIcOrange: "orange/";
+$sisIcWhite: "white/";
+
+$sisPathIcone: "../../image/ico/" + $sisIcOrange;
+
 $sisPathPainel: "../../image/painel/";
 $sisLoading: $sisPathIcone + "img_loading_coffe_1.gif";
 
@@ -24,7 +29,7 @@ $icoBotaoCancel: $sisPathIcone + "ic_cancel_circulo_black_24dp.png";
 $icoUsuarioLogin: $sisPathIcone + "ic_usuario_circulo_black_24dp.png";
 $icoSenha: $sisPathIcone + "ic_password_black_24dp.png";
 $icoCirculoNegativo: $sisPathIcone + "ic_remove_quadrado_black_24dp.png";
-$icoCirculoPositivo: $sisPathIcone + "ic_adiciona_quadrado_black_24dp.png";
+$icoCirculoPositivo: $sisPathIcone + "ic_add_circulo_24dp.png";
 $icoRelogio: $sisPathIcone + "ic_relogio_orange_18dp.png";
 $icoClientesLoja: $sisPathIcone + "ic_cliente_loja_black_24dp.png";
 $icoClientesLojaOrange: $sisPathIcone + "ic_cliente_loja_orange_24dp.png";

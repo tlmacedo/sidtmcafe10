@@ -5,6 +5,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.Optional;
+
 public class TabColaboradorVO {
 
 
@@ -18,7 +20,7 @@ public class TabColaboradorVO {
     public TabColaboradorVO() {
     }
 
-        public SisCargoVO getSisCargoVO() {
+    public SisCargoVO getSisCargoVO() {
         return sisCargoVO;
     }
 
@@ -147,13 +149,18 @@ public class TabColaboradorVO {
     }
 
     public String getDetalheColaborador() {
-        if (nomeProperty().get() != "")
-            return "[Usuário]: " + nomeProperty().get() + " (" + apelidoProperty().get() + ") " +
-                    ";[Cargo]: " + sisCargoVO.getDescricao() + "  |  [Loja]: " + lojaVO.getFantasia() +
-                    ";[End]: " + lojaVO.getTabEnderecoVOList().get(0).getLogradouro() + ", " +
-                    lojaVO.getTabEnderecoVOList().get(0).getNumero() + " - " +
-                    lojaVO.getTabEnderecoVOList().get(0).getBairro();
-        return "";
+        StringBuilder stbColaborador = new StringBuilder();
+        Optional.ofNullable(nomeProperty().get()).ifPresent(c -> {
+            stbColaborador.append(String.format("[Usuário]:%s;[Cargo]:%s | [Loja]:%s;[End]:%s",
+                    nomeProperty().get().equals("") ? "" : String.format(" %s (%s)", nomeProperty().get(), apelidoProperty().get()),
+                    sisCargoVO == null ? "" : String.format(" %s", sisCargoVO.getDescricao()),
+                    lojaVO == null ? "" : String.format(" %s", lojaVO.getFantasia()),
+                    lojaVO.getTabEnderecoVOList().size() == 0 ? "" : String.format(" %s, %s - %s",
+                            lojaVO.getTabEnderecoVOList().get(0).getLogradouro(),
+                            lojaVO.getTabEnderecoVOList().get(0).getNumero(),
+                            lojaVO.getTabEnderecoVOList().get(0).getBairro())));
+        });
+        return stbColaborador.toString();
     }
 
     @Override

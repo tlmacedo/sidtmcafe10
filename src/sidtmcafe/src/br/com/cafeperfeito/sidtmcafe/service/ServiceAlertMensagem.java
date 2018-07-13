@@ -348,6 +348,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         });
 
         Thread thread = new Thread(taskDialog);
+        thread.setDaemon(true);
         thread.start();
 
         dialog.showAndWait();

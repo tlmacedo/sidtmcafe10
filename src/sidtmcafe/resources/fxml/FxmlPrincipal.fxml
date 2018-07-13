@@ -79,7 +79,7 @@
             <center>
                 <Label fx:id="stbTeclasTela" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                        minWidth="-Infinity" prefHeight="20.0" prefWidth="1150.0" styleClass="status-bar-center"
-                       text="Teclas" BorderPane.alignment="CENTER_LEFT"/>
+                       text="" BorderPane.alignment="CENTER_LEFT"/>
             </center>
             <right>
                 <Label fx:id="stbHorario" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity"

@@ -47,6 +47,7 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
 
     Timeline timeline;
     public static ControllerPrincipal ctrlPrincipal;
+    public ServiceAlertMensagem alertMensagem;
     EventHandler<KeyEvent> eventHandlerPricipal;
     String tabSelecionada = "";
 
@@ -71,7 +72,7 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
             if (menu.getIcoMenu() == null)
                 treeItems[i] = new TreeItem(menu);
             else
-                treeItems[i] = new TreeItem(menu, new ImageView(getClass().getResource(PATH_ICONE + menu.getIcoMenu()).toString()));
+                treeItems[i] = new TreeItem(menu, new ImageView(getClass().getResource(PATH_IC_MENU + menu.getIcoMenu()).toString()));
             treeItems[i].setExpanded(true);
             treeItems[menu.getFilho_id()].getChildren().add(treeItems[i]);
         }
@@ -215,9 +216,11 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
         if (tabPaneViewPrincipal.getTabs().size() > 0) {
             tabPaneViewPrincipal.getSelectionModel().getSelectedItem().setOnCloseRequest(event -> {
                 if (!stbTeclasTela.getText().toLowerCase().contains("sair")) {
-                    new ServiceAlertMensagem("Opção não permitida!",
-                            USUARIO_LOGADO_APELIDO + ", para sair... Cancele a inclusão ou edição de dados",
-                            "ic_dados_invalidos_white_24dp.png").getRetornoAlert_OK();
+                    alertMensagem = new ServiceAlertMensagem();
+                    alertMensagem.setCabecalho("Opção não permitida!");
+                    alertMensagem.setPromptText(String.format("%s, para sair... Cancele a inclusão ou edição de dados", USUARIO_LOGADO_APELIDO));
+                    alertMensagem.setStrIco("ic_dados_invalidos_white_24dp.png");
+                    alertMensagem.getRetornoAlert_OK();
                     event.consume();
                 }
             });
@@ -226,11 +229,9 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
     }
 
     void atualizarStatusBarPrincipal() {
-        stbUsuarioLogado.setText("Usuário [" + USUARIO_LOGADO_ID + "]: " + USUARIO_LOGADO_APELIDO);
+        stbUsuarioLogado.setText(String.format("Usuário [%s]: %s", USUARIO_LOGADO_ID, USUARIO_LOGADO_APELIDO));
 
-        Tooltip tooltip = new Tooltip("banco de dados: [" + BD_DATABASE_STB + "]    horario_log: " + USUARIO_LOGADO_HORA_STR);
-
-        stbHorario.setTooltip(tooltip);
+        stbHorario.setTooltip(new Tooltip(String.format("banco de dados: [%s]    horario_log: %s", BD_DATABASE_STB, USUARIO_LOGADO_HORA_STR)));
 
         timeline = new Timeline(new KeyFrame(Duration.millis(1000), event -> stbHorario.setText(LocalTime.now().format(DTF_HORA))));
         timeline.setCycleCount(Animation.INDEFINITE);

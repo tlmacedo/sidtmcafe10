@@ -49,7 +49,7 @@ public class ServiceValidarDado implements Constants {
         return digitoDV[0].toString() + digitoDV[1].toString();
     }
 
-    public static boolean isEmailHomePageValido(final String value, boolean isEmail) {
+    public static boolean isEmailHomePageValido(final String value, boolean isEmail, boolean getMsgFaill) {
         if (isEmail)
             p = Pattern.compile(REGEX_EMAIL, Pattern.CASE_INSENSITIVE);
         else
@@ -57,12 +57,14 @@ public class ServiceValidarDado implements Constants {
         m = p.matcher(value);
         if (m.find())
             return true;
-        else if (isEmail)
-            new ServiceAlertMensagem("Dados inválidos", USUARIO_LOGADO_APELIDO
-                    + ", o email informado é inválido!", "ic_msg_alerta_triangulo_white_24dp.png").getRetornoAlert_OK();
-        else
-            new ServiceAlertMensagem("Dados inválidos", USUARIO_LOGADO_APELIDO
-                    + ", a home page informada é inválida!", "ic_msg_alerta_triangulo_white_24dp.png").getRetornoAlert_OK();
+        if (getMsgFaill) {
+            ServiceAlertMensagem alertMensagem = new ServiceAlertMensagem();
+            alertMensagem.setCabecalho("Dados inválidos");
+            alertMensagem.setStrIco("ic_msg_alerta_triangulo_white_24dp.png");
+            alertMensagem.setPromptText(String.format("%s, %s: [%s], %s!", USUARIO_LOGADO_APELIDO,
+                    isEmail ? "o email informado" : "a home page informada", value, isEmail ? "inválido" : "inválida"));
+            alertMensagem.getRetornoAlert_OK();
+        }
         return false;
     }
 
