@@ -359,7 +359,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     alertMensagem.setCabecalho("Dado inválido!");
                     alertMensagem.setPromptText(String.format("%s, o %s: [%s] informado é inválido!",
                             USUARIO_LOGADO_APELIDO, txtCNPJ.getPromptText(), txtCNPJ.getText()));
-                    alertMensagem.setStrIco("ic_web_service_err_white_24dp.png");
+                    alertMensagem.setStrIco("ic_webservice_24dp");
                     alertMensagem.getRetornoAlert_OK();
                     txtCNPJ.requestFocus();
                     return;
@@ -373,7 +373,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         alertMensagem.setCabecalho("Retorno inválido!");
                         alertMensagem.setPromptText(String.format("%s, o %s: [%s] informado, não foi localizado na base de dados!",
                                 USUARIO_LOGADO_APELIDO, txtCNPJ.getPromptText(), txtCNPJ.getText()));
-                        alertMensagem.setStrIco("ic_web_service_err_white_24dp.png");
+                        alertMensagem.setStrIco("ic_webservice_24dp");
                         alertMensagem.getRetornoAlert_OK();
                         txtCNPJ.requestFocus();
                         return;
@@ -403,7 +403,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     alertMensagem.setCabecalho("Dado inválido!");
                     alertMensagem.setPromptText(String.format("%s, o cep: [%s] não foi localizado na base de dados!",
                             USUARIO_LOGADO_APELIDO, txtEndCEP.getText()));
-                    alertMensagem.setStrIco("ic_web_service_err_white_24dp.png");
+                    alertMensagem.setStrIco("ic_webservice_24dp");
                     alertMensagem.getRetornoAlert_OK();
                     txtEndCEP.requestFocus();
                 } else {
@@ -931,7 +931,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         tipoAddDelete();
         if (isEndereco) {
             alertMensagem = new ServiceAlertMensagem();
-            alertMensagem.setStrIco("ic_endereco_add_orange_24dp.png");
+            alertMensagem.setStrIco("ic_endereco_add_24dp");
             if (getEnderecoDisponivel().size() <= 0) {
                 alertMensagem.setCabecalho("Endereço não disponivél");
                 alertMensagem.setPromptText(String.format("%s, a empresa: [%s] não endereço disponível!\nAtualize algum endereço já existente!",
@@ -950,35 +950,68 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             txtEndCEP.requestFocus();
         }
         if (isEmail || isHomePage) {
-            System.out.println("isEmail || isHomePage");
             addEmailHomePage("");
+        }
+        if (isTelefone) {
+            addTelefone("");
         }
     }
 
     void addEmailHomePage(String temp) {
-        System.out.println("addEmailHomePage()");
         alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco(isEmail ? "ic_web_email_white_24dp.png" : "ic_web_home_page_white_24dp.png");
+        alertMensagem.setStrIco(isEmail ? "ic_email_add_24dp" : "ic_web_add_24dp");
         alertMensagem.setCabecalho(String.format("Adicionar dados [%s%s]", isEmail ? "email" : "home page", isContato ? " contato" : ""));
         alertMensagem.setPromptText(String.format("%s, qual %s %sa empresa: [%s] ?",
                 USUARIO_LOGADO_APELIDO,
                 isEmail ? "o email a ser adicionado" : "a home page a ser adicionada",
                 isContato ? String.format(" para o contato: [%s]\nd", isContato ? getContatoVO() : "") : "\npar ",
                 txtRazao.getText()));
-        String emailHomePage = temp;
+        String emailHomePage;
         if ((emailHomePage = alertMensagem.getRetornoAlert_TextField(
-                ServiceFormatarDado.gerarMascara("email", 120, "?"), emailHomePage)
+                ServiceFormatarDado.gerarMascara("email", 120, "?"), temp)
                 .orElse(null)) == null) return;
         if (!ServiceValidarDado.isEmailHomePageValido(emailHomePage, isEmail, true))
             addEmailHomePage(emailHomePage);
         if (!ServiceValidarDado.isEmailHomePageValido(emailHomePage, isEmail, false)) return;
-        //ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.INSERT));
         if (isEmpresa) {
             getEmpresaVO().getTabEmailHomePageVOList().add(new TabEmailHomePageVO(emailHomePage, isEmail));
             listEmailHomePageVOObservableList.setAll(getEmpresaVO().getTabEmailHomePageVOList());
+            if (isEmail)
+                listEmail.getSelectionModel().selectLast();
+            else
+                listHomePage.getSelectionModel().selectLast();
         } else {
             getContatoVO().getTabEmailHomePageVOList().add(new TabEmailHomePageVO(emailHomePage, isEmail));
             listContatoEmailHomePageVOObservableList.setAll(getContatoVO().getTabEmailHomePageVOList());
+            if (isEmail)
+                listContatoEmail.getSelectionModel().selectLast();
+            else
+                listContatoHomePage.getSelectionModel().selectLast();
+        }
+    }
+
+    void addTelefone(String temp) {
+        alertMensagem = new ServiceAlertMensagem();
+        alertMensagem.setStrIco("ic_telefone_24dp");
+        alertMensagem.setCabecalho(String.format("Adicionar dados [telefone%s]", isContato ? " contato" : ""));
+        alertMensagem.setPromptText(String.format("%s, qual telefone a ser adicionado %sa empresa: [%s] ?",
+                USUARIO_LOGADO_APELIDO,
+                isContato ? String.format(" para o contato: [%s]\nd", isContato ? getContatoVO() : "") : "\npar ",
+                txtRazao.getText()));
+        Pair<String, Object> pair;
+        if ((pair = alertMensagem.getRetornoAlert_TextFieldEComboBox(new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVOList(),
+                "telefone", temp).orElse(null)) == null) return;
+        if (!ServiceValidarDado.isTelefoneValido(pair.getKey(), true))
+            addTelefone(pair.getKey());
+        if (!ServiceValidarDado.isTelefoneValido(pair.getKey(), false)) return;
+        if (isEmpresa) {
+            getEmpresaVO().getTabTelefoneVOList().add(new TabTelefoneVO(pair.getKey(), (SisTelefoneOperadoraVO) pair.getValue()));
+            listTelefoneVOObservableList.setAll(getEmpresaVO().getTabTelefoneVOList());
+            listTelefone.getSelectionModel().selectLast();
+        } else {
+            getContatoVO().getTabTelefoneVOList().add(new TabTelefoneVO(pair.getKey(), (SisTelefoneOperadoraVO) pair.getValue()));
+            listContatoTelefoneVOObservableList.setAll(getContatoVO().getTabTelefoneVOList());
+            listContatoTelefone.getSelectionModel().selectLast();
         }
     }
 
@@ -991,7 +1024,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             alertMensagem.setPromptText(getEnderecoVO().getSisTipoEndereco_id() == 1 ?
                     String.format("%s, o endereço principal não pode ser deletado!", USUARIO_LOGADO_APELIDO) :
                     String.format("%s, deseja deletar o endereço: [%s]\nda empresa: [%s] ?", USUARIO_LOGADO_APELIDO, getEnderecoVO(), txtRazao.getText()));
-            alertMensagem.setStrIco(getEnderecoVO().getSisTipoEndereco_id() == 1 ? "ic_dados_invalidos_white_24dp.png" : "ic_endereco_invalido_white_24dp.png");
+            alertMensagem.setStrIco("ic_atencao_triangulo");
             if (getEnderecoVO().getSisTipoEndereco_id() == 1) {
                 guardarEndereco(getEnderecoVO());
                 alertMensagem.getRetornoAlert_OK();
@@ -1015,7 +1048,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 emailHomePage = isEmail ? listContatoEmail.getSelectionModel().getSelectedItem() : listContatoHomePage.getSelectionModel().getSelectedItem();
             if (emailHomePage == null) return;
             alertMensagem = new ServiceAlertMensagem();
-            alertMensagem.setStrIco(isEmail ? "ic_web_email_white_24dp.png" : "ic_web_home_page_white_24dp.png");
+            alertMensagem.setStrIco(isEmail ? "ic_email_remove" : "ic_web_remove");
             alertMensagem.setCabecalho(String.format("Deletar dados [%s]", isEmail ? "email" : "home page"));
             alertMensagem.setPromptText(String.format("%s, deseja deletar %s: [%s]%s\nda empresa: [%s] ?",
                     USUARIO_LOGADO_APELIDO,
@@ -1047,7 +1080,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         telefone = listTelefone.getSelectionModel().getSelectedItem();
         if (telefone == null) return;
         alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco("ic_telefone_white_24dp.png");
+        alertMensagem.setStrIco("ic_telefone_24dp.png");
         alertMensagem.setCabecalho(String.format("Deletar dados [telefone]"));
         alertMensagem.setPromptText(String.format("%s, deseja deletar o telefone: [%s]\nda empresa: [%s] ?",
                 USUARIO_LOGADO_APELIDO, telefone, txtRazao.getText()));
@@ -1060,26 +1093,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         //*listTelefoneVOObservableList.setAll(FXCollections.observableArrayList(getEmpresaVO().getTabTelefoneVOList()));
     }
 
-    void addTelefone() {
-        alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco("ic_telefone_white_24dp.png");
-        alertMensagem.setCabecalho("Adicionar dados [telefone]");
-        alertMensagem.setPromptText(String.format("%s, qual telefone a ser adicionado para empresa: [%s] ?",
-                USUARIO_LOGADO_APELIDO, txtRazao.getText()));
-        Pair<String, Object> pair;
-        if ((pair = alertMensagem.getRetornoAlert_TextFieldEComboBox(new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVOList(),
-                "telefone", "").orElse(null)) == null) return;
-        getEmpresaVO().getTabTelefoneVOList().add(new TabTelefoneVO(pair.getKey(), (SisTelefoneOperadoraVO) pair.getValue()));
-        //*listTelefoneVOObservableList.setAll(FXCollections.observableArrayList(getEmpresaVO().getTabTelefoneVOList()));
-        listTelefone.getSelectionModel().selectLast();
-    }
-
     void delContato() {
         TabContatoVO contato;
         contato = listContatoNome.getSelectionModel().getSelectedItem();
         if (contato == null) return;
         alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco("ic_contato_del_orange_24dp.png");
+        alertMensagem.setStrIco("ic_user_remove_24dp");
         alertMensagem.setCabecalho(String.format("Deletar dados [contato]"));
         alertMensagem.setPromptText(String.format("%s, deseja deletar o contato: [%s]\nda empresa: [%s] ?",
                 USUARIO_LOGADO_APELIDO, contato, getEmpresaVO().getRazao()));
@@ -1095,7 +1114,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     void addContato() {
         alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco("ic_contato_add_orange_24dp.png");
+        alertMensagem.setStrIco("ic_user_add_24dp");
         alertMensagem.setCabecalho("Adicionar dados [contato]");
         alertMensagem.setPromptText(String.format("%s, qual contato a ser adicionado para empresa: [%s] ?",
                 USUARIO_LOGADO_APELIDO, getEmpresaVO().getRazao()));
@@ -1115,7 +1134,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 listContatoHomePage.getSelectionModel().getSelectedItem();
         if (contatoEmailHomePage == null) return;
         alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco(listContatoEmail.isFocused() ? "ic_web_email_white_24dp.png" : "ic_web_home_page_white_24dp.png");
+        alertMensagem.setStrIco(listContatoEmail.isFocused() ? "ic_email_remove" : "ic_web_remove");
         alertMensagem.setCabecalho(String.format("Deletar dados [%s contato]", listContatoEmail.isFocused() ? "email" : "home page"));
         alertMensagem.setPromptText(String.format("%s, deseja deletar %s: [%s] para o contato: [%s]\nda empresa: [%s] ?",
                 USUARIO_LOGADO_APELIDO, listContatoEmail.isFocused() ? "o email" : "a home page", listContatoEmail.isFocused() ?
@@ -1131,7 +1150,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         contatoTelefone = listContatoTelefone.getSelectionModel().getSelectedItem();
         if (contatoTelefone == null) return;
         alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco("ic_telefone_white_24dp.png");
+        alertMensagem.setStrIco("ic_telefone_24dp.png");
         alertMensagem.setCabecalho(String.format("Deletar dados [telefone contato]"));
         alertMensagem.setPromptText(String.format("%s, deseja deletar o telefone: [%s] do contato: [%s]\nda empresa: [%s] ?",
                 USUARIO_LOGADO_APELIDO, contatoTelefone, getContatoVO().getDescricao(), getEmpresaVO().getRazao()));
@@ -1146,7 +1165,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     void addContatoTelefone() {
         alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco("ic_telefone_white_24dp.png");
+        alertMensagem.setStrIco("ic_telefone_24dp.png");
         alertMensagem.setCabecalho("Adicionar dados [telefone contato]");
         alertMensagem.setPromptText(String.format("%s, qual telefone a ser adicionado para o contato: [%s]\nda empresa: [%s] ?",
                 USUARIO_LOGADO_APELIDO, getContatoVO().getDescricao(), getEmpresaVO().getRazao()));
@@ -1187,7 +1206,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             alertMensagem = new ServiceAlertMensagem();
             alertMensagem.setCabecalho("Dados inválido!");
             alertMensagem.setPromptText(String.format("%s, precisa de dados válidos para empresa!", USUARIO_LOGADO_APELIDO));
-            alertMensagem.setStrIco("ic_dados_invalidos_white_24dp.png");
+            alertMensagem.setStrIco("ic_atencao_triangulo");
             alertMensagem.getRetornoAlert_OK();
         } else result = guardarEmpresa();
         return result;
@@ -1225,7 +1244,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             alertMensagem = new ServiceAlertMensagem();
             alertMensagem.setCabecalho("Endereço inválido!");
             alertMensagem.setPromptText(String.format("%s, precisa informar %s", USUARIO_LOGADO_APELIDO, campoInvalido));
-            alertMensagem.setStrIco("ic_endereco_invalido_white_24dp.png");
+            alertMensagem.setStrIco("ic_atencao_triangulo");
             alertMensagem.getRetornoAlert_OK();
         } else result = guardarEndereco(getEnderecoVO());
         return result;
@@ -1241,7 +1260,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 alertMensagem.setCabecalho("C.N.P.J. duplicado");
                 alertMensagem.setPromptText(String.format("%s, o C.N.P.J.: [%s] já está cadastrado no sistema!",
                         USUARIO_LOGADO_APELIDO, getEmpresaVO().getRazao()));
-                alertMensagem.setStrIco("ic_web_service_err_white_24dp.png");
+                alertMensagem.setStrIco("ic_atencao_triangulo");
                 alertMensagem.getRetornoAlert_OK();
                 txtCNPJ.requestFocus();
                 return true;

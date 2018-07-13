@@ -74,17 +74,17 @@
   }
 
   &.lbl_ico_cliente {
-    -fx-background-image: url($icoClientesLojaOrange);
+    -fx-background-image: url($icoEmpresaClienteAtivo);
     -fx-pref-height: 24;
   }
 
   &.lbl_ico_fornecedor {
-    -fx-background-image: url($icoFornecedorOrange);
+    -fx-background-image: url($icoEmpresaFornecedorAtivo);
     -fx-pref-height: 24;
   }
 
   &.lbl_ico_transportadora {
-    -fx-background-image: url($icoTransportadoraOrange);
+    -fx-background-image: url($icoEmpresaTransportadoraAtivo);
     -fx-pref-height: 24;
   }
 

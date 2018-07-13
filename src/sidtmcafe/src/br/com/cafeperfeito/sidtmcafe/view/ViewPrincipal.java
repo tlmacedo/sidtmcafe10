@@ -34,7 +34,7 @@ public class ViewPrincipal extends Application implements Constants {
         stage.setTitle(FXML_PRINCIPAL_TITLE);
         stage.setResizable(false);
         stage.setScene(scene);
-        stage.getIcons().setAll(new Image(getClass().getResource(FXML_PRINCIPAL_ICON_BLACK).toString()));
+        stage.getIcons().setAll(new Image(getClass().getResource(FXML_PRINCIPAL_ICON_DESATIVO).toString()));
         scene.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
 
         new ServiceOpenView(stage, false);

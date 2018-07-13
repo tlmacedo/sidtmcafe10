@@ -72,7 +72,7 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
             if (menu.getIcoMenu() == null)
                 treeItems[i] = new TreeItem(menu);
             else
-                treeItems[i] = new TreeItem(menu, new ImageView(getClass().getResource(PATH_IC_MENU + menu.getIcoMenu()).toString()));
+                treeItems[i] = new TreeItem(menu, new ImageView(getClass().getResource(PATH_ICONE + menu.getIcoMenu()).toString()));
             treeItems[i].setExpanded(true);
             treeItems[menu.getFilho_id()].getChildren().add(treeItems[i]);
         }
@@ -125,9 +125,9 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
         tabPaneViewPrincipal.getTabs().addListener(new ListChangeListener<Tab>() {
             @Override
             public void onChanged(Change<? extends Tab> c) {
-                String icon = FXML_PRINCIPAL_ICON_BLACK;
+                String icon = FXML_PRINCIPAL_ICON_DESATIVO;
                 if (tabPaneViewPrincipal.getTabs().size() > 0)
-                    icon = FXML_PRINCIPAL_ICON_ORANGE;
+                    icon = FXML_PRINCIPAL_ICON_ATIVO;
                 lblImageLogoViewPrincipal.setVisible(tabPaneViewPrincipal.getTabs().size() == 0);
 
                 ViewPrincipal.getStage().getIcons().setAll(new Image(getClass().getResource(icon).toString()));
@@ -219,7 +219,7 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
                     alertMensagem = new ServiceAlertMensagem();
                     alertMensagem.setCabecalho("Opção não permitida!");
                     alertMensagem.setPromptText(String.format("%s, para sair... Cancele a inclusão ou edição de dados", USUARIO_LOGADO_APELIDO));
-                    alertMensagem.setStrIco("ic_dados_invalidos_white_24dp.png");
+                    alertMensagem.setStrIco("ic_atencao_triangulo");
                     alertMensagem.getRetornoAlert_OK();
                     event.consume();
                 }

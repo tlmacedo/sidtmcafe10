@@ -61,7 +61,7 @@ public class ServiceValidarDado implements Constants {
             ServiceAlertMensagem alertMensagem = new ServiceAlertMensagem();
             alertMensagem.setCabecalho("Dados inválidos");
             alertMensagem.setStrIco("ic_msg_alerta_triangulo_white_24dp.png");
-            alertMensagem.setPromptText(String.format("%s, %s: [%s], %s!", USUARIO_LOGADO_APELIDO,
+            alertMensagem.setPromptText(String.format("%s, %s: [%s], é %s!", USUARIO_LOGADO_APELIDO,
                     isEmail ? "o email informado" : "a home page informada", value, isEmail ? "inválido" : "inválida"));
             alertMensagem.getRetornoAlert_OK();
         }
@@ -77,13 +77,21 @@ public class ServiceValidarDado implements Constants {
         return mail;
     }
 
-    public static boolean isTelefoneValido(final String value) {
+    public static boolean isTelefoneValido(final String value, boolean getMsgFaill) {
         p = Pattern.compile(REGEX_TELEFONE);
         m = p.matcher(value);
         if (m.find())
             return true;
-        else
-            return false;
+        if (getMsgFaill) {
+            ServiceAlertMensagem alertMensagem = new ServiceAlertMensagem();
+            alertMensagem.setCabecalho("Dados inválidos");
+            alertMensagem.setStrIco("ic_msg_alerta_triangulo_white_24dp.png");
+            alertMensagem.setPromptText(String.format("%s, telefone informado: [%s], é inválido!",
+                    USUARIO_LOGADO_APELIDO,
+                    value));
+            alertMensagem.getRetornoAlert_OK();
+        }
+        return false;
     }
 
     public static List<Pair<String, Integer>> getTelefoneList(final String value) {

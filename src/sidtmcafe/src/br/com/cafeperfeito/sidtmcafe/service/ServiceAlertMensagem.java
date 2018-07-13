@@ -163,7 +163,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
             dialog.setContentText(getPromptText());
             if (!getStrIco().equals(""))
                 try {
-                    dialog.setGraphic(new ImageView(this.getClass().getResource(PATH_ICONE + getStrIco()).toString()));
+                    dialog.setGraphic(new ImageView(this.getClass().getResource(PATH_ICONE + getStrIco() + (getStrIco().contains(".png") ? "" : ".png")).toString()));
                 } catch (Exception ex) {
 
                 }

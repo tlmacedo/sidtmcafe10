@@ -37,24 +37,28 @@ public interface Constants {
     String STYLE_SHEETS = "/style/min/sidtm.min.css";
     String PATH_IMAGE = "/image/";
     String PATH_FAVICON = PATH_IMAGE + "favicon/";
-    String PATH_ICONE = PATH_IMAGE + "ico/";
-    String PATH_IC_MENU = PATH_ICONE + "menu/";
-    String PATH_IC_BLACK = PATH_ICONE + "black/";
-    String PATH_IC_ORANGE = PATH_ICONE + "orange/";
-    String PATH_IC_WHITE = PATH_ICONE + "white/";
     String PATH_PAINEL = PATH_IMAGE + "painel/";
-    String[] IMAGE_SPLASH = {PATH_ICONE + "img_loading_coffee0.gif",
-            PATH_ICONE + "img_loading_coffee1.gif",
-            PATH_ICONE + "img_loading_coffee2.gif",
-            PATH_ICONE + "img_loading_coffee3.gif",
-            PATH_ICONE + "img_loading_coffee4.gif",
-            PATH_ICONE + "img_loading_coffee5.gif",
-            PATH_ICONE + "img_loading_coffee6.gif",
-            PATH_ICONE + "img_loading_coffee7.gif",
-            PATH_ICONE + "img_loading_coffee8.gif",
-            PATH_ICONE + "img_loading_coffee9.gif",
-            PATH_ICONE + "img_loading_coffee10.gif"};
-    String IC_CAFE_PERFEITO_240DP = PATH_ICONE + "ic_cafe_perfeito_240dp.png";
+    String PATH_IC_MENU = PATH_IMAGE + "ico/menu/";
+    String PATH_IMG_SPLASH = PATH_IMAGE + "ico/splash/";
+
+    String PATH_IC_BLACK = "ico/black/";
+    String PATH_IC_ORANGE = "ico/orange/";
+    String PATH_IC_WHITE = "ico/white/";
+    String PATH_ICONE = PATH_IMAGE + PATH_IC_ORANGE;
+
+    String[] IMAGE_SPLASH = {
+            PATH_IMG_SPLASH + "img_splash_coffe_0.gif",
+            PATH_IMG_SPLASH + "img_splash_coffe_1.gif",
+            PATH_IMG_SPLASH + "img_splash_coffe_2.gif",
+            PATH_IMG_SPLASH + "img_splash_coffe_3.gif",
+            PATH_IMG_SPLASH + "img_splash_coffe_4.gif",
+            PATH_IMG_SPLASH + "img_splash_coffe_5.gif",
+            PATH_IMG_SPLASH + "img_splash_coffe_6.gif",
+            PATH_IMG_SPLASH + "img_splash_coffe_7.gif",
+            PATH_IMG_SPLASH + "img_splash_coffe_8.gif",
+            PATH_IMG_SPLASH + "img_splash_coffe_9.gif",
+            PATH_IMG_SPLASH + "img_splash_coffe_10.gif"};
+    String IC_CAFE_PERFEITO_240DP = PATH_IMAGE + "ico/ic_cafe_perfeito_240dp.png";
     String PATH_TOKEN_LIB = "/certificado";
     String EXTENSAO_ARQUIVO_TOKEN = "cfg";
 
@@ -64,13 +68,13 @@ public interface Constants {
     String PATH_FXML = "/fxml/";
     String FXML_LOGIN = PATH_FXML + "FxmlLogin.fxml";
     String FXML_LOGIN_TITLE = "Login";
-    String FXML_LOGIN_ICON = PATH_ICONE + "ic_security_black_24dp.png";
+    String FXML_LOGIN_ICON = PATH_ICONE + "ic_cadeado_senha_24dp.png";
 
     String FXML_PRINCIPAL = PATH_FXML + "FxmlPrincipal.fxml";
     String FXML_PRINCIPAL_TITLE = "Café Perfeito";
-    String FXML_PRINCIPAL_ICON_BLACK = PATH_ICONE + "ic_principal_black_24dp.png";
-    String FXML_PRINCIPAL_ICON_ORANGE = PATH_ICONE + "ic_principal_orange_24dp.png";
-    String FXML_PRINCIPAL_ICON_WHITE = PATH_ICONE + "ic_principal_white_24dp.png";
+
+    String FXML_PRINCIPAL_ICON_ATIVO = PATH_ICONE + "ic_principal_ativo_24dp.png";
+    String FXML_PRINCIPAL_ICON_DESATIVO = PATH_ICONE + "ic_principal_desativo_24dp.png";
 
     String FXML_CADASTRO_EMPRESA = PATH_FXML + "FxmlCadastroEmpresa.fxml";
 //    String FXML_CADASTRO_EMPRESA = PATH_FXML + "teste.fxml";

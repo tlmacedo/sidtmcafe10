@@ -5,7 +5,7 @@ $sisIcWhite: "white/";
 $sisPathIcone: "../../image/ico/" + $sisIcOrange;
 
 $sisPathPainel: "../../image/painel/";
-$sisLoading: $sisPathIcone + "img_loading_coffe_1.gif";
+$sisLoading: $sisPathIcone + "../splash/img_splash_coffe_0.gif";
 
 $painelViewLogin: $sisPathPainel + "login.png";
 $painelViewPrincipal: $sisPathPainel + "principal.png";
@@ -23,20 +23,20 @@ $sisWidthDialogPane_YES_NO: $sisWidthDialogPane;
 $sisHeightDialogPane_text_field_e_combo_box: 166px;
 $sisWidthDialogPane_text_field_e_combo_box: 570px;
 
-$icoBotaoOK: $sisPathIcone + "ic_check_circulo_black_24dp.png";
-$icoBotaoCancel: $sisPathIcone + "ic_cancel_circulo_black_24dp.png";
+$icoBotaoOK: $sisPathIcone + "ic_check_circulo_24dp.png";
+$icoBotaoCancel: $sisPathIcone + "ic_err_circulo_24dp.png";
 
-$icoUsuarioLogin: $sisPathIcone + "ic_usuario_circulo_black_24dp.png";
-$icoSenha: $sisPathIcone + "ic_password_black_24dp.png";
-$icoCirculoNegativo: $sisPathIcone + "ic_remove_quadrado_black_24dp.png";
+$icoUsuarioLogin: $sisPathIcone + "ic_usuario_circulo_24dp.png";
+$icoSenha: $sisPathIcone + "ic_password_24dp.png";
+$icoCirculoNegativo: $sisPathIcone + "ic_remove_circulo_24dp.png";
 $icoCirculoPositivo: $sisPathIcone + "ic_add_circulo_24dp.png";
-$icoRelogio: $sisPathIcone + "ic_relogio_orange_18dp.png";
-$icoClientesLoja: $sisPathIcone + "ic_cliente_loja_black_24dp.png";
-$icoClientesLojaOrange: $sisPathIcone + "ic_cliente_loja_orange_24dp.png";
-$icoFornecedor: $sisPathIcone + "ic_fornecedor_black_24dp.png";
-$icoFornecedorOrange: $sisPathIcone + "ic_fornecedor_orange_24dp.png";
-$icoTransportadora: $sisPathIcone + "ic_transportadora_caminhao_black_24dp.png";
-$icoTransportadoraOrange: $sisPathIcone + "ic_transportadora_caminhao_orange_24dp.png";
+$icoRelogio: $sisPathIcone + "ic_relogio_24dp.png";
+$icoEmpresaClienteAtivo: $sisPathIcone + "ic_empresa_cliente_ativo_24dp.png";
+$icoEmpresaClienteDesativo: $sisPathIcone + "ic_empresa_cliente_desativo_24dp.png";
+$icoEmpresaFornecedorAtivo: $sisPathIcone + "ic_empresa_fornecedor_ativo_24dp.png";
+$icoEmpresaFornecedorDesativo: $sisPathIcone + "ic_empresa_fornecedor_desativo_24dp.png";
+$icoEmpresaTransportadoraAtivo: $sisPathIcone + "ic_empresa_tranportadora_ativo_24dp.png";
+$icoEmpresaTransportadoraDesativo: $sisPathIcone + "ic_empresa_tranportadora_desativo_24dp.png";
 
 $sisColor_transparent: transparent;
 $sisColor_cafe-perfeito: #FF6600;

@@ -9,26 +9,26 @@
   -jfx-unchecked-color: #000000;
 
   .lbl_ico_cliente {
-    -fx-background-image: url($icoClientesLoja);
+    -fx-background-image: url($icoEmpresaClienteDesativo);
   }
 
   .lbl_ico_fornecedor {
-    -fx-background-image: url($icoFornecedor);
+    -fx-background-image: url($icoEmpresaFornecedorDesativo);
   }
 
   .lbl_ico_transportadora {
-    -fx-background-image: url($icoTransportadora);
+    -fx-background-image: url($icoEmpresaTransportadoraDesativo);
   }
 
   &:selected {
     .lbl_ico_cliente {
-      -fx-background-image: url($icoClientesLojaOrange);
+      -fx-background-image: url($icoEmpresaClienteAtivo);
     }
     .lbl_ico_fornecedor {
-      -fx-background-image: url($icoFornecedorOrange);
+      -fx-background-image: url($icoEmpresaFornecedorAtivo);
     }
     .lbl_ico_transportadora {
-      -fx-background-image: url($icoTransportadoraOrange);
+      -fx-background-image: url($icoEmpresaTransportadoraAtivo);
     }
   }
 
