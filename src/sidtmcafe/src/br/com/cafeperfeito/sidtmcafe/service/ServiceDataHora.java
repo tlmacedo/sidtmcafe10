@@ -12,7 +12,7 @@ public class ServiceDataHora {
         String strPeriodo = String.format("%s%s%s", period.getYears() < 1 ? "" : String.format(" %d %s", period.getYears(), period.getYears() > 1 ? "anos" : "ano"),
                 period.getMonths() < 1 ? "" : String.format(" %d %s", period.getMonths(), period.getMonths() > 1 ? "meses" : "mês"),
                 period.getDays() < 1 ? "" : String.format(" %d %s", period.getDays(), period.getDays() > 1 ? "dias" : "dia"));
-        if (strPeriodo.equals(""))
+        if (period.isZero())
             strPeriodo = "hoje";
         return strPeriodo;
     }

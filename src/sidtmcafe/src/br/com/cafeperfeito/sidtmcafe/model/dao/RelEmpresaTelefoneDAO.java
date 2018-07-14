@@ -52,7 +52,7 @@ public class RelEmpresaTelefoneDAO extends BuscaBancoDados {
     }
 
     public void deleteRelEmpresaTelefoneVO(Connection conn, int empresa_id, int telefone_id) throws SQLException {
-        String comandoSql = String.format("DELETE FROM relEmpresaTelefone WHERE tabEmpresa_id %d ", empresa_id);
+        String comandoSql = String.format("DELETE FROM relEmpresaTelefone WHERE tabEmpresa_id = %d ", empresa_id);
         if (telefone_id > 0)
             comandoSql += String.format("AND tabTelefone_id = %d", telefone_id);
         getDeleteBancoDados(conn, comandoSql);

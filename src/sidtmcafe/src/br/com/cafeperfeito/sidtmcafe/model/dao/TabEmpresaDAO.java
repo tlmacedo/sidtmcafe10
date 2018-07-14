@@ -1,5 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.model.dao;
 
+import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
 
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabEmpresaDAO extends BuscaBancoDados {
+public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
 
     ResultSet rs;
     TabEmpresaVO tabEmpresaVO;
@@ -112,11 +113,12 @@ public class TabEmpresaDAO extends BuscaBancoDados {
         String comandoSql = String.format("UPDATE tabEmpresa SET isEmpresa = %b, cnpj = '%s', ieIsento = %b, " +
                         "ie = '%s', razao = '%s', fantasia = '%s', isLoja = %b, isCliente = %b, isFornecedor = %b, " +
                         "isTransportadora = %b, sisSituacaoSistema_id = %d, usuarioAtualizacao_id = %d, " +
-                        "dataAbertura = '%s', naturezaJuridica = '%s' WHERE id = %d",
+                        "dataAtualizacao = '%s', dataAbertura = '%s', naturezaJuridica = '%s' WHERE id = %d",
                 empresa.isIsEmpresa(), empresa.getCnpj(), empresa.isIeIsento(), empresa.getIe(), empresa.getRazao(),
                 empresa.getFantasia(), empresa.isIsLoja(), empresa.isIsCliente(), empresa.isIsFornecedor(),
                 empresa.isIsTransportadora(), empresa.getSisSituacaoSistema_id(), empresa.getUsuarioAtualizacao_id(),
-                empresa.getDataAbertura(), empresa.getNaturezaJuridica(), empresa.getId());
+                DTF_MYSQL_DATAHORA.format(LocalDateTime.now()), empresa.getDataAbertura(), empresa.getNaturezaJuridica(),
+                empresa.getId());
         getUpdateBancoDados(conn, comandoSql);
     }
 
