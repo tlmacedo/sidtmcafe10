@@ -259,9 +259,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         setStatusFormulario("editar");
                         break;
                     case F6:
-                        verificaFocus();
-//                        if (getStatusFormulario().toLowerCase().equals("pesquisa") || !(event.isShiftDown())) break;
-//                        keyShiftF6();
+//                        verificaFocus();
+                        if (getStatusFormulario().toLowerCase().equals("pesquisa") || !(event.isShiftDown())) break;
+                        keyShiftF6();
                         break;
                     case F7:
                         if (!getStatusBarTecla().contains(event.getCode().toString())) break;
@@ -918,7 +918,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 .collect(Collectors.toList());
     }
 
-    void tipoAddDelete() {
+    void tipoAddEditDelete() {
         isEndereco = listEndereco.isFocused();
         isEmail = (listEmail.isFocused() || listContatoEmail.isFocused());
         isHomePage = (listHomePage.isFocused() || listContatoHomePage.isFocused());
@@ -927,8 +927,42 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         isContato = (listContatoNome.isFocused() || listContatoHomePage.isFocused() || listContatoEmail.isFocused() || listContatoTelefone.isFocused());
     }
 
+    void keyShiftF6() {
+        tipoAddEditDelete();
+        if (isEmail || isHomePage) {
+            if (isContato && getContatoVO() == null) return;
+            editEmailHomePage("");
+            return;
+        }
+        if (isTelefone) {
+            if (isContato && getContatoVO() == null) return;
+            editTelefone("");
+            return;
+        }
+        if (isContato) {
+            TabContatoVO contato;
+            contato = listContatoNome.getSelectionModel().getSelectedItem();
+            if (contato == null) return;
+            alertMensagem = new ServiceAlertMensagem();
+            alertMensagem.setStrIco("ic_user_update_24dp");
+            alertMensagem.setCabecalho(String.format("Editar dados [contato]"));
+            alertMensagem.setPromptText(String.format("%s, deseja editar o contato: [%s]\nda empresa: [%s] ?",
+                    USUARIO_LOGADO_APELIDO, contato, txtRazao.getText()));
+            Pair<String, Object> pair;
+            if ((pair = alertMensagem.getRetornoAlert_TextFieldEComboBox(new SisCargoDAO().getSisCargoVOList(),
+                    ServiceFormatarDado.gerarMascara("", 40, "@"), contato.getDescricao())
+                    .orElse(null)) == null) return;
+            contato.setSisCargo_id(((SisCargoVO) pair.getValue()).getId());
+            contato.setSisCargoVO((SisCargoVO) pair.getValue());
+            contato.setDescricao(pair.getKey());
+            tpnPessoaContato.setText("Pessoa de contato");
+            listContatoVOObservableList.setAll(getEmpresaVO().getTabContatoVOList());
+            return;
+        }
+    }
+
     void keyInsert() {
-        tipoAddDelete();
+        tipoAddEditDelete();
         if (isEndereco) {
             alertMensagem = new ServiceAlertMensagem();
             alertMensagem.setStrIco("ic_endereco_add_24dp");
@@ -951,10 +985,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             return;
         }
         if (isEmail || isHomePage) {
+            if (isContato && getContatoVO() == null) return;
             addEmailHomePage("");
             return;
         }
         if (isTelefone) {
+            if (isContato && getContatoVO() == null) return;
             addTelefone("");
             return;
         }
@@ -1009,6 +1045,62 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         }
     }
 
+    void editEmailHomePage(String temp) {
+        TabEmailHomePageVO emailHomePage = null;
+        if (isEmpresa)
+            emailHomePage = isEmail ? listEmail.getSelectionModel().getSelectedItem() : listHomePage.getSelectionModel().getSelectedItem();
+        else
+            emailHomePage = isEmail ? listContatoEmail.getSelectionModel().getSelectedItem() : listContatoHomePage.getSelectionModel().getSelectedItem();
+        if (emailHomePage == null) return;
+        if (temp.equals(""))
+            temp = emailHomePage.getDescricao();
+        alertMensagem = new ServiceAlertMensagem();
+        alertMensagem.setStrIco(isEmail ? "ic_email_update_24dp" : "ic_web_update_24dp");
+        alertMensagem.setCabecalho(String.format("Editar dados [%s%s]", isEmail ? "email" : "home page", isContato ? " contato" : ""));
+        alertMensagem.setPromptText(String.format("%s, deseja editar %s: [%s]%s\nda empresa: [%s] ?",
+                USUARIO_LOGADO_APELIDO,
+                isEmail ? "o email" : "a home page",
+                emailHomePage,
+                isContato ? String.format(" para o contato: [%s]", getContatoVO()) : "",
+                txtRazao.getText()));
+        if ((temp = alertMensagem.getRetornoAlert_TextField(
+                ServiceFormatarDado.gerarMascara("email", 120, "?"), temp)
+                .orElse(null)) == null) return;
+        if (!ServiceValidarDado.isEmailHomePageValido(temp, isEmail, true))
+            editEmailHomePage(temp);
+        if (!ServiceValidarDado.isEmailHomePageValido(temp, isEmail, false)) return;
+        emailHomePage.setDescricao(temp);
+        listEmailHomePageVOObservableList.setAll(getEmpresaVO().getTabEmailHomePageVOList());
+        listContatoEmailHomePageVOObservableList.setAll(getContatoVO().getTabEmailHomePageVOList());
+    }
+
+    void editTelefone(String temp) {
+        TabTelefoneVO telefone;
+        telefone = isEmpresa ? listTelefone.getSelectionModel().getSelectedItem() : listContatoTelefone.getSelectionModel().getSelectedItem();
+        if (telefone == null) return;
+        if (temp.equals(""))
+            temp = telefone.getDescricao();
+        alertMensagem = new ServiceAlertMensagem();
+        alertMensagem.setStrIco("ic_telefone_24dp");
+        alertMensagem.setCabecalho(String.format("Editar dados [telefone%s]", isContato ? " contato" : ""));
+        alertMensagem.setPromptText(String.format("%s, deseja editar o telefone: [%s]%s\nda empresa: [%s] ?",
+                USUARIO_LOGADO_APELIDO,
+                telefone,
+                isContato ? String.format(" para o contato: [%s]", getContatoVO()) : "",
+                txtRazao.getText()));
+        Pair<String, Object> pair;
+        if ((pair = alertMensagem.getRetornoAlert_TextFieldEComboBox(new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVOList(),
+                "telefone", temp + "telefone").orElse(null)) == null) return;
+        if (!ServiceValidarDado.isTelefoneValido(pair.getKey(), true))
+            editTelefone(pair.getKey());
+        if (!ServiceValidarDado.isTelefoneValido(pair.getKey(), false)) return;
+        telefone.setDescricao(pair.getKey());
+        telefone.setSisTelefoneOperadora_id(((SisTelefoneOperadoraVO) pair.getValue()).getId());
+        telefone.setSisTelefoneOperadoraVO((SisTelefoneOperadoraVO) pair.getValue());
+        listTelefoneVOObservableList.setAll(getEmpresaVO().getTabTelefoneVOList());
+        listContatoTelefoneVOObservableList.setAll(getContatoVO().getTabTelefoneVOList());
+    }
+
     void addTelefone(String temp) {
         alertMensagem = new ServiceAlertMensagem();
         alertMensagem.setStrIco("ic_telefone_24dp");
@@ -1019,7 +1111,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 txtRazao.getText()));
         Pair<String, Object> pair;
         if ((pair = alertMensagem.getRetornoAlert_TextFieldEComboBox(new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVOList(),
-                "telefone", temp).orElse(null)) == null) return;
+                "telefone", temp + "telefone").orElse(null)) == null) return;
         if (!ServiceValidarDado.isTelefoneValido(pair.getKey(), true))
             addTelefone(pair.getKey());
         if (!ServiceValidarDado.isTelefoneValido(pair.getKey(), false)) return;
@@ -1035,7 +1127,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void keyDelete() {
-        tipoAddDelete();
+        tipoAddEditDelete();
         if (isEndereco) {
             if (getEnderecoVO() == null) return;
             alertMensagem = new ServiceAlertMensagem();
@@ -1068,8 +1160,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 emailHomePage = isEmail ? listContatoEmail.getSelectionModel().getSelectedItem() : listContatoHomePage.getSelectionModel().getSelectedItem();
             if (emailHomePage == null) return;
             alertMensagem = new ServiceAlertMensagem();
-            alertMensagem.setStrIco(isEmail ? "ic_email_remove" : "ic_web_remove");
-            alertMensagem.setCabecalho(String.format("Deletar dados [%s]", isEmail ? "email" : "home page"));
+            alertMensagem.setStrIco(isEmail ? "ic_email_remove_24dp" : "ic_web_remove_24dp");
+            alertMensagem.setCabecalho(String.format("Deletar dados [%s%s]", isEmail ? "email" : "home page", isContato ? " contato" : ""));
             alertMensagem.setPromptText(String.format("%s, deseja deletar %s: [%s]%s\nda empresa: [%s] ?",
                     USUARIO_LOGADO_APELIDO,
                     isEmail ? "o email" : "a home page",
@@ -1099,7 +1191,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             telefone = isEmpresa ? listTelefone.getSelectionModel().getSelectedItem() : listContatoTelefone.getSelectionModel().getSelectedItem();
             if (telefone == null) return;
             alertMensagem = new ServiceAlertMensagem();
-            alertMensagem.setStrIco("ic_telefone_24dp.png");
+            alertMensagem.setStrIco("ic_telefone_24dp");
             alertMensagem.setCabecalho(String.format("Deletar dados [telefone%s]", isContato ? " contato" : ""));
             alertMensagem.setPromptText(String.format("%s, deseja deletar o telefone: [%s]%s\nda empresa: [%s] ?",
                     USUARIO_LOGADO_APELIDO,
@@ -1124,6 +1216,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             }
             return;
         }
+
         if (isContato) {
             TabContatoVO contato;
             contato = listContatoNome.getSelectionModel().getSelectedItem();
@@ -1173,7 +1266,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             alertMensagem = new ServiceAlertMensagem();
             alertMensagem.setCabecalho("Dados inválido!");
             alertMensagem.setPromptText(String.format("%s, precisa de dados válidos para empresa!", USUARIO_LOGADO_APELIDO));
-            alertMensagem.setStrIco("ic_atencao_triangulo");
+            alertMensagem.setStrIco("ic_atencao_triangulo_24dp");
             alertMensagem.getRetornoAlert_OK();
         } else result = guardarEmpresa();
         return result;
@@ -1211,7 +1304,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             alertMensagem = new ServiceAlertMensagem();
             alertMensagem.setCabecalho("Endereço inválido!");
             alertMensagem.setPromptText(String.format("%s, precisa informar %s", USUARIO_LOGADO_APELIDO, campoInvalido));
-            alertMensagem.setStrIco("ic_atencao_triangulo");
+            alertMensagem.setStrIco("ic_atencao_triangulo_24dp");
             alertMensagem.getRetornoAlert_OK();
         } else result = guardarEndereco(getEnderecoVO());
         return result;
@@ -1227,7 +1320,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 alertMensagem.setCabecalho("C.N.P.J. duplicado");
                 alertMensagem.setPromptText(String.format("%s, o C.N.P.J.: [%s] já está cadastrado no sistema!",
                         USUARIO_LOGADO_APELIDO, getEmpresaVO().getRazao()));
-                alertMensagem.setStrIco("ic_atencao_triangulo");
+                alertMensagem.setStrIco("ic_atencao_triangulo_24dp");
                 alertMensagem.getRetornoAlert_OK();
                 txtCNPJ.requestFocus();
                 return true;

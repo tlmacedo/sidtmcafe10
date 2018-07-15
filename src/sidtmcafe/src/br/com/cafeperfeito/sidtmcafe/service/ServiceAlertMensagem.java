@@ -251,7 +251,10 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         textField = new JFXTextField();
         textField.setPromptText(getPromptTextField());
         if (txtPreLoader != "")
-            textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader, "telefone"));
+            if (txtPreLoader.contains("telefone"))
+                textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("telefone", ""), "telefone"));
+            else
+                textField.setText(txtPreLoader);
         formatTextField = new ServiceFormatarDado();
         if (mascaraField.replaceAll("\\d", "").toLowerCase().contains("telefone")) {
             formatTextField.maskField(textField, ServiceFormatarDado.gerarMascara("telefone", 9, "#"));
@@ -308,7 +311,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
     }
 
     void habilitarBotao() {
-        btnOk.setDisable((comboBox.getSelectionModel().getSelectedIndex() < 0) || (textField.getText().length() == 0));
+        btnOk.setDisable((comboBox.getSelectionModel().getSelectedIndex() < 0) || (textField.getLength() == 0));
     }
 
     public void getProgressBar(Task<?> task, boolean transparente, boolean showAndWait, int qtdTarefas) {
@@ -429,9 +432,8 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         dialogPane.setContent(preencheDialogTextBoxEComboBox());
 
         btnOk.setDisable(true);
-        comboBox.getSelectionModel().selectedIndexProperty().addListener((ov, o, n) -> {
-            if (n != o)
-                habilitarBotao();
+        comboBox.getSelectionModel().selectedItemProperty().addListener((ov, o, n) -> {
+            habilitarBotao();
         });
 
         dialogPane.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
