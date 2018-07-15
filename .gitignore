@@ -1,0 +1,7 @@
+
+.idea/dataSources.local.xml
+.idea/workspace.xml
+src/sidtmcafe/src/br/com/cafeperfeito/sidtmcafe/diagram/
+target/
+/target/
+/.idea/
