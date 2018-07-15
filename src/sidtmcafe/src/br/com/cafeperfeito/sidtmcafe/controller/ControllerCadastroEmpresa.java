@@ -934,11 +934,13 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             editEmailHomePage("");
             return;
         }
+
         if (isTelefone) {
             if (isContato && getContatoVO() == null) return;
             editTelefone("");
             return;
         }
+
         if (isContato) {
             TabContatoVO contato;
             contato = listContatoNome.getSelectionModel().getSelectedItem();
