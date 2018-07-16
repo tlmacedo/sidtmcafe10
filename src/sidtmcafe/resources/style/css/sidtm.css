@@ -148,10 +148,10 @@
   -fx-font-size: 12px;
   -fx-alignment: center-left; }
   .jfx-tool-bar .ico-relogio, .tool-bar .ico-relogio {
-    -fx-padding: 2 4;
+    -fx-padding: 3 4;
     -fx-font-size: 12px;
     -fx-alignment: center-right;
-    -fx-background-image: url("../../image/ico/orange/ic_relogio_24dp.png");
+    -fx-background-image: url("../../image/ico/orange/ic_relogio_vazado_16dp.png");
     -fx-background-repeat: no-repeat; }
   .jfx-tool-bar .hora, .tool-bar .hora {
     -fx-padding: 2 4;

@@ -225,11 +225,16 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         if (!validarDados()) break;
                         if (buscaDuplicidade()) break;
                         salvarEmpresa();
-                        if (getStatusFormulario().toLowerCase().equals("editar"))
-                            empresaVOObservableList.set(empresaVOObservableList.indexOf(ttvEmpresa.getSelectionModel().getSelectedItem().getValue()),
-                                    new TabEmpresaDAO().getTabEmpresaVO(getEmpresaVO().getId()));
-                        else if (getStatusFormulario().toLowerCase().equals("incluir"))
-                            empresaVOObservableList.add(new TabEmpresaDAO().getTabEmpresaVO(getEmpresaVO().getId()));
+                        switch (getStatusFormulario().toLowerCase()) {
+                            case "incluir":
+                                empresaVOObservableList.add(new TabEmpresaDAO().getTabEmpresaVO(getEmpresaVO().getId()));
+                                break;
+                            case "editar":
+                                empresaVOObservableList.set(empresaVOObservableList.indexOf(ttvEmpresa.getSelectionModel().getSelectedItem().getValue()),
+                                        new TabEmpresaDAO().getTabEmpresaVO(getEmpresaVO().getId()));
+                                break;
+                        }
+                        empresaVOObservableList.sorted();
                         setStatusFormulario("pesquisa");
                         break;
                     case F3:
@@ -259,7 +264,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         setStatusFormulario("editar");
                         break;
                     case F6:
-//                        verificaFocus();
                         if (getStatusFormulario().toLowerCase().equals("pesquisa") || !(event.isShiftDown())) break;
                         keyShiftF6();
                         break;
@@ -283,37 +287,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         if (getStatusFormulario().toLowerCase().equals("pesquisa")) break;
                         keyDelete();
                         break;
-//                        if (listEndereco.isFocused())
-//                            if (event.getCode() == KeyCode.HELP)
-//                                addEndereco();
-//                            else
-//                                delEndereco();
-//                        if (listHomePage.isFocused() || listEmail.isFocused())
-//                            if (event.getCode() == KeyCode.HELP)
-//                                addEmailHomePage();
-//                            else
-//                                delEmailHomePage();
-//                        if (listTelefone.isFocused())
-//                            if (event.getCode() == KeyCode.HELP)
-//                                addTelefone();
-//                            else
-//                                delTelefone();
-//                        if (listContatoNome.isFocused())
-//                            if (event.getCode() == KeyCode.HELP)
-//                                addContato();
-//                            else
-//                                delContato();
-//                        if (listContatoHomePage.isFocused() || listContatoEmail.isFocused())
-//                            if (event.getCode() == KeyCode.HELP)
-//                                addContatoEmailHomePage();
-//                            else
-//                                delContatoEmailHomePage();
-//                        if (listContatoTelefone.isFocused())
-//                            if (event.getCode() == KeyCode.HELP)
-//                                addContatoTelefone();
-//                            else
-//                                delContatoTelefone();
-//                        break;
                 }
                 if (ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedIndex() > 0)
                     ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedItem().setOnCloseRequest(event1 -> {
@@ -379,7 +352,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         return;
                     } else {
                         setEmpresaVO(buscaEmpresaCNPJ);
-                        txtRazao.requestFocus();
+                        txtIE.requestFocus();
                     }
                 }
             }
@@ -426,8 +399,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             setContatoVO(newValue);
         });
 
-        empresaVOFilteredList.addListener((InvalidationListener) c -> {
+        empresaVOFilteredList.addListener((ListChangeListener) c -> {
             atualizaQtdRegistroLocalizado();
+            preencherTabelaEmpresa();
         });
 
         chkIeIsento.selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -503,21 +477,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         });
 
 
-    }
-
-
-    void verificaFocus() {
-        KeyboardFocusManager focusManager =
-                KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        focusManager.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                String prop = evt.getPropertyName();
-                if (!prop.equals("focusOwner")) return;
-                Component component = (Component) evt.getNewValue();
-                System.out.printf("Focus no componente [%s]", component.getName());
-            }
-        });
     }
 
     @Override
@@ -621,6 +580,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     public void setStatusBarTecla(String statusFormulario) {
         switch (statusFormulario.toLowerCase()) {
             case "incluir":
+                txtPesquisaEmpresa.setText("");
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroEmpresa.getContent(), true);
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoCadastral.getContent(), false);
                 ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnDadoCadastral.getContent());
@@ -930,13 +890,13 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     void keyShiftF6() {
         tipoAddEditDelete();
         if (isEmail || isHomePage) {
-            if (isContato && getContatoVO() == null) return;
+            if (isContato && getContatoVO().getDescricao().equals("")) return;
             editEmailHomePage("");
             return;
         }
 
         if (isTelefone) {
-            if (isContato && getContatoVO() == null) return;
+            if (isContato && getContatoVO().getDescricao().equals("")) return;
             editTelefone("");
             return;
         }
@@ -987,12 +947,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             return;
         }
         if (isEmail || isHomePage) {
-            if (isContato && getContatoVO() == null) return;
+            if (isContato && getContatoVO().getDescricao().equals("")) return;
             addEmailHomePage("");
             return;
         }
         if (isTelefone) {
-            if (isContato && getContatoVO() == null) return;
+            if (isContato && getContatoVO().getDescricao().equals("")) return;
             addTelefone("");
             return;
         }
@@ -1282,26 +1242,32 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         if ((empresaReceitaFederal = getEmpresaVO().getTabEmpresaReceitaFederalVOList().stream()
                 .filter(receita -> receita.getStr_Key().toLowerCase().equals("situacao"))
                 .findFirst().orElse(null)) != null)
-            if (!empresaReceitaFederal.getStr_Value().toLowerCase().equals("ativa")) {
-                limparEndereco();
-                return true;
+            if (!empresaReceitaFederal.getStr_Value().toLowerCase().equals("ativa"))
+                getEmpresaVO().setSisSituacaoSistema_id(7);
+        if (getEmpresaVO().getSisSituacaoSistema_id() == 7) {
+            limparEndereco();
+            return true;
+        }
+        if (result)
+            if (!(result = (txtEndCEP.getText().replaceAll("\\D", "").length() == 8 && result == true))) {
+                txtEndCEP.requestFocus();
+                campoInvalido = "cep valido!";
             }
-        if (!(result = (txtEndCEP.getText().replaceAll("\\D", "").length() == 8 && result == true))) {
-            txtEndCEP.requestFocus();
-            campoInvalido = "cep valido!";
-        }
-        if (!(result = (txtEndLogradouro.getText().length() >= 3 && result == true))) {
-            txtEndLogradouro.requestFocus();
-            campoInvalido = "logradouro com no mínimo de 3 digitos!";
-        }
-        if (!(result = (txtEndNumero.getText().length() >= 1 && result == true))) {
-            txtEndNumero.requestFocus();
-            campoInvalido = "número com no mínimo 1 digito!";
-        }
-        if (!(result = (txtEndBairro.getText().length() >= 3 && result == true))) {
-            txtEndBairro.requestFocus();
-            campoInvalido = "bairro com no mínimo de 3 digitos!";
-        }
+        if (result)
+            if (!(result = (txtEndLogradouro.getText().length() >= 3 && result == true))) {
+                txtEndLogradouro.requestFocus();
+                campoInvalido = "logradouro com no mínimo de 3 digitos!";
+            }
+        if (result)
+            if (!(result = (txtEndNumero.getText().length() >= 1 && result == true))) {
+                txtEndNumero.requestFocus();
+                campoInvalido = "número com no mínimo 1 digito!";
+            }
+        if (result)
+            if (!(result = (txtEndBairro.getText().length() >= 3 && result == true))) {
+                txtEndBairro.requestFocus();
+                campoInvalido = "bairro com no mínimo de 3 digitos!";
+            }
         if (!result) {
             alertMensagem = new ServiceAlertMensagem();
             alertMensagem.setCabecalho("Endereço inválido!");

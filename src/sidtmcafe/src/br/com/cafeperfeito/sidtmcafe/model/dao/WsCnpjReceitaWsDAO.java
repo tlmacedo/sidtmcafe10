@@ -3,6 +3,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceValidarDado;
+import com.jfoenix.controls.IFXTextInputControl;
 import javafx.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -76,9 +77,16 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             wsCnpjReceitaWsVO.setCep(jsonObject.getString("cep").toUpperCase());
             wsCnpjReceitaWsVO.setBairro(jsonObject.getString("bairro").toUpperCase());
             wsCnpjReceitaWsVO.setMunicipio(jsonObject.getString("municipio").toUpperCase());
-            wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCnpjReceitaWsVO.getMunicipio(), true));
+            if (wsCnpjReceitaWsVO.getMunicipio().equals("")) {
+                wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioVO());
+//                wsCnpjReceitaWsVO.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipioVO().getId());
+                wsCnpjReceitaWsVO.setSisUfVO(new SisUfVO());
+//                wsCnpjReceitaWsVO.setUf(wsCnpjReceitaWsVO.getSisUfVO().getSigla());
+            } else {
+                wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCnpjReceitaWsVO.getMunicipio(), true));
+                wsCnpjReceitaWsVO.setSisUfVO(wsCnpjReceitaWsVO.getSisMunicipioVO().getUfVO());
+            }
             wsCnpjReceitaWsVO.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipioVO().getId());
-            wsCnpjReceitaWsVO.setSisUfVO(wsCnpjReceitaWsVO.getSisMunicipioVO().getUfVO());
             wsCnpjReceitaWsVO.setUf(wsCnpjReceitaWsVO.getSisUfVO().getSigla());
             wsCnpjReceitaWsVO.setEmail(jsonObject.getString("email").toLowerCase());
             wsCnpjReceitaWsVO.setTelefone(jsonObject.getString("telefone").toUpperCase());
@@ -121,6 +129,9 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             endereco.setSisMunicipioVO(wsCnpjReceitaWsVO.getSisMunicipioVO());
             endereco.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipio_id());
             endereco.setPontoReferencia("");
+        } else {
+            empresa.setSisSituacaoSistema_id(7);
+            empresa.setSisSituacaoSistemaVO(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(empresa.getSisSituacaoSistema_id()));
         }
         empresa.getTabEnderecoVOList().set(0, endereco);
 

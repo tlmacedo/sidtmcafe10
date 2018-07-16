@@ -69,9 +69,9 @@ public class ServiceCampoPersonalizado implements Constants {
             } else if (node instanceof TabPane) {
                 for (Tab tab : ((TabPane) node).getTabs())
                     fieldClear((AnchorPane) tab.getContent());
-            } else if (node instanceof TabPane) {
-                for (Tab tab : ((TabPane) node).getTabs())
-                    fieldClear((AnchorPane) tab.getContent());
+//            } else if (node instanceof TabPane) {
+//                for (Tab tab : ((TabPane) node).getTabs())
+//                    fieldClear((AnchorPane) tab.getContent());
             }
         }
     }

@@ -67,12 +67,7 @@
                                 <Tooltip text="inscrição estadual da empresa" />
                             </tooltip>
                         </JFXTextField>
-                        <JFXComboBox fx:id="cboSituacaoSistema" accessibleText="value:0" labelFloat="true" layoutX="430.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="130.0" promptText="Situação empresa">
-                            <tooltip>
-                                <Tooltip text="situação da empresa no sistema" />
-                            </tooltip>
-                        </JFXComboBox>
-                        <JFXTextField fx:id="txtRazao" accessibleText="len:80, type:maiuscula, value: , setDisable:false, mask: " layoutX="570.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0" promptText="Razão / Nome" text="Razão / Nome">
+                        <JFXTextField fx:id="txtRazao" accessibleText="len:80, type:maiuscula, value: , setDisable:false, mask: " layoutX="430.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0" promptText="Razão / Nome" text="Razão / Nome">
                             <tooltip>
                                 <Tooltip text="razão ou nome da empresa" />
                             </tooltip>
@@ -82,7 +77,12 @@
                                 <Tooltip text="nome fantasia ou apelido da empresa" />
                             </tooltip>
                         </JFXTextField>
-                        <JFXCheckBox fx:id="chkIsCliente" accessibleText="value:true" contentDisplay="GRAPHIC_ONLY" layoutX="475.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="49.0" selected="true" text="Cliente">
+                        <JFXComboBox fx:id="cboSituacaoSistema" accessibleText="value:0" labelFloat="true" layoutX="475.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="130.0" promptText="Situação empresa">
+                            <tooltip>
+                                <Tooltip text="situação da empresa no sistema" />
+                            </tooltip>
+                        </JFXComboBox>
+                        <JFXCheckBox fx:id="chkIsCliente" accessibleText="value:true" contentDisplay="GRAPHIC_ONLY" layoutX="615.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="49.0" selected="true" text="Cliente">
                             <graphic>
                                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="24.0" styleClass="lbl_ico_cliente" />
 
@@ -91,7 +91,7 @@
                                 <Tooltip text="Empresa é cliente." />
                             </tooltip>
                         </JFXCheckBox>
-                        <JFXCheckBox fx:id="chkIsFornecedor" accessibleText="value:false" contentDisplay="GRAPHIC_ONLY" layoutX="534.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="49.0" text="Fornecedor">
+                        <JFXCheckBox fx:id="chkIsFornecedor" accessibleText="value:false" contentDisplay="GRAPHIC_ONLY" layoutX="674.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="49.0" text="Fornecedor">
                             <graphic>
                                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="24.0" styleClass="lbl_ico_fornecedor" />
                             </graphic>
@@ -99,7 +99,7 @@
                                 <Tooltip text="Empresa é fornecedor" />
                             </tooltip>
                         </JFXCheckBox>
-                        <JFXCheckBox fx:id="chkIsTransportadora" accessibleText="value:falso" contentDisplay="GRAPHIC_ONLY" layoutX="593.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="49.0" text="Transportadora">
+                        <JFXCheckBox fx:id="chkIsTransportadora" accessibleText="value:falso" contentDisplay="GRAPHIC_ONLY" layoutX="733.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="49.0" text="Transportadora">
                             <graphic>
                                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="24.0" styleClass="lbl_ico_transportadora" />
                             </graphic>
