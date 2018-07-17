@@ -395,6 +395,14 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 txtIE.setText(ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie" + newValue.getSigla()));
         });
 
+        cboEndMunicipio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) {
+                ddd = DDD_SISTEMA;
+                return;
+            }
+            ddd = newValue.getDdd();
+        });
+
         listContatoNome.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             setContatoVO(newValue);
         });
@@ -507,6 +515,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewCadastroEmpresa.getTituloJanela();
     Boolean isEndereco, isEmail, isHomePage, isTelefone, isEmpresa, isContato;
+    int ddd = DDD_SISTEMA;
 
     Task getTaskCadastroEmpresa() {
         int qtdTarefas = listaTarefa.size();
@@ -1056,15 +1065,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         if (!ServiceValidarDado.isTelefoneValido(temp, true))
             editTelefone(temp);
         if (!ServiceValidarDado.isTelefoneValido(temp, false)) return;
-        TabTelefoneVO telefoneVO = new TabTelefoneVO(temp,
-                new ServiceConsultaWebServices()
-                        .getOperadoraTelefone_WsPortabilidadeCelular(String.valueOf(cboEndMunicipio.getSelectionModel().getSelectedIndex() >= 0
-                                ? cboEndMunicipio.getSelectionModel().getSelectedItem().getDdd()
-                                : DDD_SISTEMA) + temp));
-        telefone = telefoneVO;
-//        telefone.setDescricao(telefoneVO.getDescricao());
-//        telefone.setSisTelefoneOperadoraVO(telefoneVO.getSisTelefoneOperadoraVO());
-//        telefone.setSisTelefoneOperadora_id(telefoneVO.getSisTelefoneOperadora_id());
+        telefone = new ServiceConsultaWebServices().getTelefone_WsPortabilidadeCelular(ddd + temp);
         listTelefoneVOObservableList.setAll(getEmpresaVO().getTabTelefoneVOList());
         listContatoTelefoneVOObservableList.setAll(getContatoVO().getTabTelefoneVOList());
     }
@@ -1082,12 +1083,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             addTelefone(temp);
         if (!ServiceValidarDado.isTelefoneValido(temp, false)) return;
         temp = temp.replaceAll("\\D", "");
-        TabTelefoneVO telefoneVO = new TabTelefoneVO(temp,
-                new ServiceConsultaWebServices()
-                        .getOperadoraTelefone_WsPortabilidadeCelular(String.valueOf(
-                                cboEndMunicipio.getSelectionModel().getSelectedIndex() >= 0
-                                        ? cboEndMunicipio.getSelectionModel().getSelectedItem().getDdd()
-                                        : DDD_SISTEMA) + temp));
+        TabTelefoneVO telefoneVO = new ServiceConsultaWebServices().getTelefone_WsPortabilidadeCelular(ddd + temp);
         if (isEmpresa)
             getEmpresaVO().getTabTelefoneVOList().add(telefoneVO);
         else

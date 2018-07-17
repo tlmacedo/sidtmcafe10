@@ -1,11 +1,13 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
+import br.com.cafeperfeito.sidtmcafe.model.dao.TabTelefoneDAO;
 import br.com.cafeperfeito.sidtmcafe.model.dao.WsCepPostmonDAO;
 import br.com.cafeperfeito.sidtmcafe.model.dao.WsCnpjReceitaWsDAO;
 import br.com.cafeperfeito.sidtmcafe.model.dao.WsTelefoneOperadoraDAO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEnderecoVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabTelefoneVO;
 import javafx.concurrent.Task;
 
 public class ServiceConsultaWebServices {
@@ -42,9 +44,9 @@ public class ServiceConsultaWebServices {
         return empresaVO[0];
     }
 
-    public SisTelefoneOperadoraVO getOperadoraTelefone_WsPortabilidadeCelular(String busca) {
-        final SisTelefoneOperadoraVO[] telefoneOperadoraVO = {null};
-        telefoneOperadoraVO[0] = new WsTelefoneOperadoraDAO().getTelefoneOperadoraVO(busca);
-        return telefoneOperadoraVO[0];
+    public TabTelefoneVO getTelefone_WsPortabilidadeCelular(String busca) {
+        if (busca == null)
+            return new TabTelefoneVO();
+        return new TabTelefoneDAO().getTelefone_WsPortabilidadeCelular(busca);
     }
 }

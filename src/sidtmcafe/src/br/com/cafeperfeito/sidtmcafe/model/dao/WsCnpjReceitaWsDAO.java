@@ -150,10 +150,9 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             List<String> telefoneList = ServiceValidarDado.getTelefoneList(wsCnpjReceitaWsVO.getTelefone());
             if (telefoneList != null)
                 for (String telefone : telefoneList)
-                    if (empresa.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(telefone)))
-                        empresa.getTabTelefoneVOList().add(new TabTelefoneVO(telefone.substring(2),
-                                new ServiceConsultaWebServices()
-                                        .getOperadoraTelefone_WsPortabilidadeCelular(telefone)));
+                    if (empresa.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(telefone))) {
+                        empresa.getTabTelefoneVOList().add(new ServiceConsultaWebServices().getTelefone_WsPortabilidadeCelular(telefone));
+                    }
         }
         empresa.getTabTelefoneVOList();
         empresa.getTabEmpresaReceitaFederalVOList().stream()
