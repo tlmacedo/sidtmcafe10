@@ -53,6 +53,7 @@ public class SisMunicipioDAO extends BuscaBancoDados {
                 sisMunicipioVO.setSisUF_id(rs.getInt("sisUF_id"));
                 sisMunicipioVO.setIsCapital(rs.getInt("isCapital"));
                 sisMunicipioVO.setIbge_id(rs.getInt("ibge_id"));
+                sisMunicipioVO.setDdd(rs.getInt("ddd"));
                 if (returnList) sisMunicipioVOList.add(sisMunicipioVO);
             }
         } catch (SQLException ex) {

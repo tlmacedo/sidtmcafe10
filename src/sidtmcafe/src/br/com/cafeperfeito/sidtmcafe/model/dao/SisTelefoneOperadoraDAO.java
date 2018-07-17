@@ -3,6 +3,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,6 +18,21 @@ public class SisTelefoneOperadoraDAO extends BuscaBancoDados {
 
     public SisTelefoneOperadoraVO getSisTelefoneOperadoraVO(int id) {
         getResultSet(String.format("SELECT * FROM sisTelefoneOperadora WHERE id = %d ORDER BY tipo DESC, descricao", id), false);
+        return sisTelefoneOperadoraVO;
+    }
+
+    public SisTelefoneOperadoraVO getSisTelefoneOperadoraVO_WS(String wsOperadora) {
+        String[] wsDetalhes = wsOperadora.replace("|", ";").split(";");
+
+        getResultSet(String.format("SELECT * FROM sisTelefoneOperadora WHERE codWsPortabilidadeCelular LIKE '%s' ORDER BY tipo DESC, descricao", ("%" + wsDetalhes[0] + "%")), false);
+        if (sisTelefoneOperadoraVO == null) {
+            sisTelefoneOperadoraVO = new SisTelefoneOperadoraVO(wsDetalhes[3], wsDetalhes[0]);
+            try {
+                sisTelefoneOperadoraVO.setId(insertSisTelefoneOperadoraVO(ConnectionFactory.getConnection(), sisTelefoneOperadoraVO));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return sisTelefoneOperadoraVO;
     }
 
@@ -43,4 +59,13 @@ public class SisTelefoneOperadoraDAO extends BuscaBancoDados {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
+
+    public int insertSisTelefoneOperadoraVO(Connection conn, SisTelefoneOperadoraVO telefoneOperadora) throws SQLException {
+        String comandoSql = String.format("INSERT INTO sisTelefoneOperadora (descricao, tipo, ddd, codWsPortabilidadeCelular)" +
+                        "VALUES('%s', %d, %d, '%s')",
+                telefoneOperadora.getDescricao(), telefoneOperadora.getTipo(), telefoneOperadora.getCodigoDDD(),
+                telefoneOperadora.getCodigoWs());
+        return getInsertBancoDados(conn, comandoSql);
+    }
+
 }

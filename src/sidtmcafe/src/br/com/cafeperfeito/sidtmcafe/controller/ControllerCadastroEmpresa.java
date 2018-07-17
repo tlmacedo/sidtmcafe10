@@ -1019,7 +1019,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         alertMensagem = new ServiceAlertMensagem();
         alertMensagem.setStrIco(isEmail ? "ic_email_update_24dp" : "ic_web_update_24dp");
         alertMensagem.setCabecalho(String.format("Editar dados [%s%s]", isEmail ? "email" : "home page", isContato ? " contato" : ""));
-        alertMensagem.setPromptText(String.format("%s, deseja editar %s: [%s]%s\nda empresa: [%s] ?",
+        alertMensagem.setPromptText(String.format("%s, deseja editar %s: [%s]%s da empresa: [%s] ?",
                 USUARIO_LOGADO_APELIDO,
                 isEmail ? "o email" : "a home page",
                 emailHomePage,
@@ -1040,25 +1040,31 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         TabTelefoneVO telefone;
         telefone = isEmpresa ? listTelefone.getSelectionModel().getSelectedItem() : listContatoTelefone.getSelectionModel().getSelectedItem();
         if (telefone == null) return;
+        System.out.printf(temp);
         if (temp.equals(""))
             temp = telefone.getDescricao();
         alertMensagem = new ServiceAlertMensagem();
         alertMensagem.setStrIco("ic_telefone_24dp");
         alertMensagem.setCabecalho(String.format("Editar dados [telefone%s]", isContato ? " contato" : ""));
-        alertMensagem.setPromptText(String.format("%s, deseja editar o telefone: [%s]%s\nda empresa: [%s] ?",
+        alertMensagem.setPromptText(String.format("%s, deseja editar o telefone: [%s]%s da empresa: [%s] ?",
                 USUARIO_LOGADO_APELIDO,
                 telefone,
                 isContato ? String.format(" para o contato: [%s]", getContatoVO()) : "",
                 txtRazao.getText()));
-        Pair<String, Object> pair;
-        if ((pair = alertMensagem.getRetornoAlert_TextFieldEComboBox(new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVOList(),
-                "telefone", temp + "telefone").orElse(null)) == null) return;
-        if (!ServiceValidarDado.isTelefoneValido(pair.getKey(), true))
-            editTelefone(pair.getKey());
-        if (!ServiceValidarDado.isTelefoneValido(pair.getKey(), false)) return;
-        telefone.setDescricao(pair.getKey());
-        telefone.setSisTelefoneOperadora_id(((SisTelefoneOperadoraVO) pair.getValue()).getId());
-        telefone.setSisTelefoneOperadoraVO((SisTelefoneOperadoraVO) pair.getValue());
+        if ((temp = alertMensagem.getRetornoAlert_TextField("telefone", temp + "telefone")
+                .orElse(null)) == null) return;
+        if (!ServiceValidarDado.isTelefoneValido(temp, true))
+            editTelefone(temp);
+        if (!ServiceValidarDado.isTelefoneValido(temp, false)) return;
+        TabTelefoneVO telefoneVO = new TabTelefoneVO(temp,
+                new ServiceConsultaWebServices()
+                        .getOperadoraTelefone_WsPortabilidadeCelular(String.valueOf(cboEndMunicipio.getSelectionModel().getSelectedIndex() >= 0
+                                ? cboEndMunicipio.getSelectionModel().getSelectedItem().getDdd()
+                                : DDD_SISTEMA) + temp));
+        telefone = telefoneVO;
+//        telefone.setDescricao(telefoneVO.getDescricao());
+//        telefone.setSisTelefoneOperadoraVO(telefoneVO.getSisTelefoneOperadoraVO());
+//        telefone.setSisTelefoneOperadora_id(telefoneVO.getSisTelefoneOperadora_id());
         listTelefoneVOObservableList.setAll(getEmpresaVO().getTabTelefoneVOList());
         listContatoTelefoneVOObservableList.setAll(getContatoVO().getTabTelefoneVOList());
     }
@@ -1071,21 +1077,23 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 USUARIO_LOGADO_APELIDO,
                 isContato ? String.format(" para o contato: [%s]\nd", isContato ? getContatoVO() : "") : "\npar ",
                 txtRazao.getText()));
-        Pair<String, Object> pair;
-        if ((pair = alertMensagem.getRetornoAlert_TextFieldEComboBox(new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVOList(),
-                "telefone", temp + "telefone").orElse(null)) == null) return;
-        if (!ServiceValidarDado.isTelefoneValido(pair.getKey(), true))
-            addTelefone(pair.getKey());
-        if (!ServiceValidarDado.isTelefoneValido(pair.getKey(), false)) return;
-        if (isEmpresa) {
-            getEmpresaVO().getTabTelefoneVOList().add(new TabTelefoneVO(pair.getKey(), (SisTelefoneOperadoraVO) pair.getValue()));
-            listTelefoneVOObservableList.setAll(getEmpresaVO().getTabTelefoneVOList());
-            listTelefone.getSelectionModel().selectLast();
-        } else {
-            getContatoVO().getTabTelefoneVOList().add(new TabTelefoneVO(pair.getKey(), (SisTelefoneOperadoraVO) pair.getValue()));
-            listContatoTelefoneVOObservableList.setAll(getContatoVO().getTabTelefoneVOList());
-            listContatoTelefone.getSelectionModel().selectLast();
-        }
+        if ((temp = alertMensagem.getRetornoAlert_TextField("telefone", temp).orElse(null)) == null) return;
+        if (!ServiceValidarDado.isTelefoneValido(temp, true))
+            addTelefone(temp);
+        if (!ServiceValidarDado.isTelefoneValido(temp, false)) return;
+        temp = temp.replaceAll("\\D", "");
+        TabTelefoneVO telefoneVO = new TabTelefoneVO(temp,
+                new ServiceConsultaWebServices()
+                        .getOperadoraTelefone_WsPortabilidadeCelular(String.valueOf(
+                                cboEndMunicipio.getSelectionModel().getSelectedIndex() >= 0
+                                        ? cboEndMunicipio.getSelectionModel().getSelectedItem().getDdd()
+                                        : DDD_SISTEMA) + temp));
+        if (isEmpresa)
+            getEmpresaVO().getTabTelefoneVOList().add(telefoneVO);
+        else
+            getContatoVO().getTabTelefoneVOList().add(telefoneVO);
+        listTelefoneVOObservableList.setAll(getEmpresaVO().getTabTelefoneVOList());
+        listContatoTelefoneVOObservableList.setAll(getContatoVO().getTabTelefoneVOList());
     }
 
     void keyDelete() {

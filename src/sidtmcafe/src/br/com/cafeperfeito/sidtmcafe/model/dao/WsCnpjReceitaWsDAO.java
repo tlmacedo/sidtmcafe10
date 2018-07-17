@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceConsultaWebServices;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceValidarDado;
 import com.jfoenix.controls.IFXTextInputControl;
 import javafx.util.Pair;
@@ -79,9 +80,9 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             wsCnpjReceitaWsVO.setMunicipio(jsonObject.getString("municipio").toUpperCase());
             if (wsCnpjReceitaWsVO.getMunicipio().equals("")) {
                 wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioVO());
-//                wsCnpjReceitaWsVO.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipioVO().getId());
+//                wsJsonObjectWebServiceVO.setSisMunicipio_id(wsJsonObjectWebServiceVO.getSisMunicipioVO().getId());
                 wsCnpjReceitaWsVO.setSisUfVO(new SisUfVO());
-//                wsCnpjReceitaWsVO.setUf(wsCnpjReceitaWsVO.getSisUfVO().getSigla());
+//                wsJsonObjectWebServiceVO.setUf(wsJsonObjectWebServiceVO.getSisUfVO().getSigla());
             } else {
                 wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCnpjReceitaWsVO.getMunicipio(), true));
                 wsCnpjReceitaWsVO.setSisUfVO(wsCnpjReceitaWsVO.getSisMunicipioVO().getUfVO());
@@ -146,11 +147,13 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
         }
 
         if (!wsCnpjReceitaWsVO.getTelefone().equals("")) {
-            List<Pair<String, Integer>> telefoneList = ServiceValidarDado.getTelefoneList(wsCnpjReceitaWsVO.getTelefone());
+            List<String> telefoneList = ServiceValidarDado.getTelefoneList(wsCnpjReceitaWsVO.getTelefone());
             if (telefoneList != null)
-                for (Pair<String, Integer> telefone : telefoneList)
-                    if (empresa.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(telefone.getKey())))
-                        empresa.getTabTelefoneVOList().add(new TabTelefoneVO(telefone.getKey(), new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVO(2)));
+                for (String telefone : telefoneList)
+                    if (empresa.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(telefone)))
+                        empresa.getTabTelefoneVOList().add(new TabTelefoneVO(telefone.substring(2),
+                                new ServiceConsultaWebServices()
+                                        .getOperadoraTelefone_WsPortabilidadeCelular(telefone)));
         }
         empresa.getTabTelefoneVOList();
         empresa.getTabEmpresaReceitaFederalVOList().stream()

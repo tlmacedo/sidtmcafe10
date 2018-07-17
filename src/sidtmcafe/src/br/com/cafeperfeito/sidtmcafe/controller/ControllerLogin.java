@@ -102,7 +102,7 @@ public class ControllerLogin extends ServiceVariavelSistema implements Initializ
 
     @Override
     public void escutarTecla() {
-
+        //noinspection Duplicates
         painelViewLogin.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             if (event.getCode() == KeyCode.ENTER && btnOK.isDisable())
                 if (cboUsuarioLogin.isFocused())

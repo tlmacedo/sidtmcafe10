@@ -67,7 +67,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
 
     public String cabecalho, promptText, strIco;
     public String resultCabecalho, resultPromptText;
-    public String promptCombo, promptTextField;
+    public String promptCombo;
     public Exception exceptionErr;
 
     public ServiceAlertMensagem() {
@@ -126,14 +126,6 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
 
     public void setPromptCombo(String promptCombo) {
         this.promptCombo = promptCombo;
-    }
-
-    public String getPromptTextField() {
-        return promptTextField;
-    }
-
-    public void setPromptTextField(String promptTextField) {
-        this.promptTextField = promptTextField;
     }
 
     public Exception getExceptionErr() {
@@ -233,11 +225,6 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         vBoxDialog = new VBox();
         vBoxDialog.setAlignment(Pos.CENTER_LEFT);
 
-        textField = new JFXTextField();
-        textField.setPromptText(getPromptText());
-        ServiceFormatarDado formatTextField = new ServiceFormatarDado();
-        formatTextField.maskField(textField, mascaraField);
-
         vBoxDialog.getChildren().add(textField);
 
         return vBoxDialog;
@@ -247,28 +234,6 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         vBoxDialog = new VBox();
         vBoxDialog.setSpacing(9);
         vBoxDialog.setAlignment(Pos.CENTER_LEFT);
-
-        textField = new JFXTextField();
-        textField.setPromptText(getPromptTextField());
-        if (txtPreLoader != "")
-            if (txtPreLoader.contains("telefone"))
-                textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("telefone", ""), "telefone"));
-            else
-                textField.setText(txtPreLoader);
-        formatTextField = new ServiceFormatarDado();
-        if (mascaraField.replaceAll("\\d", "").toLowerCase().contains("telefone")) {
-            formatTextField.maskField(textField, ServiceFormatarDado.gerarMascara("telefone", 9, "#"));
-            textField.textProperty().addListener((observable, oldValue, newValue) -> {
-                String value = newValue.replaceAll("\\D", "");
-                if (newValue.length() > 0)
-                    if (Integer.parseInt(value.substring(0, 1)) > 7)
-                        formatTextField.setMascara(ServiceFormatarDado.gerarMascara("telefone", 9, "#"));
-                    else
-                        formatTextField.setMascara(ServiceFormatarDado.gerarMascara("telefone", 8, "#"));
-            });
-        } else {
-            formatTextField.maskField(textField, mascaraField);
-        }
 
         comboBox = new JFXComboBox();
         comboBox.getItems().setAll(list);
@@ -308,10 +273,6 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
     void closeDialog() {
         dialog.setResult(ButtonType.CANCEL);
         dialog.close();
-    }
-
-    void habilitarBotao() {
-        btnOk.setDisable((comboBox.getSelectionModel().getSelectedIndex() < 0) || (textField.getLength() == 0));
     }
 
     public void getProgressBar(Task<?> task, boolean transparente, boolean showAndWait, int qtdTarefas) {
@@ -362,13 +323,6 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         preparaDialogPane();
         dialogPane.getStyleClass().add("dialog_ok");
 
-//        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-//            @Override
-//            public boolean dispatchKeyEvent(java.awt.event.KeyEvent e) {
-//                return true;
-//            }
-//        });
-
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         btnOk = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
         btnOk.setDefaultButton(true);
@@ -411,6 +365,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
 
     public Optional<Pair<String, Object>> getRetornoAlert_TextFieldEComboBox(List listCombo, String mascara, String textoPreLoader) {
         mascaraField = mascara;
+        txtPreLoader = textoPreLoader;
         list = listCombo;
         carregaDialog();
         preparaDialogPane();
@@ -426,16 +381,16 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         btnCancel.setCancelButton(true);
         btnCancel.setDefaultButton(false);
 
-        if (textoPreLoader != "")
-            txtPreLoader = textoPreLoader;//textField.setText(textoPreLoader);
+        addTextField();
 
         dialogPane.setContent(preencheDialogTextBoxEComboBox());
 
         btnOk.setDisable(true);
         comboBox.getSelectionModel().selectedItemProperty().addListener((ov, o, n) -> {
-            habilitarBotao();
+            btnOk.setDisable((comboBox.getSelectionModel().getSelectedIndex() < 0) || (textField.getText().length() == 0));
         });
 
+        //noinspection Duplicates
         dialogPane.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             if (event.getCode() == KeyCode.ENTER && btnOk.isDisable())
                 if (comboBox.isFocused())
@@ -447,8 +402,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         });
 
         textField.textProperty().addListener((ov, o, n) -> {
-            if (n != o)
-                habilitarBotao();
+            btnOk.setDisable((comboBox.getSelectionModel().getSelectedIndex() < 0) || (textField.getText().length() == 0));
         });
 
         Platform.runLater(() -> comboBox.requestFocus());
@@ -469,6 +423,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
 
     public Optional<String> getRetornoAlert_TextField(String mascara, String textoPreLoader) {
         mascaraField = mascara;
+        txtPreLoader = textoPreLoader;
         carregaDialog();
         preparaDialogPane();
         dialogPane.getStyleClass().add("dialog_text_box");
@@ -483,10 +438,9 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         btnCancel.setCancelButton(true);
         btnCancel.setDefaultButton(false);
 
-        dialogPane.setContent(preencheDialogTextBox());
+        addTextField();
 
-        if (textoPreLoader != "")
-            textField.setText(textoPreLoader);
+        dialogPane.setContent(preencheDialogTextBox());
 
         Platform.runLater(() -> textField.requestFocus());
 
@@ -535,6 +489,30 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
 
         Optional<Object> result = dialog.showAndWait();
         return result;
+    }
+
+    void addTextField(){
+        textField = new JFXTextField();
+        textField.setPromptText(getPromptText());
+        if (txtPreLoader != "")
+            if (txtPreLoader.contains("telefone"))
+                textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("telefone", ""), "telefone"));
+            else
+                textField.setText(txtPreLoader);
+        formatTextField = new ServiceFormatarDado();
+        if (mascaraField.replaceAll("\\d", "").toLowerCase().contains("telefone")) {
+            formatTextField.maskField(textField, ServiceFormatarDado.gerarMascara("telefone", 9, "#"));
+            textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                String value = newValue.replaceAll("\\D", "");
+                if (newValue.length() > 0)
+                    if (Integer.parseInt(value.substring(0, 1)) > 7)
+                        formatTextField.setMascara(ServiceFormatarDado.gerarMascara("telefone", 9, "#"));
+                    else
+                        formatTextField.setMascara(ServiceFormatarDado.gerarMascara("telefone", 8, "#"));
+            });
+        } else {
+            formatTextField.maskField(textField, mascaraField);
+        }
     }
 
     public void errorException(Exception exceptionErr) {

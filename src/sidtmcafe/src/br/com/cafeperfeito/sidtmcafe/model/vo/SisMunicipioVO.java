@@ -1,16 +1,17 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
+import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class SisMunicipioVO extends RecursiveTreeObject<SisMunicipioVO> {
+public class SisMunicipioVO extends RecursiveTreeObject<SisMunicipioVO> implements Constants {
 
     SisUfVO ufVO;
 
-    IntegerProperty id, sisUF_id, isCapital, ibge_id;
+    IntegerProperty id, sisUF_id, isCapital, ibge_id, ddd;
     StringProperty descricao;
 
     public SisMunicipioVO() {
@@ -87,6 +88,19 @@ public class SisMunicipioVO extends RecursiveTreeObject<SisMunicipioVO> {
 
     public void setDescricao(String descricao) {
         descricaoProperty().set(descricao);
+    }
+
+    public int getDdd() {
+        return dddProperty().get();
+    }
+
+    public IntegerProperty dddProperty() {
+        if (ddd==null)ddd=new SimpleIntegerProperty(DDD_SISTEMA);
+        return ddd;
+    }
+
+    public void setDdd(int ddd) {
+        dddProperty().set(ddd);
     }
 
     @Override

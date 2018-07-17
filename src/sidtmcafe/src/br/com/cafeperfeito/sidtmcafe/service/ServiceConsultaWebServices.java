@@ -2,6 +2,8 @@ package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.model.dao.WsCepPostmonDAO;
 import br.com.cafeperfeito.sidtmcafe.model.dao.WsCnpjReceitaWsDAO;
+import br.com.cafeperfeito.sidtmcafe.model.dao.WsTelefoneOperadoraDAO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEnderecoVO;
 import javafx.concurrent.Task;
@@ -38,5 +40,11 @@ public class ServiceConsultaWebServices {
         new ServiceAlertMensagem("Aguarde pesquisando cnpj na receita federal...", "",
                 "ic_aguarde_sentado_orange_32dp.png").getProgressBar(buscaCNPJ, true, false, 1);
         return empresaVO[0];
+    }
+
+    public SisTelefoneOperadoraVO getOperadoraTelefone_WsPortabilidadeCelular(String busca) {
+        final SisTelefoneOperadoraVO[] telefoneOperadoraVO = {null};
+        telefoneOperadoraVO[0] = new WsTelefoneOperadoraDAO().getTelefoneOperadoraVO(busca);
+        return telefoneOperadoraVO[0];
     }
 }

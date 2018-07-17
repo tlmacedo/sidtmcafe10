@@ -13,8 +13,8 @@ import static br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema.USUAR
 public class ServiceValidarDado implements Constants {
     static final int[] pesoCpf = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
     static final int[] pesoCnpj = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
-    static Pattern p;
-    static Matcher m;
+    static Pattern p, pt, pd;
+    static Matcher m, mt, md;
 
     public static boolean isCnpjCpfValido(final String value) {
         value.replaceAll("\\W", "");
@@ -94,17 +94,28 @@ public class ServiceValidarDado implements Constants {
         return false;
     }
 
-    public static List<Pair<String, Integer>> getTelefoneList(final String value) {
-        p = Pattern.compile(REGEX_TELEFONE);
+    public static List<String> getTelefoneList(final String value) {
+        p = Pattern.compile(REGEX_TELEFONE_DDD);
         m = p.matcher(value);
+        pt = Pattern.compile(REGEX_TELEFONE);
+        pd = Pattern.compile(REGEX_DDD);
 
-        List<Pair<String, Integer>> telefone = new ArrayList<>();
-        String fone = "";
+        List<String> telefone = new ArrayList<>();
+        String ddd = "", fone = "";
         while (m.find()) {
-            fone = m.group().replaceAll("\\D", "");
-            if (fone.charAt(0) >= 8)
-                fone = "9" + fone;
-            telefone.add(new Pair<>(fone, 2));
+            ddd = "";
+            fone = "";
+            md = pd.matcher(m.group());
+            if (md.find())
+                ddd = md.group().replaceAll("\\D", "");
+            if (ddd.equals("")) ddd = String.valueOf(DDD_SISTEMA);
+
+            mt = pt.matcher(m.group());
+            if (mt.find())
+                fone = mt.group().replaceAll("\\D", "");
+            if (Integer.parseInt(fone.substring(0, 1)) >= 7) fone = "9" + fone;
+
+            telefone.add(ddd + fone);
         }
         return telefone;
     }

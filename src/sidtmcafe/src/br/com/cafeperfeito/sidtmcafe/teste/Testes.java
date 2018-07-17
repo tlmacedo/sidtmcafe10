@@ -1,11 +1,30 @@
 package br.com.cafeperfeito.sidtmcafe.teste;
 
+import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceAlertMensagem;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceConsultaWebServices;
+
+import static br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema.USUARIO_LOGADO_APELIDO;
+
 public class Testes {
 
     public static void main(String... args) {
-        String nome = "José";
-        String sobrenome = "Silva";
-        System.out.printf("O nome é.: %s %s", nome, sobrenome);
+
+        //SisTelefoneOperadoraVO operadoraVO = new ServiceConsultaWebServices().getOperadoraTelefone_WsPortabilidadeCelular("92981686148");
+//        if ((operadoraVO = new ServiceConsultaWebServices().getOperadoraTelefone_WsPortabilidadeCelular("92981686148")) == null) {
+//            ServiceAlertMensagem alertMensagem = new ServiceAlertMensagem();
+//            alertMensagem.setCabecalho("Dado inválido!");
+//            alertMensagem.setPromptText(String.format("%s, o cep: [%s] não foi localizado na base de dados!",
+//                    USUARIO_LOGADO_APELIDO, txtEndCEP.getText()));
+//            alertMensagem.setStrIco("ic_webservice_24dp");
+//            alertMensagem.getRetornoAlert_OK();
+//            txtEndCEP.requestFocus();
+//        } else {
+//            setEnderecoVO(enderecoBuscaCEP);
+//            txtEndNumero.requestFocus();
+//        }
+
+
     }
 
 

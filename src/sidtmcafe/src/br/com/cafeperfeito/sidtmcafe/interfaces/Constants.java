@@ -1,5 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.interfaces;
 
+import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
 import javafx.scene.input.*;
 
 import java.text.DecimalFormat;
@@ -12,9 +13,12 @@ import java.util.Locale;
 public interface Constants {
     String COPYRIGHT = "Café Perfeito " + "\u00a9 " + LocalDate.now().getYear();
     String LOJA_ID = "1";
+    int DDD_SISTEMA = 92;
 
     String REGEX_EMAIL = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}";
     String REGEX_HOME_PAGE = "[A-Z0-9._%+-]+[A-Z0-9.-]+\\.[A-Z]{2,6}";
+    String REGEX_DDD = "(.(\\d{2}.))";
+    String REGEX_TELEFONE_DDD = "(.(\\d{2}.))?\\s9?\\d{4}-\\d{4}";
     String REGEX_TELEFONE = "\\d{4}-\\d{4}";
     String REGEX_PONTUACAO = "[!\"$%&'()*+,-./:;_`{|}]";
 
@@ -135,6 +139,13 @@ public interface Constants {
     /*
      * postmon */
     String WS_POSTMON_URL = "http://api.postmon.com.br/v1/cep/";
+
+    /*
+     * portabilidade celular */
+    String WS_PORTABILIDADE_CELULAR_USER = "user=tlmacedo";
+    String WS_PORTABILIDADE_CELULAR_PASS = "pass=Tlm487901";
+    String WS_PORTABILIDADE_CELULAR_URL = String.format("http://consultas.portabilidadecelular.com/painel/consulta_numero.php?%s&%s&search_number=",
+            WS_PORTABILIDADE_CELULAR_USER, WS_PORTABILIDADE_CELULAR_PASS);
 
 
 }

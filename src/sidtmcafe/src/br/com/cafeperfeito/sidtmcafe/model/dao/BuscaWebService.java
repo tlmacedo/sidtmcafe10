@@ -13,7 +13,8 @@ import java.net.URL;
 import java.util.concurrent.TimeoutException;
 
 public class BuscaWebService {
-    Object wsCnpjReceitaWsVO;
+    Object wsJsonObjectWebServiceVO;
+    String strRetURL;
     BufferedReader bufferedReader;
     StringBuilder stringBuilder;
     String linhaRetorno = null;
@@ -25,12 +26,23 @@ public class BuscaWebService {
     public JSONObject getJsonObjectWebService(String strURL) {
         jsonObject = null;
         try {
-            wsCnpjReceitaWsVO = new URL(strURL).openStream();
-            jsonObject = new JSONObject(getStringBuilder(wsCnpjReceitaWsVO).toString());
+            wsJsonObjectWebServiceVO = new URL(strURL).openStream();
+            jsonObject = new JSONObject(getStringBuilder(wsJsonObjectWebServiceVO).toString());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public String getObjectWebService(String strURL) {
+        strRetURL = null;
+        try {
+            wsJsonObjectWebServiceVO = new URL(strURL).openStream();
+            return strRetURL = getStringBuilder(wsJsonObjectWebServiceVO).toString();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return strRetURL;
     }
 
     public JSONObject getJsonObjectHttpUrlConnection(String strURL, String token, String compl) {
@@ -46,9 +58,9 @@ public class BuscaWebService {
                 urlConnection.setRequestProperty("Authorization", "Bearer " + token);
             }
             urlConnection.connect();
-            wsCnpjReceitaWsVO = urlConnection.getInputStream();
+            wsJsonObjectWebServiceVO = urlConnection.getInputStream();
             if (urlConnection.getResponseCode() == 200)
-                jsonObject = new JSONObject(getStringBuilder(wsCnpjReceitaWsVO).toString());
+                jsonObject = new JSONObject(getStringBuilder(wsJsonObjectWebServiceVO).toString());
         } catch (SocketTimeoutException ex) {
             try {
                 urlConnection = (HttpURLConnection) new URL(strURL + compl).openConnection();
@@ -61,9 +73,9 @@ public class BuscaWebService {
                     urlConnection.setRequestProperty("Authorization", "Bearer " + token);
                 }
                 urlConnection.connect();
-                wsCnpjReceitaWsVO = urlConnection.getInputStream();
+                wsJsonObjectWebServiceVO = urlConnection.getInputStream();
                 if (urlConnection.getResponseCode() == 200)
-                    jsonObject = new JSONObject(getStringBuilder(wsCnpjReceitaWsVO));
+                    jsonObject = new JSONObject(getStringBuilder(wsJsonObjectWebServiceVO));
             } catch (Exception ex1) {
                 if (!(ex1 instanceof TimeoutException))
                     ex1.printStackTrace();
@@ -82,7 +94,7 @@ public class BuscaWebService {
             bufferedReader = new BufferedReader(new InputStreamReader((InputStream) retorno, "UTF-8"));
             stringBuilder = new StringBuilder();
             while ((linhaRetorno = bufferedReader.readLine()) != null) {
-//                System.out.printf("BuscaWebService.getStringBuilder ===>> %s\n", linhaRetorno);
+                System.out.printf("BuscaWebService.getStringBuilder ===>> %s\n", linhaRetorno);
                 stringBuilder.append(linhaRetorno);
             }
         } catch (Exception ex) {
