@@ -45,8 +45,6 @@ public class ServiceConsultaWebServices {
     }
 
     public TabTelefoneVO getTelefone_WsPortabilidadeCelular(String busca) {
-        if (busca == null)
-            return new TabTelefoneVO();
         return new TabTelefoneDAO().getTelefone_WsPortabilidadeCelular(busca);
     }
 }

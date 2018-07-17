@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
+import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabTelefoneVO;
 
 import java.sql.Connection;
@@ -69,11 +70,10 @@ public class TabTelefoneDAO extends BuscaBancoDados implements Constants {
     }
 
     public TabTelefoneVO getTelefone_WsPortabilidadeCelular(String busca) {
-        TabTelefoneVO telefone = new TabTelefoneVO();
         String retURL = "";
         if ((retURL = new BuscaWebService().getObjectWebService(WS_PORTABILIDADE_CELULAR_URL +
                 busca + "&completo")) == null) {
-            return telefone;
+            return new TabTelefoneVO(busca.substring(2), new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVO(51));
         }
         return new TabTelefoneVO(busca.substring(2), new SisTelefoneOperadoraDAO().getSisTelefoneOperadoraVO_WS(retURL));
     }
