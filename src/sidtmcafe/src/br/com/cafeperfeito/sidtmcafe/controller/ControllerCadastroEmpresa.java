@@ -593,8 +593,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroEmpresa.getContent(), true);
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoCadastral.getContent(), false);
                 ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnDadoCadastral.getContent());
-                cboClassificacaoJuridica.requestFocus();
                 cboClassificacaoJuridica.getSelectionModel().selectFirst();
+                txtCNPJ.requestFocus();
                 txtIE.setDisable(chkIeIsento.isSelected());
                 statusBarTecla = STATUS_BAR_TECLA_INCLUIR;
                 break;
