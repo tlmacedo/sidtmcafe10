@@ -2,7 +2,6 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisMunicipioVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.SisUfVO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -59,7 +58,7 @@ public class SisMunicipioDAO extends BuscaBancoDados {
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            ConnectionFactory.closeConnection(connection, stmt, rs);
         }
     }
 

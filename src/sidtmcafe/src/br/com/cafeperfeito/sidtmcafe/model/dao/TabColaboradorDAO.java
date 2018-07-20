@@ -49,7 +49,7 @@ public class TabColaboradorDAO extends BuscaBancoDados {
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            ConnectionFactory.closeConnection(connection, stmt, rs);
         }
     }
 

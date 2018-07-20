@@ -2,7 +2,6 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
-import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabTelefoneVO;
 
 import java.sql.Connection;
@@ -33,7 +32,7 @@ public class TabTelefoneDAO extends BuscaBancoDados implements Constants {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            ConnectionFactory.closeConnection(connection, stmt, rs);
         }
     }
 

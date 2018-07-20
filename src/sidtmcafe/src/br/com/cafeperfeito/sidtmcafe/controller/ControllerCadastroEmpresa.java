@@ -224,18 +224,18 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         listEndereco.getSelectionModel().selectFirst();
                         if (!validarDados()) break;
                         if (buscaDuplicidade()) break;
-                        salvarEmpresa();
-                        switch (getStatusFormulario().toLowerCase()) {
-                            case "incluir":
-                                empresaVOObservableList.add(new TabEmpresaDAO().getTabEmpresaVO(getEmpresaVO().getId()));
-                                break;
-                            case "editar":
-                                empresaVOObservableList.set(empresaVOObservableList.indexOf(ttvEmpresa.getSelectionModel().getSelectedItem().getValue()),
-                                        new TabEmpresaDAO().getTabEmpresaVO(getEmpresaVO().getId()));
-                                break;
+                        if (salvarEmpresa()) {
+                            switch (getStatusFormulario().toLowerCase()) {
+                                case "incluir":
+                                    empresaVOObservableList.add(new TabEmpresaDAO().getTabEmpresaVO(getEmpresaVO().getId()));
+                                    break;
+                                case "editar":
+                                    empresaVOObservableList.set(empresaVOObservableList.indexOf(ttvEmpresa.getSelectionModel().getSelectedItem().getValue()),
+                                            new TabEmpresaDAO().getTabEmpresaVO(getEmpresaVO().getId()));
+                                    break;
+                            }
+                            setStatusFormulario("pesquisa");
                         }
-                        empresaVOObservableList.sorted();
-                        setStatusFormulario("pesquisa");
                         break;
                     case F3:
                         if (!getStatusBarTecla().contains(event.getCode().toString())) break;
@@ -1303,7 +1303,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         return false;
     }
 
-    void salvarEmpresa() {
+    boolean salvarEmpresa() {
         Connection conn = ConnectionFactory.getConnection();
         try {
             conn.setAutoCommit(false);
@@ -1387,7 +1387,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            return false;
         }
+        return true;
     }
 
 

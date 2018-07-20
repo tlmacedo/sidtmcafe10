@@ -35,7 +35,7 @@ public class TabContatoDAO extends BuscaBancoDados {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            ConnectionFactory.closeConnection(connection, stmt, rs);
         }
     }
 

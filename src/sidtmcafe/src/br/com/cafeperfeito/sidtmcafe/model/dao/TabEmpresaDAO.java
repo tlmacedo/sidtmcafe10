@@ -70,7 +70,7 @@ public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            ConnectionFactory.closeConnection(connection, stmt, rs);
         }
     }
 
@@ -114,10 +114,14 @@ public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
                         "ie = '%s', razao = '%s', fantasia = '%s', isLoja = %b, isCliente = %b, isFornecedor = %b, " +
                         "isTransportadora = %b, sisSituacaoSistema_id = %d, usuarioAtualizacao_id = %d, " +
                         "dataAtualizacao = '%s', dataAbertura = '%s', naturezaJuridica = '%s' WHERE id = %d",
-                empresa.isIsEmpresa(), empresa.getCnpj(), empresa.isIeIsento(), empresa.getIe(), empresa.getRazao(),
-                empresa.getFantasia(), empresa.isIsLoja(), empresa.isIsCliente(), empresa.isIsFornecedor(),
-                empresa.isIsTransportadora(), empresa.getSisSituacaoSistema_id(), empresa.getUsuarioAtualizacao_id(),
-                DTF_MYSQL_DATAHORA.format(LocalDateTime.now()), empresa.getDataAbertura(), empresa.getNaturezaJuridica(),
+                empresa.isIsEmpresa(), empresa.getCnpj().replaceAll("[\\D]", ""),
+                empresa.isIeIsento(), empresa.getIe().replaceAll("[\\D]", ""),
+                empresa.getRazao().trim().replaceAll("'", "''"),
+                empresa.getFantasia().trim().replaceAll("'", "''"),
+                empresa.isIsLoja(), empresa.isIsCliente(), empresa.isIsFornecedor(),
+                empresa.isIsTransportadora(), empresa.getSisSituacaoSistema_id(),
+                empresa.getUsuarioAtualizacao_id(), DTF_MYSQL_DATAHORA.format(LocalDateTime.now()),
+                empresa.getDataAbertura(), empresa.getNaturezaJuridica().trim().replaceAll("'", "''"),
                 empresa.getId());
         getUpdateBancoDados(conn, comandoSql);
     }
@@ -129,12 +133,12 @@ public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
                         "%b, %b, %b, %b, %d, %d, '%s', '%s')",
                 empresa.isIsEmpresa(), empresa.getCnpj().replaceAll("[\\D]", ""),
                 empresa.isIeIsento(), empresa.getIe().replaceAll("[\\D]", ""),
-                empresa.getRazao().trim().replaceAll("'", "\'"),
-                empresa.getFantasia().trim().replaceAll("'", "\'"),
+                empresa.getRazao().trim().replaceAll("'", "''"),
+                empresa.getFantasia().trim().replaceAll("'", "''"),
                 empresa.isIsLoja(), empresa.isIsCliente(), empresa.isIsFornecedor(),
                 empresa.isIsTransportadora(), empresa.getSisSituacaoSistema_id(),
                 empresa.getUsuarioCadastro_id(), empresa.getDataAbertura(),
-                empresa.getNaturezaJuridica().trim().replaceAll("'", "\'"));
+                empresa.getNaturezaJuridica().trim().replaceAll("'", "''"));
         return getInsertBancoDados(conn, comandoSql);
     }
 

@@ -58,9 +58,10 @@ public class BuscaWebService {
                 urlConnection.setRequestProperty("Authorization", "Bearer " + token);
             }
             urlConnection.connect();
-            wsJsonObjectWebServiceVO = urlConnection.getInputStream();
-            if (urlConnection.getResponseCode() == 200)
+            if (urlConnection.getResponseCode() == 200) {
+                wsJsonObjectWebServiceVO = urlConnection.getInputStream();
                 jsonObject = new JSONObject(getStringBuilder(wsJsonObjectWebServiceVO).toString());
+            }
         } catch (SocketTimeoutException ex) {
             try {
                 urlConnection = (HttpURLConnection) new URL(strURL + compl).openConnection();

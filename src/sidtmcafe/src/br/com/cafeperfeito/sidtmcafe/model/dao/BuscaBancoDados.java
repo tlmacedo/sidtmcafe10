@@ -9,14 +9,14 @@ import java.sql.SQLException;
 
 public class BuscaBancoDados {
 
-    Connection con;
+    Connection connection;
     PreparedStatement stmt;
     ResultSet rs;
 
     ResultSet getResultadosBandoDados(String instrucaoSql) {
-        con = ConnectionFactory.getConnection();
+        connection = ConnectionFactory.getConnection();
         try {
-            rs = (stmt = con.prepareStatement(instrucaoSql)).executeQuery();
+            rs = (stmt = connection.prepareStatement(instrucaoSql)).executeQuery();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

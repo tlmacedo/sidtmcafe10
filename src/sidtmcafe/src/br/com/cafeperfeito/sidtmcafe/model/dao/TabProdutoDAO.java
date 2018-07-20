@@ -65,7 +65,7 @@ public class TabProdutoDAO extends BuscaBancoDados {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            ConnectionFactory.closeConnection(connection, stmt, rs);
         }
     }
 
