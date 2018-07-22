@@ -15,13 +15,13 @@ public class SisUnidadeComercialDAO extends BuscaBancoDados {
     boolean returnList = false;
 
     public SisUnidadeComercialVO getSisUnidadeComercialVO(int id) {
-        getResultSet(String.format("SELECT * sisUnidadeComercial WHERE id = %d ORDER BY sigla", id), false);
+        getResultSet(String.format("SELECT * FROM sisUnidadeComercial WHERE id = %d ORDER BY sigla", id), false);
         return sisUnidadeComercialVO;
     }
 
     public List<SisUnidadeComercialVO> getSisUnidadeComercialVOList() {
         sisUnidadeComercialVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * sisUnidadeComercialORDER BY sigla"), true);
+        getResultSet(String.format("SELECT * FROM sisUnidadeComercial ORDER BY sigla"), true);
         return sisUnidadeComercialVOList;
     }
 

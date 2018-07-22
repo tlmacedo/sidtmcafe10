@@ -116,11 +116,11 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
 
         painelViewPrincipal.addEventHandler(KeyEvent.KEY_PRESSED, eventHandlerPricipal);
 
-//        tabPaneViewPrincipal.getSelectionModel().getSelectedItem().setOnCloseRequest (event -> {
-//            if (tabPaneViewPrincipal.getTabs().size() > 0 && !statusBar_ViewPrincipal.getCenter().toString().toLowerCase().contains("sair"))
-//                event.consume();
-//        });
-
+        if (tabPaneViewPrincipal.getSelectionModel().getSelectedIndex() > 0)
+            tabPaneViewPrincipal.getSelectionModel().getSelectedItem().setOnCloseRequest(event -> {
+                if (tabPaneViewPrincipal.getTabs().size() > 0 && !statusBar_ViewPrincipal.getCenter().toString().toLowerCase().contains("sair"))
+                    event.consume();
+            });
 
         tabPaneViewPrincipal.getTabs().addListener(new ListChangeListener<Tab>() {
             @Override

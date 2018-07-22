@@ -45,7 +45,6 @@ import java.util.stream.Collectors;
 
 public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
 
-    int contador = 1;
     ObservableList<TabEnderecoVO> listEnderecoVOObservableList = FXCollections.observableArrayList();
     ObservableList<TabEmailHomePageVO> listEmailHomePageVOObservableList = FXCollections.observableArrayList();
     ObservableList<TabTelefoneVO> listTelefoneVOObservableList = FXCollections.observableArrayList();
@@ -182,6 +181,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         });
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public void escutarTecla() {
         ttvEmpresa.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -191,14 +191,11 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         });
 
         ttvEmpresa.focusedProperty().addListener((observable, oldValue, newValue) -> {
-//            if (oldValue && !newValue && statusFormulario.toLowerCase().equals("pesquisa"))
-//                setEmpresaVO(null);
             if (newValue && statusFormulario.toLowerCase().equals("pesquisa") && ttvEmpresa.getSelectionModel().getSelectedItem() != null)
                 setEmpresaVO(ttvEmpresa.getSelectionModel().getSelectedItem().getValue());
 
         });
 
-        //noinspection Duplicates
         ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.intValue() < 0 || newValue.intValue() == oldValue.intValue()) return;
             if (ControllerPrincipal.ctrlPrincipal.getTabSelecionada().equals(tituloTab))
@@ -483,8 +480,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     listInformacoesReceita.getItems().size(),
                     listInformacoesReceita.getItems().size() > 1 ? "Informações complementares" : "Informação complementar"));
         });
-
-
     }
 
     @Override
@@ -620,7 +615,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         }
         ControllerPrincipal.ctrlPrincipal.atualizarStatusBarTeclas(getStatusBarTecla());
     }
-
 
     void preencherCboFiltroPesquisa() {
         cboFiltroPesquisa.getItems().setAll(List.of("", "CLIENTES", "FORNECEDORES", "TRANSPORTADORAS"));
