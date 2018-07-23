@@ -93,7 +93,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
         listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
 
-        new ServiceSegundoPlano().tarefaAbreCadastroEmpresa(getTaskCadastroProduto(), listaTarefa.size());
+        new ServiceSegundoPlano().tarefaAbreCadastroProduto(getTaskCadastroProduto(), listaTarefa.size());
 
 //        formatCnpj = new ServiceFormatarDado();
 //        formatCnpj.maskField(txtCNPJ, ServiceFormatarDado.gerarMascara("cnpj", 0, "#"));
@@ -428,56 +428,11 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         produtoVOFilteredList.setPredicate(produto -> {
             if (produto.getCodigo().contains(busca)) return true;
             if (produto.getDescricao().contains(busca)) return true;
-            if (produto.getFiscalNcm().contains(busca)) return true;
-//            if (produto.getFiscalCestNcmVO().toLowerCase().contains(busca)) return true;
-//            if (produto.getTabEnderecoVOList().stream()
-//                    .filter(end -> end.getCep().toLowerCase().contains(busca))
-//                    .findFirst().orElse(null) != null) return true;
-//            if (produto.getTabEnderecoVOList().stream()
-//                    .filter(end -> end.getLogradouro().toLowerCase().contains(busca))
-//                    .findFirst().orElse(null) != null) return true;
-//            if (produto.getTabEnderecoVOList().stream()
-//                    .filter(end -> end.getNumero().toLowerCase().contains(busca))
-//                    .findFirst().orElse(null) != null) return true;
-//            if (produto.getTabEnderecoVOList().stream()
-//                    .filter(end -> end.getComplemento().toLowerCase().contains(busca))
-//                    .findFirst().orElse(null) != null) return true;
-//            if (produto.getTabEnderecoVOList().stream()
-//                    .filter(end -> end.getBairro().toLowerCase().contains(busca))
-//                    .findFirst().orElse(null) != null) return true;
-//            if (produto.getTabEnderecoVOList().stream()
-//                    .filter(end -> end.getSisMunicipioVO().getDescricao().toLowerCase().contains(busca))
-//                    .findFirst().orElse(null) != null) return true;
-//            if (produto.getTabEnderecoVOList().stream()
-//                    .filter(end -> end.getSisMunicipioVO().getUfVO().getSigla().toLowerCase().contains(busca))
-//                    .findFirst().orElse(null) != null) return true;
-//
-//            if (produto.getTabEmailHomePageVOList().stream()
-//                    .filter(mail -> mail.getDescricao().toLowerCase().contains(busca))
-//                    .findFirst().orElse(null) != null) return true;
-//
-//            if (produto.getTabTelefoneVOList().stream()
-//                    .filter(tel -> tel.getDescricao().toLowerCase().contains(busca))
-//                    .findFirst().orElse(null) != null) return true;
-//            if (produto.getTabTelefoneVOList().stream()
-//                    .filter(tel -> tel.getSisTelefoneOperadoraVO().getDescricao().toLowerCase().contains(busca))
-//                    .findFirst().orElse(null) != null) return true;
-//
-//            if (produto.getTabContatoVOList().stream()
-//                    .filter(cont -> cont.getDescricao().toLowerCase().contains(busca))
-//                    .findFirst().orElse(null) != null) return true;
-//            if (produto.getTabContatoVOList().stream()
-//                    .filter(cont -> cont.getTabEmailHomePageVOList().stream()
-//                            .filter(contMail -> contMail.getDescricao().toLowerCase().contains(busca))
-//                            .count() > 0).findFirst().orElse(null) != null) return true;
-//            if (produto.getTabContatoVOList().stream()
-//                    .filter(cont -> cont.getTabTelefoneVOList().stream()
-//                            .filter(contTel -> contTel.getDescricao().toLowerCase().contains(busca))
-//                            .count() > 0).findFirst().orElse(null) != null) return true;
-//            if (produto.getTabContatoVOList().stream()
-//                    .filter(cont -> cont.getTabTelefoneVOList().stream()
-//                            .filter(contTel -> contTel.getSisTelefoneOperadoraVO().getDescricao().toLowerCase().contains(busca))
-//                            .count() > 0).findFirst().orElse(null) != null) return true;
+            if (produto.getFiscalCestNcmVO().getNcm().contains(busca)) return true;
+            if (produto.getFiscalCestNcmVO().getCest().contains(busca)) return true;
+            if (produto.getTabProdutoEanVOList().stream()
+                    .filter(ean -> ean.getCodigoEan().contains(busca))
+                    .findFirst().orElse(null) != null) return true;
             return false;
         });
         preencherTabelaProduto();

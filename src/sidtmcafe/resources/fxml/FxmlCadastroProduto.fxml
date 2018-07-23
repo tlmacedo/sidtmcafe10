@@ -14,8 +14,8 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="1278.0">
                     <children>
-                        <JFXTextField fx:id="txtPesquisaProduto" text="txtPesquisaProduto"
-                                      accessibleText="len:60, type:normal, value: , setDisable:false, mask: "
+                        <JFXTextField fx:id="txtPesquisaProduto"
+                                      accessibleText="len:60, type:maiusculo, value: , setDisable:false, mask: "
                                       labelFloat="true"
                                       layoutX="10.0" layoutY="10.0" maxHeight="20.0" prefColumnCount="8"
                                       prefHeight="20.0" prefWidth="360.0" promptText="Pesquisar produto">
