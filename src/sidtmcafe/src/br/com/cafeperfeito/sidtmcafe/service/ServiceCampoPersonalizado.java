@@ -130,11 +130,12 @@ public class ServiceCampoPersonalizado implements Constants {
     public static void fieldMask(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
             if (node instanceof JFXTextField) {
+                int len = 0;
+                if (node.getAccessibleText().contains("len:"))
+                    len = Integer.parseInt(ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "len").getValue());
                 if (node.getAccessibleText() != null && node.getAccessibleText().contains("mask:")) {
                     String tipoDado = "", mascara = "", caractere = "#";
-                    int len = 0, decimal = 0;
-                    if (node.getAccessibleText().contains("len:"))
-                        len = Integer.parseInt(ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "len").getValue());
+                    int decimal = 0;
                     if (node.getAccessibleText().contains("mask:"))
                         mascara = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "mask").getValue();
                     if ((tipoDado = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "type").getValue()) != null)
@@ -165,7 +166,7 @@ public class ServiceCampoPersonalizado implements Constants {
                                 break;
                         }
                     if (caractere == "$") {
-                        new ServiceFormatarDado().maskFieldMoeda((JFXTextField) node, decimal);
+                        new ServiceFormatarDado().maskFieldMoeda((JFXTextField) node, decimal, len);
                     } else {
                         new ServiceFormatarDado().maskField((JFXTextField) node, ServiceFormatarDado.gerarMascara(mascara.replaceAll("[\\d]", ""), len, caractere));
                     }

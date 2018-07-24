@@ -12,9 +12,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
@@ -30,7 +28,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class ControllerCadastroProduto extends ServiceVariavelSistema implements Initializable, ModelController {
 
@@ -48,7 +45,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     public JFXComboBox<SisSituacaoSistemaVO> cboSituacaoSistema;
     public JFXTextField txtPrecoFabrica;
     public JFXTextField txtMargem;
-    public JFXTextField txtPrecoConsumidor;
+    public JFXTextField txtPrecoVenda;
     public JFXTextField txtVarejo;
     public JFXTextField txtComissaoPorc;
     public JFXTextField txtLucroBruto;
@@ -95,8 +92,9 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
         new ServiceSegundoPlano().tarefaAbreCadastroProduto(getTaskCadastroProduto(), listaTarefa.size());
 
-//        formatCnpj = new ServiceFormatarDado();
-//        formatCnpj.maskField(txtCNPJ, ServiceFormatarDado.gerarMascara("cnpj", 0, "#"));
+
+//        formatPeso = new ServiceFormatarDado();
+//        formatPeso.maskField(txtPeso, ServiceFormatarDado.gerarMascara("moeda", 9, "#"));
 //        formatIe = new ServiceFormatarDado();
 //        formatIe.maskField(txtIE, ServiceFormatarDado.gerarMascara("ie", 0, "#"));
     }
@@ -254,7 +252,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     EventHandler<KeyEvent> eventHandlerCadastroProduto;
     List<Pair> listaTarefa = new ArrayList<>();
-    ServiceFormatarDado formatCnpj, formatIe;
+    ServiceFormatarDado formatPeso;
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewCadastroProduto.getTituloJanela();
     List<SisUnidadeComercialVO> sisUnidadeComercialVOList;
@@ -436,6 +434,67 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             return false;
         });
         preencherTabelaProduto();
+    }
+
+    public TabProdutoVO getProdutoVO() {
+        return produtoVO;
+    }
+
+    public void setProdutoVO(TabProdutoVO produto) {
+        if (produto == null)
+            produto = new TabProdutoVO();
+        produtoVO = produto;
+        exibirDadosProduto();
+    }
+
+    void exibirDadosProduto() {
+
+        txtCodigo.setText(getProdutoVO().getCodigo());
+        txtDescricao.setText(getProdutoVO().getDescricao());
+        txtPeso.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getPeso()), "peso3"));
+        cboUnidadeComercial.getSelectionModel().select(getProdutoVO().getSisUnidadeComercialVO());
+        cboSituacaoSistema.getSelectionModel().select(getProdutoVO().getSisSituacaoSistemaVO());
+        txtPrecoFabrica.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getPrecoFabrica()), "moeda2"));
+        txtPrecoVenda.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getPrecoVenda()), "moeda2"));
+
+//        cboClassificacaoJuridica.getSelectionModel().select(getEmpresaVO().isIsEmpresa() ? 1 : 0);
+//        txtCNPJ.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cnpj") : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cpf"));
+//        txtIE.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie" + getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()) : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie"));
+//        chkIeIsento.setSelected(getEmpresaVO().isIeIsento());
+//        cboSituacaoSistema.getSelectionModel().select(getEmpresaVO().getSisSituacaoSistemaVO());
+//        txtRazao.setText(getEmpresaVO().getRazao());
+//        txtFantasia.setText(getEmpresaVO().getFantasia());
+//        chkIsCliente.setSelected(getEmpresaVO().isIsCliente());
+//        chkIsFornecedor.setSelected(getEmpresaVO().isIsFornecedor());
+//        chkIsTransportadora.setSelected(getEmpresaVO().isIsTransportadora());
+//
+//        listEnderecoVOObservableList.setAll(getEmpresaVO().getTabEnderecoVOList());
+//        listEndereco.getSelectionModel().selectFirst();
+//
+//        listEmailHomePageVOObservableList.setAll(getEmpresaVO().getTabEmailHomePageVOList());
+//        listTelefoneVOObservableList.setAll(getEmpresaVO().getTabTelefoneVOList());
+//
+//        listContatoVOObservableList.setAll(getEmpresaVO().getTabContatoVOList());
+//        listContatoNome.getSelectionModel().selectFirst();
+//
+//        lblNaturezaJuridica.setText(String.format("natureza júridica%s",
+//                getEmpresaVO().getNaturezaJuridica() == null ? "" : String.format(": %s", getEmpresaVO().getNaturezaJuridica())));
+//        lblDataAbertura.setText(String.format("data de abertura%s",
+//                getEmpresaVO().getDataAbertura() == null ? "" : String.format(": %s", DTF_DATA.format(getEmpresaVO().getDataAbertura().toLocalDate()))));
+//        lblDataAberturaDiff.setText(String.format("tempo de abertura%s",
+//                getEmpresaVO().getDataAbertura() == null ? "" : String.format(": %s", ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAbertura().toLocalDate(), null))));
+//        lblDataCadastro.setText(String.format("data de cadastro%s",
+//                getEmpresaVO().getDataCadastro() == null ? "" : String.format(": %s [%s]", DTF_DATAHORA.format(getEmpresaVO().getDataCadastro().toLocalDateTime()),
+//                        getEmpresaVO().getUsuarioCadastroVO())));
+//        lblDataCadastroDiff.setText(String.format("tempo de cadastro%s",
+//                getEmpresaVO().getDataCadastro() == null ? "" : String.format(": %s", ServiceDataHora.getIntervaloData(getEmpresaVO().getDataCadastro().toLocalDateTime().toLocalDate(), null))));
+//        lblDataAtualizacao.setText(String.format("data de atualização%s",
+//                getEmpresaVO().getDataAtualizacao() == null ? "" : String.format(": %s [%s]", DTF_DATAHORA.format(getEmpresaVO().getDataAtualizacao().toLocalDateTime()),
+//                        getEmpresaVO().getUsuarioAtualizacaoVO())));
+//        lblDataAtualizacaoDiff.setText(String.format("tempo de atualização%s",
+//                getEmpresaVO().getDataAtualizacao() == null ? "" : String.format(": %s", ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAtualizacao().toLocalDateTime().toLocalDate(), null))));
+//
+//        listReceitaFederalVOObservableList.setAll(getEmpresaVO().getTabEmpresaReceitaFederalVOList());
     }
 
 }

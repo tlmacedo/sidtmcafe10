@@ -43,7 +43,9 @@ public class ServiceFormatarDado implements Constants {
         String strMasc = gerarMascara(tipOrMascara, value.length(), "#");
         if (strValue.length() > 0)
             try {
-                if (tipOrMascara.replaceAll("\\d", "").toLowerCase().equals("moeda")) {
+                if (tipOrMascara.replaceAll("\\d", "").toLowerCase().equals("moeda") ||
+                        tipOrMascara.replaceAll("\\d", "").toLowerCase().equals("peso") ||
+                        tipOrMascara.replaceAll("\\d", "").toLowerCase().equals("numero")) {
                     int qtdDigitos = 0;
                     if (!(tipOrMascara.replaceAll("\\D", "").equals("")))
                         qtdDigitos = Integer.parseInt(tipOrMascara.replaceAll("\\D", ""));
@@ -232,11 +234,14 @@ public class ServiceFormatarDado implements Constants {
         });
     }
 
-    public void maskFieldMoeda(JFXTextField textField, int casaDecimal) {
+    public void maskFieldMoeda(JFXTextField textField, int casaDecimal, int lenMax) {
         textField.setAlignment(Pos.CENTER_RIGHT);
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             Platform.runLater(() -> {
-                textField.setText(getValueMoeda(newValue, casaDecimal));
+                if (textField.getLength() > lenMax)
+                    textField.setText(getValueMoeda(newValue.substring(0, lenMax), casaDecimal));
+                else
+                    textField.setText(getValueMoeda(newValue, casaDecimal));
                 textField.positionCaret(newValue.length());
             });
         });
