@@ -101,7 +101,7 @@ public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
                 });
         empresa.setTabTelefoneVOList(tabTelefoneVOList);
 
-        List<TabContatoVO> tabContatoVOList = new ArrayList<TabContatoVO>();
+        List<TabContatoVO> tabContatoVOList = new ArrayList<>();
         new RelEmpresaContatoDAO().getRelEmpresaContatoVOList(empresa.getId()).stream()
                 .forEach(relEmpresaContato -> {
                     tabContatoVOList.add(new TabContatoDAO().getTabContatoVO(relEmpresaContato.getTabContato_id(), true));

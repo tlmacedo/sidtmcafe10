@@ -1,7 +1,7 @@
 package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoEanVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
 
 import java.sql.Connection;
@@ -19,6 +19,24 @@ public class TabProdutoDAO extends BuscaBancoDados {
 
     public TabProdutoVO getTabProdutoVO(int id) {
         getResultSet(String.format("SELECT * FROM tabProduto WHERE id = %d ORDER BY descricao", id), false);
+        if (tabProdutoVO != null)
+            addObjetosPesquisa(tabProdutoVO);
+        return tabProdutoVO;
+    }
+
+    public TabProdutoVO getTabProdutoVO(String codigo) {
+        getResultSet(String.format("SELECT * FROM tabProduto WHERE codigo = '%s' ORDER BY descricao", codigo), false);
+        if (tabProdutoVO != null)
+            addObjetosPesquisa(tabProdutoVO);
+        return tabProdutoVO;
+    }
+
+    public TabProdutoVO getTabProduto_CodBarraVO(String codBarra) {
+        TabProduto_CodBarraVO codBarraVO;
+        if ((codBarraVO = new TabProduto_CodBarraDAO().getTabProduto_codBarraVO(codBarra)) == null) return null;
+        int produto_id = new RelProduto_CodBarraDAO().getRelProduto_CodBarraVO(0, codBarraVO.getId()).getTabProduto_id();
+        if (produto_id == 0) return null;
+        getResultSet(String.format("SELECT * FROM tabProduto WHERE id = %d ORDER BY descricao", produto_id), false);
         if (tabProdutoVO != null)
             addObjetosPesquisa(tabProdutoVO);
         return tabProdutoVO;
@@ -87,9 +105,12 @@ public class TabProdutoDAO extends BuscaBancoDados {
 
         produto.setUsuarioAtualizacaoVO(new TabColaboradorDAO().getTabColaboradorVO(produto.getUsuarioAtualizacao_id(), false));
 
-        List<TabProdutoEanVO> tabProdutoEanVOList = new ArrayList<TabProdutoEanVO>(new TabProdutoEanDAO().getTabProdutoEanVOList(produto.getId()));
-
-        produto.setTabProdutoEanVOList(tabProdutoEanVOList);
+        List<TabProduto_CodBarraVO> codBarraVOList = new ArrayList<>();
+        new RelProduto_CodBarraDAO().getRelProduto_CodBarraVOList(produto.getId()).stream()
+                .forEach(relProduto_codBarraVO -> {
+                    codBarraVOList.add(new TabProduto_CodBarraDAO().getTabProduto_codBarraVO(relProduto_codBarraVO.getTabProduto_CodBarra_id()));
+                });
+        produto.setCodBarraVOList(codBarraVOList);
     }
 
     public void updateTabProdutoVO(Connection conn, TabProdutoVO produto) throws SQLException {

@@ -1,9 +1,11 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
+import br.com.cafeperfeito.sidtmcafe.model.dao.TabProdutoDAO;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
@@ -17,7 +19,7 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
     FiscalPisCofinsVO fiscalCofinsVO;
     TabColaboradorVO usuarioCadastroVO;
     TabColaboradorVO usuarioAtualizacaoVO;
-    List<TabProdutoEanVO> tabProdutoEanVOList;
+    List<TabProduto_CodBarraVO> codBarraVOList;
 
     Timestamp dataCadastro, dataAtualizacao;
 
@@ -29,6 +31,19 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
     DoubleProperty peso, precoFabrica, precoVenda, precoUltimoFrete, comissao;
 
     public TabProdutoVO() {
+
+    }
+
+    public TabProdutoVO(int id) {
+        this.id = new SimpleIntegerProperty(id);
+        this.codBarraVOList = new ArrayList<>();
+    }
+
+    @Override
+    public TabProdutoVO clone() throws CloneNotSupportedException {
+        TabProdutoVO produtoVO = new TabProdutoVO();
+        produtoVO = new TabProdutoDAO().getTabProdutoVO(getId());
+        return produtoVO;
     }
 
     public SisUnidadeComercialVO getSisUnidadeComercialVO() {
@@ -103,12 +118,12 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
         this.usuarioAtualizacaoVO = usuarioAtualizacaoVO;
     }
 
-    public List<TabProdutoEanVO> getTabProdutoEanVOList() {
-        return tabProdutoEanVOList;
+    public List<TabProduto_CodBarraVO> getCodBarraVOList() {
+        return codBarraVOList;
     }
 
-    public void setTabProdutoEanVOList(List<TabProdutoEanVO> tabProdutoEanVOList) {
-        this.tabProdutoEanVOList = tabProdutoEanVOList;
+    public void setCodBarraVOList(List<TabProduto_CodBarraVO> codBarraVOList) {
+        this.codBarraVOList = codBarraVOList;
     }
 
     public Timestamp getDataCadastro() {

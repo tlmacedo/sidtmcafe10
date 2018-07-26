@@ -74,7 +74,9 @@ public class ServiceFormatarDado implements Constants {
             return String.format("%014d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})$", "$1.$2.$3/$4-$5"); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("cpf"))
             return String.format("%011d", 0).replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})$", "$1.$2.$3-$4"); //.replace("0", caracter);
-        if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("barcode") || tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("ean") || tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("codbarras"))
+        if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("barcode") ||
+                tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("ean") ||
+                tipOrMascara.toLowerCase().replaceAll("\\d", "").contains("barras"))
             return String.format("%013d", 0); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("moeda") || tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("numero") || tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("peso")) {
             if (tipOrMascara.replaceAll("\\D", "").equals(""))

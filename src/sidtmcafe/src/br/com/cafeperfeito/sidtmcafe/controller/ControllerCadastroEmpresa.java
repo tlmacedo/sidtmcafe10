@@ -236,23 +236,15 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         break;
                     case F3:
                         if (!getStatusBarTecla().contains(event.getCode().toString())) break;
-                        switch (getStatusFormulario().toLowerCase()) {
-                            case "incluir":
-                                if (new ServiceAlertMensagem("Cancelar inclusão", USUARIO_LOGADO_APELIDO
-                                        + ", deseja cancelar inclusão no cadastro de empresa?",
-                                        "ic_cadastro_empresas_white_24dp.png").getRetornoAlert_YES_NO().get() == ButtonType.NO)
-                                    return;
-                                break;
-                            case "editar":
-                                if (new ServiceAlertMensagem("Cancelar edição", USUARIO_LOGADO_APELIDO
-                                        + ", deseja cancelar edição do cadastro de empresa?",
-                                        "ic_cadastro_empresas_white_24dp.png").getRetornoAlert_YES_NO().get() == ButtonType.NO)
-                                    return;
-                                setEmpresaVO(ttvEmpresa.getSelectionModel().getSelectedItem().getValue());
-                                break;
-                            default:
-                                return;
-                        }
+                        boolean statusIncluir = getStatusFormulario().toLowerCase().equals("incluir");
+                        alertMensagem = new ServiceAlertMensagem();
+                        alertMensagem.setStrIco("ic_cadastro_empresa_cancel_24dp");
+                        alertMensagem.setCabecalho(String.format("Cancelar %s", statusIncluir ? "inclusão" : "edição"));
+                        alertMensagem.setPromptText(String.format("%s, deseja cancelar %s do cadastro de empresa?",
+                                USUARIO_LOGADO_APELIDO, statusIncluir ? "inclusão" : "edição"));
+                        if (alertMensagem.getRetornoAlert_YES_NO().get() == ButtonType.NO) return;
+                        if (!statusIncluir)
+                            setEmpresaVO(ttvEmpresa.getSelectionModel().getSelectedItem().getValue());
                         setStatusFormulario("pesquisa");
                         break;
                     case F4:
@@ -977,115 +969,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         }
     }
 
-    void addEmailHomePage(String temp) {
-        alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco(isEmail ? "ic_email_add_24dp" : "ic_web_add_24dp");
-        alertMensagem.setCabecalho(String.format("Adicionar dados [%s%s]", isEmail ? "email" : "home page", isContato ? " contato" : ""));
-        alertMensagem.setPromptText(String.format("%s, qual %s %sa empresa: [%s] ?",
-                USUARIO_LOGADO_APELIDO,
-                isEmail ? "o email a ser adicionado" : "a home page a ser adicionada",
-                isContato ? String.format(" para o contato: [%s]\nd", isContato ? getContatoVO() : "") : "\npar ",
-                txtRazao.getText()));
-        String emailHomePage;
-        if ((emailHomePage = alertMensagem.getRetornoAlert_TextField(
-                ServiceFormatarDado.gerarMascara("email", 120, "?"), temp)
-                .orElse(null)) == null) return;
-        if (!ServiceValidarDado.isEmailHomePageValido(emailHomePage, isEmail, true))
-            addEmailHomePage(emailHomePage);
-        if (!ServiceValidarDado.isEmailHomePageValido(emailHomePage, isEmail, false)) return;
-        if (isEmpresa) {
-            getEmpresaVO().getTabEmailHomePageVOList().add(new TabEmailHomePageVO(emailHomePage, isEmail));
-            listEmailHomePageVOObservableList.setAll(getEmpresaVO().getTabEmailHomePageVOList());
-            if (isEmail)
-                listEmail.getSelectionModel().selectLast();
-            else
-                listHomePage.getSelectionModel().selectLast();
-        } else {
-            getContatoVO().getTabEmailHomePageVOList().add(new TabEmailHomePageVO(emailHomePage, isEmail));
-            listContatoEmailHomePageVOObservableList.setAll(getContatoVO().getTabEmailHomePageVOList());
-            if (isEmail)
-                listContatoEmail.getSelectionModel().selectLast();
-            else
-                listContatoHomePage.getSelectionModel().selectLast();
-        }
-    }
-
-    void editEmailHomePage(String temp) {
-        TabEmailHomePageVO emailHomePage = null;
-        if (isEmpresa)
-            emailHomePage = isEmail ? listEmail.getSelectionModel().getSelectedItem() : listHomePage.getSelectionModel().getSelectedItem();
-        else
-            emailHomePage = isEmail ? listContatoEmail.getSelectionModel().getSelectedItem() : listContatoHomePage.getSelectionModel().getSelectedItem();
-        if (emailHomePage == null) return;
-        if (temp.equals(""))
-            temp = emailHomePage.getDescricao();
-        alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco(isEmail ? "ic_email_update_24dp" : "ic_web_update_24dp");
-        alertMensagem.setCabecalho(String.format("Editar dados [%s%s]", isEmail ? "email" : "home page", isContato ? " contato" : ""));
-        alertMensagem.setPromptText(String.format("%s, deseja editar %s: [%s]%s da empresa: [%s] ?",
-                USUARIO_LOGADO_APELIDO,
-                isEmail ? "o email" : "a home page",
-                emailHomePage,
-                isContato ? String.format(" para o contato: [%s]", getContatoVO()) : "",
-                txtRazao.getText()));
-        if ((temp = alertMensagem.getRetornoAlert_TextField(
-                ServiceFormatarDado.gerarMascara("email", 120, "?"), temp)
-                .orElse(null)) == null) return;
-        if (!ServiceValidarDado.isEmailHomePageValido(temp, isEmail, true))
-            editEmailHomePage(temp);
-        if (!ServiceValidarDado.isEmailHomePageValido(temp, isEmail, false)) return;
-        emailHomePage.setDescricao(temp);
-        listEmailHomePageVOObservableList.setAll(getEmpresaVO().getTabEmailHomePageVOList());
-        listContatoEmailHomePageVOObservableList.setAll(getContatoVO().getTabEmailHomePageVOList());
-    }
-
-    void editTelefone(String temp) {
-        TabTelefoneVO telefone;
-        telefone = isEmpresa ? listTelefone.getSelectionModel().getSelectedItem() : listContatoTelefone.getSelectionModel().getSelectedItem();
-        if (telefone == null) return;
-        System.out.printf(temp);
-        if (temp.equals(""))
-            temp = telefone.getDescricao();
-        alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco("ic_telefone_24dp");
-        alertMensagem.setCabecalho(String.format("Editar dados [telefone%s]", isContato ? " contato" : ""));
-        alertMensagem.setPromptText(String.format("%s, deseja editar o telefone: [%s]%s da empresa: [%s] ?",
-                USUARIO_LOGADO_APELIDO,
-                telefone,
-                isContato ? String.format(" para o contato: [%s]", getContatoVO()) : "",
-                txtRazao.getText()));
-        if ((temp = alertMensagem.getRetornoAlert_TextField("telefone", temp + "telefone")
-                .orElse(null)) == null) return;
-        if (!ServiceValidarDado.isTelefoneValido(temp, true))
-            editTelefone(temp);
-        if (!ServiceValidarDado.isTelefoneValido(temp, false)) return;
-        telefone = new ServiceConsultaWebServices().getTelefone_WsPortabilidadeCelular(ddd + temp);
-        listTelefoneVOObservableList.setAll(getEmpresaVO().getTabTelefoneVOList());
-        listContatoTelefoneVOObservableList.setAll(getContatoVO().getTabTelefoneVOList());
-    }
-
-    void addTelefone(String temp) {
-        alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco("ic_telefone_24dp");
-        alertMensagem.setCabecalho(String.format("Adicionar dados [telefone%s]", isContato ? " contato" : ""));
-        alertMensagem.setPromptText(String.format("%s, qual telefone a ser adicionado %sa empresa: [%s] ?",
-                USUARIO_LOGADO_APELIDO,
-                isContato ? String.format(" para o contato: [%s]\nd", isContato ? getContatoVO() : "") : "\npar ",
-                txtRazao.getText()));
-        if ((temp = alertMensagem.getRetornoAlert_TextField("telefone", temp).orElse(null)) == null) return;
-        if (!ServiceValidarDado.isTelefoneValido(temp, true))
-            addTelefone(temp);
-        if (!ServiceValidarDado.isTelefoneValido(temp, false)) return;
-        temp = temp.replaceAll("\\D", "");
-        TabTelefoneVO telefoneVO = new ServiceConsultaWebServices().getTelefone_WsPortabilidadeCelular(ddd + temp);
-        if (isEmpresa)
-            getEmpresaVO().getTabTelefoneVOList().add(telefoneVO);
-        else
-            getContatoVO().getTabTelefoneVOList().add(telefoneVO);
-        listTelefoneVOObservableList.setAll(getEmpresaVO().getTabTelefoneVOList());
-        listContatoTelefoneVOObservableList.setAll(getContatoVO().getTabTelefoneVOList());
-    }
-
     void keyDelete() {
         tipoAddEditDelete();
         if (isEndereco) {
@@ -1195,6 +1078,115 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             listContatoVOObservableList.setAll(getEmpresaVO().getTabContatoVOList());
             return;
         }
+    }
+
+    void addEmailHomePage(String temp) {
+        alertMensagem = new ServiceAlertMensagem();
+        alertMensagem.setStrIco(isEmail ? "ic_email_add_24dp" : "ic_web_add_24dp");
+        alertMensagem.setCabecalho(String.format("Adicionar dados [%s%s]", isEmail ? "email" : "home page", isContato ? " contato" : ""));
+        alertMensagem.setPromptText(String.format("%s, qual %s %sa empresa: [%s] ?",
+                USUARIO_LOGADO_APELIDO,
+                isEmail ? "o email a ser adicionado" : "a home page a ser adicionada",
+                isContato ? String.format(" para o contato: [%s]\nd", isContato ? getContatoVO() : "") : "\npar ",
+                txtRazao.getText()));
+        String emailHomePage;
+        if ((emailHomePage = alertMensagem.getRetornoAlert_TextField(
+                ServiceFormatarDado.gerarMascara("email", 120, "?"), temp)
+                .orElse(null)) == null) return;
+        if (!ServiceValidarDado.isEmailHomePageValido(emailHomePage, isEmail, true))
+            addEmailHomePage(emailHomePage);
+        if (!ServiceValidarDado.isEmailHomePageValido(emailHomePage, isEmail, false)) return;
+        if (isEmpresa) {
+            getEmpresaVO().getTabEmailHomePageVOList().add(new TabEmailHomePageVO(emailHomePage, isEmail));
+            listEmailHomePageVOObservableList.setAll(getEmpresaVO().getTabEmailHomePageVOList());
+            if (isEmail)
+                listEmail.getSelectionModel().selectLast();
+            else
+                listHomePage.getSelectionModel().selectLast();
+        } else {
+            getContatoVO().getTabEmailHomePageVOList().add(new TabEmailHomePageVO(emailHomePage, isEmail));
+            listContatoEmailHomePageVOObservableList.setAll(getContatoVO().getTabEmailHomePageVOList());
+            if (isEmail)
+                listContatoEmail.getSelectionModel().selectLast();
+            else
+                listContatoHomePage.getSelectionModel().selectLast();
+        }
+    }
+
+    void editEmailHomePage(String temp) {
+        TabEmailHomePageVO emailHomePage = null;
+        if (isEmpresa)
+            emailHomePage = isEmail ? listEmail.getSelectionModel().getSelectedItem() : listHomePage.getSelectionModel().getSelectedItem();
+        else
+            emailHomePage = isEmail ? listContatoEmail.getSelectionModel().getSelectedItem() : listContatoHomePage.getSelectionModel().getSelectedItem();
+        if (emailHomePage == null) return;
+        if (temp.equals(""))
+            temp = emailHomePage.getDescricao();
+        alertMensagem = new ServiceAlertMensagem();
+        alertMensagem.setStrIco(isEmail ? "ic_email_update_24dp" : "ic_web_update_24dp");
+        alertMensagem.setCabecalho(String.format("Editar dados [%s%s]", isEmail ? "email" : "home page", isContato ? " contato" : ""));
+        alertMensagem.setPromptText(String.format("%s, deseja editar %s: [%s]%s da empresa: [%s] ?",
+                USUARIO_LOGADO_APELIDO,
+                isEmail ? "o email" : "a home page",
+                emailHomePage,
+                isContato ? String.format(" para o contato: [%s]", getContatoVO()) : "",
+                txtRazao.getText()));
+        if ((temp = alertMensagem.getRetornoAlert_TextField(
+                ServiceFormatarDado.gerarMascara("email", 120, "?"), temp)
+                .orElse(null)) == null) return;
+        if (!ServiceValidarDado.isEmailHomePageValido(temp, isEmail, true))
+            editEmailHomePage(temp);
+        if (!ServiceValidarDado.isEmailHomePageValido(temp, isEmail, false)) return;
+        emailHomePage.setDescricao(temp);
+        listEmailHomePageVOObservableList.setAll(getEmpresaVO().getTabEmailHomePageVOList());
+        listContatoEmailHomePageVOObservableList.setAll(getContatoVO().getTabEmailHomePageVOList());
+    }
+
+    void editTelefone(String temp) {
+        TabTelefoneVO telefone;
+        telefone = isEmpresa ? listTelefone.getSelectionModel().getSelectedItem() : listContatoTelefone.getSelectionModel().getSelectedItem();
+        if (telefone == null) return;
+        System.out.printf(temp);
+        if (temp.equals(""))
+            temp = telefone.getDescricao();
+        alertMensagem = new ServiceAlertMensagem();
+        alertMensagem.setStrIco("ic_telefone_24dp");
+        alertMensagem.setCabecalho(String.format("Editar dados [telefone%s]", isContato ? " contato" : ""));
+        alertMensagem.setPromptText(String.format("%s, deseja editar o telefone: [%s]%s da empresa: [%s] ?",
+                USUARIO_LOGADO_APELIDO,
+                telefone,
+                isContato ? String.format(" para o contato: [%s]", getContatoVO()) : "",
+                txtRazao.getText()));
+        if ((temp = alertMensagem.getRetornoAlert_TextField("telefone", temp + "telefone")
+                .orElse(null)) == null) return;
+        if (!ServiceValidarDado.isTelefoneValido(temp, true))
+            editTelefone(temp);
+        if (!ServiceValidarDado.isTelefoneValido(temp, false)) return;
+        telefone = new ServiceConsultaWebServices().getTelefone_WsPortabilidadeCelular(ddd + temp);
+        listTelefoneVOObservableList.setAll(getEmpresaVO().getTabTelefoneVOList());
+        listContatoTelefoneVOObservableList.setAll(getContatoVO().getTabTelefoneVOList());
+    }
+
+    void addTelefone(String temp) {
+        alertMensagem = new ServiceAlertMensagem();
+        alertMensagem.setStrIco("ic_telefone_24dp");
+        alertMensagem.setCabecalho(String.format("Adicionar dados [telefone%s]", isContato ? " contato" : ""));
+        alertMensagem.setPromptText(String.format("%s, qual telefone a ser adicionado %sa empresa: [%s] ?",
+                USUARIO_LOGADO_APELIDO,
+                isContato ? String.format(" para o contato: [%s]\nd", isContato ? getContatoVO() : "") : "\npar ",
+                txtRazao.getText()));
+        if ((temp = alertMensagem.getRetornoAlert_TextField("telefone", temp).orElse(null)) == null) return;
+        if (!ServiceValidarDado.isTelefoneValido(temp, true))
+            addTelefone(temp);
+        if (!ServiceValidarDado.isTelefoneValido(temp, false)) return;
+        temp = temp.replaceAll("\\D", "");
+        TabTelefoneVO telefoneVO = new ServiceConsultaWebServices().getTelefone_WsPortabilidadeCelular(ddd + temp);
+        if (isEmpresa)
+            getEmpresaVO().getTabTelefoneVOList().add(telefoneVO);
+        else
+            getContatoVO().getTabTelefoneVOList().add(telefoneVO);
+        listTelefoneVOObservableList.setAll(getEmpresaVO().getTabTelefoneVOList());
+        listContatoTelefoneVOObservableList.setAll(getContatoVO().getTabTelefoneVOList());
     }
 
     void limparEndereco() {

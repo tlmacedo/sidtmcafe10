@@ -1,13 +1,7 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
-import br.com.cafeperfeito.sidtmcafe.model.dao.TabTelefoneDAO;
-import br.com.cafeperfeito.sidtmcafe.model.dao.WsCepPostmonDAO;
-import br.com.cafeperfeito.sidtmcafe.model.dao.WsCnpjReceitaWsDAO;
-import br.com.cafeperfeito.sidtmcafe.model.dao.WsTelefoneOperadoraDAO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabEnderecoVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabTelefoneVO;
+import br.com.cafeperfeito.sidtmcafe.model.dao.*;
+import br.com.cafeperfeito.sidtmcafe.model.vo.*;
 import javafx.concurrent.Task;
 
 public class ServiceConsultaWebServices {
@@ -46,5 +40,21 @@ public class ServiceConsultaWebServices {
 
     public TabTelefoneVO getTelefone_WsPortabilidadeCelular(String busca) {
         return new TabTelefoneDAO().getTelefone_WsPortabilidadeCelular(busca);
+    }
+
+    public void getProdutoNcmCest_WsEanCosmos(TabProdutoVO produto, String busca) {
+        final TabProdutoVO[] produtoVOS = {null};
+        Task<Void> buscaCNPJ = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                updateMessage("Pesquisando código de barra: [" + ServiceFormatarDado.getValorFormatado(busca, "codebar") + "]");
+                Thread.sleep(300);
+                new WsEanCosmosDAO().getProdutoNcmCest_EanCosmosVO(produto, busca);
+                return null;
+            }
+        };
+        new ServiceAlertMensagem("Aguarde pesquisando cnpj na receita federal...", "",
+                "ic_aguarde_sentado_orange_32dp.png").getProgressBar(buscaCNPJ, true, false, 1);
+        return;
     }
 }
