@@ -2,8 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceConsultaWebServices;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceValidarDado;
+import br.com.cafeperfeito.sidtmcafe.service.*;
 import com.jfoenix.controls.IFXTextInputControl;
 import javafx.util.Pair;
 import org.json.JSONArray;
@@ -14,23 +13,30 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema.*;
+
 //import br.com.cafeperfeito.sidtmcafe.service.FormatarDado;
 
 public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
 
     WsCnpjReceitaWsVO wsCnpjReceitaWsVO;
 
-    public WsCnpjReceitaWsVO getWsCnpjReceitaWsVO(String cnpj) {
-        JSONObject jsonObject = getJsonObjectHttpUrlConnection(WS_RECEITAWS_URL + cnpj, WS_RECEITAWS_TOKEN, "/days/0");
-        if (jsonObject == null)
-            return wsCnpjReceitaWsVO = null;
+    JSONObject getRetWs(String busca) {
+        return (jsonObject = getJsonObjectHttpUrlConnection(WS_RECEITAWS_URL + busca, WS_RECEITAWS_TOKEN, "/days/0"));
+    }
+
+
+    public void getWsCnpjReceitaWsVO(String busca) {
+        if (getRetWs(busca) == null)
+            return;
         try {
             wsCnpjReceitaWsVO = new WsCnpjReceitaWsVO();
 
             wsCnpjReceitaWsVO.setStatus(jsonObject.getString("status").toUpperCase());
             if (wsCnpjReceitaWsVO.getStatus().equals("ERROR")) {
                 wsCnpjReceitaWsVO.setMessage(jsonObject.getString("message").toUpperCase());
-                return wsCnpjReceitaWsVO = null;
+                wsCnpjReceitaWsVO = null;
+                return;
             }
             wsCnpjReceitaWsVO.setCnpj(jsonObject.getString("cnpj").toUpperCase());
             wsCnpjReceitaWsVO.setTipo(jsonObject.getString("tipo").toUpperCase());
@@ -80,9 +86,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             wsCnpjReceitaWsVO.setMunicipio(jsonObject.getString("municipio").toUpperCase());
             if (wsCnpjReceitaWsVO.getMunicipio().equals("")) {
                 wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioVO());
-//                wsJsonObjectWebServiceVO.setSisMunicipio_id(wsJsonObjectWebServiceVO.getSisMunicipioVO().getId());
                 wsCnpjReceitaWsVO.setSisUfVO(new SisUfVO());
-//                wsJsonObjectWebServiceVO.setUf(wsJsonObjectWebServiceVO.getSisUfVO().getSigla());
             } else {
                 wsCnpjReceitaWsVO.setSisMunicipioVO(new SisMunicipioDAO().getSisMunicipioVO(wsCnpjReceitaWsVO.getMunicipio(), true));
                 wsCnpjReceitaWsVO.setSisUfVO(wsCnpjReceitaWsVO.getSisMunicipioVO().getUfVO());
@@ -105,23 +109,28 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return wsCnpjReceitaWsVO;
     }
 
-    public TabEmpresaVO getTabEmpresaVO(TabEmpresaVO empresaVO, String cnpj) {
-        if (((wsCnpjReceitaWsVO = getWsCnpjReceitaWsVO(cnpj)) == null) || (wsCnpjReceitaWsVO.getStatus().equals("ERROR")))
-            return empresaVO;
-        TabEmpresaVO empresa = empresaVO;
-
-        empresa.setCnpj(wsCnpjReceitaWsVO.getCnpj());
-        empresa.setRazao(wsCnpjReceitaWsVO.getNome());
-        empresa.setFantasia(wsCnpjReceitaWsVO.getFantasia());
-        empresa.setDataAbertura(wsCnpjReceitaWsVO.getAbertura());
-        empresa.setNaturezaJuridica(wsCnpjReceitaWsVO.getNaturezaJuridica());
+    public void getTabEmpresaVO(TabEmpresaVO empresaVO, String busca) {
+        getWsCnpjReceitaWsVO(busca);
+        if (wsCnpjReceitaWsVO == null) {
+            ServiceAlertMensagem alertMensagem = new ServiceAlertMensagem();
+            alertMensagem.setCabecalho("Retorno inválido!");
+            alertMensagem.setPromptText(String.format("%s, o C.N.P.J: [%s] informado, não foi localizado na base de dados!",
+                    USUARIO_LOGADO_APELIDO, ServiceFormatarDado.getValorFormatado(busca, "cnpj")));
+            alertMensagem.setStrIco("ic_webservice_24dp");
+            alertMensagem.getRetornoAlert_OK();
+            return;
+        }
+        empresaVO.setCnpj(wsCnpjReceitaWsVO.getCnpj());
+        empresaVO.setRazao(wsCnpjReceitaWsVO.getNome());
+        empresaVO.setFantasia(wsCnpjReceitaWsVO.getFantasia());
+        empresaVO.setDataAbertura(wsCnpjReceitaWsVO.getAbertura());
+        empresaVO.setNaturezaJuridica(wsCnpjReceitaWsVO.getNaturezaJuridica());
 
         TabEnderecoVO endereco = new TabEnderecoVO(1, 0);
         if (wsCnpjReceitaWsVO.getSituacao().toLowerCase().equals("ativa")) {
-            endereco.setId(empresa.getTabEnderecoVOList().get(0).getId());
+            endereco.setId(empresaVO.getTabEnderecoVOList().get(0).getId());
             endereco.setCep(wsCnpjReceitaWsVO.getCep());
             endereco.setLogradouro(wsCnpjReceitaWsVO.getLogradouro());
             endereco.setNumero(wsCnpjReceitaWsVO.getNumero());
@@ -131,17 +140,17 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             endereco.setSisMunicipio_id(wsCnpjReceitaWsVO.getSisMunicipio_id());
             endereco.setPontoReferencia("");
         } else {
-            empresa.setSisSituacaoSistema_id(7);
-            empresa.setSisSituacaoSistemaVO(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(empresa.getSisSituacaoSistema_id()));
+            empresaVO.setSisSituacaoSistema_id(7);
+            empresaVO.setSisSituacaoSistemaVO(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(empresaVO.getSisSituacaoSistema_id()));
         }
-        empresa.getTabEnderecoVOList().set(0, endereco);
+        empresaVO.getTabEnderecoVOList().set(0, endereco);
 
         if (!wsCnpjReceitaWsVO.getEmail().equals("")) {
             List<String> emailList = ServiceValidarDado.getEmailsList(wsCnpjReceitaWsVO.getEmail());
             if (emailList != null)
                 for (String mail : emailList) {
-                    if (empresa.getTabEmailHomePageVOList().stream().noneMatch(e -> e.getDescricao().equals(mail)))
-                        empresa.getTabEmailHomePageVOList().add(new TabEmailHomePageVO(mail, true));
+                    if (empresaVO.getTabEmailHomePageVOList().stream().noneMatch(e -> e.getDescricao().equals(mail)))
+                        empresaVO.getTabEmailHomePageVOList().add(new TabEmailHomePageVO(mail, true));
                 }
 
         }
@@ -150,18 +159,16 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             List<String> telefoneList = ServiceValidarDado.getTelefoneList(wsCnpjReceitaWsVO.getTelefone());
             if (telefoneList != null)
                 for (String telefone : telefoneList)
-                    if (empresa.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(telefone))) {
-                        empresa.getTabTelefoneVOList().add(new ServiceConsultaWebServices().getTelefone_WsPortabilidadeCelular(telefone));
+                    if (empresaVO.getTabTelefoneVOList().stream().noneMatch(f -> f.getDescricao().contains(telefone))) {
+                        empresaVO.getTabTelefoneVOList().add(new ServiceConsultaWebServices().getTelefone_WsPortabilidadeCelular(telefone));
                     }
         }
-        empresa.getTabTelefoneVOList();
-        empresa.getTabEmpresaReceitaFederalVOList().stream()
+        empresaVO.getTabTelefoneVOList();
+        empresaVO.getTabEmpresaReceitaFederalVOList().stream()
                 .forEach(receita -> receita.setId(receita.getId() * (-1)));
-        empresa.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadePrincipal());
-        empresa.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadesSecundarias());
-        empresa.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getQsa());
-
-        return empresa;
+        empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadePrincipal());
+        empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadesSecundarias());
+        empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getQsa());
     }
 
 

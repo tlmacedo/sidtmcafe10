@@ -3,7 +3,11 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEnderecoVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.WsCepPostmonVO;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceAlertMensagem;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 import org.json.JSONObject;
+
+import static br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema.USUARIO_LOGADO_APELIDO;
 
 
 public class WsCepPostmonDAO extends BuscaWebService implements Constants {
@@ -12,15 +16,12 @@ public class WsCepPostmonDAO extends BuscaWebService implements Constants {
 
     WsCepPostmonVO wsCepPostmonVO;
 
-    public WsCepPostmonVO getCepPostmonVO(String cep) {
+    public void getCepPostmonVO(String cep) {
         jsonObject = getJsonObjectWebService(WS_POSTMON_URL + cep);
-
         if (jsonObject == null)
-            return wsCepPostmonVO = null;
-
+            return;
         try {
             wsCepPostmonVO = new WsCepPostmonVO();
-
             wsCepPostmonVO.setBairro(jsonObject.getString("bairro").toUpperCase());
             wsCepPostmonVO.setCidade(jsonObject.getString("cidade").toUpperCase());
             wsCepPostmonVO.setCep(jsonObject.getString("cep").toUpperCase());
@@ -36,18 +37,20 @@ public class WsCepPostmonDAO extends BuscaWebService implements Constants {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-
-        return wsCepPostmonVO;
     }
 
-    public TabEnderecoVO getTabEnderecoVO(int endereco_id, int sisTipoEndereco_id, String cep) {
-        if ((wsCepPostmonVO = getCepPostmonVO(cep)) == null)
-            return null;
-        TabEnderecoVO enderecoVO = null;
+    public void getTabEnderecoVO(TabEnderecoVO enderecoVO, String busca) {
+        getCepPostmonVO(busca);
+        if (wsCepPostmonVO == null) {
+            ServiceAlertMensagem alertMensagem = new ServiceAlertMensagem();
+            alertMensagem.setCabecalho("Dado inválido!");
+            alertMensagem.setPromptText(String.format("%s, o cep: [%s] não foi localizado na base de dados!",
+                    USUARIO_LOGADO_APELIDO, ServiceFormatarDado.getValorFormatado(busca, "cep")));
+            alertMensagem.setStrIco("ic_webservice_24dp");
+            alertMensagem.getRetornoAlert_OK();
+            return;
+        }
         try {
-            enderecoVO = new TabEnderecoVO(sisTipoEndereco_id, 0);
-            enderecoVO.setId(endereco_id);
             enderecoVO.setCep(wsCepPostmonVO.getCep());
             enderecoVO.setLogradouro(wsCepPostmonVO.getLogradouro());
             enderecoVO.setNumero("");
@@ -59,6 +62,5 @@ public class WsCepPostmonDAO extends BuscaWebService implements Constants {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return enderecoVO;
     }
 }

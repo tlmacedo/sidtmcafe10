@@ -6,55 +6,53 @@ import javafx.concurrent.Task;
 
 public class ServiceConsultaWebServices {
 
-    public TabEnderecoVO getEnderecoCep_postmon(int endereco_id, int sisTipoEndereco_id, String cep) {
-        final TabEnderecoVO[] enderecoVO = {null};
+    public void getEnderecoCep_postmon(TabEnderecoVO endereco, String busca) {
         Task<Void> buscaCep = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                updateMessage("Pesquisando C.E.P.: [" + ServiceFormatarDado.getValorFormatado(cep, "cep") + "]");
+                updateMessage("Pesquisando C.E.P.: [" + ServiceFormatarDado.getValorFormatado(busca, "cep") + "]");
                 Thread.sleep(200);
-                enderecoVO[0] = new WsCepPostmonDAO().getTabEnderecoVO(endereco_id, sisTipoEndereco_id, cep);
+                new WsCepPostmonDAO().getTabEnderecoVO(endereco, busca);
                 return null;
             }
         };
         new ServiceAlertMensagem("Aguarde pesquisando cep nos correios...", "",
                 "ic_aguarde_sentado_orange_32dp.png").getProgressBar(buscaCep, true, false, 1);
-        return enderecoVO[0];
+        return;
     }
 
-    public TabEmpresaVO getSistuacaoCNPJ_receitaWs(TabEmpresaVO empresa, String busca) {
-        final TabEmpresaVO[] empresaVO = {null};
+    public void getSistuacaoCNPJ_receitaWs(TabEmpresaVO empresa, String busca) {
         Task<Void> buscaCNPJ = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 updateMessage("Pesquisando C.N.P.J: [" + ServiceFormatarDado.getValorFormatado(busca, "cnpj") + "]");
                 Thread.sleep(300);
-                empresaVO[0] = new WsCnpjReceitaWsDAO().getTabEmpresaVO(empresa, busca);
-                return null;
-            }
-        };
-        new ServiceAlertMensagem("Aguarde pesquisando cnpj na receita federal...", "",
-                "ic_aguarde_sentado_orange_32dp.png").getProgressBar(buscaCNPJ, true, false, 1);
-        return empresaVO[0];
-    }
-
-    public TabTelefoneVO getTelefone_WsPortabilidadeCelular(String busca) {
-        return new TabTelefoneDAO().getTelefone_WsPortabilidadeCelular(busca);
-    }
-
-    public void getProdutoNcmCest_WsEanCosmos(TabProdutoVO produto, String busca) {
-        final TabProdutoVO[] produtoVOS = {null};
-        Task<Void> buscaCNPJ = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                updateMessage("Pesquisando código de barra: [" + ServiceFormatarDado.getValorFormatado(busca, "codebar") + "]");
-                Thread.sleep(300);
-                new WsEanCosmosDAO().getProdutoNcmCest_EanCosmosVO(produto, busca);
+                new WsCnpjReceitaWsDAO().getTabEmpresaVO(empresa, busca);
                 return null;
             }
         };
         new ServiceAlertMensagem("Aguarde pesquisando cnpj na receita federal...", "",
                 "ic_aguarde_sentado_orange_32dp.png").getProgressBar(buscaCNPJ, true, false, 1);
         return;
+    }
+
+    public TabTelefoneVO getTelefone_WsPortabilidadeCelular(String busca) {
+        return new TabTelefoneDAO().getTelefone_WsPortabilidadeCelular(busca);
+    }
+
+    public String getProdutoNcmCest_WsEanCosmos(TabProdutoVO produto, String busca) {
+        final String[] strNcm = new String[1];
+        Task<Void> buscaCNPJ = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                updateMessage("Pesquisando código de barra: [" + ServiceFormatarDado.getValorFormatado(busca, "codebar") + "]");
+                Thread.sleep(300);
+                strNcm[0] = new WsEanCosmosDAO().getStringNcmProduto_EanCosmosVO(produto, busca);
+                return null;
+            }
+        };
+        new ServiceAlertMensagem("Aguarde pesquisando cnpj na receita federal...", "",
+                "ic_aguarde_sentado_orange_32dp.png").getProgressBar(buscaCNPJ, true, false, 1);
+        return strNcm[0];
     }
 }

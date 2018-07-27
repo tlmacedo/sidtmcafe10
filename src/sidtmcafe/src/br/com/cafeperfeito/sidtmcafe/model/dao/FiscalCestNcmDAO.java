@@ -19,11 +19,22 @@ public class FiscalCestNcmDAO extends BuscaBancoDados {
         return fiscalCestNcmVO;
     }
 
+    public FiscalCestNcmVO getFiscalCestNcmVO(String ncm) {
+        getResultSet(String.format("SELECT * FROM fiscalCestNcm ORDER BY id", ncm != null ?
+                String.format("WHERE ncm = '%s'", ncm) : ""), false);
+        if (fiscalCestNcmVO == null)
+            getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE ncm LIKE = '%s' ORDER BY id", ncm != null ?
+                    String.format("WHERE ncm = '%s'", ncm.substring(0, 4)) : ""), false);
+        return fiscalCestNcmVO;
+    }
+
     public List<FiscalCestNcmVO> getFiscalCestNcmVOList(String ncm) {
         fiscalCestNcmVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE ncm LIKE '%s' ORDER BY id", ncm), true);
+        getResultSet(String.format("SELECT * FROM fiscalCestNcm ORDER BY id", ncm != null ?
+                String.format("WHERE ncm LIKE '%s'", ncm) : ""), true);
         if (fiscalCestNcmVOList.size() == 0)
-            getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE ncm LIKE = '%s' ORDER BY id", ncm.substring(0, 4)), true);
+            getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE ncm LIKE = '%s' ORDER BY id", ncm != null ?
+                    String.format("WHERE ncm LIKE '%s'", ncm.substring(0, 4)) : ""), true);
         return fiscalCestNcmVOList;
     }
 

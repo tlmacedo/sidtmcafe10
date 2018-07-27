@@ -81,12 +81,28 @@ public class FiscalCestNcmVO extends RecursiveTreeObject<FiscalCestNcmVO> {
     }
 
     public String getDetalheCestNcm() {
-        if (descricaoProperty().get() != "")
-            return "[Segmento]: " + segmentoProperty().get() +
-                    ";[descrição]: " + descricaoProperty().get() +
-                    ";[Cest]: " + ServiceFormatarDado.getValorFormatado(cestProperty().get(), "cest") +
-                    "  [Ncm]:" + ServiceFormatarDado.getValorFormatado(ncmProperty().get(), "ncm");
-        return "";
+        String txtRetorno = "";
+        if (descricaoProperty().get() != "") {
+            String espacoTmp = "", segmentoFormatado, descricaoFormatada = "", cestFormatado,
+                    ncmFormatado;
+            segmentoFormatado = String.format(";      %s", segmentoProperty().get());
+            if ((cestFormatado = ServiceFormatarDado.getValorFormatado(cestProperty().get().replaceAll("\\D", ""), "cest")) == null)
+                cestFormatado = cestProperty().get();
+            if ((ncmFormatado = ServiceFormatarDado.getValorFormatado(ncmProperty().get().replaceAll("\\D", ""), "ncm")) == null)
+                ncmFormatado = ncmProperty().get();
+            for (int i = 0; i < ((int) ((descricaoProperty().get().length() / 80) + 1)); i++) {
+                if (descricaoProperty().get().length() <= ((i * 80) + 80))
+                    descricaoFormatada += String.format(";      %s", descricaoProperty().get().substring(i * 80));
+                else
+                    descricaoFormatada += String.format(";      %s", descricaoProperty().get().substring(i * 80, (i * 80) + 80));
+            }
+            for (int i = ServiceFormatarDado.getValorFormatado(cestProperty().get(), "cest").length(); i < 10; i++) {
+                espacoTmp += " ";
+            }
+            txtRetorno += String.format("[Segmento]:%s;[Descrição]:%s;[Cest]: %s %s [Ncm]: %s",
+                    segmentoFormatado, descricaoFormatada, cestFormatado, espacoTmp, ncmFormatado);
+        }
+        return txtRetorno;
     }
 
     @Override

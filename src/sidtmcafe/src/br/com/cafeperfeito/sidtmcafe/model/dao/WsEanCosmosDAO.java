@@ -15,13 +15,12 @@ public class WsEanCosmosDAO extends BuscaWebService implements Constants {
     WsEanCosmosVO wsEanCosmosVO;
 
     JSONObject getRetWs(String busca) {
-        return (jsonObject =  getJsonObjectHttpUrlConnection(WS_COSMOS_URL + WS_COSMOS_SER_GTINS + busca + ".json", WS_COSMOS_TOKEN, ""));
+        return (jsonObject = getJsonObjectHttpUrlConnection(WS_COSMOS_URL + WS_COSMOS_SER_GTINS + busca + ".json", WS_COSMOS_TOKEN, ""));
     }
 
-    public WsEanCosmosVO getWsEanCosmosVO(String busca) {
-//        if (getRetWs(busca, WS_COSMOS_SER_GTINS) == null)
-            if (getRetWs(busca) == null)
-            return null;
+    public void getWsEanCosmosVO(String busca) {
+        if (getRetWs(busca) == null)
+            return;
         try {
             wsEanCosmosVO = new WsEanCosmosVO();
             wsEanCosmosVO.setDescricao(jsonObject.getString("description"));
@@ -30,20 +29,14 @@ public class WsEanCosmosDAO extends BuscaWebService implements Constants {
             if (!(ex instanceof JSONException))
                 ex.printStackTrace();
         }
-        return wsEanCosmosVO;
     }
 
-    public void getProdutoNcmCest_EanCosmosVO(TabProdutoVO produtoVO, String busca) {
-        if (getWsEanCosmosVO(busca) == null)
-            return;
-        try {
-            produtoVO.setDescricao(jsonObject.getString("description"));
-            produtoVO.setCodigo(jsonObject.getJSONObject("ncm").getString("code"));
-        } catch (Exception ex) {
-            if (!(ex instanceof JSONException))
-                ex.printStackTrace();
-        }
-        return;
+    public String getStringNcmProduto_EanCosmosVO(TabProdutoVO produtoVO, String busca) {
+        getWsEanCosmosVO(busca);
+        if (wsEanCosmosVO == null)
+            return null;
+        produtoVO.setDescricao(wsEanCosmosVO.getDescricao());
+        return wsEanCosmosVO.getNcm();
     }
 
 }

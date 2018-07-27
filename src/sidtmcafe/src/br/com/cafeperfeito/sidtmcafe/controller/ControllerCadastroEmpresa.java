@@ -11,7 +11,6 @@ import br.com.cafeperfeito.sidtmcafe.view.ViewCadastroEmpresa;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -21,16 +20,12 @@ import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import javafx.util.Pair;
 
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
@@ -329,20 +324,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     txtCNPJ.requestFocus();
                     return;
                 } else {
-                    TabEmpresaVO buscaEmpresaCNPJ;
-                    if ((buscaEmpresaCNPJ = new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(getEmpresaVO(), valueCnpj)) == null) {
-                        alertMensagem = new ServiceAlertMensagem();
-                        alertMensagem.setCabecalho("Retorno inválido!");
-                        alertMensagem.setPromptText(String.format("%s, o %s: [%s] informado, não foi localizado na base de dados!",
-                                USUARIO_LOGADO_APELIDO, txtCNPJ.getPromptText(), txtCNPJ.getText()));
-                        alertMensagem.setStrIco("ic_webservice_24dp");
-                        alertMensagem.getRetornoAlert_OK();
-                        txtCNPJ.requestFocus();
-                        return;
-                    } else {
-                        setEmpresaVO(buscaEmpresaCNPJ);
-                        txtIE.requestFocus();
-                    }
+                    new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(getEmpresaVO(), valueCnpj);
+                    exibirDadosEmpresa();
+                    txtIE.requestFocus();
                 }
             }
         });
@@ -358,20 +342,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         txtEndCEP.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             String valueCep;
             if (event.getCode() == KeyCode.ENTER && (valueCep = txtEndCEP.getText().replaceAll("\\D", "")).length() == 8) {
-                TabEnderecoVO enderecoBuscaCEP;
-                if ((enderecoBuscaCEP = new ServiceConsultaWebServices()
-                        .getEnderecoCep_postmon(getEnderecoVO().getId(), getEnderecoVO().getSisTipoEndereco_id(), valueCep)) == null) {
-                    alertMensagem = new ServiceAlertMensagem();
-                    alertMensagem.setCabecalho("Dado inválido!");
-                    alertMensagem.setPromptText(String.format("%s, o cep: [%s] não foi localizado na base de dados!",
-                            USUARIO_LOGADO_APELIDO, txtEndCEP.getText()));
-                    alertMensagem.setStrIco("ic_webservice_24dp");
-                    alertMensagem.getRetornoAlert_OK();
-                    txtEndCEP.requestFocus();
-                } else {
-                    setEnderecoVO(enderecoBuscaCEP);
+                new ServiceConsultaWebServices().getEnderecoCep_postmon(getEnderecoVO(), valueCep);
+                exibirDadosEndereco();
+                if (txtEndNumero.getText().equals(""))
                     txtEndNumero.requestFocus();
-                }
+                else
+                    txtEndCEP.requestFocus();
             }
         });
 
@@ -933,7 +909,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             alertMensagem.setCabecalho("Adicionar dados [endereço]");
             alertMensagem.setPromptText(String.format("%s, selecione o tipo endereço que vai ser adicionado\na empresa: [%s]", USUARIO_LOGADO_APELIDO, txtRazao.getText()));
             Object obj;
-            if ((obj = alertMensagem.getRetornoAlert_ComboBox(getEnderecoDisponivel()).orElse(null)) == null) return;
+            if ((obj = alertMensagem.getRetornoAlert_ComboBox(getEnderecoDisponivel()).orElse(null)) == null)
+                return;
             int idMunicipio = getEmpresaVO().getTabEnderecoVOList().size() > 0 ? getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipio_id() : 0;
             getEmpresaVO().getTabEnderecoVOList().add(new TabEnderecoVO(((SisTipoEnderecoVO) obj).getId(), idMunicipio));
             listEnderecoVOObservableList.setAll(getEmpresaVO().getTabEnderecoVOList());

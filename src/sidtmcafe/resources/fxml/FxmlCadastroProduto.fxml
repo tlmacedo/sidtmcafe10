@@ -234,7 +234,7 @@
                                         <JFXComboBox fx:id="cboFiscalCestNcm" labelFloat="true"
                                                      layoutX="5.0" layoutY="10.0" maxHeight="-Infinity"
                                                      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                                                     prefHeight="20.0" prefWidth="550.0" promptText="FiscalCestNcm">
+                                                     prefHeight="20.0" prefWidth="550.0" promptText="Cest_Ncm">
                                             <tooltip>
                                                 <Tooltip text="origem fiscal do produto"/>
                                             </tooltip>
