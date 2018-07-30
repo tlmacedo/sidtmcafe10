@@ -99,8 +99,8 @@ public class FiscalCestNcmVO extends RecursiveTreeObject<FiscalCestNcmVO> {
             for (int i = ServiceFormatarDado.getValorFormatado(cestProperty().get(), "cest").length(); i < 10; i++) {
                 espacoTmp += " ";
             }
-            txtRetorno += String.format("[Segmento]:%s;[Descrição]:%s;[Cest]: %s %s [Ncm]: %s",
-                    segmentoFormatado, descricaoFormatada, cestFormatado, espacoTmp, ncmFormatado);
+            txtRetorno += String.format("[Segmento]:%s;[Descrição]:%s;[Ncm]: %s %s [Cest]: %s",
+                    segmentoFormatado, descricaoFormatada, ncmFormatado, espacoTmp, cestFormatado);
         }
         return txtRetorno;
     }

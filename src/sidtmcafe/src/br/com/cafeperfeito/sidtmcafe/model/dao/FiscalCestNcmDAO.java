@@ -20,26 +20,31 @@ public class FiscalCestNcmDAO extends BuscaBancoDados {
     }
 
     public FiscalCestNcmVO getFiscalCestNcmVO(String ncm) {
-        getResultSet(String.format("SELECT * FROM fiscalCestNcm ORDER BY id", ncm != null ?
+        getResultSet(String.format("SELECT * FROM fiscalCestNcm %s ", ncm != null ?
                 String.format("WHERE ncm = '%s'", ncm) : ""), false);
         if (fiscalCestNcmVO == null)
-            getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE ncm LIKE = '%s' ORDER BY id", ncm != null ?
+            getResultSet(String.format("SELECT * FROM fiscalCestNcm %s ", ncm != null ?
                     String.format("WHERE ncm = '%s'", ncm.substring(0, 4)) : ""), false);
         return fiscalCestNcmVO;
     }
 
     public List<FiscalCestNcmVO> getFiscalCestNcmVOList(String ncm) {
-        fiscalCestNcmVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * FROM fiscalCestNcm ORDER BY id", ncm != null ?
-                String.format("WHERE ncm LIKE '%s'", ncm) : ""), true);
-        if (fiscalCestNcmVOList.size() == 0)
-            getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE ncm LIKE = '%s' ORDER BY id", ncm != null ?
-                    String.format("WHERE ncm LIKE '%s'", ncm.substring(0, 4)) : ""), true);
+        try {
+            fiscalCestNcmVOList = new ArrayList<>();
+            getResultSet(String.format("SELECT * FROM fiscalCestNcm %s ", (ncm != null && !ncm.equals("")) ?
+                    String.format("WHERE ncm LIKE '%s'", ncm + "%") : ""), true);
+            if (fiscalCestNcmVOList.size() == 0)
+                if (ncm.length() >= 4)
+                    getResultSet(String.format("SELECT * FROM fiscalCestNcm %s ", (ncm != null && !ncm.equals("")) ?
+                            String.format("WHERE ncm LIKE '%s'", ncm.substring(0, 4) + "%") : ""), true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return fiscalCestNcmVOList;
     }
 
     void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+        rs = getResultadosBandoDados(String.format("%s ORDER BY ncm, cest", comandoSql));
         try {
             while (rs.next()) {
                 fiscalCestNcmVO = new FiscalCestNcmVO();

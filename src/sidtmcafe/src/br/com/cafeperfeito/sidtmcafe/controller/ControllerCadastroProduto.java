@@ -270,6 +270,13 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
         });
 
+        txtFiscalNcm.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) return;
+            cboFiscalCestNcm.setItems(new FiscalCestNcmDAO()
+                    .getFiscalCestNcmVOList(newValue.replaceAll("\\D", ""))
+                    .stream().collect(Collectors.toCollection(FXCollections::observableArrayList)));
+        });
+
         txtPrecoFabrica.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
