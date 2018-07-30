@@ -79,19 +79,32 @@ public class ServiceFormatarDado implements Constants {
                 tipOrMascara.toLowerCase().replaceAll("\\d", "").contains("barras"))
             return String.format("%013d", 0); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("moeda") || tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("numero") || tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("peso")) {
-            if (tipOrMascara.replaceAll("\\D", "").equals(""))
-//                return "#,###,###,##0;-#,###,###,##0";
+            if (tipOrMascara.replaceAll("\\D", "").equals("")) {
                 return "#,###,###,##0;-#,###,###,##0";
-            else
+            } else {
                 qtdDigitos = Integer.parseInt(tipOrMascara.replaceAll("\\D", ""));
-//            String zeros = String.format("%0" + (qtdDigitos + 1) + "d", 0).replaceAll("(\\d{1})(\\d{" + qtdDigitos + "})$", "$1.$2");
-//            return "#,###,###,##" + zeros + ";-#,###,###,##" + zeros;
-            return String.format("%0" + (qtdDigitos + 1) + "d", 0).replaceAll("(\\d{1})(\\d{" + qtdDigitos + "})$", "$1.$2");
+                return String.format("%0" + (qtdDigitos + 1) + "d", 0).replaceAll("(\\d{1})(\\d{" + qtdDigitos + "})$", "$1.$2");
+            }
         }
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("cep"))
             return String.format("%08d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{3})$", "$1.$2-$3"); //.replace("0", caracter);
-        if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("ncm"))
-            return String.format("%08d", 0).replaceAll("(\\d{4})(\\d{2})(\\d{2})$", "$1.$2.$3"); //.replace("0", caracter);
+        if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("ncm")) {
+            if (qtdDigitos == 0) return "0";
+            if (qtdDigitos <= 4) {
+                return String.format("%0" + (qtdDigitos) + "d", 0).replaceAll("(\\d{4})$", "$1"); //.replace("0", caracter);
+            } else {
+                if (qtdDigitos <= 6) {
+                    return String.format("%0" + (qtdDigitos) + "d", 0).replaceAll("(\\d{4})(\\d{1,2})$", "$1.$2"); //.replace("0", caracter);
+                } else {
+                    if (qtdDigitos > 8) {
+                        return String.format("%08d", 0).replaceAll("(\\d{4})(\\d{2})(\\d{2})$", "$1.$2.$3");
+                    } else {
+                        return String.format("%0" + (qtdDigitos) + "d", 0).replaceAll("(\\d{4})(\\d{2})(\\d{1,2})$", "$1.$2.$3"); //.replace("0", caracter);
+                    }
+                }
+            }
+        }
+
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("cest"))
             return String.format("%07d", 0).replaceAll("(\\d{2})(\\d{3})(\\d{2})$", "$1.$2.$3"); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("nfechave"))
@@ -101,16 +114,19 @@ public class ServiceFormatarDado implements Constants {
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("nfedocorigem"))
             return String.format("%012d", 0).replaceAll("(\\d{11})(\\d{1})$", "$1-$2"); //.replace("0", caracter);
         if (tipOrMascara.toLowerCase().replaceAll("\\d", "").equals("telefone"))
-            if (qtdDigitos < 9)
+            if (qtdDigitos < 9) {
                 return String.format("%08d", 0).replaceAll("(\\d{4})(\\d{4})$", "$1-$2"); //.replace("0", caracter);
-            else
+            } else {
                 return String.format("%09d", 0).replaceAll("(\\d{1})(\\d{4})(\\d{4})", "$1 $2-$3"); //.replace("0", caracter);
+            }
         if (tipOrMascara.replaceAll("\\d", "").length() >= 2)
-            if (tipOrMascara.toLowerCase().replaceAll("\\d", "").substring(0, 2).equals("ie"))
-                if (tipOrMascara.length() >= 4)
+            if (tipOrMascara.toLowerCase().replaceAll("\\d", "").substring(0, 2).equals("ie")) {
+                if (tipOrMascara.length() >= 4) {
                     return getMascaraIE(tipOrMascara.substring(2).toUpperCase(), caracter);
-                else
+                } else {
                     return String.format("%012d", 0); //.replace("0", caracter);
+                }
+            }
         return String.format("%0" + qtdDigitos + "d", 0).replace("0", caracter);
     }
 

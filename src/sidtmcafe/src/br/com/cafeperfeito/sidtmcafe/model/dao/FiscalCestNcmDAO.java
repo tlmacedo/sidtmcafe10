@@ -46,8 +46,8 @@ public class FiscalCestNcmDAO extends BuscaBancoDados {
                 fiscalCestNcmVO.setId(rs.getInt("id"));
                 fiscalCestNcmVO.setSegmento(rs.getString("segmento"));
                 fiscalCestNcmVO.setDescricao(rs.getString("descricao"));
-                fiscalCestNcmVO.setCest(rs.getString("cest"));
-                fiscalCestNcmVO.setNcm(rs.getString("ncm"));
+                fiscalCestNcmVO.setCest(rs.getString("cest").replaceAll("\\D", ""));
+                fiscalCestNcmVO.setNcm(rs.getString("ncm").replaceAll("\\D", ""));
                 if (returnList) fiscalCestNcmVOList.add(fiscalCestNcmVO);
             }
         } catch (Exception ex) {

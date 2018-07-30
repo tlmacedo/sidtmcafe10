@@ -206,13 +206,15 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     return;
                 switch (event.getCode()) {
                     case F1:
-                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         setStatusFormulario("incluir");
                         setEmpresaVO(new TabEmpresaVO(1));
                         break;
                     case F2:
                     case F5:
-                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         listEndereco.getSelectionModel().selectFirst();
                         if (!validarDados()) break;
                         if (buscaDuplicidade()) break;
@@ -230,7 +232,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         }
                         break;
                     case F3:
-                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         boolean statusIncluir = getStatusFormulario().toLowerCase().equals("incluir");
                         alertMensagem = new ServiceAlertMensagem();
                         alertMensagem.setStrIco("ic_cadastro_empresa_cancel_24dp");
@@ -243,24 +246,31 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         setStatusFormulario("pesquisa");
                         break;
                     case F4:
-                        if (!getStatusBarTecla().contains(event.getCode().toString()) || !(ttvEmpresa.getSelectionModel().getSelectedIndex() >= 0))
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
+                        if (ttvEmpresa.getSelectionModel().getSelectedIndex() < 0)
                             break;
                         setStatusFormulario("editar");
                         break;
                     case F6:
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         if (getStatusFormulario().toLowerCase().equals("pesquisa") || !(event.isShiftDown())) break;
                         keyShiftF6();
                         break;
                     case F7:
-                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         txtPesquisaEmpresa.requestFocus();
                         break;
                     case F8:
-                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         cboFiltroPesquisa.requestFocus();
                         break;
                     case F12:
-                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         fechar();
                         break;
                     case HELP:
@@ -1182,19 +1192,28 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     boolean validarDadosEmpresa() {
         boolean result = true;
-        if (!(result = ServiceValidarDado.isCnpjCpfValido(txtCNPJ.getText().replaceAll("\\D", ""))))
+        String dado = null;
+        if (!(result = ServiceValidarDado.isCnpjCpfValido(txtCNPJ.getText().replaceAll("\\D", "")))) {
+            dado = "C.N.P.J.";
             txtCNPJ.requestFocus();
-        if (!(result = (txtRazao.getText().length() >= 3 && result == true)))
+        }
+        if (!(result = (txtRazao.getText().length() >= 3 && result == true))) {
+            dado = "razão";
             txtRazao.requestFocus();
-        if (!(result = (txtFantasia.getText().length() >= 3 && result == true)))
+        }
+        if (!(result = (txtFantasia.getText().length() >= 3 && result == true))) {
+            dado = "fantasia";
             txtFantasia.requestFocus();
+        }
         chkIeIsento.setSelected(txtIE.getLength() == 0);
-        if (!(result = ((chkIsCliente.isSelected() || chkIsFornecedor.isSelected() || chkIsTransportadora.isSelected()) && result == true)))
+        if (!(result = ((chkIsCliente.isSelected() || chkIsFornecedor.isSelected() || chkIsTransportadora.isSelected()) && result == true))) {
+            dado = "tipo empresa";
             chkIsCliente.requestFocus();
+        }
         if (!result) {
             alertMensagem = new ServiceAlertMensagem();
-            alertMensagem.setCabecalho("Dados inválido!");
-            alertMensagem.setPromptText(String.format("%s, precisa de dados válidos para empresa!", USUARIO_LOGADO_APELIDO));
+            alertMensagem.setCabecalho(String.format("Dados inválido [%s]", dado));
+            alertMensagem.setPromptText(String.format("%s, %s incompleto(a) ou invalido(a) para a empresa: [%s]", USUARIO_LOGADO_APELIDO, dado, txtRazao.getText()));
             alertMensagem.setStrIco("ic_atencao_triangulo_24dp");
             alertMensagem.getRetornoAlert_OK();
         } else result = guardarEmpresa();

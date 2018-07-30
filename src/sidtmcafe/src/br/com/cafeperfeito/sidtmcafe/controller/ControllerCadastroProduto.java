@@ -14,6 +14,8 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -28,6 +30,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import javafx.util.Pair;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -119,28 +123,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                                 else novoTexto += "\r\n" + det;
                             setText(novoTexto);
                         }
-//                        super.updateItem(item, empty);
-//                        String segmento = "";
-//                        if (item == null) setText(null);
-//                        else {
-//                            String novoTexto = "";
-//                            if (segmento.equals("") || !segmento.equals(item.getSegmento())) {
-//                                segmento = item.getSegmento();
-//                                novoTexto += segmento;
-//                            }
-//                            String espaco = "";
-//                            for (int i = item.getCest().length(); i < 8; i++) {
-//                                espaco += " ";
-//                            }
-//                            novoTexto += String.format("\r\n    [Cest: %s] %s [Ncm: %s]", item.getCest(), espaco, item.getNcm());
-//                            for (int i = 0; i < ((int) ((item.getDescricao().length() / 80) + 1)); i++) {
-//                                if (item.getDescricao().length() <= ((i * 80) + 80))
-//                                    novoTexto += "\r\n      " + item.getDescricao().substring(i * 80);
-//                                else
-//                                    novoTexto += "\r\n      " + item.getDescricao().substring(i * 80, (i * 80) + 80);
-//                            }
-//                            setText(novoTexto);
-//                        }
                     }
                 };
                 return cell;
@@ -152,15 +134,13 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     @Override
     public void escutarTecla() {
         ttvProduto.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                setProdutoVO(newValue.getValue());
-            }
+            if (newValue == null) return;
+            setProdutoVO(newValue.getValue());
         });
 
         ttvProduto.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue && statusFormulario.toLowerCase().equals("pesquisa") && ttvProduto.getSelectionModel().getSelectedItem() != null) {
+            if (newValue && statusFormulario.toLowerCase().equals("pesquisa") && ttvProduto.getSelectionModel().getSelectedItem() != null)
                 setProdutoVO(ttvProduto.getSelectionModel().getSelectedItem().getValue());
-            }
         });
 
         ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
@@ -178,13 +158,16 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     return;
                 switch (event.getCode()) {
                     case F1:
-                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         setStatusFormulario("incluir");
                         setProdutoVO(new TabProdutoVO(0));
                         break;
                     case F2:
                     case F5:
-                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
+                        if (!validarDadosProduto()) break;
                         if (buscaDuplicidadeCode(getProdutoVO().getCodigo(), false)) break;
                         if (salvarProduto()) {
                             switch (getStatusFormulario().toLowerCase()) {
@@ -200,7 +183,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                         }
                         break;
                     case F3:
-                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         boolean statusIncluir = getStatusFormulario().toLowerCase().equals("incluir");
                         alertMensagem = new ServiceAlertMensagem();
                         alertMensagem.setStrIco("ic_cadastro_produto_cancel_24dp");
@@ -213,24 +197,31 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                         setStatusFormulario("pesquisa");
                         break;
                     case F4:
-                        if (!getStatusBarTecla().contains(event.getCode().toString()) || !(ttvProduto.getSelectionModel().getSelectedIndex() >= 0))
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
+                        if (ttvProduto.getSelectionModel().getSelectedIndex() < 0)
                             break;
                         setStatusFormulario("editar");
                         break;
                     case F6:
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         if (getStatusFormulario().toLowerCase().equals("pesquisa") || !(event.isShiftDown())) break;
                         keyShiftF6();
                         break;
                     case F7:
-                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         txtPesquisaProduto.requestFocus();
                         break;
                     case F8:
-                        //if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         //cboFiltroPesquisa.requestFocus();
                         break;
                     case F12:
-                        if (!getStatusBarTecla().contains(event.getCode().toString())) break;
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
                         fechar();
                         break;
                     case HELP:
@@ -241,6 +232,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                         if (getStatusFormulario().toLowerCase().equals("pesquisa")) break;
                         keyDelete();
                         break;
+                    case B:
+                        if (getStatusFormulario().toLowerCase().equals("pesquisa")) break;
+                        if (CODE_KEY_CTRL_ALT_B.match(event) || CHAR_KEY_CTRL_ALT_B.match(event))
+                            addCodeBar();
                 }
                 if (ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedIndex() > 0)
                     ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedItem().setOnCloseRequest(event1 -> {
@@ -263,10 +258,62 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             ttvProduto.getSelectionModel().selectFirst();
         });
 
+        cboFiscalCestNcm.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) return;
+            txtFiscalNcm.setText(ServiceFormatarDado.getValorFormatado(newValue.getNcm(), "ncm"));
+            txtFiscalCest.setText(ServiceFormatarDado.getValorFormatado(newValue.getCest(), "cest"));
+        });
+
         listCodBarraVOObservableList.addListener((ListChangeListener) c -> {
             listCodigoBarra.setItems(listCodBarraVOObservableList.stream()
                     .filter(codBarra -> codBarra.getId() >= 0)
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
+        });
+
+        txtPrecoFabrica.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!txtPrecoFabrica.isFocused()) return;
+                vlrConsumidor();
+                vlrLucroBruto();
+            }
+        });
+
+        txtMargem.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!txtMargem.isFocused()) {
+                    return;
+                }
+                vlrConsumidor();
+                vlrLucroBruto();
+            }
+        });
+
+        txtPrecoVenda.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!txtPrecoVenda.isFocused()) return;
+                vlrMargem();
+                vlrLucroBruto();
+            }
+        });
+
+        txtComissaoPorc.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!txtComissaoPorc.isFocused()) return;
+                vlrComissaoReal();
+                vlrLucroBruto();
+            }
+        });
+
+        txtPrecoUltimoFrete.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!txtPrecoUltimoFrete.isFocused()) return;
+                vlrLucroBruto();
+            }
         });
     }
 
@@ -506,9 +553,14 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         txtVarejo.setText(String.valueOf(getProdutoVO().getVarejo()));
         txtPrecoUltimoFrete.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getPrecoUltimoFrete()), "moeda2"));
         txtComissaoPorc.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getComissao()), "moeda2"));
-        cboFiscalCestNcm.getSelectionModel().select(cboFiscalCestNcm.getItems().stream()
-                .filter(cestNcm -> cestNcm.getId() == getProdutoVO().getFiscalCestNcm_id())
-                .findFirst().orElse(null));
+        if (getProdutoVO().getFiscalCestNcm_id() == 0)
+            cboFiscalCestNcm.getSelectionModel().select(-1);
+        else
+            cboFiscalCestNcm.getSelectionModel().select(cboFiscalCestNcm.getItems().stream()
+                    .filter(cestNcm -> cestNcm.getId() == getProdutoVO().getFiscalCestNcm_id())
+                    .findFirst().orElse(null));
+        txtFiscalNcm.setText(ServiceFormatarDado.getValorFormatado(getProdutoVO().getNcm(), "ncm"));
+        txtFiscalCest.setText(ServiceFormatarDado.getValorFormatado(getProdutoVO().getCest(), "cest"));
 
         cboFiscalOrigem.getSelectionModel().select(getProdutoVO().getFiscalCstOrigemVO());
         cboFiscalIcms.getSelectionModel().select(getProdutoVO().getFiscalIcmsVO());
@@ -529,23 +581,21 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void keyShiftF6() {
-        TabProduto_CodBarraVO codBarraVO;
-        codBarraVO = listCodigoBarra.getSelectionModel().getSelectedItem();
-        if (codBarraVO == null) return;
-        alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco("ic_barcode_update_24dp");
-        alertMensagem.setCabecalho(String.format("Editar dados [código de barras]"));
-        alertMensagem.setPromptText(String.format("%s, deseja editar o código de barras: [%s]\ndo produto: [%s] ?",
-                USUARIO_LOGADO_APELIDO, codBarraVO, txtDescricao.getText()));
-        String codBarras;
-        if ((codBarras = alertMensagem.getRetornoAlert_TextField(
-                ServiceFormatarDado.gerarMascara("barcode", 13, "#"), codBarraVO.getCodBarra())
-                .orElse(null)) == null) return;
-        codBarraVO.setCodBarra(codBarras);
-        listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
+        if (listCodigoBarra.isFocused())
+            updateCodeBar();
     }
 
     void keyInsert() {
+        if (listCodigoBarra.isFocused())
+            addCodeBar();
+    }
+
+    void keyDelete() {
+        if (listCodigoBarra.isFocused())
+            delCodeBar();
+    }
+
+    void addCodeBar() {
         alertMensagem = new ServiceAlertMensagem();
         alertMensagem.setStrIco("ic_barcode_add_24dp");
         alertMensagem.setCabecalho(String.format("Adicionar dados [código de barras]"));
@@ -557,7 +607,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 .orElse(null)) == null) return;
         if (buscaDuplicidadeCode(codBarras, true)) return;
         String strNcm;
-        if ((strNcm = new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarras)) != null) {
+        if (!(strNcm = new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarras)).equals("")) {
             getProdutoVO().setFiscalCestNcmVO(new FiscalCestNcmDAO().getFiscalCestNcmVO(strNcm));
             getProdutoVO().setFiscalCestNcm_id(getProdutoVO().getFiscalCestNcmVO().getId());
         }
@@ -566,7 +616,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
     }
 
-    void keyDelete() {
+    void delCodeBar() {
         TabProduto_CodBarraVO codBarraVO = null;
         codBarraVO = listCodigoBarra.getSelectionModel().getSelectedItem();
         if (codBarraVO == null) return;
@@ -581,6 +631,23 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         else
             getProdutoVO().getCodBarraVOList().get(getProdutoVO().getCodBarraVOList().indexOf(codBarraVO))
                     .setId(codBarraVO.getId() * (-1));
+        listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
+    }
+
+    void updateCodeBar() {
+        TabProduto_CodBarraVO codBarraVO;
+        codBarraVO = listCodigoBarra.getSelectionModel().getSelectedItem();
+        if (codBarraVO == null) return;
+        alertMensagem = new ServiceAlertMensagem();
+        alertMensagem.setStrIco("ic_barcode_update_24dp");
+        alertMensagem.setCabecalho(String.format("Editar dados [código de barras]"));
+        alertMensagem.setPromptText(String.format("%s, deseja editar o código de barras: [%s]\ndo produto: [%s] ?",
+                USUARIO_LOGADO_APELIDO, codBarraVO, txtDescricao.getText()));
+        String codBarras;
+        if ((codBarras = alertMensagem.getRetornoAlert_TextField(
+                ServiceFormatarDado.gerarMascara("barcode", 13, "#"), codBarraVO.getCodBarra())
+                .orElse(null)) == null) return;
+        codBarraVO.setCodBarra(codBarras);
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
     }
 
@@ -609,6 +676,35 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             ex.printStackTrace();
         }
         return false;
+    }
+
+    boolean validarDadosProduto() {
+        boolean result = true;
+        String dado = null;
+        if (!(result = (txtCodigo.getText().length() >= 1 && result == true))) {
+            dado = "código";
+            txtCodigo.requestFocus();
+        }
+        if (!(result = (txtDescricao.getText().length() >= 3 && result == true))) {
+            dado = "descrição";
+            txtDescricao.requestFocus();
+        }
+        if (!(result = (txtFiscalNcm.getText().length() >= 1 && result == true))) {
+            dado = "descrição";
+            txtFiscalNcm.requestFocus();
+        }
+        if (!(result = (Double.parseDouble(txtPrecoVenda.getText()) > 0 && result == true))) {
+            dado = "preço de venda";
+            txtPrecoVenda.requestFocus();
+        }
+        if (!result) {
+            alertMensagem = new ServiceAlertMensagem();
+            alertMensagem.setCabecalho(String.format("Dados inválido [%s]", dado));
+            alertMensagem.setPromptText(String.format("%s, %s incompleto(a) ou invalido(a) para o produto: [%s]", USUARIO_LOGADO_APELIDO, dado, txtDescricao.getText()));
+            alertMensagem.setStrIco("ic_atencao_triangulo_24dp");
+            alertMensagem.getRetornoAlert_OK();
+        }
+        return result;
     }
 
     boolean salvarProduto() {
@@ -647,6 +743,65 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             return false;
         }
         return true;
+    }
+
+    void vlrConsumidor() {
+        Double prcFabrica = Double.parseDouble(txtPrecoFabrica.getText().replace(".", "").replace(",", "."));
+        Double margem = Double.parseDouble(txtMargem.getText().replace(".", "").replace(",", "."));
+        Double prcConsumidor = 0.;
+        if (margem.equals(0.)) prcConsumidor = prcFabrica;
+        else prcConsumidor = (prcFabrica * (1. + (margem / 100.)));
+        txtPrecoVenda.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(prcConsumidor).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+    }
+
+    void vlrMargem() {
+        Double prcFabrica = Double.parseDouble(txtPrecoFabrica.getText().replace(".", "").replace(",", "."));
+        Double prcConsumidor = Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", "."));
+        Double margem = 0.;
+        if (prcConsumidor.equals(prcFabrica))
+            margem = 0.;
+        else
+            margem = (((prcConsumidor - prcFabrica) * 100.) / prcFabrica);
+        txtMargem.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(margem).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+    }
+
+    void vlrLucroBruto() {
+        Double prcFabrica = Double.parseDouble(txtPrecoFabrica.getText().replace(".", "").replace(",", "."));
+        Double prcConsumidor = Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", "."));
+        Double lucroBruto;
+        if (prcConsumidor.equals(prcFabrica)) lucroBruto = 0.;
+        else lucroBruto = (prcConsumidor - prcFabrica);
+        txtLucroBruto.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(lucroBruto).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+        vlrLucroLiq();
+    }
+
+    void vlrLucroLiq() {
+        Double lucroBruto = Double.parseDouble(txtLucroBruto.getText().replace(".", "").replace(",", "."));
+        Double ultimoFrete = Double.parseDouble(txtPrecoUltimoFrete.getText().replace(".", "").replace(",", "."));
+        Double comissaoReal = Double.parseDouble(txtComissaoReal.getText().replace(".", "").replace(",", "."));
+        Double lucroLiquido;
+        if (lucroBruto.equals(0.)) lucroLiquido = 0.;
+        else lucroLiquido = (lucroBruto - (ultimoFrete + comissaoReal));
+        txtLucroLiquido.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(lucroLiquido).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+        vlrLucratividade();
+    }
+
+    void vlrLucratividade() {
+        Double prcConsumidor = Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", "."));
+        Double lucroLiquido = Double.parseDouble(txtLucroLiquido.getText().replace(".", "").replace(",", "."));
+        Double lucratividade;
+        if (lucroLiquido.equals(0.)) lucratividade = 0.;
+        else lucratividade = ((lucroLiquido * 100.) / prcConsumidor);
+        txtLucratividade.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(lucratividade).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+    }
+
+    void vlrComissaoReal() {
+        Double prcConsumidor = Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", "."));
+        Double comissaoPorc = Double.parseDouble(txtComissaoPorc.getText().replace(".", "").replace(",", "."));
+        Double comissaoReal;
+        if (comissaoPorc.equals(0.)) comissaoReal = 0.;
+        else comissaoReal = prcConsumidor * (comissaoPorc / 100.);
+        txtComissaoReal.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(comissaoReal).setScale(2, RoundingMode.HALF_UP).toString(), 2));
     }
 
 }

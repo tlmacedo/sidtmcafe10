@@ -26,7 +26,7 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
     IntegerProperty id, sisUnidadeComercial_id, sisSituacaoSistema_id, varejo, fiscalCestNcm_id, fiscalCSTOrigem_id,
             fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, usuarioCadastro_id, usuarioAtualizacao_id;
 
-    StringProperty codigo, descricao, nfeGenero;
+    StringProperty codigo, descricao, nfeGenero, ncm, cest;
 
     DoubleProperty peso, precoFabrica, precoVenda, precoUltimoFrete, comissao;
 
@@ -322,6 +322,32 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     public void setNfeGenero(String nfeGenero) {
         nfeGeneroProperty().set(nfeGenero);
+    }
+
+    public String getNcm() {
+        return ncmProperty().get();
+    }
+
+    public StringProperty ncmProperty() {
+        if (ncm == null) ncm = new SimpleStringProperty("");
+        return ncm;
+    }
+
+    public void setNcm(String ncm) {
+        ncmProperty().set(ncm);
+    }
+
+    public String getCest() {
+        return cestProperty().get();
+    }
+
+    public StringProperty cestProperty() {
+        if (cest == null) cest = new SimpleStringProperty("");
+        return cest;
+    }
+
+    public void setCest(String cest) {
+        cestProperty().set(cest);
     }
 
     public double getPeso() {
