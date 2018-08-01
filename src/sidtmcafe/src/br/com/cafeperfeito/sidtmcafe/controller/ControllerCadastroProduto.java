@@ -34,11 +34,14 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ControllerCadastroProduto extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
@@ -613,7 +616,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 ServiceFormatarDado.gerarMascara("barcode", 13, "#"), "")
                 .orElse(null)) == null) return;
         if (buscaDuplicidadeCode(codBarras, true)) return;
-        String strNcm;
+        String strNcm = "";
+        guardarProduto();
         if (!(strNcm = new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarras)).equals("")) {
             getProdutoVO().setFiscalCestNcmVO(new FiscalCestNcmDAO().getFiscalCestNcmVO(strNcm));
             getProdutoVO().setFiscalCestNcm_id(getProdutoVO().getFiscalCestNcmVO().getId());
@@ -700,9 +704,24 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             dado = "descrição";
             txtFiscalNcm.requestFocus();
         }
-        if (!(result = (Double.parseDouble(txtPrecoVenda.getText()) > 0 && result == true))) {
+        if (!(result = (Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", ".")) > 0 && result == true))) {
             dado = "preço de venda";
             txtPrecoVenda.requestFocus();
+        }
+        if (!(result = ((cboUnidadeComercial.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
+            dado = "und comercial";
+            cboFiscalOrigem.requestFocus();
+        }
+        if (!(result = ((cboSituacaoSistema.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
+            dado = "sit. sistema";
+            cboFiscalOrigem.requestFocus();
+        }
+        if (!(result = ((cboFiscalOrigem.getSelectionModel().getSelectedIndex() >= 0
+                || cboFiscalIcms.getSelectionModel().getSelectedIndex() >= 0
+                || cboFiscalPis.getSelectionModel().getSelectedIndex() >= 0
+                || cboFiscalCofins.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
+            dado = "fiscal";
+            cboFiscalOrigem.requestFocus();
         }
         if (!result) {
             alertMensagem = new ServiceAlertMensagem();
@@ -710,8 +729,46 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             alertMensagem.setPromptText(String.format("%s, %s incompleto(a) ou invalido(a) para o produto: [%s]", USUARIO_LOGADO_APELIDO, dado, txtDescricao.getText()));
             alertMensagem.setStrIco("ic_atencao_triangulo_24dp");
             alertMensagem.getRetornoAlert_OK();
-        }
+        } else result = guardarProduto();
         return result;
+    }
+
+    boolean guardarProduto() {
+        try {
+            getProdutoVO().setCodigo(txtCodigo.getText());
+            getProdutoVO().setDescricao(txtDescricao.getText());
+            getProdutoVO().setPeso(Double.parseDouble(txtPeso.getText().replace(".", "").replace(",", ".")));
+            System.out.printf("Peso; [%s]\n", getProdutoVO().getPeso());
+            getProdutoVO().setSisUnidadeComercial_id(cboUnidadeComercial.getSelectionModel().getSelectedItem().getId());
+            getProdutoVO().setSisSituacaoSistema_id(cboSituacaoSistema.getSelectionModel().getSelectedItem().getId());
+            getProdutoVO().setPrecoFabrica(Double.parseDouble(txtPrecoFabrica.getText().replace(".", "").replace(",", ".")));
+            System.out.printf("setPrecoFabrica; [%s]\n", getProdutoVO().getPrecoFabrica());
+            getProdutoVO().setPrecoVenda(Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", ".")));
+            System.out.printf("setPrecoVenda; [%s]\n", getProdutoVO().getPrecoVenda());
+            getProdutoVO().setVarejo(Integer.parseInt(txtVarejo.getText().replaceAll("\\D", "")));
+            getProdutoVO().setPrecoUltimoFrete(Double.parseDouble(txtPrecoUltimoFrete.getText().replace(".", "").replace(",", ".")));
+            System.out.printf("setPrecoUltimoFrete; [%s]\n", getProdutoVO().getPrecoUltimoFrete());
+            getProdutoVO().setComissao(Double.parseDouble(txtComissaoPorc.getText().replace(".", "").replace(",", ".")));
+            System.out.printf("setComissao; [%s]\n", getProdutoVO().getComissao());
+            if (cboFiscalCestNcm.getSelectionModel().getSelectedIndex() > 0)
+                getProdutoVO().setFiscalCestNcm_id(cboFiscalCestNcm.getSelectionModel().getSelectedItem().getId());
+            if (!txtFiscalNcm.getText().equals(""))
+                getProdutoVO().setNcm(txtFiscalNcm.getText().replaceAll("\\D", ""));
+            if (!txtFiscalCest.getText().equals(""))
+                getProdutoVO().setCest(txtFiscalCest.getText().replaceAll("\\D", ""));
+
+            getProdutoVO().setFiscalCSTOrigem_id(cboFiscalOrigem.getSelectionModel().getSelectedItem().getId());
+            getProdutoVO().setFiscalICMS_id(cboFiscalIcms.getSelectionModel().getSelectedItem().getId());
+            getProdutoVO().setFiscalPIS_id(cboFiscalPis.getSelectionModel().getSelectedItem().getId());
+            getProdutoVO().setFiscalCOFINS_id(cboFiscalCofins.getSelectionModel().getSelectedItem().getId());
+            getProdutoVO().setNfeGenero(txtFiscalGenero.getText().replaceAll("\\D", ""));
+            getProdutoVO().setUsuarioCadastro_id(Integer.parseInt(USUARIO_LOGADO_ID));
+            getProdutoVO().setUsuarioAtualizacao_id(Integer.parseInt(USUARIO_LOGADO_ID));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     boolean salvarProduto() {

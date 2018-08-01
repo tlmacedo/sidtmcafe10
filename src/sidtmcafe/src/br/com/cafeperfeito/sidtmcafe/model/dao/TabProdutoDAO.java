@@ -142,6 +142,12 @@ public class TabProdutoDAO extends BuscaBancoDados {
                 produtoVO.getCest(), produtoVO.getFiscalCestNcm_id(), produtoVO.getFiscalCSTOrigem_id(),
                 produtoVO.getFiscalICMS_id(), produtoVO.getFiscalPIS_id(), produtoVO.getFiscalCOFINS_id(),
                 produtoVO.getNfeGenero(), produtoVO.getUsuarioCadastro_id());
+        System.out.printf("Peso; [%s]\n", produtoVO.getPeso());
+        System.out.printf("setPrecoFabrica; [%s]\n", produtoVO.getPrecoFabrica());
+        System.out.printf("setPrecoVenda; [%s]\n", produtoVO.getPrecoVenda());
+        System.out.printf("setPrecoUltimoFrete; [%s]\n", produtoVO.getPrecoUltimoFrete());
+        System.out.printf("setComissao; [%s]\n", produtoVO.getComissao());
+        System.out.printf("comandoSql: [%s]", comandoSql);
         return getInsertBancoDados(conn, comandoSql);
     }
 
