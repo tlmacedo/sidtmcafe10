@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.control.*?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <AnchorPane fx:id="painelViewCadastroProduto" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
@@ -23,13 +28,13 @@
                                 <Tooltip text="campo de pesquisa."/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTreeTableView fx:id="ttvProduto" layoutX="5.0" layoutY="37.0"
-                                          accessibleText="value: , setDisable:false, mask: "
-                                          nodeOrientation="LEFT_TO_RIGHT" prefHeight="110.0" prefWidth="1330.0">
+                        <TreeTableView fx:id="ttvProduto" layoutX="5.0" layoutY="37.0"
+                                       accessibleText="value: , setDisable:false, mask: "
+                                       nodeOrientation="LEFT_TO_RIGHT" prefHeight="110.0" prefWidth="1330.0">
                             <tooltip>
                                 <Tooltip text="tabela com lista de produto"/>
                             </tooltip>
-                        </JFXTreeTableView>
+                        </TreeTableView>
                         <Label fx:id="lblRegistrosLocalizados" layoutX="380.0"
                                accessibleText="value:[] registro(s) localizado(s)."
                                layoutY="20.0" styleClass="lbl-informacoes" text="Registros localizados">

@@ -49,7 +49,8 @@ public class ServiceFormatarDado implements Constants {
                     int qtdDigitos = 0;
                     if (!(tipOrMascara.replaceAll("\\D", "").equals("")))
                         qtdDigitos = Integer.parseInt(tipOrMascara.replaceAll("\\D", ""));
-                    return new DecimalFormat("#,##" + strMasc + ";-#,##" + strMasc).format(Double.parseDouble(strValue.replaceAll("(\\d{1})(\\d{" + qtdDigitos + "})$", "$1.$2")));
+//                    return new DecimalFormat("#,##" + strMasc + ";-#,##" + strMasc).format(Double.parseDouble(strValue.replaceAll("(\\d{1})(\\d{" + qtdDigitos + "})$", "$1.$2")));
+                    return new DecimalFormat("#,##" + strMasc + ";-#,##" + strMasc).format(Double.parseDouble(value));
                 } else {
                     strMasc = strMasc.replace("0", "#");
                     if (tipOrMascara.replaceAll("\\d", "").toLowerCase().equals("nfenumero"))

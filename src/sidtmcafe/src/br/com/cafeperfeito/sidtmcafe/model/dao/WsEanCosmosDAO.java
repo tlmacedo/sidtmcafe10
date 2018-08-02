@@ -34,7 +34,7 @@ public class WsEanCosmosDAO extends BuscaWebService implements Constants {
     public String getStringNcmProduto_EanCosmosVO(TabProdutoVO produtoVO, String busca) {
         getWsEanCosmosVO(busca);
         if (wsEanCosmosVO == null)
-            return null;
+            return "";
         produtoVO.setDescricao(wsEanCosmosVO.getDescricao());
         return wsEanCosmosVO.getNcm();
     }

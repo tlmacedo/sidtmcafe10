@@ -34,14 +34,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ControllerCadastroProduto extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
@@ -518,7 +515,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         final TreeItem<TabProdutoVO> root = new RecursiveTreeItem<TabProdutoVO>(produtoVOFilteredList, RecursiveTreeObject::getChildren);
         ttvProduto.getColumns().setAll(TabModel.getColunaIdProduto(), TabModel.getColunaCodigo(),
                 TabModel.getColunaDescricao(), TabModel.getColunaUndCom(), TabModel.getColunaVarejo(),
-                TabModel.getColunaPrecoFabrica(), TabModel.getColunaPrecoConsumidor(),
+                TabModel.getColunaPrecoFabrica(), TabModel.getColunaPrecoVenda(),
                 TabModel.getColunaSituacaoSistema(), TabModel.getColunaQtdEstoque());
         ttvProduto.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         ttvProduto.setRoot(root);
@@ -569,8 +566,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             cboFiscalCestNcm.getSelectionModel().select(cboFiscalCestNcm.getItems().stream()
                     .filter(cestNcm -> cestNcm.getId() == getProdutoVO().getFiscalCestNcm_id())
                     .findFirst().orElse(null));
-        txtFiscalNcm.setText(ServiceFormatarDado.getValorFormatado(getProdutoVO().getNcm(), "ncm"));
-        txtFiscalCest.setText(ServiceFormatarDado.getValorFormatado(getProdutoVO().getCest(), "cest"));
+        txtFiscalNcm.setText(getProdutoVO().getNcm());
+        txtFiscalCest.setText(getProdutoVO().getCest());
 
         cboFiscalOrigem.getSelectionModel().select(getProdutoVO().getFiscalCstOrigemVO());
         cboFiscalIcms.getSelectionModel().select(getProdutoVO().getFiscalIcmsVO());
@@ -738,29 +735,40 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             getProdutoVO().setCodigo(txtCodigo.getText());
             getProdutoVO().setDescricao(txtDescricao.getText());
             getProdutoVO().setPeso(Double.parseDouble(txtPeso.getText().replace(".", "").replace(",", ".")));
-            System.out.printf("Peso; [%s]\n", getProdutoVO().getPeso());
-            getProdutoVO().setSisUnidadeComercial_id(cboUnidadeComercial.getSelectionModel().getSelectedItem().getId());
-            getProdutoVO().setSisSituacaoSistema_id(cboSituacaoSistema.getSelectionModel().getSelectedItem().getId());
+            getProdutoVO().setSisUnidadeComercialVO(cboUnidadeComercial.getSelectionModel().getSelectedItem());
+            getProdutoVO().setSisUnidadeComercial_id(getProdutoVO().getSisUnidadeComercialVO().getId());
+            getProdutoVO().setSisSituacaoSistemaVO(cboSituacaoSistema.getSelectionModel().getSelectedItem());
+            getProdutoVO().setSisSituacaoSistema_id(getProdutoVO().getSisSituacaoSistemaVO().getId());
             getProdutoVO().setPrecoFabrica(Double.parseDouble(txtPrecoFabrica.getText().replace(".", "").replace(",", ".")));
-            System.out.printf("setPrecoFabrica; [%s]\n", getProdutoVO().getPrecoFabrica());
             getProdutoVO().setPrecoVenda(Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", ".")));
-            System.out.printf("setPrecoVenda; [%s]\n", getProdutoVO().getPrecoVenda());
             getProdutoVO().setVarejo(Integer.parseInt(txtVarejo.getText().replaceAll("\\D", "")));
             getProdutoVO().setPrecoUltimoFrete(Double.parseDouble(txtPrecoUltimoFrete.getText().replace(".", "").replace(",", ".")));
-            System.out.printf("setPrecoUltimoFrete; [%s]\n", getProdutoVO().getPrecoUltimoFrete());
             getProdutoVO().setComissao(Double.parseDouble(txtComissaoPorc.getText().replace(".", "").replace(",", ".")));
-            System.out.printf("setComissao; [%s]\n", getProdutoVO().getComissao());
-            if (cboFiscalCestNcm.getSelectionModel().getSelectedIndex() > 0)
-                getProdutoVO().setFiscalCestNcm_id(cboFiscalCestNcm.getSelectionModel().getSelectedItem().getId());
+            if (cboFiscalCestNcm.getSelectionModel().getSelectedIndex() >= 0) {
+                getProdutoVO().setFiscalCestNcmVO(cboFiscalCestNcm.getSelectionModel().getSelectedItem());
+                getProdutoVO().setFiscalCestNcm_id(getProdutoVO().getFiscalCestNcmVO().getId());
+            }
             if (!txtFiscalNcm.getText().equals(""))
                 getProdutoVO().setNcm(txtFiscalNcm.getText().replaceAll("\\D", ""));
             if (!txtFiscalCest.getText().equals(""))
                 getProdutoVO().setCest(txtFiscalCest.getText().replaceAll("\\D", ""));
 
-            getProdutoVO().setFiscalCSTOrigem_id(cboFiscalOrigem.getSelectionModel().getSelectedItem().getId());
-            getProdutoVO().setFiscalICMS_id(cboFiscalIcms.getSelectionModel().getSelectedItem().getId());
-            getProdutoVO().setFiscalPIS_id(cboFiscalPis.getSelectionModel().getSelectedItem().getId());
-            getProdutoVO().setFiscalCOFINS_id(cboFiscalCofins.getSelectionModel().getSelectedItem().getId());
+            if (cboFiscalOrigem.getSelectionModel().getSelectedIndex() >= 0) {
+                getProdutoVO().setFiscalCstOrigemVO(cboFiscalOrigem.getSelectionModel().getSelectedItem());
+                getProdutoVO().setFiscalCSTOrigem_id(getProdutoVO().getFiscalCstOrigemVO().getId());
+            }
+            if (cboFiscalIcms.getSelectionModel().getSelectedIndex() >= 0) {
+                getProdutoVO().setFiscalIcmsVO(cboFiscalIcms.getSelectionModel().getSelectedItem());
+                getProdutoVO().setFiscalICMS_id(getProdutoVO().getFiscalIcmsVO().getId());
+            }
+            if (cboFiscalPis.getSelectionModel().getSelectedIndex() >= 0) {
+                getProdutoVO().setFiscalPisVO(cboFiscalPis.getSelectionModel().getSelectedItem());
+                getProdutoVO().setFiscalPIS_id(getProdutoVO().getFiscalPisVO().getId());
+            }
+            if (cboFiscalCofins.getSelectionModel().getSelectedIndex() >= 0) {
+                getProdutoVO().setFiscalCofinsVO(cboFiscalCofins.getSelectionModel().getSelectedItem());
+                getProdutoVO().setFiscalCOFINS_id(getProdutoVO().getFiscalCofinsVO().getId());
+            }
             getProdutoVO().setNfeGenero(txtFiscalGenero.getText().replaceAll("\\D", ""));
             getProdutoVO().setUsuarioCadastro_id(Integer.parseInt(USUARIO_LOGADO_ID));
             getProdutoVO().setUsuarioAtualizacao_id(Integer.parseInt(USUARIO_LOGADO_ID));

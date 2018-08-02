@@ -134,7 +134,7 @@ public class TabProdutoDAO extends BuscaBancoDados {
         String comandoSql = String.format("INSERT INTO tabProduto (codigo, descricao, peso, sisUnidadeComercial_id, " +
                         "sisSituacaoSistema_id, precoFabrica, precoVenda, varejo, precoUltimoFrete, comissao, ncm, cest, " +
                         "fiscalCestNcm_id, fiscalCSTOrigem_id, fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, nfeGenero, " +
-                        "usuarioCadastro_id) VALUES('%s', '%s', %f, %d, %d, %f, %f, %d, %f, %f, '%s', '%s', %d, %d, %d, %d, " +
+                        "usuarioCadastro_id) VALUES('%s', '%s', %s, %d, %d, %s, %s, %d, %s, %s, '%s', '%s', %d, %d, %d, %d, " +
                         "%d, '%s', %d)",
                 produtoVO.getCodigo(), produtoVO.getDescricao(), produtoVO.getPeso(), produtoVO.getSisUnidadeComercial_id(),
                 produtoVO.getSisSituacaoSistema_id(), produtoVO.getPrecoFabrica(), produtoVO.getPrecoVenda(),

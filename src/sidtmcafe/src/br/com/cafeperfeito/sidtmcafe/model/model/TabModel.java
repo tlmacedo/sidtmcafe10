@@ -15,7 +15,7 @@ public class TabModel {
     static TreeTableColumn<TabProdutoVO, String> colunaDescricao;
     static TreeTableColumn<TabProdutoVO, String> colunaUndCom;
     static TreeTableColumn<TabProdutoVO, String> colunaPrecoFabrica;
-    static TreeTableColumn<TabProdutoVO, String> colunaPrecoConsumidor;
+    static TreeTableColumn<TabProdutoVO, String> colunaPrecoVenda;
     static TreeTableColumn<TabProdutoVO, Integer> colunaQtdEstoque;
     static TreeTableColumn<TabProdutoVO, String> colunaSituacaoSistema;
     static TreeTableColumn<TabProdutoVO, Integer> colunaVarejo;
@@ -57,8 +57,8 @@ public class TabModel {
         return colunaPrecoFabrica;
     }
 
-    public static TreeTableColumn<TabProdutoVO, String> getColunaPrecoConsumidor() {
-        return colunaPrecoConsumidor;
+    public static TreeTableColumn<TabProdutoVO, String> getColunaPrecoVenda() {
+        return colunaPrecoVenda;
     }
 
     public static TreeTableColumn<TabProdutoVO, Integer> getColunaQtdEstoque() {
@@ -176,6 +176,9 @@ public class TabModel {
             colunaPrecoFabrica.setGraphic(lblPrecoFab);
             colunaPrecoFabrica.setPrefWidth(90);
             colunaPrecoFabrica.setStyle("-fx-alignment: center-right;");
+            colunaPrecoFabrica.setCellValueFactory(param -> {
+                    return new SimpleStringProperty(ServiceFormatarDado.getValorFormatado(param.getValue().getValue().precoFabricaProperty().getValue().toString(), "moeda2"));
+            });
 //            colunaPrecoFabrica.setCellValueFactory(param -> {
 //                try {
 //                    return new SimpleStringProperty(FormatarDado.getValueMoeda(param.getValue().getValue().precoFabricaProperty().getValue().toString(),2));
@@ -186,16 +189,12 @@ public class TabModel {
 
             Label lblPrecoCons = new Label("Preço Cons.");
             lblPrecoCons.setPrefWidth(90);
-            colunaPrecoConsumidor = new TreeTableColumn<TabProdutoVO, String>();
-            colunaPrecoConsumidor.setGraphic(lblPrecoCons);
-            colunaPrecoConsumidor.setPrefWidth(90);
-            colunaPrecoConsumidor.setStyle("-fx-alignment: center-right;");
-            colunaPrecoConsumidor.setCellValueFactory(param -> {
-                try {
-                    return new SimpleStringProperty(param.getValue().getValue().precoVendaProperty().getValue().toString());
-                } catch (Exception ex) {
-                    return new SimpleStringProperty("0");
-                }
+            colunaPrecoVenda = new TreeTableColumn<TabProdutoVO, String>();
+            colunaPrecoVenda.setGraphic(lblPrecoCons);
+            colunaPrecoVenda.setPrefWidth(90);
+            colunaPrecoVenda.setStyle("-fx-alignment: center-right;");
+            colunaPrecoVenda.setCellValueFactory(param -> {
+                return new SimpleStringProperty(ServiceFormatarDado.getValorFormatado(param.getValue().getValue().precoVendaProperty().getValue().toString(), "moeda2"));
             });
 
             Label lblSituacaoSistema = new Label("Situação");
