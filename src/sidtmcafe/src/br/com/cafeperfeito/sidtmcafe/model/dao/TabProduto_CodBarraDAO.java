@@ -52,7 +52,7 @@ public class TabProduto_CodBarraDAO extends BuscaBancoDados {
     }
 
     public void updateTabProduto_CodBarraVO(Connection conn, TabProduto_CodBarraVO codBarraVO) throws SQLException {
-        String comandoSql = String.format("UPDATE tabProduto_CodBarra SET codBarra = '%s', WHERE id = %d",
+        String comandoSql = String.format("UPDATE tabProduto_CodBarra SET codBarra = '%s' WHERE id = %d",
                 codBarraVO.getCodBarra(), codBarraVO.getId());
         getUpdateBancoDados(conn, comandoSql);
     }

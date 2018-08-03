@@ -170,7 +170,9 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                         if (!validarDadosProduto()) break;
                         if (buscaDuplicidadeCode(getProdutoVO().getCodigo(), false)) break;
                         if (salvarProduto()) {
-                            switch (getStatusFormulario().toLowerCase()) {
+                            String tmp = getStatusFormulario().toLowerCase();
+                            setStatusFormulario("pesquisa");
+                            switch (tmp) {
                                 case "incluir":
                                     produtoVOObservableList.add(new TabProdutoDAO().getTabProdutoVO(getProdutoVO().getId()));
                                     break;
@@ -179,7 +181,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                                             new TabProdutoDAO().getTabProdutoVO(getProdutoVO().getId()));
                                     break;
                             }
-                            setStatusFormulario("pesquisa");
                         }
                         break;
                     case F3:
@@ -259,6 +260,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         });
 
         cboFiscalCestNcm.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
             if (newValue == null) return;
             txtFiscalNcm.setText(ServiceFormatarDado.getValorFormatado(newValue.getNcm(), "ncm"));
             txtFiscalCest.setText(ServiceFormatarDado.getValorFormatado(newValue.getCest(), "cest"));
@@ -271,7 +273,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         });
 
         txtFiscalNcm.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null) return;
+            if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+            if (newValue == null || cboFiscalCestNcm.getSelectionModel().getSelectedItem() != null) return;
             cboFiscalCestNcm.setItems(new FiscalCestNcmDAO()
                     .getFiscalCestNcmVOList(newValue.replaceAll("\\D", ""))
                     .stream().collect(Collectors.toCollection(FXCollections::observableArrayList)));
@@ -280,6 +283,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         txtPrecoFabrica.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtPrecoFabrica.isFocused()) return;
                 vlrConsumidor();
                 vlrLucroBruto();
@@ -289,6 +293,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         txtMargem.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtMargem.isFocused()) {
                     return;
                 }
@@ -300,6 +305,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         txtPrecoVenda.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtPrecoVenda.isFocused()) return;
                 vlrMargem();
                 vlrLucroBruto();
@@ -309,6 +315,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         txtComissaoPorc.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtComissaoPorc.isFocused()) return;
                 vlrComissaoReal();
                 vlrLucroBruto();
@@ -318,6 +325,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         txtPrecoUltimoFrete.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtPrecoUltimoFrete.isFocused()) return;
                 vlrLucroBruto();
             }
@@ -468,37 +476,37 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     public void preencherCboUnidadeComercial() {
         cboUnidadeComercial.getItems().setAll(new ArrayList<>(new SisUnidadeComercialDAO().getSisUnidadeComercialVOList()));
-        cboUnidadeComercial.getSelectionModel().selectFirst();
+//        cboUnidadeComercial.getSelectionModel().select(-1);
     }
 
     public void preencherCboSituacaoSistema() {
         cboSituacaoSistema.getItems().setAll(new ArrayList<>(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVOList()));
-        cboSituacaoSistema.getSelectionModel().selectFirst();
+//        cboSituacaoSistema.getSelectionModel().select(-1);
     }
 
     public void preencherCboFiscalCestNcm() {
         cboFiscalCestNcm.getItems().setAll(new ArrayList<>(new FiscalCestNcmDAO().getFiscalCestNcmVOList(null)));
-        cboFiscalCestNcm.getSelectionModel().selectFirst();
+//        cboFiscalCestNcm.getSelectionModel().select(-1);
     }
 
     public void preencherCboFiscalOrigem() {
         cboFiscalOrigem.getItems().setAll(new ArrayList<>(new FiscalCstOrigemDAO().getFiscalCstOrigemVOList()));
-        cboFiscalOrigem.getSelectionModel().selectFirst();
+//        cboFiscalOrigem.getSelectionModel().select(-1);
     }
 
     public void preencherCboFiscalIcms() {
         cboFiscalIcms.getItems().setAll(new ArrayList<>(new FiscalIcmsDAO().getFiscalIcmsVOList()));
-        cboFiscalIcms.getSelectionModel().selectFirst();
+//        cboFiscalIcms.getSelectionModel().select(-1);
     }
 
     public void preencherCboFiscalPis() {
         cboFiscalPis.getItems().setAll(new ArrayList<>(new FiscalPisCofinsDAO().getFiscalPisCofinsVOList()));
-        cboFiscalPis.getSelectionModel().selectFirst();
+//        cboFiscalPis.getSelectionModel().select(-1);
     }
 
     public void preencherCboFiscalCofins() {
         cboFiscalCofins.getItems().setAll(new ArrayList<>(new FiscalPisCofinsDAO().getFiscalPisCofinsVOList()));
-        cboFiscalCofins.getSelectionModel().selectFirst();
+//        cboFiscalCofins.getSelectionModel().select(-1);
     }
 
     void carregarListaProduto() {
@@ -553,26 +561,45 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         txtCodigo.setText(getProdutoVO().getCodigo());
         txtDescricao.setText(getProdutoVO().getDescricao());
         txtPeso.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getPeso()), "peso3"));
-        cboUnidadeComercial.getSelectionModel().select(getProdutoVO().getSisUnidadeComercialVO());
-        cboSituacaoSistema.getSelectionModel().select(getProdutoVO().getSisSituacaoSistemaVO());
         txtPrecoFabrica.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getPrecoFabrica()), "moeda2"));
         txtPrecoVenda.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getPrecoVenda()), "moeda2"));
         txtVarejo.setText(String.valueOf(getProdutoVO().getVarejo()));
         txtPrecoUltimoFrete.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getPrecoUltimoFrete()), "moeda2"));
         txtComissaoPorc.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getComissao()), "moeda2"));
-        if (getProdutoVO().getFiscalCestNcm_id() == 0)
-            cboFiscalCestNcm.getSelectionModel().select(-1);
-        else
-            cboFiscalCestNcm.getSelectionModel().select(cboFiscalCestNcm.getItems().stream()
-                    .filter(cestNcm -> cestNcm.getId() == getProdutoVO().getFiscalCestNcm_id())
-                    .findFirst().orElse(null));
-        txtFiscalNcm.setText(getProdutoVO().getNcm());
-        txtFiscalCest.setText(getProdutoVO().getCest());
+        txtFiscalNcm.setText(ServiceFormatarDado.getValorFormatado(getProdutoVO().getNcm(), "ncm"));
+        txtFiscalCest.setText(ServiceFormatarDado.getValorFormatado(getProdutoVO().getCest(), "cest"));
+        vlrMargem();
+        vlrLucroBruto();
+        vlrComissaoReal();
 
-        cboFiscalOrigem.getSelectionModel().select(getProdutoVO().getFiscalCstOrigemVO());
-        cboFiscalIcms.getSelectionModel().select(getProdutoVO().getFiscalIcmsVO());
-        cboFiscalPis.getSelectionModel().select(getProdutoVO().getFiscalPisVO());
-        cboFiscalCofins.getSelectionModel().select(getProdutoVO().getFiscalCofinsVO());
+        cboUnidadeComercial.getSelectionModel().select(cboUnidadeComercial.getItems().stream()
+                .filter(undComercial -> undComercial.getId() == getProdutoVO().getSisUnidadeComercial_id())
+                .findFirst().orElse(null));
+
+        cboSituacaoSistema.getSelectionModel().select(cboSituacaoSistema.getItems().stream()
+                .filter(sitSistema -> sitSistema.getId() == getProdutoVO().getSisSituacaoSistema_id())
+                .findFirst().orElse(null));
+
+        cboFiscalCestNcm.getSelectionModel().select(cboFiscalCestNcm.getItems().stream()
+                .filter(cestNcm -> cestNcm.getId() == getProdutoVO().getFiscalCestNcm_id())
+                .findFirst().orElse(null));
+
+        cboFiscalOrigem.getSelectionModel().select(cboFiscalOrigem.getItems().stream()
+                .filter(origem -> origem.getId() == getProdutoVO().getFiscalCSTOrigem_id())
+                .findFirst().orElse(null));
+
+        cboFiscalIcms.getSelectionModel().select(cboFiscalIcms.getItems().stream()
+                .filter(icms -> icms.getId() == getProdutoVO().getFiscalICMS_id())
+                .findFirst().orElse(null));
+
+        cboFiscalPis.getSelectionModel().select(cboFiscalPis.getItems().stream()
+                .filter(pis -> pis.getId() == getProdutoVO().getFiscalPIS_id())
+                .findFirst().orElse(null));
+
+        cboFiscalCofins.getSelectionModel().select(cboFiscalCofins.getItems().stream()
+                .filter(cofins -> cofins.getId() == getProdutoVO().getFiscalCOFINS_id())
+                .findFirst().orElse(null));
+
         txtFiscalGenero.setText(getProdutoVO().getNfeGenero());
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
         lblDataCadastro.setText(String.format("data de cadastro%s",
@@ -613,13 +640,11 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 ServiceFormatarDado.gerarMascara("barcode", 13, "#"), "")
                 .orElse(null)) == null) return;
         if (buscaDuplicidadeCode(codBarras, true)) return;
-        String strNcm = "";
-        guardarProduto();
-        if (!(strNcm = new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarras)).equals("")) {
-            getProdutoVO().setFiscalCestNcmVO(new FiscalCestNcmDAO().getFiscalCestNcmVO(strNcm));
-            getProdutoVO().setFiscalCestNcm_id(getProdutoVO().getFiscalCestNcmVO().getId());
-        }
-        exibirDadosProduto();
+        String wsRetorno = new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos(codBarras);
+        if (wsRetorno.contains("descricao"))
+            txtDescricao.setText(ServiceFormatarDado.getFieldFormat(wsRetorno, "descricao").getValue());
+        if (wsRetorno.contains("ncm"))
+            cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(ServiceFormatarDado.getFieldFormat(wsRetorno, "ncm").getValue()));
         getProdutoVO().getCodBarraVOList().add(new TabProduto_CodBarraVO(codBarras));
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
     }
@@ -707,18 +732,18 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         }
         if (!(result = ((cboUnidadeComercial.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
             dado = "und comercial";
-            cboFiscalOrigem.requestFocus();
+            cboUnidadeComercial.requestFocus();
         }
         if (!(result = ((cboSituacaoSistema.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
             dado = "sit. sistema";
-            cboFiscalOrigem.requestFocus();
+            cboSituacaoSistema.requestFocus();
         }
         if (!(result = ((cboFiscalOrigem.getSelectionModel().getSelectedIndex() >= 0
                 || cboFiscalIcms.getSelectionModel().getSelectedIndex() >= 0
                 || cboFiscalPis.getSelectionModel().getSelectedIndex() >= 0
                 || cboFiscalCofins.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
             dado = "fiscal";
-            cboFiscalOrigem.requestFocus();
+            cboFiscalIcms.requestFocus();
         }
         if (!result) {
             alertMensagem = new ServiceAlertMensagem();
@@ -735,6 +760,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             getProdutoVO().setCodigo(txtCodigo.getText());
             getProdutoVO().setDescricao(txtDescricao.getText());
             getProdutoVO().setPeso(Double.parseDouble(txtPeso.getText().replace(".", "").replace(",", ".")));
+
             getProdutoVO().setSisUnidadeComercialVO(cboUnidadeComercial.getSelectionModel().getSelectedItem());
             getProdutoVO().setSisUnidadeComercial_id(getProdutoVO().getSisUnidadeComercialVO().getId());
             getProdutoVO().setSisSituacaoSistemaVO(cboSituacaoSistema.getSelectionModel().getSelectedItem());
@@ -744,32 +770,14 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             getProdutoVO().setVarejo(Integer.parseInt(txtVarejo.getText().replaceAll("\\D", "")));
             getProdutoVO().setPrecoUltimoFrete(Double.parseDouble(txtPrecoUltimoFrete.getText().replace(".", "").replace(",", ".")));
             getProdutoVO().setComissao(Double.parseDouble(txtComissaoPorc.getText().replace(".", "").replace(",", ".")));
-            if (cboFiscalCestNcm.getSelectionModel().getSelectedIndex() >= 0) {
-                getProdutoVO().setFiscalCestNcmVO(cboFiscalCestNcm.getSelectionModel().getSelectedItem());
-                getProdutoVO().setFiscalCestNcm_id(getProdutoVO().getFiscalCestNcmVO().getId());
-            }
-            if (!txtFiscalNcm.getText().equals(""))
-                getProdutoVO().setNcm(txtFiscalNcm.getText().replaceAll("\\D", ""));
-            if (!txtFiscalCest.getText().equals(""))
-                getProdutoVO().setCest(txtFiscalCest.getText().replaceAll("\\D", ""));
-
-            if (cboFiscalOrigem.getSelectionModel().getSelectedIndex() >= 0) {
-                getProdutoVO().setFiscalCstOrigemVO(cboFiscalOrigem.getSelectionModel().getSelectedItem());
-                getProdutoVO().setFiscalCSTOrigem_id(getProdutoVO().getFiscalCstOrigemVO().getId());
-            }
-            if (cboFiscalIcms.getSelectionModel().getSelectedIndex() >= 0) {
-                getProdutoVO().setFiscalIcmsVO(cboFiscalIcms.getSelectionModel().getSelectedItem());
-                getProdutoVO().setFiscalICMS_id(getProdutoVO().getFiscalIcmsVO().getId());
-            }
-            if (cboFiscalPis.getSelectionModel().getSelectedIndex() >= 0) {
-                getProdutoVO().setFiscalPisVO(cboFiscalPis.getSelectionModel().getSelectedItem());
-                getProdutoVO().setFiscalPIS_id(getProdutoVO().getFiscalPisVO().getId());
-            }
-            if (cboFiscalCofins.getSelectionModel().getSelectedIndex() >= 0) {
-                getProdutoVO().setFiscalCofinsVO(cboFiscalCofins.getSelectionModel().getSelectedItem());
-                getProdutoVO().setFiscalCOFINS_id(getProdutoVO().getFiscalCofinsVO().getId());
-            }
-            getProdutoVO().setNfeGenero(txtFiscalGenero.getText().replaceAll("\\D", ""));
+            getProdutoVO().setFiscalCestNcmVO(cboFiscalCestNcm.getSelectionModel().getSelectedItem());
+            getProdutoVO().setNcm(txtFiscalNcm.getText().equals("") ? "" : txtFiscalNcm.getText().replaceAll("\\D", ""));
+            getProdutoVO().setCest(txtFiscalCest.getText().equals("") ? "" : txtFiscalCest.getText().replaceAll("\\D", ""));
+            getProdutoVO().setFiscalCstOrigemVO(cboFiscalOrigem.getSelectionModel().getSelectedItem());
+            getProdutoVO().setFiscalIcmsVO(cboFiscalIcms.getSelectionModel().getSelectedItem());
+            getProdutoVO().setFiscalPisVO(cboFiscalPis.getSelectionModel().getSelectedItem());
+            getProdutoVO().setFiscalCofinsVO(cboFiscalCofins.getSelectionModel().getSelectedItem());
+            getProdutoVO().setNfeGenero(txtFiscalGenero.getText().equals("") ? "" : txtFiscalGenero.getText().replaceAll("\\D", ""));
             getProdutoVO().setUsuarioCadastro_id(Integer.parseInt(USUARIO_LOGADO_ID));
             getProdutoVO().setUsuarioAtualizacao_id(Integer.parseInt(USUARIO_LOGADO_ID));
         } catch (Exception ex) {

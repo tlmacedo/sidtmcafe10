@@ -53,15 +53,18 @@ public class ServiceCampoPersonalizado implements Constants {
             if (node instanceof JFXTextField) {
                 ((JFXTextField) node).setText(valorInicial);
                 valorInicial = "";
-            } else if (node instanceof JFXComboBox) {
-                if (!valorInicial.equals("") && valorInicial != null)
-                    ((JFXComboBox) node).getSelectionModel().select(Integer.parseInt(valorInicial));
             } else if (node instanceof JFXCheckBox) {
                 ((JFXCheckBox) node).setSelected(valorInicial == "true");
             } else if (node instanceof JFXListView) {
                 ((JFXListView) node).getItems().clear();
 //            } else if (node instanceof TreeTableView) {
 //                ((TreeTableView) node)
+            } else if (node instanceof JFXComboBox) {
+                if (valorInicial.equals("")) {
+                    ((JFXComboBox) node).getSelectionModel().select(-1);
+                } else {
+                    ((JFXComboBox) node).getSelectionModel().select(Integer.parseInt(valorInicial));
+                }
             } else if (node instanceof AnchorPane) {
                 fieldClear((AnchorPane) node);
             } else if (node instanceof TitledPane) {

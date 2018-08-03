@@ -36,6 +36,14 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     public TabProdutoVO(int id) {
         this.id = new SimpleIntegerProperty(id);
+        this.varejo = new SimpleIntegerProperty(1);
+        this.sisUnidadeComercial_id = new SimpleIntegerProperty(-1);
+        this.sisSituacaoSistema_id = new SimpleIntegerProperty(-1);
+        this.fiscalCestNcm_id = new SimpleIntegerProperty(-1);
+        this.fiscalCSTOrigem_id = new SimpleIntegerProperty(-1);
+        this.fiscalICMS_id = new SimpleIntegerProperty(-1);
+        this.fiscalPIS_id = new SimpleIntegerProperty(-1);
+        this.fiscalCOFINS_id = new SimpleIntegerProperty(-1);
         this.codBarraVOList = new ArrayList<>();
     }
 

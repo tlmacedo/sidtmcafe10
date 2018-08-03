@@ -67,13 +67,13 @@ public class TabProdutoDAO extends BuscaBancoDados {
                 tabProdutoVO.setVarejo(rs.getInt("varejo"));
                 tabProdutoVO.setPrecoUltimoFrete(rs.getDouble("precoUltimoFrete"));
                 tabProdutoVO.setComissao(rs.getDouble("comissao"));
-                tabProdutoVO.setFiscalCestNcm_id(rs.getInt("fiscalCestncm_id"));
+                tabProdutoVO.setFiscalCestNcm_id(rs.getInt("fiscalCestNcm_id"));
                 tabProdutoVO.setNcm(rs.getString("ncm"));
                 tabProdutoVO.setCest(rs.getString("cest"));
-                tabProdutoVO.setFiscalCSTOrigem_id(rs.getInt("fiscalCSTOrigem_id"));
-                tabProdutoVO.setFiscalICMS_id(rs.getInt("fiscalICMS_id"));
-                tabProdutoVO.setFiscalPIS_id(rs.getInt("fiscalPIS_id"));
-                tabProdutoVO.setFiscalCOFINS_id(rs.getInt("fiscalCOFINS_id"));
+                tabProdutoVO.setFiscalCSTOrigem_id(rs.getInt("fiscalCstOrigem_id"));
+                tabProdutoVO.setFiscalICMS_id(rs.getInt("fiscalIcms_id"));
+                tabProdutoVO.setFiscalPIS_id(rs.getInt("fiscalPis_id"));
+                tabProdutoVO.setFiscalCOFINS_id(rs.getInt("fiscalCofins_id"));
                 tabProdutoVO.setNfeGenero(rs.getString("nfeGenero"));
                 tabProdutoVO.setUsuarioCadastro_id(rs.getInt("usuarioCadastro_id"));
                 tabProdutoVO.setDataCadastro(rs.getTimestamp("dataCadastro"));
@@ -115,18 +115,18 @@ public class TabProdutoDAO extends BuscaBancoDados {
         produto.setCodBarraVOList(codBarraVOList);
     }
 
-    public void updateTabProdutoVO(Connection conn, TabProdutoVO produto) throws SQLException {
-        String comandoSql = String.format("UPDATE tabProduto SET codigo = '%s', descricao = '%s', peso = %f, " +
-                        "sisUnidadeComercial_id = %d, sisSituacaoSistema_id = %d, precoFabrica = %f, precoVenda = %f, " +
-                        "varejo = %d, precoUltimoFrete = %f, comissao = %f, ncm = '%s', cest = '%s', fiscalCestNcm_id = %d, " +
+    public void updateTabProdutoVO(Connection conn, TabProdutoVO produtoVO) throws SQLException {
+        String comandoSql = String.format("UPDATE tabProduto SET codigo = '%s', descricao = '%s', peso = %s, " +
+                        "sisUnidadeComercial_id = %d, sisSituacaoSistema_id = %d, precoFabrica = %s, precoVenda = %s, " +
+                        "varejo = %d, precoUltimoFrete = %s, comissao = %s, ncm = '%s', cest = '%s', fiscalCestNcm_id = %d, " +
                         "fiscalCstOrigem_id = %d, fiscalIcms_id = %d, fiscalPis_id = %d, fiscalCofins_id = %d, " +
                         "nfeGenero = '%s', usuarioAtualizacao_id = %d WHERE id = %d",
-                produto.getCodigo(), produto.getDescricao(), produto.getPeso(), produto.getSisUnidadeComercial_id(),
-                produto.getSisSituacaoSistema_id(), produto.getPrecoFabrica(), produto.getPrecoVenda(),
-                produto.getVarejo(), produto.getPrecoUltimoFrete(), produto.getComissao(), produto.getNcm(),
-                produto.getCest(), produto.getFiscalCestNcm_id(), produto.getFiscalCSTOrigem_id(),
-                produto.getFiscalICMS_id(), produto.getFiscalPIS_id(), produto.getFiscalCOFINS_id(),
-                produto.getNfeGenero(), produto.getUsuarioAtualizacao_id(), produto.getId());
+                produtoVO.getCodigo(), produtoVO.getDescricao(), produtoVO.getPeso(), produtoVO.getSisUnidadeComercialVO().getId(),
+                produtoVO.getSisSituacaoSistemaVO().getId(), produtoVO.getPrecoFabrica(), produtoVO.getPrecoVenda(),
+                produtoVO.getVarejo(), produtoVO.getPrecoUltimoFrete(), produtoVO.getComissao(), produtoVO.getNcm(),
+                produtoVO.getCest(), produtoVO.getFiscalCestNcmVO().getId(), produtoVO.getFiscalCstOrigemVO().getId(),
+                produtoVO.getFiscalIcmsVO().getId(), produtoVO.getFiscalPisVO().getId(), produtoVO.getFiscalCofinsVO().getId(),
+                produtoVO.getNfeGenero(), produtoVO.getUsuarioAtualizacao_id(), produtoVO.getId());
         getUpdateBancoDados(conn, comandoSql);
     }
 
@@ -136,18 +136,12 @@ public class TabProdutoDAO extends BuscaBancoDados {
                         "fiscalCestNcm_id, fiscalCSTOrigem_id, fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, nfeGenero, " +
                         "usuarioCadastro_id) VALUES('%s', '%s', %s, %d, %d, %s, %s, %d, %s, %s, '%s', '%s', %d, %d, %d, %d, " +
                         "%d, '%s', %d)",
-                produtoVO.getCodigo(), produtoVO.getDescricao(), produtoVO.getPeso(), produtoVO.getSisUnidadeComercial_id(),
-                produtoVO.getSisSituacaoSistema_id(), produtoVO.getPrecoFabrica(), produtoVO.getPrecoVenda(),
+                produtoVO.getCodigo(), produtoVO.getDescricao(), produtoVO.getPeso(), produtoVO.getSisUnidadeComercialVO().getId(),
+                produtoVO.getSisSituacaoSistemaVO().getId(), produtoVO.getPrecoFabrica(), produtoVO.getPrecoVenda(),
                 produtoVO.getVarejo(), produtoVO.getPrecoUltimoFrete(), produtoVO.getComissao(), produtoVO.getNcm(),
-                produtoVO.getCest(), produtoVO.getFiscalCestNcm_id(), produtoVO.getFiscalCSTOrigem_id(),
-                produtoVO.getFiscalICMS_id(), produtoVO.getFiscalPIS_id(), produtoVO.getFiscalCOFINS_id(),
+                produtoVO.getCest(), produtoVO.getFiscalCestNcmVO().getId(), produtoVO.getFiscalCstOrigemVO().getId(),
+                produtoVO.getFiscalIcmsVO().getId(), produtoVO.getFiscalPisVO().getId(), produtoVO.getFiscalCofinsVO().getId(),
                 produtoVO.getNfeGenero(), produtoVO.getUsuarioCadastro_id());
-        System.out.printf("Peso; [%s]\n", produtoVO.getPeso());
-        System.out.printf("setPrecoFabrica; [%s]\n", produtoVO.getPrecoFabrica());
-        System.out.printf("setPrecoVenda; [%s]\n", produtoVO.getPrecoVenda());
-        System.out.printf("setPrecoUltimoFrete; [%s]\n", produtoVO.getPrecoUltimoFrete());
-        System.out.printf("setComissao; [%s]\n", produtoVO.getComissao());
-        System.out.printf("comandoSql: [%s]", comandoSql);
         return getInsertBancoDados(conn, comandoSql);
     }
 

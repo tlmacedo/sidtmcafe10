@@ -1133,7 +1133,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         TabTelefoneVO telefone;
         telefone = isEmpresa ? listTelefone.getSelectionModel().getSelectedItem() : listContatoTelefone.getSelectionModel().getSelectedItem();
         if (telefone == null) return;
-        System.out.printf(temp);
         if (temp.equals(""))
             temp = telefone.getDescricao();
         alertMensagem = new ServiceAlertMensagem();
