@@ -29,7 +29,7 @@ public class WsEanCosmosDAO extends BuscaWebService implements Constants {
             retorno += String.format(String.format("descricao:%s", jsonObject.getString("description")));
         if (jsonObject.has("ncm"))
             retorno += String.format("%sncm:%s", retorno.equals("") ? "" : ", ",
-                    String.format("ncm:%s", jsonObject.getJSONObject("ncm").getString("code")));
+                    String.format("%s", jsonObject.getJSONObject("ncm").getString("code")));
         return retorno;
     }
 

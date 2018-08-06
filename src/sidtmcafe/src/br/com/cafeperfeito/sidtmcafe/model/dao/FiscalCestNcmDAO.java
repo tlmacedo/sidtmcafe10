@@ -22,7 +22,7 @@ public class FiscalCestNcmDAO extends BuscaBancoDados {
     public FiscalCestNcmVO getFiscalCestNcmVO(String ncm) {
         getResultSet(String.format("SELECT * FROM fiscalCestNcm %s ", ncm != null ?
                 String.format("WHERE ncm = '%s'", ncm) : ""), false);
-        if (fiscalCestNcmVO == null)
+        if (fiscalCestNcmVO == null && ncm.length() > 4)
             getResultSet(String.format("SELECT * FROM fiscalCestNcm %s ", ncm != null ?
                     String.format("WHERE ncm = '%s'", ncm.substring(0, 4)) : ""), false);
         return fiscalCestNcmVO;

@@ -272,6 +272,12 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
         });
 
+        produtoVOFilteredList.addListener((ListChangeListener) c -> {
+            atualizaQtdRegistroLocalizado();
+            preencherTabelaProduto();
+        });
+
+
         txtFiscalNcm.textProperty().addListener((observable, oldValue, newValue) -> {
             if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
             if (newValue == null || cboFiscalCestNcm.getSelectionModel().getSelectedItem() != null) return;
@@ -285,6 +291,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtPrecoFabrica.isFocused()) return;
+                if (txtPrecoFabrica.getText().substring(newValue.length() - 1).equals(",")) return;
                 vlrConsumidor();
                 vlrLucroBruto();
             }
@@ -297,6 +304,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 if (!txtMargem.isFocused()) {
                     return;
                 }
+                if (txtMargem.getText().substring(newValue.length() - 1).equals(",")) return;
                 vlrConsumidor();
                 vlrLucroBruto();
             }
@@ -307,6 +315,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtPrecoVenda.isFocused()) return;
+                if (txtPrecoVenda.getText().substring(newValue.length() - 1).equals(",")) return;
                 vlrMargem();
                 vlrLucroBruto();
             }
@@ -317,6 +326,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtComissaoPorc.isFocused()) return;
+                if (txtComissaoPorc.getText().substring(newValue.length() - 1).equals(",")) return;
                 vlrComissaoReal();
                 vlrLucroBruto();
             }
@@ -327,6 +337,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtPrecoUltimoFrete.isFocused()) return;
+                if (txtPrecoUltimoFrete.getText().substring(newValue.length() - 1).equals(",")) return;
                 vlrLucroBruto();
             }
         });
@@ -826,62 +837,90 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void vlrConsumidor() {
-        Double prcFabrica = Double.parseDouble(txtPrecoFabrica.getText().replace(".", "").replace(",", "."));
-        Double margem = Double.parseDouble(txtMargem.getText().replace(".", "").replace(",", "."));
-        Double prcConsumidor = 0.;
-        if (margem.equals(0.)) prcConsumidor = prcFabrica;
-        else prcConsumidor = (prcFabrica * (1. + (margem / 100.)));
-        txtPrecoVenda.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(prcConsumidor).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+        try {
+            Double prcFabrica = Double.parseDouble(txtPrecoFabrica.getText().replace(".", "").replace(",", "."));
+            Double margem = Double.parseDouble(txtMargem.getText().replace(".", "").replace(",", "."));
+            Double prcConsumidor;
+            if (margem.equals(0.)) prcConsumidor = prcFabrica;
+            else prcConsumidor = (prcFabrica * (1. + (margem / 100.)));
+            txtPrecoVenda.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(prcConsumidor).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+        } catch (Exception ex) {
+            if (!(ex instanceof NumberFormatException))
+                ex.printStackTrace();
+        }
     }
 
     void vlrMargem() {
-        Double prcFabrica = Double.parseDouble(txtPrecoFabrica.getText().replace(".", "").replace(",", "."));
-        Double prcConsumidor = Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", "."));
-        Double margem = 0.;
-        if (prcConsumidor.equals(prcFabrica))
-            margem = 0.;
-        else
-            margem = (((prcConsumidor - prcFabrica) * 100.) / prcFabrica);
-        txtMargem.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(margem).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+        try {
+            Double prcFabrica = Double.parseDouble(txtPrecoFabrica.getText().replace(".", "").replace(",", "."));
+            Double prcConsumidor = Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", "."));
+            Double margem;
+            if (prcConsumidor.equals(prcFabrica)) margem = 0.;
+            else margem = (((prcConsumidor - prcFabrica) * 100.) / prcFabrica);
+            txtMargem.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(margem).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+        } catch (Exception ex) {
+            if (!(ex instanceof NumberFormatException))
+                ex.printStackTrace();
+        }
     }
 
     void vlrLucroBruto() {
-        Double prcFabrica = Double.parseDouble(txtPrecoFabrica.getText().replace(".", "").replace(",", "."));
-        Double prcConsumidor = Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", "."));
-        Double lucroBruto;
-        if (prcConsumidor.equals(prcFabrica)) lucroBruto = 0.;
-        else lucroBruto = (prcConsumidor - prcFabrica);
-        txtLucroBruto.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(lucroBruto).setScale(2, RoundingMode.HALF_UP).toString(), 2));
-        vlrLucroLiq();
+        try {
+            Double prcFabrica = Double.parseDouble(txtPrecoFabrica.getText().replace(".", "").replace(",", "."));
+            Double prcConsumidor = Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", "."));
+            Double lucroBruto;
+            if (prcConsumidor.equals(prcFabrica)) lucroBruto = 0.;
+            else lucroBruto = (prcConsumidor - prcFabrica);
+            txtLucroBruto.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(lucroBruto).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+            vlrLucroLiq();
+        } catch (Exception ex) {
+            if (!(ex instanceof NumberFormatException))
+                ex.printStackTrace();
+        }
     }
 
     void vlrLucroLiq() {
-        Double lucroBruto = Double.parseDouble(txtLucroBruto.getText().replace(".", "").replace(",", "."));
-        Double ultimoFrete = Double.parseDouble(txtPrecoUltimoFrete.getText().replace(".", "").replace(",", "."));
-        Double comissaoReal = Double.parseDouble(txtComissaoReal.getText().replace(".", "").replace(",", "."));
-        Double lucroLiquido;
-        if (lucroBruto.equals(0.)) lucroLiquido = 0.;
-        else lucroLiquido = (lucroBruto - (ultimoFrete + comissaoReal));
-        txtLucroLiquido.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(lucroLiquido).setScale(2, RoundingMode.HALF_UP).toString(), 2));
-        vlrLucratividade();
+        try {
+            Double lucroBruto = Double.parseDouble(txtLucroBruto.getText().replace(".", "").replace(",", "."));
+            Double ultimoFrete = Double.parseDouble(txtPrecoUltimoFrete.getText().replace(".", "").replace(",", "."));
+            Double comissaoReal = Double.parseDouble(txtComissaoReal.getText().replace(".", "").replace(",", "."));
+            Double lucroLiquido;
+            if (lucroBruto.equals(0.)) lucroLiquido = 0.;
+            else lucroLiquido = (lucroBruto - (ultimoFrete + comissaoReal));
+            txtLucroLiquido.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(lucroLiquido).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+            vlrLucratividade();
+        } catch (Exception ex) {
+            if (!(ex instanceof NumberFormatException))
+                ex.printStackTrace();
+        }
     }
 
     void vlrLucratividade() {
-        Double prcConsumidor = Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", "."));
-        Double lucroLiquido = Double.parseDouble(txtLucroLiquido.getText().replace(".", "").replace(",", "."));
-        Double lucratividade;
-        if (lucroLiquido.equals(0.)) lucratividade = 0.;
-        else lucratividade = ((lucroLiquido * 100.) / prcConsumidor);
-        txtLucratividade.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(lucratividade).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+        try {
+            Double prcConsumidor = Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", "."));
+            Double lucroLiquido = Double.parseDouble(txtLucroLiquido.getText().replace(".", "").replace(",", "."));
+            Double lucratividade;
+            if (lucroLiquido.equals(0.)) lucratividade = 0.;
+            else lucratividade = ((lucroLiquido * 100.) / prcConsumidor);
+            txtLucratividade.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(lucratividade).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+        } catch (Exception ex) {
+            if (!(ex instanceof NumberFormatException))
+                ex.printStackTrace();
+        }
     }
 
     void vlrComissaoReal() {
         Double prcConsumidor = Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", "."));
         Double comissaoPorc = Double.parseDouble(txtComissaoPorc.getText().replace(".", "").replace(",", "."));
         Double comissaoReal;
-        if (comissaoPorc.equals(0.)) comissaoReal = 0.;
-        else comissaoReal = prcConsumidor * (comissaoPorc / 100.);
-        txtComissaoReal.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(comissaoReal).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+        try {
+            if (comissaoPorc.equals(0.)) comissaoReal = 0.;
+            else comissaoReal = prcConsumidor * (comissaoPorc / 100.);
+            txtComissaoReal.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(comissaoReal).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+        } catch (Exception ex) {
+            if (!(ex instanceof NumberFormatException))
+                ex.printStackTrace();
+        }
     }
 
 }
