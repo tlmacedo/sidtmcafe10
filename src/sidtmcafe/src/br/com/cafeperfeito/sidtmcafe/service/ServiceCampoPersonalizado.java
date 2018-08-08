@@ -7,6 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
 
+import java.util.List;
+
 public class ServiceCampoPersonalizado implements Constants {
 
     //999@_CNPJ
@@ -133,46 +135,15 @@ public class ServiceCampoPersonalizado implements Constants {
     public static void fieldMask(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
             if (node instanceof JFXTextField) {
-                int len = 0;
-                if (node.getAccessibleText().contains("len:"))
-                    len = Integer.parseInt(ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "len").getValue());
-                if (node.getAccessibleText() != null && node.getAccessibleText().contains("mask:")) {
-                    String tipoDado = "", mascara = "", caractere = "#";
-                    int decimal = 0;
-                    if (node.getAccessibleText().contains("mask:"))
-                        mascara = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "mask").getValue();
-                    if ((tipoDado = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "type").getValue()) != null)
-                        switch (tipoDado) {
-                            case "maiusculo":
-                            case "maiuscula":
-                                caractere = "@";
-                                break;
-                            case "minusculo":
-                            case "minuscula":
-                                caractere = "?";
-                                break;
-                            case "numero":
-                            case "moeda":
-                            case "peso":
-                            case "numeral":
-                                caractere = "0";
-                                if (mascara.contains("numero") || mascara.contains("peso") || mascara.contains("moeda"))
-                                    caractere = "$";
-                                if (mascara.replaceAll("[\\D]", "").equals(""))
-                                    decimal = 0;
-                                else
-                                    decimal = Integer.parseInt(mascara.replaceAll("[\\D]", ""));
-                                break;
-                            case "normal":
-                            default:
-                                caractere = "#";
-                                break;
-                        }
-                    if (caractere == "$") {
-                        new ServiceFormatarDado().maskFieldMoeda((JFXTextField) node, decimal, len);
-                    } else {
-                        new ServiceFormatarDado().maskField((JFXTextField) node, ServiceFormatarDado.gerarMascara(mascara.replaceAll("[\\d]", ""), len, caractere));
-                    }
+                if (node.getAccessibleText().toLowerCase().contains("type:")) {
+                    int len = 0;
+                    len = node.getAccessibleText().toLowerCase().contains("len:")
+                            ? Integer.parseInt(ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "len").getValue())
+                            : 0;
+                    String type = "";
+                    if ((type = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "type").getValue()) == null)
+                        type = "TEXTO";
+                    new ServiceFormatarDado().maskField((JFXTextField) node, ServiceFormatarDado.gerarMascara(type, len));
                 }
             }
             if (node instanceof AnchorPane) {

@@ -648,7 +648,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 USUARIO_LOGADO_APELIDO, getProdutoVO()));
         String codBarras;
         if ((codBarras = alertMensagem.getRetornoAlert_TextField(
-                ServiceFormatarDado.gerarMascara("barcode", 13, "#"), "")
+                ServiceFormatarDado.gerarMascara("barcode", 13), "")
                 .orElse(null)) == null) return;
         if (buscaDuplicidadeCode(codBarras, true)) return;
         String wsRetorno = new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos(codBarras);
@@ -689,7 +689,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 USUARIO_LOGADO_APELIDO, codBarraVO, txtDescricao.getText()));
         String codBarras;
         if ((codBarras = alertMensagem.getRetornoAlert_TextField(
-                ServiceFormatarDado.gerarMascara("barcode", 13, "#"), codBarraVO.getCodBarra())
+                ServiceFormatarDado.gerarMascara("barcode", 13), codBarraVO.getCodBarra())
                 .orElse(null)) == null) return;
         codBarraVO.setCodBarra(codBarras);
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
@@ -843,7 +843,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             Double prcConsumidor;
             if (margem.equals(0.)) prcConsumidor = prcFabrica;
             else prcConsumidor = (prcFabrica * (1. + (margem / 100.)));
-            txtPrecoVenda.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(prcConsumidor).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+            //txtPrecoVenda.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(prcConsumidor).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+            txtPrecoVenda.setText(BigDecimal.valueOf(prcConsumidor).setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
                 ex.printStackTrace();
@@ -857,7 +858,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             Double margem;
             if (prcConsumidor.equals(prcFabrica)) margem = 0.;
             else margem = (((prcConsumidor - prcFabrica) * 100.) / prcFabrica);
-            txtMargem.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(margem).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+//            txtMargem.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(margem).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+            txtMargem.setText(BigDecimal.valueOf(margem).setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
                 ex.printStackTrace();
@@ -871,7 +873,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             Double lucroBruto;
             if (prcConsumidor.equals(prcFabrica)) lucroBruto = 0.;
             else lucroBruto = (prcConsumidor - prcFabrica);
-            txtLucroBruto.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(lucroBruto).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+            txtLucroBruto.setText(BigDecimal.valueOf(lucroBruto).setScale(2, RoundingMode.HALF_UP).toString());
             vlrLucroLiq();
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
@@ -887,7 +889,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             Double lucroLiquido;
             if (lucroBruto.equals(0.)) lucroLiquido = 0.;
             else lucroLiquido = (lucroBruto - (ultimoFrete + comissaoReal));
-            txtLucroLiquido.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(lucroLiquido).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+            txtLucroLiquido.setText(BigDecimal.valueOf(lucroLiquido).setScale(2, RoundingMode.HALF_UP).toString());
             vlrLucratividade();
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
@@ -902,7 +904,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             Double lucratividade;
             if (lucroLiquido.equals(0.)) lucratividade = 0.;
             else lucratividade = ((lucroLiquido * 100.) / prcConsumidor);
-            txtLucratividade.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(lucratividade).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+            txtLucratividade.setText(BigDecimal.valueOf(lucratividade).setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
                 ex.printStackTrace();
@@ -916,7 +918,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         try {
             if (comissaoPorc.equals(0.)) comissaoReal = 0.;
             else comissaoReal = prcConsumidor * (comissaoPorc / 100.);
-            txtComissaoReal.setText(ServiceFormatarDado.getValueMoeda(BigDecimal.valueOf(comissaoReal).setScale(2, RoundingMode.HALF_UP).toString(), 2));
+            txtComissaoReal.setText(BigDecimal.valueOf(comissaoReal).setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
                 ex.printStackTrace();

@@ -124,9 +124,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         new ServiceSegundoPlano().tarefaAbreCadastroEmpresa(getTaskCadastroEmpresa(), listaTarefa.size());
 
         formatCnpj = new ServiceFormatarDado();
-        formatCnpj.maskField(txtCNPJ, ServiceFormatarDado.gerarMascara("cnpj", 0, "#"));
+        formatCnpj.maskField(txtCNPJ, ServiceFormatarDado.gerarMascara("cnpj", 0));
         formatIe = new ServiceFormatarDado();
-        formatIe.maskField(txtIE, ServiceFormatarDado.gerarMascara("ie", 0, "#"));
+        formatIe.maskField(txtIE, ServiceFormatarDado.gerarMascara("ie", 0));
     }
 
     @Override
@@ -312,9 +312,10 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             txtIE.setPromptText(newValue.intValue() == 0 ? "RG" : "IE");
             txtRazao.setPromptText(newValue.intValue() == 0 ? "Nome" : "Razão");
             txtFantasia.setPromptText(newValue.intValue() == 0 ? "Apelido" : "Fantasia");
-            formatCnpj.setMascara(ServiceFormatarDado.gerarMascara(newValue.intValue() == 0 ? "cpf" : "cnpj", 0, "#"));
+            formatCnpj.setMascara(ServiceFormatarDado.gerarMascara(txtCNPJ.getPromptText().toLowerCase().replaceAll("\\D", ""), 0));
             if (txtCNPJ.getLength() > 0)
-                txtCNPJ.setText(ServiceFormatarDado.getValorFormatado(txtCNPJ.getText().replaceAll("\\D", ""), txtCNPJ.getPromptText().toLowerCase().replace(".", "")));
+//            txtCNPJ.setText(ServiceFormatarDado.getValorFormatado(txtCNPJ.getText().replaceAll("\\D", ""), txtCNPJ.getPromptText().toLowerCase().replace(".", "")));
+                txtCNPJ.setText(txtCNPJ.getText().replaceAll("\\D", ""));
         });
 
         txtCNPJ.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
@@ -365,7 +366,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             if (newValue == null) return;
             cboEndMunicipio.getItems().setAll(newValue.getMunicipioVOList());
             cboEndMunicipio.getSelectionModel().selectFirst();
-            formatIe.setMascara(ServiceFormatarDado.gerarMascara("ie" + newValue.getSigla(), 0, "#"));
+            formatIe.setMascara(ServiceFormatarDado.gerarMascara("ie" + newValue.getSigla(), 0));
             if (getEmpresaVO() != null && getEmpresaVO().getIe().length() > 0)
                 txtIE.setText(ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie" + newValue.getSigla()));
         });
@@ -893,7 +894,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     USUARIO_LOGADO_APELIDO, contato, txtRazao.getText()));
             Pair<String, Object> pair;
             if ((pair = alertMensagem.getRetornoAlert_TextFieldEComboBox(new SisCargoDAO().getSisCargoVOList(),
-                    ServiceFormatarDado.gerarMascara("", 40, "@"), contato.getDescricao())
+                    ServiceFormatarDado.gerarMascara("TEXTO", 40), contato.getDescricao())
                     .orElse(null)) == null) return;
             contato.setSisCargo_id(((SisCargoVO) pair.getValue()).getId());
             contato.setSisCargoVO((SisCargoVO) pair.getValue());
@@ -946,7 +947,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     USUARIO_LOGADO_APELIDO, txtRazao.getText()));
             Pair<String, Object> pair;
             if ((pair = alertMensagem.getRetornoAlert_TextFieldEComboBox(new SisCargoDAO().getSisCargoVOList(),
-                    ServiceFormatarDado.gerarMascara("", 40, "@"), "")
+                    ServiceFormatarDado.gerarMascara("TEXTO", 40), "")
                     .orElse(null)) == null) return;
             getEmpresaVO().getTabContatoVOList().add(new TabContatoVO(pair.getKey(), (SisCargoVO) pair.getValue()));
             tpnPessoaContato.setText("Pessoa de contato");
@@ -1078,7 +1079,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 txtRazao.getText()));
         String emailHomePage;
         if ((emailHomePage = alertMensagem.getRetornoAlert_TextField(
-                ServiceFormatarDado.gerarMascara("email", 120, "?"), temp)
+                ServiceFormatarDado.gerarMascara("email", 120), temp)
                 .orElse(null)) == null) return;
         if (!ServiceValidarDado.isEmailHomePageValido(emailHomePage, isEmail, true))
             addEmailHomePage(emailHomePage);
@@ -1119,7 +1120,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 isContato ? String.format(" para o contato: [%s]", getContatoVO()) : "",
                 txtRazao.getText()));
         if ((temp = alertMensagem.getRetornoAlert_TextField(
-                ServiceFormatarDado.gerarMascara("email", 120, "?"), temp)
+                ServiceFormatarDado.gerarMascara("email", 120), temp)
                 .orElse(null)) == null) return;
         if (!ServiceValidarDado.isEmailHomePageValido(temp, isEmail, true))
             editEmailHomePage(temp);

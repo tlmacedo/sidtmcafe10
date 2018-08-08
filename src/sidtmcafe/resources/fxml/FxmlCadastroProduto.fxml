@@ -20,16 +20,16 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="1278.0">
                     <children>
                         <JFXTextField fx:id="txtPesquisaProduto"
-                                      accessibleText="len:60, type:maiusculo, value: , setDisable:false, mask: "
-                                      labelFloat="true"
-                                      layoutX="10.0" layoutY="10.0" maxHeight="20.0" prefColumnCount="8"
-                                      prefHeight="20.0" prefWidth="360.0" promptText="Pesquisar produto">
+                                      accessibleText="len:80, type:TEXTO, value: , setDisable:false"
+                                      labelFloat="true" layoutX="10.0" layoutY="10.0" maxHeight="20.0"
+                                      prefColumnCount="8" prefHeight="20.0" prefWidth="360.0"
+                                      promptText="Pesquisar produto">
                             <tooltip>
                                 <Tooltip text="campo de pesquisa."/>
                             </tooltip>
                         </JFXTextField>
                         <TreeTableView fx:id="ttvProduto" layoutX="5.0" layoutY="37.0"
-                                       accessibleText="value: , setDisable:false, mask: "
+                                       accessibleText="value: , setDisable:false"
                                        nodeOrientation="LEFT_TO_RIGHT" prefHeight="110.0" prefWidth="1330.0">
                             <tooltip>
                                 <Tooltip text="tabela com lista de produto"/>
@@ -52,7 +52,7 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="1278.0">
                     <children>
                         <JFXTextField fx:id="txtCodigo" layoutX="10.0" layoutY="10.0"
-                                      accessibleText="len:15, type:maiusculo, value: , setDisable:false, mask: "
+                                      accessibleText="len:15, type:TEXTO, value: , setDisable:false"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="125.0" promptText="Código"
                                       styleClass="a-direita" text="Código">
@@ -61,7 +61,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtDescricao" layoutX="145.0" layoutY="10.0"
-                                      accessibleText="len:150, type:maiusculo, value: , setDisable:false, mask: "
+                                      accessibleText="len:150, type:TEXTO, value: , setDisable:false"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0" promptText="Descrição"
                                       text="Descrição">
@@ -70,7 +70,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtPeso" layoutX="610.0" layoutY="10.0"
-                                      accessibleText="len:13, type:numero, value:0,000, setDisable:false, mask:peso3"
+                                      accessibleText="len:13, type:peso3, value:0,000, setDisable:false"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Peso"
                                       styleClass="a-direita" text="Peso">
@@ -94,7 +94,7 @@
                             </tooltip>
                         </JFXComboBox>
                         <JFXTextField fx:id="txtPrecoFabrica" layoutX="10.0" layoutY="40.0"
-                                      accessibleText="len:13, type:moeda, value:0,00, setDisable:false, mask:moeda2"
+                                      accessibleText="len:13, type:moeda2, value:0,00, setDisable:false"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Preço Fab. (R$)" styleClass="a-direita" text="Preço fab. (R$)">
@@ -103,7 +103,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtMargem" layoutX="110.0" layoutY="40.0"
-                                      accessibleText="len:13, type:moeda, value:0,00, setDisable:false, mask:moeda2"
+                                      accessibleText="len:13, type:moeda2, value:0,00, setDisable:false"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Margem (%)"
                                       styleClass="a-direita" text="Margem (%)">
@@ -112,7 +112,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtPrecoVenda" layoutX="210.0" layoutY="40.0"
-                                      accessibleText="len:13, type:moeda, value:0,00, setDisable:false, mask:moeda2"
+                                      accessibleText="len:13, type:moeda2, value:0,00, setDisable:false"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Preço Cons. (R$)" styleClass="a-direita" text="Preço cons. (R$)">
@@ -121,7 +121,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtVarejo" layoutX="310.0" layoutY="40.0"
-                                      accessibleText="len:3, type:numero, value:1, setDisable:false, mask:numero"
+                                      accessibleText="len:3, type:numero, value:1, setDisable:false"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="40.0" promptText="Varejo (Und)"
                                       styleClass="a-direita" text="Varejo">
@@ -130,7 +130,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtComissaoPorc" layoutX="360.0" layoutY="40.0"
-                                      accessibleText="len:13, type:moeda, value:0,00, setDisable:false, mask:moeda2"
+                                      accessibleText="len:13, type:moeda2, value:0,00, setDisable:false"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Comissão (%)"
                                       styleClass="a-direita" text="Comissão (%)">
@@ -139,7 +139,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtLucroBruto" layoutX="460.0" layoutY="40.0"
-                                      accessibleText="len:13, type:moeda, value:0,00, setEditable:false, mask:moeda2"
+                                      accessibleText="len:13, type:moeda2, value:0,00, setEditable:false"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Lucro Bruto (R$)" styleClass="a-direita" text="Lucro bruto (R$)">
@@ -148,7 +148,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtPrecoUltimoFrete" layoutX="560.0"
-                                      accessibleText="len:13, type:moeda, value:0,00, setDisable:false, mask:moeda2"
+                                      accessibleText="len:13, type:moeda2, value:0,00, setDisable:false"
                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Útimo Frete (R$)" styleClass="a-direita" text="Útimo frete (R$)">
@@ -157,7 +157,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtComissaoReal" layoutX="660.0" layoutY="40.0"
-                                      accessibleText="len:13, type:moeda, value:0,00, setEditable:false, mask:moeda2"
+                                      accessibleText="len:13, type:moeda2, value:0,00, setEditable:false"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Comissão (R$)"
                                       styleClass="a-direita" text="Comissão (R$)">
@@ -166,7 +166,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtLucroLiquido" layoutX="760.0" layoutY="40.0"
-                                      accessibleText="len:13, type:moeda, value:0,00, setEditable:false, mask:moeda2"
+                                      accessibleText="len:13, type:moeda2, value:0,00, setEditable:false"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Lucro Líquido (R$)" styleClass="a-direita" text="Lucro líquido (R$)">
@@ -175,7 +175,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtLucratividade" layoutX="860.0" layoutY="40.0"
-                                      accessibleText="len:13, type:moeda, value:0,00, setEditable:false, mask:moeda2"
+                                      accessibleText="len:13, type:moeda2, value:0,00, setEditable:false"
                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Lucratividade (%)" styleClass="a-direita" text="Lucratividade (%)">
@@ -245,7 +245,7 @@
                                             </tooltip>
                                         </JFXComboBox>
                                         <JFXTextField fx:id="txtFiscalGenero" layoutX="570.0"
-                                                      accessibleText="len:2, type:numero, value: , setDisable:false, mask: "
+                                                      accessibleText="len:2, type:numero, value: , setDisable:false"
                                                       layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
                                                       prefWidth="90.0" promptText="Género" styleClass="a-direita"
@@ -255,7 +255,7 @@
                                             </tooltip>
                                         </JFXTextField>
                                         <JFXTextField fx:id="txtFiscalNcm" layoutX="670.0"
-                                                      accessibleText="len:10, type:numero, value: , setDisable:false, mask:ncm"
+                                                      accessibleText="len:10, type:nfencm, value: , setDisable:false"
                                                       layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
                                                       prefWidth="90.0" promptText="N.C.M." styleClass="a-direita"
@@ -265,7 +265,7 @@
                                             </tooltip>
                                         </JFXTextField>
                                         <JFXTextField fx:id="txtFiscalCest" layoutX="770.0"
-                                                      accessibleText="len:9, type:numero, value: , setDisable:false, mask:cest"
+                                                      accessibleText="len:9, type:nfecest, value: , setDisable:false"
                                                       layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
                                                       prefWidth="90.0" promptText="CEST" styleClass="a-direita"

@@ -77,14 +77,17 @@ public class TabTelefoneVO extends RecursiveTreeObject<TabTelefoneVO> {
     @Override
     public String toString() {
         String telefone = descricaoProperty().get();
-        if (telefone.length() > 0) telefone = ServiceFormatarDado.getValorFormatado(telefone.replaceAll("\\D", ""),
-                "telefone");
-        if (sisTelefoneOperadoraVO != null)
-            if (sisTelefoneOperadoraVO.getTipo() == 0 || (Integer.parseInt(telefone.substring(0, 1)) < 8)) {
-                telefone += " fixo (" + sisTelefoneOperadoraVO.getDescricao() + ")";
-            } else {
-                telefone += " celular (" + sisTelefoneOperadoraVO.getDescricao() + ")";
-            }
+        if (telefone.length() > 0)
+            telefone = telefone.replaceAll("\\D", "");
+        if (sisTelefoneOperadoraVO != null) {
+            boolean celular = !(sisTelefoneOperadoraVO.getTipo() == 0 || (Integer.parseInt(telefone.substring(0, 1)) < 8));
+//                telefone += " fixo (" + sisTelefoneOperadoraVO.getDescricao() + ")";
+//            } else {
+//                telefone += " celular (" + sisTelefoneOperadoraVO.getDescricao() + ")";
+//            }
+            telefone = String.format("%s %s (%s)", ServiceFormatarDado.getValorFormatado(telefone, celular ? "celular" : "telefone"),
+                    celular ? "celular" : "fixo", sisTelefoneOperadoraVO.getDescricao());
+        }
         return telefone;
     }
 

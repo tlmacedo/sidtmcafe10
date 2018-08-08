@@ -501,14 +501,14 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
                 textField.setText(txtPreLoader);
         formatTextField = new ServiceFormatarDado();
         if (mascaraField.replaceAll("\\d", "").toLowerCase().contains("telefone")) {
-            formatTextField.maskField(textField, ServiceFormatarDado.gerarMascara("telefone", 9, "#"));
+            formatTextField.maskField(textField, ServiceFormatarDado.gerarMascara("telefone", 9));
             textField.textProperty().addListener((observable, oldValue, newValue) -> {
                 String value = newValue.replaceAll("\\D", "");
                 if (newValue.length() > 0)
                     if (Integer.parseInt(value.substring(0, 1)) > 7)
-                        formatTextField.setMascara(ServiceFormatarDado.gerarMascara("telefone", 9, "#"));
+                        formatTextField.setMascara(ServiceFormatarDado.gerarMascara("telefone", 9));
                     else
-                        formatTextField.setMascara(ServiceFormatarDado.gerarMascara("telefone", 8, "#"));
+                        formatTextField.setMascara(ServiceFormatarDado.gerarMascara("telefone", 8));
             });
         } else {
             formatTextField.maskField(textField, mascaraField);

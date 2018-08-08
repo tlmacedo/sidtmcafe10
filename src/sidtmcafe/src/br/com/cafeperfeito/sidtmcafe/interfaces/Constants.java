@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.interfaces;
 
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
 import javafx.scene.input.*;
+import javafx.util.Pair;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -21,6 +22,22 @@ public interface Constants {
     String REGEX_TELEFONE_DDD = "(.(\\d{2}.))?\\s9?\\d{4}-\\d{4}";
     String REGEX_TELEFONE = "\\d{4}-\\d{4}";
     String REGEX_PONTUACAO = "[!\"$%&'()*+,-./:;_`{|}]";
+    Pair<String, String> REGEX_FS_CNPJ = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})$", "$1.$2.$3/$4-$5");
+    Pair<String, String> REGEX_FS_CPF = new Pair<String, String>("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3 - $4");
+    Pair<String, String> REGEX_FS_CEP = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{3})", "$1.$2-$3");
+    Pair<String, String> REGEX_FS_TELEFONE = new Pair<String, String>("(.\\d{1})?(\\d{4})(\\d{4})", "$1 $2-$3");
+    Pair<String, String> REGEX_FS_NCM = new Pair<String, String>("(\\d{4})(\\d{0,2})(\\d{0,2})", "$1.$2.$3");
+    Pair<String, String> REGEX_FS_CEST = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{2})", "$1.$2.$3");
+    Pair<String, String> REGEX_FS_NFE_CHAVE = new Pair<String, String>("(\\d{4}+)(\\d{4}?)", "$1 $2 ");
+    Pair<String, String> REGEX_FS_NFE_NUMERO = new Pair<String, String>("(\\d{3})(\\d{3})(\\d{3})", "$1.$2.$3");
+    Pair<String, String> REGEX_FS_NFE_DOC_ORIGEM = new Pair<String, String>("(\\d{11})(\\d{1})", "$1-$2");
+
+    String CARACTER_DIGITO = "#";
+    String CARACTER_UPPER = "U";
+    String CARACTER_LOWER = "L";
+    String CARACTER_DIGITO_TEXT = "A";
+    String CARACTER_INTERROGACAO = "?";
+    String CARACTER_ASTERISCO = "*";
 
     /*
      * Constantes para conexão com banco de dados MySql
