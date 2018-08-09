@@ -57,7 +57,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
     JFXComboBox comboBox;
     JFXTextField textField;
     List list;
-    String strContagem, mascaraField, txtPreLoader = "";
+    String strContagem, tipMascaraField, txtPreLoader = "";
     Button btnOk, btnApply, btnYes, btnClose, btnFinish, btnNo, btnCancel;
 
     Timeline tlRegressiva, tlLoop;
@@ -363,8 +363,8 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         return result;
     }
 
-    public Optional<Pair<String, Object>> getRetornoAlert_TextFieldEComboBox(List listCombo, String mascara, String textoPreLoader) {
-        mascaraField = mascara;
+    public Optional<Pair<String, Object>> getRetornoAlert_TextFieldEComboBox(List listCombo, String tipMascara, String textoPreLoader) {
+        tipMascaraField = tipMascara;
         txtPreLoader = textoPreLoader;
         list = listCombo;
         carregaDialog();
@@ -421,8 +421,8 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         return result;
     }
 
-    public Optional<String> getRetornoAlert_TextField(String mascara, String textoPreLoader) {
-        mascaraField = mascara;
+    public Optional<String> getRetornoAlert_TextField(String tipMascara, String textoPreLoader) {
+        tipMascaraField = tipMascara;
         txtPreLoader = textoPreLoader;
         carregaDialog();
         preparaDialogPane();
@@ -491,27 +491,30 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         return result;
     }
 
-    void addTextField(){
+    void addTextField() {
         textField = new JFXTextField();
         textField.setPromptText(getPromptText());
         if (txtPreLoader != "")
             if (txtPreLoader.contains("telefone"))
                 textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("telefone", ""), "telefone"));
+            else if (txtPreLoader.contains("celular"))
+                textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("celular", ""), "celular"));
             else
                 textField.setText(txtPreLoader);
         formatTextField = new ServiceFormatarDado();
-        if (mascaraField.replaceAll("\\d", "").toLowerCase().contains("telefone")) {
-            formatTextField.maskField(textField, ServiceFormatarDado.gerarMascara("telefone", 9));
-            textField.textProperty().addListener((observable, oldValue, newValue) -> {
-                String value = newValue.replaceAll("\\D", "");
-                if (newValue.length() > 0)
-                    if (Integer.parseInt(value.substring(0, 1)) > 7)
-                        formatTextField.setMascara(ServiceFormatarDado.gerarMascara("telefone", 9));
-                    else
-                        formatTextField.setMascara(ServiceFormatarDado.gerarMascara("telefone", 8));
-            });
-        } else {
-            formatTextField.maskField(textField, mascaraField);
+        switch (tipMascaraField.replaceAll("\\d", "").toLowerCase()) {
+            case "fone":
+            case "telefone":
+            case "celular":
+                formatTextField.maskField(textField, "telefone9");
+                textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                    String value = newValue.replaceAll("\\D", "");
+                    if (newValue.length() > 0)
+                        formatTextField.setStrMascara(Integer.parseInt(value.substring(0, 1)) > 7 ? "telefone9" : "telefone8");
+                });
+                break;
+            default:
+                formatTextField.maskField(textField, tipMascaraField);
         }
     }
 

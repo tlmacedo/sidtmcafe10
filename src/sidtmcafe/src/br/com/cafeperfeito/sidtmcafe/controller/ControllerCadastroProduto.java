@@ -262,8 +262,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         cboFiscalCestNcm.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
             if (newValue == null) return;
-            txtFiscalNcm.setText(ServiceFormatarDado.getValorFormatado(newValue.getNcm(), "ncm"));
-            txtFiscalCest.setText(ServiceFormatarDado.getValorFormatado(newValue.getCest(), "cest"));
+//            txtFiscalNcm.setText(ServiceFormatarDado.getValorFormatado(newValue.getNcm(), "ncm"));
+//            txtFiscalCest.setText(ServiceFormatarDado.getValorFormatado(newValue.getCest(), "cest"));
+            txtFiscalNcm.setText(newValue.getNcm());
+            txtFiscalCest.setText(newValue.getCest());
         });
 
         listCodBarraVOObservableList.addListener((ListChangeListener) c -> {
@@ -571,14 +573,14 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     void exibirDadosProduto() {
         txtCodigo.setText(getProdutoVO().getCodigo());
         txtDescricao.setText(getProdutoVO().getDescricao());
-        txtPeso.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getPeso()), "peso3"));
-        txtPrecoFabrica.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getPrecoFabrica()), "moeda2"));
-        txtPrecoVenda.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getPrecoVenda()), "moeda2"));
+        txtPeso.setText(String.valueOf(getProdutoVO().getPeso()));
+        txtPrecoFabrica.setText(String.valueOf(getProdutoVO().getPrecoFabrica()));
+        txtPrecoVenda.setText(String.valueOf(getProdutoVO().getPrecoVenda()));
         txtVarejo.setText(String.valueOf(getProdutoVO().getVarejo()));
-        txtPrecoUltimoFrete.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getPrecoUltimoFrete()), "moeda2"));
-        txtComissaoPorc.setText(ServiceFormatarDado.getValorFormatado(String.valueOf(getProdutoVO().getComissao()), "moeda2"));
-        txtFiscalNcm.setText(ServiceFormatarDado.getValorFormatado(getProdutoVO().getNcm(), "ncm"));
-        txtFiscalCest.setText(ServiceFormatarDado.getValorFormatado(getProdutoVO().getCest(), "cest"));
+        txtPrecoUltimoFrete.setText(String.valueOf(getProdutoVO().getPrecoUltimoFrete()));
+        txtComissaoPorc.setText(String.valueOf(getProdutoVO().getComissao()));
+        txtFiscalNcm.setText(getProdutoVO().getNcm());
+        txtFiscalCest.setText(getProdutoVO().getCest());
         vlrMargem();
         vlrLucroBruto();
         vlrComissaoReal();
@@ -648,7 +650,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 USUARIO_LOGADO_APELIDO, getProdutoVO()));
         String codBarras;
         if ((codBarras = alertMensagem.getRetornoAlert_TextField(
-                ServiceFormatarDado.gerarMascara("barcode", 13), "")
+                "barcode", "")
                 .orElse(null)) == null) return;
         if (buscaDuplicidadeCode(codBarras, true)) return;
         String wsRetorno = new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos(codBarras);
@@ -689,7 +691,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 USUARIO_LOGADO_APELIDO, codBarraVO, txtDescricao.getText()));
         String codBarras;
         if ((codBarras = alertMensagem.getRetornoAlert_TextField(
-                ServiceFormatarDado.gerarMascara("barcode", 13), codBarraVO.getCodBarra())
+                "barcode", codBarraVO.getCodBarra())
                 .orElse(null)) == null) return;
         codBarraVO.setCodBarra(codBarras);
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());

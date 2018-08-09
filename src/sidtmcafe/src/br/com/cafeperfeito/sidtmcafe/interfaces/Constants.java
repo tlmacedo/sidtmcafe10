@@ -25,11 +25,11 @@ public interface Constants {
     Pair<String, String> REGEX_FS_CNPJ = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})$", "$1.$2.$3/$4-$5");
     Pair<String, String> REGEX_FS_CPF = new Pair<String, String>("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3 - $4");
     Pair<String, String> REGEX_FS_CEP = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{3})", "$1.$2-$3");
-    Pair<String, String> REGEX_FS_TELEFONE = new Pair<String, String>("(.\\d{1})?(\\d{4})(\\d{4})", "$1 $2-$3");
+    Pair<String, String> REGEX_FS_TELEFONE = new Pair<String, String>("(\\d{1})?(\\d{4})(\\d{4})", "$1 $2-$3");
     Pair<String, String> REGEX_FS_NCM = new Pair<String, String>("(\\d{4})(\\d{0,2})(\\d{0,2})", "$1.$2.$3");
     Pair<String, String> REGEX_FS_CEST = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{2})", "$1.$2.$3");
     Pair<String, String> REGEX_FS_NFE_CHAVE = new Pair<String, String>("(\\d{4}+)(\\d{4}?)", "$1 $2 ");
-    Pair<String, String> REGEX_FS_NFE_NUMERO = new Pair<String, String>("(\\d{3})(\\d{3})(\\d{3})", "$1.$2.$3");
+    Pair<String, String> REGEX_FS_NFE_NUMERO = new Pair<String, String>("(\\d{3})?(\\d{3})", "$1.$2");
     Pair<String, String> REGEX_FS_NFE_DOC_ORIGEM = new Pair<String, String>("(\\d{11})(\\d{1})", "$1-$2");
 
     String CARACTER_DIGITO = "#";

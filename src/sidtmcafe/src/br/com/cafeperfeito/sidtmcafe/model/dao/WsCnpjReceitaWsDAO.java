@@ -117,7 +117,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
             ServiceAlertMensagem alertMensagem = new ServiceAlertMensagem();
             alertMensagem.setCabecalho("Retorno inválido!");
             alertMensagem.setPromptText(String.format("%s, o C.N.P.J: [%s] informado, não foi localizado na base de dados!",
-                    USUARIO_LOGADO_APELIDO, ServiceFormatarDado.getValorFormatado(busca, "cnpj")));
+                    USUARIO_LOGADO_APELIDO, busca));
             alertMensagem.setStrIco("ic_webservice_24dp");
             alertMensagem.getRetornoAlert_OK();
             return;

@@ -45,7 +45,7 @@ public class WsCepPostmonDAO extends BuscaWebService implements Constants {
             ServiceAlertMensagem alertMensagem = new ServiceAlertMensagem();
             alertMensagem.setCabecalho("Dado inválido!");
             alertMensagem.setPromptText(String.format("%s, o cep: [%s] não foi localizado na base de dados!",
-                    USUARIO_LOGADO_APELIDO, ServiceFormatarDado.getValorFormatado(busca, "cep")));
+                    USUARIO_LOGADO_APELIDO, busca));
             alertMensagem.setStrIco("ic_webservice_24dp");
             alertMensagem.getRetornoAlert_OK();
             return;

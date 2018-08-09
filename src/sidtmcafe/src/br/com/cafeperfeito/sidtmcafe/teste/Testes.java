@@ -3,12 +3,24 @@ package br.com.cafeperfeito.sidtmcafe.teste;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceAlertMensagem;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceConsultaWebServices;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 
 import static br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema.USUARIO_LOGADO_APELIDO;
 
 public class Testes {
 
     public static void main(String... args) {
+
+        int tamMascara = 0;
+        String tipMascara = "telefone8";
+        String valor = "38776148";
+        System.out.printf("mascara de retorno  tipMascara[%s]:\n    [%s]\n", tipMascara, ServiceFormatarDado.gerarMascara(tipMascara));
+        System.out.printf("valor formatado  tipMascara[%s]  valor[%s]\n    [%s]\n", tipMascara, valor, ServiceFormatarDado.getValorFormatado(valor, tipMascara));
+        tipMascara = "celular9";
+        valor = "981686148";
+        System.out.printf("mascara de retorno  tipMascara[%s]:\n    [%s]\n", tipMascara, ServiceFormatarDado.gerarMascara(tipMascara));
+        System.out.printf("valor formatado  tipMascara[%s]  valor[%s]\n    [%s]\n", tipMascara, valor, ServiceFormatarDado.getValorFormatado(valor, tipMascara));
+
 
         //SisTelefoneOperadoraVO operadoraVO = new ServiceConsultaWebServices().getOperadoraTelefone_WsPortabilidadeCelular("92981686148");
 //        if ((operadoraVO = new ServiceConsultaWebServices().getOperadoraTelefone_WsPortabilidadeCelular("92981686148")) == null) {
@@ -26,7 +38,6 @@ public class Testes {
 
 
     }
-
 
 
 //    public static void main(String... args) {

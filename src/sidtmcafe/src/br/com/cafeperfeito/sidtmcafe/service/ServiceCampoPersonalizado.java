@@ -143,7 +143,8 @@ public class ServiceCampoPersonalizado implements Constants {
                     String type = "";
                     if ((type = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "type").getValue()) == null)
                         type = "TEXTO";
-                    new ServiceFormatarDado().maskField((JFXTextField) node, ServiceFormatarDado.gerarMascara(type, len));
+                    System.out.printf("len:[%s]   type:[%s]   campo:[%s]\n", len, type, node.getId());
+                    new ServiceFormatarDado().maskField((JFXTextField) node, type + len);
                 }
             }
             if (node instanceof AnchorPane) {

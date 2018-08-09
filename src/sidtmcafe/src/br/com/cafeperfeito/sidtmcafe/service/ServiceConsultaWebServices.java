@@ -11,7 +11,7 @@ public class ServiceConsultaWebServices {
         Task<Void> buscaCep = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                updateMessage("Pesquisando C.E.P.: [" + ServiceFormatarDado.getValorFormatado(busca, "cep") + "]");
+                updateMessage(String.format("Pesquisando C.E.P.: [%s]",busca));
                 Thread.sleep(200);
                 new WsCepPostmonDAO().getTabEnderecoVO(endereco, busca);
                 return null;
@@ -26,7 +26,7 @@ public class ServiceConsultaWebServices {
         Task<Void> buscaCNPJ = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                updateMessage("Pesquisando C.N.P.J: [" + ServiceFormatarDado.getValorFormatado(busca, "cnpj") + "]");
+                updateMessage(String.format("Pesquisando C.N.P.J: [%s]",busca));
                 Thread.sleep(300);
                 new WsCnpjReceitaWsDAO().getTabEmpresaVO(empresa, busca);
                 return null;
@@ -46,7 +46,7 @@ public class ServiceConsultaWebServices {
         Task<Void> buscaCNPJ = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                updateMessage("Pesquisando código de barra: [" + ServiceFormatarDado.getValorFormatado(busca, "codebar") + "]");
+                updateMessage(String.format("Pesquisando código de barra: [%s]", busca));
                 Thread.sleep(300);
                 retorno[0] = new WsEanCosmosDAO().getWsEanCosmosVO(busca);
                 return null;
