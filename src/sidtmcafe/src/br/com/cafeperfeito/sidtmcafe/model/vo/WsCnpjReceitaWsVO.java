@@ -11,7 +11,7 @@ import java.util.List;
 
 public class WsCnpjReceitaWsVO extends RecursiveTreeObject<WsCnpjReceitaWsVO> {
 
-    List<TabEmpresaReceitaFederalVO> atividadePrincipal, atividadesSecundarias, qsa;
+    List<TabInformacaoReceitaFederalVO> atividadePrincipal, atividadesSecundarias, qsa;
 
     SisMunicipioVO sisMunicipioVO;
     SisUfVO sisUfVO;
@@ -28,27 +28,27 @@ public class WsCnpjReceitaWsVO extends RecursiveTreeObject<WsCnpjReceitaWsVO> {
     public WsCnpjReceitaWsVO() {
     }
 
-    public List<TabEmpresaReceitaFederalVO> getAtividadePrincipal() {
+    public List<TabInformacaoReceitaFederalVO> getAtividadePrincipal() {
         return atividadePrincipal;
     }
 
-    public void setAtividadePrincipal(List<TabEmpresaReceitaFederalVO> atividadePrincipal) {
+    public void setAtividadePrincipal(List<TabInformacaoReceitaFederalVO> atividadePrincipal) {
         this.atividadePrincipal = atividadePrincipal;
     }
 
-    public List<TabEmpresaReceitaFederalVO> getAtividadesSecundarias() {
+    public List<TabInformacaoReceitaFederalVO> getAtividadesSecundarias() {
         return atividadesSecundarias;
     }
 
-    public void setAtividadesSecundarias(List<TabEmpresaReceitaFederalVO> atividadesSecundarias) {
+    public void setAtividadesSecundarias(List<TabInformacaoReceitaFederalVO> atividadesSecundarias) {
         this.atividadesSecundarias = atividadesSecundarias;
     }
 
-    public List<TabEmpresaReceitaFederalVO> getQsa() {
+    public List<TabInformacaoReceitaFederalVO> getQsa() {
         return qsa;
     }
 
-    public void setQsa(List<TabEmpresaReceitaFederalVO> qsa) {
+    public void setQsa(List<TabInformacaoReceitaFederalVO> qsa) {
         this.qsa = qsa;
     }
 

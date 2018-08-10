@@ -46,7 +46,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     ObservableList<TabContatoVO> listContatoVOObservableList = FXCollections.observableArrayList();
     ObservableList<TabEmailHomePageVO> listContatoEmailHomePageVOObservableList = FXCollections.observableArrayList();
     ObservableList<TabTelefoneVO> listContatoTelefoneVOObservableList = FXCollections.observableArrayList();
-    ObservableList<TabEmpresaReceitaFederalVO> listReceitaFederalVOObservableList = FXCollections.observableArrayList();
+    ObservableList<TabInformacaoReceitaFederalVO> listInformacaoReceitaFederalVOObservableList = FXCollections.observableArrayList();
     public AnchorPane painelViewCadastroEmpresa;
     public TitledPane tpnCadastroEmpresa;
     public JFXTextField txtPesquisaEmpresa;
@@ -89,12 +89,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     public Label lblDataCadastroDiff;
     public Label lblDataAtualizacao;
     public Label lblDataAtualizacaoDiff;
-    public JFXListView<TabEmpresaReceitaFederalVO> listAtividadePrincipal;
-    public JFXListView<TabEmpresaReceitaFederalVO> listAtividadeSecundaria;
-    public JFXListView<TabEmpresaReceitaFederalVO> listInformacoesReceita;
+    public JFXListView<TabInformacaoReceitaFederalVO> listAtividadePrincipal;
+    public JFXListView<TabInformacaoReceitaFederalVO> listAtividadeSecundaria;
+    public JFXListView<TabInformacaoReceitaFederalVO> listQsaReceitaFederal;
     public TitledPane tpnReceitaAtividadePrincipal;
     public TitledPane tpnReceitaAtividadeSecundaria;
-    public TitledPane tpnReceitaInformacao;
+    public TitledPane tpnReceitaQsa;
 
     @Override
     public void fechar() {
@@ -134,7 +134,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsCliente());
         ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsFornecedor());
         ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsTransportadora());
-//        listInformacoesReceita.setCellFactory(new Callback<JFXListView<TabEmpresaReceitaFederalVO>, ListCell<TabEmpresaReceitaFederalVO>>() {
+//        listQsaReceitaFederal.setCellFactory(new Callback<JFXListView<TabEmpresaReceitaFederalVO>, ListCell<TabEmpresaReceitaFederalVO>>() {
 //            @Override
 //            public ListCell<TabEmpresaReceitaFederalVO> call(JFXListView<TabEmpresaReceitaFederalVO> param) {
 //                final ListCell<TabEmpresaReceitaFederalVO> cell = new ListCell<TabEmpresaReceitaFederalVO>() {
@@ -154,12 +154,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 //                return cell;
 //            }
 //        });
-        listInformacoesReceita.setCellFactory(new Callback<ListView<TabEmpresaReceitaFederalVO>, ListCell<TabEmpresaReceitaFederalVO>>() {
+        listQsaReceitaFederal.setCellFactory(new Callback<ListView<TabInformacaoReceitaFederalVO>, ListCell<TabInformacaoReceitaFederalVO>>() {
             @Override
-            public ListCell<TabEmpresaReceitaFederalVO> call(ListView<TabEmpresaReceitaFederalVO> param) {
-                final ListCell<TabEmpresaReceitaFederalVO> cell = new ListCell<TabEmpresaReceitaFederalVO>() {
+            public ListCell<TabInformacaoReceitaFederalVO> call(ListView<TabInformacaoReceitaFederalVO> param) {
+                final ListCell<TabInformacaoReceitaFederalVO> cell = new ListCell<TabInformacaoReceitaFederalVO>() {
                     @Override
-                    public void updateItem(TabEmpresaReceitaFederalVO item, boolean empty) {
+                    public void updateItem(TabInformacaoReceitaFederalVO item, boolean empty) {
                         super.updateItem(item, empty);
                         if (item == null) setText(null);
                         else {
@@ -442,25 +442,25 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
         });
 
-        listReceitaFederalVOObservableList.addListener((ListChangeListener) c -> {
-            listAtividadePrincipal.setItems(listReceitaFederalVOObservableList.stream()
-                    .filter(principal -> principal.getIsAtividadePrincipal() == 1)
+        listInformacaoReceitaFederalVOObservableList.addListener((ListChangeListener) c -> {
+            listAtividadePrincipal.setItems(listInformacaoReceitaFederalVOObservableList.stream()
+                    .filter(principal -> principal.getIsAtividadePrincipal() == 1 && principal.getId() >= 0)
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
             tpnReceitaAtividadePrincipal.setText(String.format("'%d' %s",
                     listAtividadePrincipal.getItems().size(),
                     listAtividadePrincipal.getItems().size() > 1 ? "atividades principais" : "atividade principal"));
-            listAtividadeSecundaria.setItems(listReceitaFederalVOObservableList.stream()
-                    .filter(secundaria -> secundaria.getIsAtividadePrincipal() == 0)
+            listAtividadeSecundaria.setItems(listInformacaoReceitaFederalVOObservableList.stream()
+                    .filter(secundaria -> secundaria.getIsAtividadePrincipal() == 0 && secundaria.getId() >= 0)
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
             tpnReceitaAtividadeSecundaria.setText(String.format("'%d' %s",
                     listAtividadeSecundaria.getItems().size(),
                     listAtividadeSecundaria.getItems().size() > 1 ? "atividades secundarias" : "atividade secundaria"));
-            listInformacoesReceita.setItems(listReceitaFederalVOObservableList.stream()
-                    .filter(informacao -> informacao.getIsAtividadePrincipal() == 2)
+            listQsaReceitaFederal.setItems(listInformacaoReceitaFederalVOObservableList.stream()
+                    .filter(informacao -> informacao.getIsAtividadePrincipal() == 2 && informacao.getId() >= 0)
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-            tpnReceitaInformacao.setText(String.format("'%d' %s",
-                    listInformacoesReceita.getItems().size(),
-                    listInformacoesReceita.getItems().size() > 1 ? "Informações complementares" : "Informação complementar"));
+            tpnReceitaQsa.setText(String.format("'%d' %s",
+                    listQsaReceitaFederal.getItems().size(),
+                    listQsaReceitaFederal.getItems().size() > 1 ? "Informações complementares" : "Informação complementar"));
         });
     }
 
@@ -780,7 +780,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         lblDataAtualizacaoDiff.setText(String.format("tempo de atualização%s",
                 getEmpresaVO().getDataAtualizacao() == null ? "" : String.format(": %s", ServiceDataHora.getIntervaloData(getEmpresaVO().getDataAtualizacao().toLocalDateTime().toLocalDate(), null))));
 
-        listReceitaFederalVOObservableList.setAll(getEmpresaVO().getTabEmpresaReceitaFederalVOList());
+        listInformacaoReceitaFederalVOObservableList.setAll(getEmpresaVO().getTabInformacaoReceitaFederalVOList());
     }
 
     void exibirDadosEndereco() {
@@ -1228,12 +1228,12 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     boolean validarEnderecoPrincipal() {
         boolean result = true;
         String campoInvalido = "";
-        TabEmpresaReceitaFederalVO empresaReceitaFederal;
+        TabInformacaoReceitaFederalVO informacaoReceitaFederal;
 
-        if ((empresaReceitaFederal = getEmpresaVO().getTabEmpresaReceitaFederalVOList().stream()
+        if ((informacaoReceitaFederal = getEmpresaVO().getTabInformacaoReceitaFederalVOList().stream()
                 .filter(receita -> receita.getStr_Key().toLowerCase().equals("situacao"))
                 .findFirst().orElse(null)) != null)
-            if (!empresaReceitaFederal.getStr_Value().toLowerCase().equals("ativa"))
+            if (!informacaoReceitaFederal.getStr_Value().toLowerCase().equals("ativa"))
                 getEmpresaVO().setSisSituacaoSistema_id(7);
         if (getEmpresaVO().getSisSituacaoSistema_id() == 7) {
             limparEndereco();
@@ -1356,12 +1356,14 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                             throw new RuntimeException("Erro no contato ===>> ", ex);
                         }
                     });
-            new TabEmpresaReceitaFederalDAO().deleteTabEmpresaReceitaFederalVO(conn, getEmpresaVO().getId());
-            getEmpresaVO().getTabEmpresaReceitaFederalVOList().stream().sorted(Comparator.comparing(TabEmpresaReceitaFederalVO::getIsAtividadePrincipal))
+//            new TabEmpresaReceitaFederalDAO().deleteTabEmpresaReceitaFederalVO(conn, getEmpresaVO().getId());
+            getEmpresaVO().getTabInformacaoReceitaFederalVOList().stream().sorted(Comparator.comparing(TabInformacaoReceitaFederalVO::getId))
                     .forEach(receita -> {
                         try {
-                            receita.setTabEmpresa_id(getEmpresaVO().getId());
-                            new TabEmpresaReceitaFederalDAO().insertTabEmpresaReceitaFederalVO(conn, receita);
+                            if (receita.getId() < 0)
+                                new TabInformacaoReceitaFederalDAO().deleteTabInformacaoReceitaFederalVO(conn, receita, getEmpresaVO().getId());
+                            else
+                                receita.setId(new TabInformacaoReceitaFederalDAO().insertTabInformacaoReceitaFederalVO(conn, receita, getEmpresaVO().getId()));
                         } catch (Exception ex) {
                             throw new RuntimeException("Erro no dados receita federal ===>> ", ex);
                         }

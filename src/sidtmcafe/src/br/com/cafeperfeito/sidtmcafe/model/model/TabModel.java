@@ -34,8 +34,8 @@ public class TabModel {
     static TreeTableColumn<TabEmpresaVO, Boolean> colunaIsCliente;
     static TreeTableColumn<TabEmpresaVO, Boolean> colunaIsFornecedor;
     static TreeTableColumn<TabEmpresaVO, Boolean> colunaIsTransportadora;
-    static TreeTableColumn<TabEmpresaReceitaFederalVO, String> colunaQsaKey;
-    static TreeTableColumn<TabEmpresaReceitaFederalVO, String> colunaQsaValue;
+    static TreeTableColumn<TabInformacaoReceitaFederalVO, String> colunaQsaKey;
+    static TreeTableColumn<TabInformacaoReceitaFederalVO, String> colunaQsaValue;
 
     public static TreeTableColumn<TabProdutoVO, Integer> getColunaIdProduto() {
         return colunaIdProduto;

@@ -496,7 +496,7 @@
                                                 <Font name="SansSerif Bold Italic" size="11.0"/>
                                             </font>
                                         </TitledPane>
-                                        <TitledPane fx:id="tpnReceitaInformacao" collapsible="false"
+                                        <TitledPane fx:id="tpnReceitaQsa" collapsible="false"
                                                     focusTraversable="false" layoutX="930.0" maxHeight="-Infinity"
                                                     maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                                                     prefHeight="105.0" prefWidth="398.0" text="Informação complementar">
@@ -504,7 +504,7 @@
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="77.0"
                                                             prefWidth="396.0">
                                                     <children>
-                                                        <JFXListView fx:id="listInformacoesReceita"
+                                                        <JFXListView fx:id="listQsaReceitaFederal"
                                                                      accessibleText="value: " maxHeight="-Infinity"
                                                                      maxWidth="-Infinity" minHeight="-Infinity"
                                                                      minWidth="-Infinity" prefHeight="82.0"

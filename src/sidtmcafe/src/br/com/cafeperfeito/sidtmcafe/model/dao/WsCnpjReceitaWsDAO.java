@@ -3,8 +3,6 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
 import br.com.cafeperfeito.sidtmcafe.service.*;
-import com.jfoenix.controls.IFXTextInputControl;
-import javafx.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -51,7 +49,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
                 wsCnpjReceitaWsVO.setAtividadePrincipal(new ArrayList<>());
                 for (int i = 0; i < listAtividadePrincipal.length(); i++)
                     wsCnpjReceitaWsVO.getAtividadePrincipal()
-                            .add(new TabEmpresaReceitaFederalVO(0, 0, 1,
+                            .add(new TabInformacaoReceitaFederalVO(0, 1,
                                     listAtividadePrincipal.getJSONObject(i).getString("code").toUpperCase(),
                                     listAtividadePrincipal.getJSONObject(i).getString("text").toUpperCase()));
             }
@@ -61,7 +59,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
                 wsCnpjReceitaWsVO.setAtividadesSecundarias(new ArrayList<>());
                 for (int i = 0; i < listAtividadeSecundaria.length(); i++)
                     wsCnpjReceitaWsVO.getAtividadesSecundarias()
-                            .add(new TabEmpresaReceitaFederalVO(0, 0, 0,
+                            .add(new TabInformacaoReceitaFederalVO( 0, 0,
                                     listAtividadeSecundaria.getJSONObject(i).getString("code").toUpperCase(),
                                     listAtividadeSecundaria.getJSONObject(i).getString("text").toUpperCase()));
             }
@@ -71,7 +69,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
                 wsCnpjReceitaWsVO.setQsa(new ArrayList<>());
                 for (int i = 0; i < listQsa.length(); i++) {
                     wsCnpjReceitaWsVO.getQsa()
-                            .add(new TabEmpresaReceitaFederalVO(0, 0, 2,
+                            .add(new TabInformacaoReceitaFederalVO(0, 2,
                                     listQsa.getJSONObject(i).getString("qual").toUpperCase(),
                                     listQsa.getJSONObject(i).getString("nome").toUpperCase()));
                 }
@@ -163,12 +161,11 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
                         empresaVO.getTabTelefoneVOList().add(new ServiceConsultaWebServices().getTelefone_WsPortabilidadeCelular(telefone));
                     }
         }
-        empresaVO.getTabTelefoneVOList();
-        empresaVO.getTabEmpresaReceitaFederalVOList().stream()
+        empresaVO.getTabInformacaoReceitaFederalVOList().stream()
                 .forEach(receita -> receita.setId(receita.getId() * (-1)));
-        empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadePrincipal());
-        empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadesSecundarias());
-        empresaVO.getTabEmpresaReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getQsa());
+        empresaVO.getTabInformacaoReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadePrincipal());
+        empresaVO.getTabInformacaoReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getAtividadesSecundarias());
+        empresaVO.getTabInformacaoReceitaFederalVOList().addAll(wsCnpjReceitaWsVO.getQsa());
     }
 
 

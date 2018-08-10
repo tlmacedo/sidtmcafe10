@@ -6,17 +6,16 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class TabEmpresaReceitaFederalVO extends RecursiveTreeObject<TabEmpresaReceitaFederalVO> {
+public class TabInformacaoReceitaFederalVO extends RecursiveTreeObject<TabInformacaoReceitaFederalVO> {
 
-    IntegerProperty id, tabEmpresa_id, isAtividadePrincipal;
+    IntegerProperty id, isAtividadePrincipal;
     StringProperty str_Key, str_Value;
 
-    public TabEmpresaReceitaFederalVO() {
+    public TabInformacaoReceitaFederalVO() {
     }
 
-    public TabEmpresaReceitaFederalVO(int id, int tabEmpresa_id, int isAtividadePrincipal, String str_Key, String str_Value) {
+    public TabInformacaoReceitaFederalVO(int id, int isAtividadePrincipal, String str_Key, String str_Value) {
         this.id = new SimpleIntegerProperty(id);
-        this.tabEmpresa_id = new SimpleIntegerProperty(tabEmpresa_id);
         this.isAtividadePrincipal = new SimpleIntegerProperty(isAtividadePrincipal);
         this.str_Key = new SimpleStringProperty(str_Key);
         this.str_Value = new SimpleStringProperty(str_Value);
@@ -33,19 +32,6 @@ public class TabEmpresaReceitaFederalVO extends RecursiveTreeObject<TabEmpresaRe
 
     public void setId(int id) {
         idProperty().set(id);
-    }
-
-    public int getTabEmpresa_id() {
-        return tabEmpresa_idProperty().get();
-    }
-
-    public IntegerProperty tabEmpresa_idProperty() {
-        if (tabEmpresa_id == null) tabEmpresa_id = new SimpleIntegerProperty(0);
-        return tabEmpresa_id;
-    }
-
-    public void setTabEmpresa_id(int tabEmpresa_id) {
-        tabEmpresa_idProperty().set(tabEmpresa_id);
     }
 
     public int getIsAtividadePrincipal() {

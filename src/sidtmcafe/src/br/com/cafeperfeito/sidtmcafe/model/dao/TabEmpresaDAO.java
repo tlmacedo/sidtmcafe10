@@ -78,7 +78,6 @@ public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
         empresa.setSisSituacaoSistemaVO(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(empresa.getSisSituacaoSistema_id()));
         empresa.setUsuarioCadastroVO(new TabColaboradorDAO().getTabColaboradorVO(empresa.getUsuarioCadastro_id(), false));
         empresa.setUsuarioAtualizacaoVO(new TabColaboradorDAO().getTabColaboradorVO(empresa.getUsuarioAtualizacao_id(), false));
-        empresa.setTabEmpresaReceitaFederalVOList(new TabEmpresaReceitaFederalDAO().getTabEmpresaReceitaFederalVOList(empresa.getId()));
 
         List<TabEnderecoVO> tabEnderecoVOList = new ArrayList<>();
         new RelEmpresaEnderecoDAO().getRelEmpresaEnderecoVOList(empresa.getId())
@@ -107,6 +106,13 @@ public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
                     tabContatoVOList.add(new TabContatoDAO().getTabContatoVO(relEmpresaContato.getTabContato_id(), true));
                 });
         empresa.setTabContatoVOList(tabContatoVOList);
+
+        List<TabInformacaoReceitaFederalVO> tabInformacaoReceitaFederalVOList = new ArrayList<>();
+        new RelEmpresaInformacaoRfDAO().getRelEmpresaInformacaoRfVOList(empresa.getId()).stream()
+                .forEach(relInformacaoRf -> {
+                    tabInformacaoReceitaFederalVOList.add(new TabInformacaoReceitaFederalDAO().getTabInformacaoReceitaFederalVO(relInformacaoRf.getTabInformacaoReceitaFederal_id()));
+                });
+        empresa.setTabInformacaoReceitaFederalVOList(tabInformacaoReceitaFederalVOList);
     }
 
     public void updateTabEmpresaVO(Connection conn, TabEmpresaVO empresa) throws SQLException {

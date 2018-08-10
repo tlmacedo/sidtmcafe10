@@ -19,7 +19,7 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
     List<TabEmailHomePageVO> tabEmailHomePageVOList;
     List<TabTelefoneVO> tabTelefoneVOList;
     List<TabContatoVO> tabContatoVOList;
-    List<TabEmpresaReceitaFederalVO> tabEmpresaReceitaFederalVOList;
+    List<TabInformacaoReceitaFederalVO> tabInformacaoReceitaFederalVOList;
 
     Date dataAbertura;
     Timestamp dataCadastro, dataAtualizacao;
@@ -36,7 +36,7 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
         this.tabEmailHomePageVOList = new ArrayList<>();
         this.tabTelefoneVOList = new ArrayList<>();
         this.tabContatoVOList = new ArrayList<>();
-        this.tabEmpresaReceitaFederalVOList = new ArrayList<>();
+        this.tabInformacaoReceitaFederalVOList = new ArrayList<>();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
         this.tabEmailHomePageVOList = new ArrayList<>();
         this.tabTelefoneVOList = new ArrayList<>();
         this.tabContatoVOList = new ArrayList<>();
-        this.tabEmpresaReceitaFederalVOList = new ArrayList<>();
+        this.tabInformacaoReceitaFederalVOList = new ArrayList<>();
     }
 
     public SisSituacaoSistemaVO getSisSituacaoSistemaVO() {
@@ -119,12 +119,12 @@ public class TabEmpresaVO extends RecursiveTreeObject<TabEmpresaVO> {
         this.tabContatoVOList = tabContatoVOList;
     }
 
-    public List<TabEmpresaReceitaFederalVO> getTabEmpresaReceitaFederalVOList() {
-        return tabEmpresaReceitaFederalVOList;
+    public List<TabInformacaoReceitaFederalVO> getTabInformacaoReceitaFederalVOList() {
+        return tabInformacaoReceitaFederalVOList;
     }
 
-    public void setTabEmpresaReceitaFederalVOList(List<TabEmpresaReceitaFederalVO> tabEmpresaReceitaFederalVOList) {
-        this.tabEmpresaReceitaFederalVOList = tabEmpresaReceitaFederalVOList;
+    public void setTabInformacaoReceitaFederalVOList(List<TabInformacaoReceitaFederalVO> tabInformacaoReceitaFederalVOList) {
+        this.tabInformacaoReceitaFederalVOList = tabInformacaoReceitaFederalVOList;
     }
 
     public Date getDataAbertura() {
