@@ -30,10 +30,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -134,26 +131,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsCliente());
         ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsFornecedor());
         ServiceFormatarDado.fatorarColunaCheckBox(TabModel.getColunaIsTransportadora());
-//        listQsaReceitaFederal.setCellFactory(new Callback<JFXListView<TabEmpresaReceitaFederalVO>, ListCell<TabEmpresaReceitaFederalVO>>() {
-//            @Override
-//            public ListCell<TabEmpresaReceitaFederalVO> call(JFXListView<TabEmpresaReceitaFederalVO> param) {
-//                final ListCell<TabEmpresaReceitaFederalVO> cell = new ListCell<TabEmpresaReceitaFederalVO>() {
-//                    @Override
-//                    public void updateItem(TabEmpresaReceitaFederalVO item, boolean empty) {
-//                        super.updateItem(item, empty);
-//                        if (item == null) setText(null);
-//                        else {
-//                            String novoTexto = "";
-//                            for (String det : item.getDetalheReceitaFederal().split(";"))
-//                                if (novoTexto == "") novoTexto += det;
-//                                else novoTexto += "\r\n" + det;
-//                            setText(novoTexto);
-//                        }
-//                    }
-//                };
-//                return cell;
-//            }
-//        });
         listQsaReceitaFederal.setCellFactory(new Callback<ListView<TabInformacaoReceitaFederalVO>, ListCell<TabInformacaoReceitaFederalVO>>() {
             @Override
             public ListCell<TabInformacaoReceitaFederalVO> call(ListView<TabInformacaoReceitaFederalVO> param) {
@@ -311,10 +288,10 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             txtIE.setPromptText(newValue.intValue() == 0 ? "RG" : "IE");
             txtRazao.setPromptText(newValue.intValue() == 0 ? "Nome" : "Razão");
             txtFantasia.setPromptText(newValue.intValue() == 0 ? "Apelido" : "Fantasia");
-            formatCnpj.setStrMascara(txtCNPJ.getPromptText().toLowerCase().replaceAll("\\D", ""));
+            formatCnpj.setStrMascara(txtCNPJ.getPromptText().toLowerCase().replace(".", ""));
             if (txtCNPJ.getLength() > 0)
-//            txtCNPJ.setText(ServiceFormatarDado.getValorFormatado(txtCNPJ.getText().replaceAll("\\D", ""), txtCNPJ.getPromptText().toLowerCase().replace(".", "")));
-                txtCNPJ.setText(txtCNPJ.getText().replaceAll("\\D", ""));
+                txtCNPJ.setText(ServiceFormatarDado.getValorFormatado(txtCNPJ.getText(), txtCNPJ.getPromptText().toLowerCase().replace(".", "")));
+            verificaIeRg();
         });
 
         txtCNPJ.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
@@ -334,6 +311,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                     txtCNPJ.requestFocus();
                     return;
                 } else {
+                    if (cboClassificacaoJuridica.getSelectionModel().getSelectedIndex() == 0) return;
                     new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(getEmpresaVO(), valueCnpj);
                     exibirDadosEmpresa();
                     txtIE.requestFocus();
@@ -365,10 +343,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             if (newValue == null) return;
             cboEndMunicipio.getItems().setAll(newValue.getMunicipioVOList());
             cboEndMunicipio.getSelectionModel().selectFirst();
-            formatIe.setStrMascara("ie" + newValue.getSigla());
-            if (getEmpresaVO() != null && getEmpresaVO().getIe().length() > 0)
-//                txtIE.setText(ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie" + newValue.getSigla()));
-                txtIE.setText(getEmpresaVO().getIe());
+            verificaIeRg();
         });
 
         cboEndMunicipio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -523,6 +498,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                         case "carregarListaEmpresa":
                             carregarListaEmpresa();
                             break;
+//                        case "atulizaOperadorasTelefone":
+//                            atualizaOperadorasTelefone();
+//                            break;
                         case "preencherTabelaEmpresa":
                             preencherTabelaEmpresa();
                             break;
@@ -809,6 +787,17 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         listContatoTelefoneVOObservableList.setAll(getContatoVO().getTabTelefoneVOList());
         tpnPessoaContato.setText(String.format("pessoa de contato:%s",
                 getContatoVO().getDescricao().equals("") ? "" : String.format(" [%s]", getContatoVO().getDescricao())));
+    }
+
+    void verificaIeRg() {
+        if (chkIeIsento.isSelected() || txtIE.getLength() == 0)
+            return;
+        String mask = String.format("%s", txtIE.getPromptText().toLowerCase().replace(".", "").equals("rg") ?
+                "rg" : String.format("ie%s", cboEndUF.getSelectionModel().getSelectedItem() != null
+                ? cboEndUF.getSelectionModel().getSelectedItem().getSigla()
+                : ""));
+        formatIe.setStrMascara(mask);
+        txtIE.setText(ServiceFormatarDado.getValorFormatado(txtIE.getText(), mask));
     }
 
     boolean guardarEmpresa() {

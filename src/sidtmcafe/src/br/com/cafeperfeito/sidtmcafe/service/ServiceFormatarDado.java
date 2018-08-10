@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import com.jfoenix.controls.JFXTextField;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -43,21 +44,11 @@ public class ServiceFormatarDado implements Constants {
         if (strValue.length() > 0)
             try {
                 if (mascara.contains("#,##0")) {
-//                tipOrMascara.replaceAll("\\d", "").toLowerCase().equals("moeda") ||
-//                        tipOrMascara.replaceAll("\\d", "").toLowerCase().equals("peso") ||
-//                        tipOrMascara.replaceAll("\\d", "").toLowerCase().equals("numero")) {
-//                    int qtdDigitos = 0;
-//                    if (!(tipOrMascara.replaceAll("\\D", "").equals("")))
-//                        qtdDigitos = Integer.parseInt(tipOrMascara.replaceAll("\\D", ""));
-////                    return new DecimalFormat("#,##" + strMasc + ";-#,##" + strMasc).format(Double.parseDouble(strValue.replaceAll("(\\d{1})(\\d{" + qtdDigitos + "})$", "$1.$2")));
                     return new DecimalFormat(mascara).format(Double.parseDouble(value));
                 } else {
-//                    strMasc = strMasc.replace("0", "#");
-//                    if (tipOrMascara.replaceAll("\\d", "").toLowerCase().equals("nfenumero"))
-//                        return String.format("%09d", Integer.parseInt(strValue)).replaceAll("(\\d{3})", ".$1").substring(1);
                     MaskFormatter formatter = new MaskFormatter(mascara);
                     formatter.setValueContainsLiteralCharacters(false);
-                    return formatter.valueToString(strValue);
+                    return formatter.valueToString(strValue).trim();
                 }
             } catch (ParseException ex) {
                 ex.printStackTrace();
@@ -96,10 +87,11 @@ public class ServiceFormatarDado implements Constants {
             case "cpf":
                 formato = getFormato(11);
                 return String.format(formato, 0).replaceAll(REGEX_FS_CPF.getKey(), REGEX_FS_CPF.getValue()).replace("0", CARACTER_DIGITO);
+            case "rg":
+                formato = getFormato(14);
+                return String.format(formato, 0).replace("0", CARACTER_DIGITO);
             case "telefone":
-                //formato = getFormato(8);
             case "celular":
-                //formato = getFormato(  9);
                 return String.format(formato, 0).replaceAll(REGEX_FS_TELEFONE.getKey(), REGEX_FS_TELEFONE.getValue()).replace("0", CARACTER_DIGITO);
             case "ean":
             case "barcode":
@@ -161,9 +153,6 @@ public class ServiceFormatarDado implements Constants {
     }
 
     public void setStrMascara(String tipOrMascara) {
-//        if (tipOrMascara.contains("##"))
-//        this.strMascara = tipOrMascara;
-//        else
         this.strMascara = gerarMascara(tipOrMascara);
     }
 
@@ -257,6 +246,7 @@ public class ServiceFormatarDado implements Constants {
     public void maskField(JFXTextField textField, String tipMascara) {
         if (tipMascara.length() > 0)
             setStrMascara(tipMascara);
+        System.out.printf("maskField[%s]: [%s]", textField.getId(), getStrMascara());
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (textField.getText() == null) textField.setText("");
             String value;
@@ -267,6 +257,7 @@ public class ServiceFormatarDado implements Constants {
             else
                 value = textField.getText();//.replaceAll("", "");
             StringBuilder resultado = new StringBuilder();
+            if (newValue.length() <= 0) textField.setText("");
             if (newValue.length() > 0) {
                 if (textField.getText().length() <= getStrMascara().length()) {
                     int digitado = 0;
@@ -299,12 +290,15 @@ public class ServiceFormatarDado implements Constants {
                                     digitado++;
                                     break;
                                 default:
-                                    resultado.append(strMascara.substring(i, i + 1));
+                                    resultado.append(getStrMascara().substring(i, i + 1));
                                     break;
                             }
                         }
                     }
-                    textField.setText(resultado.toString());
+                    Platform.runLater(() -> {
+                        textField.setText(resultado.toString());
+                        textField.positionCaret(newValue.length());
+                    });
                 } else {
                     textField.setText(textField.getText(0, getStrMascara().length()));
                 }
