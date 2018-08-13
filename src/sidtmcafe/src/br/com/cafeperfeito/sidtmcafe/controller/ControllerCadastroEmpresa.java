@@ -288,7 +288,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             txtIE.setPromptText(newValue.intValue() == 0 ? "RG" : "IE");
             txtRazao.setPromptText(newValue.intValue() == 0 ? "Nome" : "Razão");
             txtFantasia.setPromptText(newValue.intValue() == 0 ? "Apelido" : "Fantasia");
-            formatCnpj.setStrMascara(txtCNPJ.getPromptText().toLowerCase().replace(".", ""));
+            formatCnpj.setMascara(txtCNPJ.getPromptText().toLowerCase().replace(".", ""));
             if (txtCNPJ.getLength() > 0)
                 txtCNPJ.setText(ServiceFormatarDado.getValorFormatado(txtCNPJ.getText(), txtCNPJ.getPromptText().toLowerCase().replace(".", "")));
             verificaIeRg();
@@ -296,26 +296,36 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
         txtCNPJ.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                String valueCnpj;
-                if ((valueCnpj = txtCNPJ.getText().replaceAll("\\D", "")).length() == 0) return;
-                if (!ServiceValidarDado.isCnpjCpfValido(valueCnpj)) {
-                    alertMensagem = new ServiceAlertMensagem();
-                    alertMensagem.setCabecalho("Dado inválido!");
-                    alertMensagem.setPromptText(String.format("%s, o %s: [%s] informado é inválido!",
-                            USUARIO_LOGADO_APELIDO, txtCNPJ.getPromptText(), txtCNPJ.getText()));
-                    alertMensagem.setStrIco("ic_webservice_24dp");
-                    alertMensagem.getRetornoAlert_OK();
-                    txtCNPJ.requestFocus();
-                    return;
-                } else if (buscaDuplicidade()) {
-                    txtCNPJ.requestFocus();
-                    return;
-                } else {
-                    if (cboClassificacaoJuridica.getSelectionModel().getSelectedIndex() == 0) return;
-                    new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(getEmpresaVO(), valueCnpj);
-                    exibirDadosEmpresa();
-                    txtIE.requestFocus();
-                }
+                p = Pattern.compile(REGEX_CNPJ_CPF, Pattern.CASE_INSENSITIVE);
+                m = p.matcher(txtCNPJ.getText());
+                if (m.find())
+                    if (!ServiceValidarDado.isCnpjCpfValido(m.group())) {
+                        alertMensagem = new ServiceAlertMensagem();
+                        alertMensagem.setCabecalho("Dado inválido!");
+                        alertMensagem.setPromptText(String.format("%s, o %s: [%s] informado é inválido!",
+                                USUARIO_LOGADO_APELIDO, txtCNPJ.getPromptText(), m.group()));
+                        alertMensagem.setStrIco("ic_webservice_24dp");
+                        alertMensagem.getRetornoAlert_OK();
+                        txtCNPJ.requestFocus();
+                        return;
+                    } else if (buscaDuplicidade()) {
+                        txtCNPJ.requestFocus();
+                        return;
+                    } else {
+                        if (cboClassificacaoJuridica.getSelectionModel().getSelectedIndex() == 0) {
+                            alertMensagem = new ServiceAlertMensagem();
+                            alertMensagem.setCabecalho("C.P.F. válido!");
+                            alertMensagem.setPromptText(String.format("%s, o %s: [%s] informado foi validado!",
+                                    USUARIO_LOGADO_APELIDO, txtCNPJ.getPromptText(), m.group()));
+                            alertMensagem.setStrIco("ic_webservice_24dp");
+                            alertMensagem.getRetornoAlert_OK();
+                            txtIE.requestFocus();
+                        } else {
+                            new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(getEmpresaVO(), m.group());
+                            exibirDadosEmpresa();
+                            txtIE.requestFocus();
+                        }
+                    }
             }
         });
 
@@ -460,6 +470,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     static String STATUS_BAR_TECLA_PESQUISA = "[F1-Novo]  [F4-Editar]  [F7-Pesquisar]  [F12-Sair]  ";
     static String STATUS_BAR_TECLA_EDITAR = "[F3-Cancelar edição]  [F5-Atualizar]  ";
     static String STATUS_BAR_TECLA_INCLUIR = "[F2-Incluir]  [F3-Cancelar inclusão]  ";
+
+    Pattern p;
+    Matcher m;
 
     EventHandler<KeyEvent> eventHandlerCadastroEmpresa;
     List<Pair> listaTarefa = new ArrayList<>();
@@ -796,7 +809,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 "rg" : String.format("ie%s", cboEndUF.getSelectionModel().getSelectedItem() != null
                 ? cboEndUF.getSelectionModel().getSelectedItem().getSigla()
                 : ""));
-        formatIe.setStrMascara(mask);
+        formatIe.setMascara(mask);
         txtIE.setText(ServiceFormatarDado.getValorFormatado(txtIE.getText(), mask));
     }
 
@@ -1261,13 +1274,15 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     boolean buscaDuplicidade() {
         TabEmpresaVO duplicEmpresa;
         try {
-            if ((duplicEmpresa = new TabEmpresaDAO().getTabEmpresaVO(getEmpresaVO().getRazao().replaceAll("\\D", ""))) == null)
+            if ((duplicEmpresa = new TabEmpresaDAO().getTabEmpresaVO(txtCNPJ.getText())) == null)
                 return false;
             if (getEmpresaVO().getId() != duplicEmpresa.getId()) {
                 alertMensagem = new ServiceAlertMensagem();
                 alertMensagem.setCabecalho("C.N.P.J. duplicado");
-                alertMensagem.setPromptText(String.format("%s, o C.N.P.J.: [%s] já está cadastrado no sistema!",
-                        USUARIO_LOGADO_APELIDO, getEmpresaVO().getRazao()));
+                alertMensagem.setPromptText(String.format("%s, o C.N.P.J.: [%s] já está cadastrado no sistema!\nPara empresa: [%s]",
+                        USUARIO_LOGADO_APELIDO,
+                        txtCNPJ.getText(),
+                        String.format("%s (%s)", duplicEmpresa.getRazao(), duplicEmpresa.getFantasia())));
                 alertMensagem.setStrIco("ic_atencao_triangulo_24dp");
                 alertMensagem.getRetornoAlert_OK();
                 txtCNPJ.requestFocus();

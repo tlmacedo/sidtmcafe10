@@ -510,7 +510,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
                 textField.textProperty().addListener((observable, oldValue, newValue) -> {
                     String value = newValue.replaceAll("\\D", "");
                     if (newValue.length() > 0)
-                        formatTextField.setStrMascara(Integer.parseInt(value.substring(0, 1)) > 7 ? "telefone9" : "telefone8");
+                        formatTextField.setMascara(Integer.parseInt(value.substring(0, 1)) > 7 ? "telefone9" : "telefone8");
                 });
                 break;
             default:

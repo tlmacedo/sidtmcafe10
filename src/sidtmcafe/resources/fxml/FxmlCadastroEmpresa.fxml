@@ -219,7 +219,7 @@
                                             </tooltip>
                                         </JFXTextField>
                                         <JFXTextField fx:id="txtEndNumero"
-                                                      accessibleText="type:numero, value:0, setDisable:false"
+                                                      accessibleText="len:10, type:TEXTO, value:0, setDisable:false"
                                                       alignment="CENTER_RIGHT" layoutX="680.0" layoutY="10.0"
                                                       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="65.0"

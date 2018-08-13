@@ -3,8 +3,6 @@ package br.com.cafeperfeito.sidtmcafe.service;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
@@ -13,13 +11,16 @@ import javafx.util.Callback;
 import javafx.util.Pair;
 
 import javax.swing.text.MaskFormatter;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ServiceFormatarDado implements Constants {
-    String strMascara;
+    String mascara;
 
 //    public static String getValueMoeda(String valor, int casaDecimal) {
 //        String value = String.valueOf(Long.parseLong(valor.replaceAll("[\\D]", "")));
@@ -38,20 +39,27 @@ public class ServiceFormatarDado implements Constants {
 //        return value;
 //    }
 
+    public static BigDecimal getBigDecimalFromTextField(String value) {
+        return new BigDecimal(value.replace(".", "").replace(",", "."));
+    }
+
     public static String getValorFormatado(String value, String tipMascara) {
         String strValue = value.replaceAll("\\W", "");
         String mascara = gerarMascara(tipMascara);
         if (strValue.length() > 0)
             try {
                 if (mascara.contains("#,##0")) {
-                    return new DecimalFormat(mascara).format(Double.parseDouble(value));
-                } else {
-                    MaskFormatter formatter = new MaskFormatter(mascara);
-                    formatter.setValueContainsLiteralCharacters(false);
-                    return formatter.valueToString(strValue).trim();
+                    int qtdCasa = Integer.parseInt(tipMascara.replaceAll("\\D", ""));
+                    String decValue = value.replaceAll("\\D", "");
+                    decValue = String.format(getFormato(qtdCasa + 1), Long.parseLong(decValue));
+                    return new DecimalFormat(mascara).format(Double.parseDouble(decValue.replaceAll("(\\d+)(\\d{" + qtdCasa + "})", "$1.$2")));
                 }
-            } catch (ParseException ex) {
-                ex.printStackTrace();
+                MaskFormatter formatter = new MaskFormatter(mascara);
+                formatter.setValueContainsLiteralCharacters(false);
+                return formatter.valueToString(strValue).trim();
+            } catch (Exception ex) {
+                if (!(ex instanceof NumberFormatException))
+                    ex.printStackTrace();
             }
         return null;
     }
@@ -103,35 +111,19 @@ public class ServiceFormatarDado implements Constants {
                 formato = getFormato(13);
                 return String.format(formato, 0).replace("0", CARACTER_DIGITO);
             case "numero":
-                System.out.printf("retorno de formato numero:[%s]\n", String.format(formato, 0).replace("0", CARACTER_DIGITO));
                 return String.format(formato, 0).replace("0", CARACTER_DIGITO);
             case "moeda":
             case "valor":
             case "peso":
                 String maskMoeda = "#,###,###,##0" + (digMask > 0 ? "." + String.format("%0" + digMask + "d", 0) : "");
-                System.out.printf("retorno de formato moeda:[%s]\n", String.format("%s;-%s", maskMoeda, maskMoeda));
                 return String.format("%s;-%s", maskMoeda, maskMoeda);
             case "cep":
                 formato = getFormato(8);
                 return String.format(formato, 0).replaceAll(REGEX_FS_CEP.getKey(), REGEX_FS_CEP.getValue()).replace("0", CARACTER_DIGITO);
-            case "ncm":
+            case "nfencm":
                 formato = getFormato(8);
                 return String.format(formato, 0).replaceAll(REGEX_FS_NCM.getKey(), REGEX_FS_NCM.getValue()).replace("0", CARACTER_DIGITO);
-//                if (tamMascara == 0) return "0";
-//                if (tamMascara <= 4) {
-//                    return String.format("%0" + (tamMascara) + "d", 0).replaceAll("(\\d{4})$", "$1"); //.replace("0", caracter);
-//                } else {
-//                    if (qtdDigitos <= 6) {
-//                        return String.format("%0" + (qtdDigitos) + "d", 0).replaceAll("(\\d{4})(\\d{1,2})$", "$1.$2"); //.replace("0", caracter);
-//                    } else {
-//                        if (qtdDigitos > 8) {
-//                            return String.format("%08d", 0).replaceAll("(\\d{4})(\\d{2})(\\d{2})$", "$1.$2.$3");
-//                        } else {
-//                            return String.format("%0" + (qtdDigitos) + "d", 0).replaceAll("(\\d{4})(\\d{2})(\\d{1,2})$", "$1.$2.$3"); //.replace("0", caracter);
-//                        }
-//                    }
-//                }
-            case "cest":
+            case "nfecest":
                 formato = getFormato(7);
                 return String.format(formato, 0).replaceAll(REGEX_FS_CEST.getKey(), REGEX_FS_CEST.getValue()).replace("0", CARACTER_DIGITO);
             case "nfechave":
@@ -139,7 +131,7 @@ public class ServiceFormatarDado implements Constants {
                 return String.format(formato, 0).replaceAll(REGEX_FS_NFE_CHAVE.getKey(), REGEX_FS_NFE_CHAVE.getValue()).replace("0", CARACTER_DIGITO);
             case "nfenumero":
                 formato = getFormato(9);
-                return String.format(formato, 0).replaceAll(REGEX_FS_NFE_CHAVE.getKey(), REGEX_FS_NFE_CHAVE.getValue()).replace("0", CARACTER_DIGITO);
+                return String.format(formato, 0).replaceAll(REGEX_FS_NFE_NUMERO.getKey(), REGEX_FS_NFE_NUMERO.getValue()).replace("0", CARACTER_DIGITO);
             case "nfedocorigem":
                 formato = getFormato(12);
                 return String.format(formato, 0).replaceAll(REGEX_FS_NFE_DOC_ORIGEM.getKey(), REGEX_FS_NFE_DOC_ORIGEM.getValue()).replace("0", CARACTER_DIGITO);
@@ -148,12 +140,12 @@ public class ServiceFormatarDado implements Constants {
         return String.format(formato, 0).replace("0", CARACTER_ASTERISCO);
     }
 
-    public String getStrMascara() {
-        return strMascara;
+    public String getMascara() {
+        return mascara;
     }
 
-    public void setStrMascara(String tipOrMascara) {
-        this.strMascara = gerarMascara(tipOrMascara);
+    public void setMascara(String tipOrMascara) {
+        this.mascara = gerarMascara(tipOrMascara);
     }
 
     static String getMascaraIE(String uf) {
@@ -218,155 +210,94 @@ public class ServiceFormatarDado implements Constants {
         }
     }
 
-//    public void maskField(JFXTextField textField, String strMask) {
-//        if (strMask.length() > 0)
-//            setStrMascara(strMask);
-//        textField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-//            if (textField.getText() == null) textField.setText("");
-//            String value;
-//            Pattern p = Pattern.compile(REGEX_PONTUACAO);
-//            Matcher m = p.matcher(getStrMascara());
-//            if (m.find())
-//                value = textField.getText().replaceAll("\\W", "");
-//            else
-//                value = textField.getText();//.replaceAll("", "");
-//            try {
-//                MaskFormatter formatter = new MaskFormatter(getStrMascara());
-//                System.out.printf("campo[%s]    getStrMascara[%s]   value:[%s]\n", textField.getId(), getStrMascara(), value);
-//                //formatter.setAllowsInvalid(false);//.setValueContainsLiteralCharacters(false);//.setAllowsInvalid(false);
-//                textField.setText(formatter.valueToString(value));
-////                textField.setText(getValorFormatado(value, getStrMascara()));
-//            } catch (Exception ex) {
-//                if (!(ex instanceof ParseException))
-//                    ex.printStackTrace();
-//            }
-//        });
-//    }
-
     public void maskField(JFXTextField textField, String tipMascara) {
         if (tipMascara.length() > 0)
-            setStrMascara(tipMascara);
-        System.out.printf("maskField[%s]: [%s]", textField.getId(), getStrMascara());
+            setMascara(tipMascara);
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (textField.getText() == null) textField.setText("");
-            String value;
-            Pattern p = Pattern.compile(REGEX_PONTUACAO);
-            Matcher m = p.matcher(getStrMascara());
-            if (m.find())
-                value = textField.getText().replaceAll("\\W", "");
-            else
-                value = textField.getText();//.replaceAll("", "");
-            StringBuilder resultado = new StringBuilder();
-            if (newValue.length() <= 0) textField.setText("");
-            if (newValue.length() > 0) {
-                if (textField.getText().length() <= getStrMascara().length()) {
-                    int digitado = 0;
-                    for (int i = 0; i < getStrMascara().length(); i++) {
-                        if (digitado < value.length()) {
-                            switch (getStrMascara().substring(i, i + 1)) {
-                                case "#":
-                                    if (Character.isDigit(value.charAt(digitado)) || Character.isSpaceChar(value.charAt(digitado)))
-                                        resultado.append(value.substring(digitado, digitado + 1));
-                                    digitado++;
-                                    break;
-                                case "U":
-                                    if (Character.isLetterOrDigit(value.charAt(digitado)) || Character.isSpaceChar(value.charAt(digitado)))
-                                        resultado.append(value.substring(i, i + 1).toUpperCase());
-                                    digitado++;
-                                    break;
-                                case "L":
-                                    if (Character.isLetterOrDigit(value.charAt(digitado)) || Character.isSpaceChar(value.charAt(digitado)))
-                                        resultado.append(value.substring(i, i + 1).toLowerCase());
-                                    digitado++;
-                                    break;
-                                case "A":
-                                    if (Character.isLetterOrDigit(value.charAt(digitado)) || Character.isSpaceChar(value.charAt(digitado)))
-                                        resultado.append(value.substring(i, i + 1).toUpperCase());
-                                    digitado++;
-                                    break;
-                                case "?":
-                                case "*":
-                                    resultado.append(value.substring(i, i + 1));
-                                    digitado++;
-                                    break;
-                                default:
-                                    resultado.append(getStrMascara().substring(i, i + 1));
-                                    break;
+            if (getMascara().contains("#,##0")) {
+                if (newValue.length() > getMascara().length())
+                    textField.setText(getValorFormatado(newValue.substring(0, getMascara().length()), tipMascara));
+                else
+                    textField.setText(getValorFormatado(newValue, tipMascara));
+            } else {
+                if (newValue == null || newValue.length() <= 0) {
+                    textField.setText("");
+                } else {
+                    if (newValue.length() > getMascara().length()) {
+                        textField.setText(newValue.substring(0, getMascara().length()));
+                    } else {
+                        StringBuilder resultado = new StringBuilder();
+                        int digitado = 0;
+                        String value;
+                        Pattern p = Pattern.compile(REGEX_PONTUACAO);
+                        Matcher m = p.matcher(getMascara());
+                        if (m.find()) {
+                            value = textField.getText().replaceAll("\\W", "");
+                        } else {
+                            value = textField.getText();//.replaceAll("", "");
+                        }
+                        for (int i = 0; i < getMascara().length(); i++) {
+                            if (digitado < value.length()) {
+                                switch (getMascara().substring(i, i + 1)) {
+                                    case "#":
+                                        if (Character.isDigit(value.charAt(digitado))
+                                                || Character.isSpaceChar(value.charAt(digitado))
+                                                || Character.isDefined(value.charAt(digitado)))
+                                            resultado.append(value.substring(digitado, digitado + 1));
+                                        digitado++;
+                                        break;
+                                    case "U":
+                                        if (Character.isLetterOrDigit(value.charAt(digitado))
+                                                || Character.isSpaceChar(value.charAt(digitado))
+                                                || Character.isDefined(value.charAt(digitado))) {
+                                            resultado.append(value.substring(i, i + 1).toUpperCase());
+                                        }
+                                        digitado++;
+                                        break;
+                                    case "L":
+                                        if (Character.isLetterOrDigit(value.charAt(digitado))
+                                                || Character.isSpaceChar(value.charAt(digitado))
+                                                || Character.isDefined(value.charAt(digitado)))
+                                            resultado.append(value.substring(i, i + 1).toLowerCase());
+                                        digitado++;
+                                        break;
+                                    case "A":
+                                        if (Character.isLetterOrDigit(value.charAt(digitado))
+                                                || Character.isSpaceChar(value.charAt(digitado))
+                                                || Character.isDefined(value.charAt(digitado)))
+                                            resultado.append(value.substring(i, i + 1).toUpperCase());
+                                        digitado++;
+                                        break;
+                                    case "?":
+                                    case "*":
+                                        resultado.append(value.substring(i, i + 1));
+                                        digitado++;
+                                        break;
+                                    default:
+                                        resultado.append(getMascara().substring(i, i + 1));
+                                        break;
+                                }
                             }
                         }
+                        Platform.runLater(() -> {
+                            textField.setText(resultado.toString());
+                            textField.positionCaret(resultado.length());
+                        });
                     }
-                    Platform.runLater(() -> {
-                        textField.setText(resultado.toString());
-                        textField.positionCaret(newValue.length());
-                    });
-                } else {
-                    textField.setText(textField.getText(0, getStrMascara().length()));
                 }
-            } else {
-                textField.setText("");
             }
+            //textField.positionCaret(textField.getLength());
         });
-//        textField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-//            if (textField.getText() == null) textField.setText("");
-//            String value;
-//            Pattern p = Pattern.compile(REGEX_PONTUACAO);
-//            Matcher m = p.matcher(getStrMascara());
-//            if (m.find())
-//                value = textField.getText().replaceAll("\\W", "");
-//            else
-//                value = textField.getText();//.replaceAll("", "");
-//            StringBuilder resultado = new StringBuilder();
-//            if (newValue.intValue() > 0) {
-//                if (textField.getText().length() <= getStrMascara().length()) {
-//                    int digitado = 0;
-//                    for (int i = 0; i < getStrMascara().length(); i++) {
-//                        if (digitado < value.length()) {
-//                            switch (getStrMascara().substring(i, i + 1)) {
-//                                case "#":
-//                                    if (Character.isDigit(value.charAt(digitado)))
-//                                        resultado.append(value.substring(digitado, digitado + 1));
-//                                    digitado++;
-//                                    break;
-//                                case "U":
-//                                    if (Character.isLetterOrDigit(value.charAt(digitado)))
-//                                        resultado.append(value.substring(i, i + 1).toUpperCase());
-//                                    digitado++;
-//                                    break;
-//                                case "L":
-//                                    if (Character.isLetterOrDigit(value.charAt(digitado)))
-//                                        resultado.append(value.substring(i, i + 1).toLowerCase());
-//                                    digitado++;
-//                                    break;
-//                                case "A":
-//                                    if (Character.isLetterOrDigit(value.charAt(digitado)))
-//                                        resultado.append(value.substring(i, i + 1).toUpperCase());
-//                                    digitado++;
-//                                    break;
-//                                case "?":
-//                                case "*":
-//                                    resultado.append(value.substring(i, i + 1));
-//                                    digitado++;
-//                                    break;
-//                                default:
-//                                    resultado.append(strMascara.substring(i, i + 1));
-//                                    break;
-//                            }
-//                        }
-//                    }
-//                    textField.setText(resultado.toString());
-//                } else {
-//                    textField.setText(textField.getText(0, getStrMascara().length()));
-//                }
-//            } else {
-//                textField.setText("");
-//            }
-//        });
     }
 
 //    public void maskFieldMoeda(JFXTextField textField, int casaDecimal, int lenMax) {
 //        textField.setAlignment(Pos.CENTER_RIGHT);
 //        textField.textProperty().addListener((observable, oldValue, newValue) -> {
 //            Platform.runLater(() -> {
+//
+//                if (getMascara().contains("#,##0"))
+//                    System.out.printf("campo: [%s]  newValue:[%s]  tipMascara:[%s]   resultado[%s]\n", textField.getId(), newValue, tipMascara, getValorFormatado(newValue, tipMascara));
+//                    resultado.append(getValorFormatado(newValue, tipMascara));
 //                if (textField.getLength() > lenMax)
 //                    textField.setText(getValueMoeda(newValue.substring(0, lenMax), casaDecimal));
 //                else
@@ -376,16 +307,6 @@ public class ServiceFormatarDado implements Constants {
 //        });
 //
 //    }
-
-    public static void maxField(JFXTextField textField, int tamMax) {
-        textField.lengthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (newValue.intValue() > tamMax)
-                    textField.setText(textField.getText(0, tamMax));
-            }
-        });
-    }
 
     public static void fatorarColunaCheckBox(TreeTableColumn colunaGenerica) {
         colunaGenerica.getStyleClass().add("chkbox");
@@ -399,8 +320,8 @@ public class ServiceFormatarDado implements Constants {
         });
     }
 
-    public static Pair<String, String> getFieldFormat(String accessibleText, String keyFormat) {
-        for (String strAccessibleText : accessibleText.split(", ")) {
+    public static Pair<String, String> getFieldFormatPair(String accessibleText, String keyFormat) {
+        for (String strAccessibleText : accessibleText.toLowerCase().split(", ")) {
             String key = null, value = null;
             for (String detalhe : strAccessibleText.split(":")) {
                 if (key == null) key = detalhe.trim();
@@ -411,5 +332,20 @@ public class ServiceFormatarDado implements Constants {
             }
         }
         return null;
+    }
+
+    public static List<Pair<String, String>> getFieldFormatPairList(String accessibleText) {
+        List<Pair<String, String>> list = new ArrayList<>();
+        for (String strAccessibleText : accessibleText.split(", ")) {
+            String key = null, value = null;
+            for (String detalhe : strAccessibleText.split(":")) {
+                if (key == null) key = detalhe.trim();
+                else value = detalhe.trim();
+
+                if (key != null && value != null)
+                    list.add(new Pair(key, value));
+            }
+        }
+        return list;
     }
 }

@@ -12,12 +12,12 @@ public class Testes {
     public static void main(String... args) {
 
         int tamMascara = 0;
-        String tipMascara = "telefone8";
-        String valor = "38776148";
+        String tipMascara = "nfenumero";
+        String valor = "123456789";
         System.out.printf("mascara de retorno  tipMascara[%s]:\n    [%s]\n", tipMascara, ServiceFormatarDado.gerarMascara(tipMascara));
         System.out.printf("valor formatado  tipMascara[%s]  valor[%s]\n    [%s]\n", tipMascara, valor, ServiceFormatarDado.getValorFormatado(valor, tipMascara));
-        tipMascara = "celular9";
-        valor = "981686148";
+        tipMascara = "nfechave";
+        valor = "12345678901234567890123456789012345678901234";
         System.out.printf("mascara de retorno  tipMascara[%s]:\n    [%s]\n", tipMascara, ServiceFormatarDado.gerarMascara(tipMascara));
         System.out.printf("valor formatado  tipMascara[%s]  valor[%s]\n    [%s]\n", tipMascara, valor, ServiceFormatarDado.getValorFormatado(valor, tipMascara));
 

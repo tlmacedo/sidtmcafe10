@@ -26,7 +26,7 @@ public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
     }
 
     public TabEmpresaVO getTabEmpresaVO(String cnpj) {
-        getResultSet(String.format("SELECT * FROM tabEmpresa WHERE cnpj = '%s' ORDER BY razao", cnpj), false);
+        getResultSet(String.format("SELECT * FROM tabEmpresa WHERE cnpj = '%s' ORDER BY razao", cnpj.replaceAll("\\D", "")), false);
         if (tabEmpresaVO != null)
             addObjetosPesquisa(tabEmpresaVO);
         return tabEmpresaVO;

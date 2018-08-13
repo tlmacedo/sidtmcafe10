@@ -59,14 +59,15 @@ public class TabProdutoDAO extends BuscaBancoDados {
                 tabProdutoVO.setId(rs.getInt("id"));
                 tabProdutoVO.setCodigo(rs.getString("codigo"));
                 tabProdutoVO.setDescricao(rs.getString("descricao"));
-                tabProdutoVO.setPeso(rs.getDouble("peso"));
+                tabProdutoVO.setPeso(rs.getBigDecimal("peso"));
                 tabProdutoVO.setSisUnidadeComercial_id(rs.getInt("sisUnidadeComercial_id"));
                 tabProdutoVO.setSisSituacaoSistema_id(rs.getInt("sisSituacaoSistema_id"));
-                tabProdutoVO.setPrecoFabrica(rs.getDouble("precoFabrica"));
-                tabProdutoVO.setPrecoVenda(rs.getDouble("precoVenda"));
+                tabProdutoVO.setPrecoFabrica(rs.getBigDecimal("precoFabrica"));
+                tabProdutoVO.setPrecoVenda(rs.getBigDecimal("precoVenda"));
                 tabProdutoVO.setVarejo(rs.getInt("varejo"));
-                tabProdutoVO.setPrecoUltimoFrete(rs.getDouble("precoUltimoFrete"));
-                tabProdutoVO.setComissao(rs.getDouble("comissao"));
+                tabProdutoVO.setPrecoUltimoImpostoSefaz(rs.getBigDecimal("precoUltimoImpostoSEFAZ"));
+                tabProdutoVO.setPrecoUltimoFrete(rs.getBigDecimal("precoUltimoFrete"));
+                tabProdutoVO.setComissao(rs.getBigDecimal("comissao"));
                 tabProdutoVO.setFiscalCestNcm_id(rs.getInt("fiscalCestNcm_id"));
                 tabProdutoVO.setNcm(rs.getString("ncm"));
                 tabProdutoVO.setCest(rs.getString("cest"));
@@ -118,30 +119,31 @@ public class TabProdutoDAO extends BuscaBancoDados {
     public void updateTabProdutoVO(Connection conn, TabProdutoVO produtoVO) throws SQLException {
         String comandoSql = String.format("UPDATE tabProduto SET codigo = '%s', descricao = '%s', peso = %s, " +
                         "sisUnidadeComercial_id = %d, sisSituacaoSistema_id = %d, precoFabrica = %s, precoVenda = %s, " +
-                        "varejo = %d, precoUltimoFrete = %s, comissao = %s, ncm = '%s', cest = '%s', fiscalCestNcm_id = %d, " +
+                        "varejo = %d, precoUltimoImpostoSEFAZ, precoUltimoFrete = %s, comissao = %s, ncm = '%s', cest = '%s', fiscalCestNcm_id = %d, " +
                         "fiscalCstOrigem_id = %d, fiscalIcms_id = %d, fiscalPis_id = %d, fiscalCofins_id = %d, " +
                         "nfeGenero = '%s', usuarioAtualizacao_id = %d WHERE id = %d",
                 produtoVO.getCodigo(), produtoVO.getDescricao(), produtoVO.getPeso(), produtoVO.getSisUnidadeComercialVO().getId(),
                 produtoVO.getSisSituacaoSistemaVO().getId(), produtoVO.getPrecoFabrica(), produtoVO.getPrecoVenda(),
-                produtoVO.getVarejo(), produtoVO.getPrecoUltimoFrete(), produtoVO.getComissao(), produtoVO.getNcm(),
-                produtoVO.getCest(), produtoVO.getFiscalCestNcmVO().getId(), produtoVO.getFiscalCstOrigemVO().getId(),
-                produtoVO.getFiscalIcmsVO().getId(), produtoVO.getFiscalPisVO().getId(), produtoVO.getFiscalCofinsVO().getId(),
-                produtoVO.getNfeGenero(), produtoVO.getUsuarioAtualizacao_id(), produtoVO.getId());
+                produtoVO.getVarejo(), produtoVO.getPrecoUltimoImpostoSefaz(), produtoVO.getPrecoUltimoFrete(),
+                produtoVO.getComissao(), produtoVO.getNcm(), produtoVO.getCest(), produtoVO.getFiscalCestNcmVO().getId(),
+                produtoVO.getFiscalCstOrigemVO().getId(), produtoVO.getFiscalIcmsVO().getId(), produtoVO.getFiscalPisVO().getId(),
+                produtoVO.getFiscalCofinsVO().getId(), produtoVO.getNfeGenero(), produtoVO.getUsuarioAtualizacao_id(),
+                produtoVO.getId());
         getUpdateBancoDados(conn, comandoSql);
     }
 
     public int insertTabProdutoVO(Connection conn, TabProdutoVO produtoVO) throws SQLException {
         String comandoSql = String.format("INSERT INTO tabProduto (codigo, descricao, peso, sisUnidadeComercial_id, " +
-                        "sisSituacaoSistema_id, precoFabrica, precoVenda, varejo, precoUltimoFrete, comissao, ncm, cest, " +
+                        "sisSituacaoSistema_id, precoFabrica, precoVenda, varejo, precoUltimoImpostoSEFAZ, precoUltimoFrete, comissao, ncm, cest, " +
                         "fiscalCestNcm_id, fiscalCSTOrigem_id, fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, nfeGenero, " +
-                        "usuarioCadastro_id) VALUES('%s', '%s', %s, %d, %d, %s, %s, %d, %s, %s, '%s', '%s', %d, %d, %d, %d, " +
+                        "usuarioCadastro_id) VALUES('%s', '%s', %s, %d, %d, %s, %s, %d, %s, %s, %s, '%s', '%s', %d, %d, %d, %d, " +
                         "%d, '%s', %d)",
                 produtoVO.getCodigo(), produtoVO.getDescricao(), produtoVO.getPeso(), produtoVO.getSisUnidadeComercialVO().getId(),
                 produtoVO.getSisSituacaoSistemaVO().getId(), produtoVO.getPrecoFabrica(), produtoVO.getPrecoVenda(),
-                produtoVO.getVarejo(), produtoVO.getPrecoUltimoFrete(), produtoVO.getComissao(), produtoVO.getNcm(),
-                produtoVO.getCest(), produtoVO.getFiscalCestNcmVO().getId(), produtoVO.getFiscalCstOrigemVO().getId(),
-                produtoVO.getFiscalIcmsVO().getId(), produtoVO.getFiscalPisVO().getId(), produtoVO.getFiscalCofinsVO().getId(),
-                produtoVO.getNfeGenero(), produtoVO.getUsuarioCadastro_id());
+                produtoVO.getVarejo(), produtoVO.getPrecoUltimoImpostoSefaz(), produtoVO.getPrecoUltimoFrete(),
+                produtoVO.getComissao(), produtoVO.getNcm(), produtoVO.getCest(), produtoVO.getFiscalCestNcmVO().getId(),
+                produtoVO.getFiscalCstOrigemVO().getId(), produtoVO.getFiscalIcmsVO().getId(), produtoVO.getFiscalPisVO().getId(),
+                produtoVO.getFiscalCofinsVO().getId(), produtoVO.getNfeGenero(), produtoVO.getUsuarioCadastro_id());
         return getInsertBancoDados(conn, comandoSql);
     }
 

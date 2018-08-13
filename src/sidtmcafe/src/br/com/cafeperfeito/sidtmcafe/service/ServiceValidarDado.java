@@ -16,8 +16,8 @@ public class ServiceValidarDado implements Constants {
     static Pattern p, pt, pd;
     static Matcher m, mt, md;
 
-    public static boolean isCnpjCpfValido(final String value) {
-        value.replaceAll("\\W", "");
+    public static boolean isCnpjCpfValido(String value) {
+        value = value.replaceAll("\\W", "");
 
         if ((value == null) || (value.length() != 11 && value.length() != 14)
                 || (value.matches(value.charAt(0) + "{11}") && value.matches(value.charAt(0) + "{14}")))

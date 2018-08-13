@@ -16,6 +16,8 @@ public interface Constants {
     String LOJA_ID = "1";
     int DDD_SISTEMA = 92;
 
+    String REGEX_CNPJ_CPF = "(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})|(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})";
+    String REGEX_CPF = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}";
     String REGEX_EMAIL = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}";
     String REGEX_HOME_PAGE = "[A-Z0-9._%+-]+[A-Z0-9.-]+\\.[A-Z]{2,6}";
     String REGEX_DDD = "(.(\\d{2}.))";
@@ -23,7 +25,7 @@ public interface Constants {
     String REGEX_TELEFONE = "\\d{4}-\\d{4}";
     String REGEX_PONTUACAO = "[!\"$%&'()*+,-./:;_`{|}]";
     Pair<String, String> REGEX_FS_CNPJ = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})$", "$1.$2.$3/$4-$5");
-    Pair<String, String> REGEX_FS_CPF = new Pair<String, String>("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3 - $4");
+    Pair<String, String> REGEX_FS_CPF = new Pair<String, String>("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
     Pair<String, String> REGEX_FS_CEP = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{3})", "$1.$2-$3");
     Pair<String, String> REGEX_FS_TELEFONE = new Pair<String, String>("(\\d{1})?(\\d{4})(\\d{4})", "$1 $2-$3");
     Pair<String, String> REGEX_FS_NCM = new Pair<String, String>("(\\d{4})(\\d{0,2})(\\d{0,2})", "$1.$2.$3");

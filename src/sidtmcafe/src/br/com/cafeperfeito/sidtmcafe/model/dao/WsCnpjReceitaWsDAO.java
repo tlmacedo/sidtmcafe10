@@ -20,7 +20,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
     WsCnpjReceitaWsVO wsCnpjReceitaWsVO;
 
     JSONObject getRetWs(String busca) {
-        return (jsonObject = getJsonObjectHttpUrlConnection(WS_RECEITAWS_URL + busca, WS_RECEITAWS_TOKEN, "/days/0"));
+        return (jsonObject = getJsonObjectHttpUrlConnection(WS_RECEITAWS_URL + busca.replaceAll("\\D", ""), WS_RECEITAWS_TOKEN, "/days/0"));
     }
 
 
@@ -59,7 +59,7 @@ public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
                 wsCnpjReceitaWsVO.setAtividadesSecundarias(new ArrayList<>());
                 for (int i = 0; i < listAtividadeSecundaria.length(); i++)
                     wsCnpjReceitaWsVO.getAtividadesSecundarias()
-                            .add(new TabInformacaoReceitaFederalVO( 0, 0,
+                            .add(new TabInformacaoReceitaFederalVO(0, 0,
                                     listAtividadeSecundaria.getJSONObject(i).getString("code").toUpperCase(),
                                     listAtividadeSecundaria.getJSONObject(i).getString("text").toUpperCase()));
             }

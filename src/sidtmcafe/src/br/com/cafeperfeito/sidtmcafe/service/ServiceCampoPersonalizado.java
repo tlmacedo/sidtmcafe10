@@ -22,101 +22,62 @@ public class ServiceCampoPersonalizado implements Constants {
     // @ -> alfanum Maiusculo
     // ? -> alfanum Minusculo
 
-//    public static void fieldLenMax(AnchorPane anchorPane) {
-//        int tamanho;
-//        for (Node node : anchorPane.getChildren())
-//            if (node instanceof JFXTextField) {
-//                if (node.getAccessibleText() != null)
-//                    if ((tamanho = Integer.parseInt(node.getAccessibleText().substring(0, 3))) > 0)
-//                        ServiceFormatarDado.maxField((JFXTextField) node, tamanho);
-//            } else if (node instanceof TitledPane) {
-//                fieldLenMax((AnchorPane) node);
-//            } else if (node instanceof TabPane) {
-//                for (Tab tab : ((TabPane) node).getTabs())
-//                    fieldLenMax((AnchorPane) node);
-//            } else if (node instanceof TabPane) {
-//                for (Tab tab : ((TabPane) node).getTabs())
-//                    fieldLenMax((AnchorPane) node);
-//            } else if (node instanceof AnchorPane) {
-//                fieldLenMax((AnchorPane) node);
-//            }
-//    }
-
     public static void fieldClear(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
-//            System.out.println("node: [" + node.toString() + "] node.getAccessibleText(): [" + node.getAccessibleText() + "]");
-            String valorInicial = "";
-            if (node.getAccessibleText() != null && node.getAccessibleText().contains(":")) {
-                if ((valorInicial = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "value").getValue()) == null)
-                    valorInicial = "";
+            String vlrInicial = "", txtAcessivel = node.getAccessibleText();
+            if (txtAcessivel.toLowerCase().contains("value:")) {
+                if ((vlrInicial = ServiceFormatarDado.getFieldFormatPair(txtAcessivel, "value").getValue()) == null)
+                    vlrInicial = "";
                 if (node instanceof Label)
-                    ((Label) node).setText(valorInicial);
+                    ((Label) node).setText(vlrInicial);
             }
-            if (node instanceof JFXTextField) {
-                ((JFXTextField) node).setText(valorInicial);
-                valorInicial = "";
-            } else if (node instanceof JFXCheckBox) {
-                ((JFXCheckBox) node).setSelected(valorInicial == "true");
-            } else if (node instanceof JFXListView) {
+            if (node instanceof JFXTextField)
+                ((JFXTextField) node).setText(vlrInicial);
+            else if (node instanceof JFXCheckBox)
+                ((JFXCheckBox) node).setSelected(vlrInicial.equals("true")
+                        || vlrInicial.equals("verdadeiro")
+                        || vlrInicial.equals("true"));
+            else if (node instanceof JFXComboBox)
+                ((JFXComboBox) node).getSelectionModel().select(vlrInicial.equals("") ? -1 : Integer.parseInt(vlrInicial));
+            else if (node instanceof JFXListView)
                 ((JFXListView) node).getItems().clear();
-//            } else if (node instanceof TreeTableView) {
-//                ((TreeTableView) node)
-            } else if (node instanceof JFXComboBox) {
-                if (valorInicial.equals("")) {
-                    ((JFXComboBox) node).getSelectionModel().select(-1);
-                } else {
-                    ((JFXComboBox) node).getSelectionModel().select(Integer.parseInt(valorInicial));
-                }
-            } else if (node instanceof AnchorPane) {
+            else if (node instanceof AnchorPane)
                 fieldClear((AnchorPane) node);
-            } else if (node instanceof TitledPane) {
+            else if (node instanceof TitledPane)
                 fieldClear((AnchorPane) ((TitledPane) node).getContent());
-            } else if (node instanceof TabPane) {
+            else if (node instanceof TabPane)
                 for (Tab tab : ((TabPane) node).getTabs())
                     fieldClear((AnchorPane) tab.getContent());
-//            } else if (node instanceof TabPane) {
-//                for (Tab tab : ((TabPane) node).getTabs())
-//                    fieldClear((AnchorPane) tab.getContent());
-            }
         }
     }
 
     public static void fieldDisable(AnchorPane anchorPane, boolean setDisable) {
-        boolean fielEditable, fieldDisable;
         for (Node node : anchorPane.getChildren()) {
-            fielEditable = true;
-            fieldDisable = setDisable;
-            if (!setDisable)
-                if (node.getAccessibleText() != null && node.getAccessibleText().contains(":")) {
-                    Pair<String, String> pair;
-                    if ((pair = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "setEditable")) != null)
-                        fielEditable = pair.getValue().equals("true");
-                    if ((pair = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "setDisable")) != null)
-                        fieldDisable = pair.getValue().equals("true");
-                }
-
+            String txtAcessivel = node.getAccessibleText() != null ? node.getAccessibleText() : "", vlrEditable = "";
+            if (txtAcessivel.toLowerCase().contains("seteditable:"))
+                if ((vlrEditable = ServiceFormatarDado.getFieldFormatPair(txtAcessivel, "seteditable").getValue()) == null)
+                    vlrEditable = "";
+            boolean fieldEditable = (vlrEditable.equals("") || vlrEditable.equals("true"));
             if (node instanceof DatePicker) {
+                ((DatePicker) node).setDisable(setDisable);
                 if (!setDisable)
-                    ((DatePicker) node).setEditable(fielEditable);
-                ((DatePicker) node).setDisable(setDisable || fieldDisable);
-            } else if (node instanceof JFXListView) {
-                ((JFXListView) node).setDisable(false);
+                    ((DatePicker) node).setEditable(fieldEditable);
             } else if (node instanceof JFXTextField) {
+                ((JFXTextField) node).setDisable(setDisable);
                 if (!setDisable)
-                    ((JFXTextField) node).setEditable(fielEditable);
-                ((JFXTextField) node).setDisable(setDisable || fieldDisable);
+                    ((JFXTextField) node).setEditable(fieldEditable);
             } else if (node instanceof JFXTextArea) {
+                ((JFXTextArea) node).setDisable(setDisable);
                 if (!setDisable)
-                    ((JFXTextArea) node).setEditable(fielEditable);
-                ((JFXTextArea) node).setDisable(setDisable || fieldDisable);
-            } else if (node instanceof JFXComboBox) {
-                ((JFXComboBox) node).setDisable(setDisable || fieldDisable);
-            } else if (node instanceof JFXCheckBox) {
-                ((JFXCheckBox) node).setDisable(setDisable || fieldDisable);
+                    ((JFXTextArea) node).setEditable(fieldEditable);
             } else if (node instanceof TreeTableView) {
+                ((TreeTableView) node).setDisable(setDisable);
                 if (!setDisable)
-                    ((TreeTableView) node).setEditable(fielEditable);
-                ((TreeTableView) node).setDisable(setDisable || fieldDisable);
+                    ((TreeTableView) node).setEditable(fieldEditable);
+            } else if (node instanceof JFXComboBox) {
+                ((JFXComboBox) node).setDisable(setDisable);
+            } else if (node instanceof JFXCheckBox) {
+                ((JFXCheckBox) node).setDisable(setDisable);
             } else if (node instanceof AnchorPane) {
                 fieldDisable((AnchorPane) node, setDisable);
             } else if (node instanceof TitledPane) {
@@ -128,7 +89,6 @@ public class ServiceCampoPersonalizado implements Constants {
                 for (Tab tab : ((TabPane) node).getTabs())
                     fieldDisable((AnchorPane) tab.getContent(), setDisable);
             }
-
         }
     }
 
@@ -138,13 +98,12 @@ public class ServiceCampoPersonalizado implements Constants {
                 if (node.getAccessibleText().toLowerCase().contains("type:")) {
                     int len = 0;
                     len = node.getAccessibleText().toLowerCase().contains("len:")
-                            ? Integer.parseInt(ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "len").getValue())
+                            ? Integer.parseInt(ServiceFormatarDado.getFieldFormatPair(node.getAccessibleText(), "len").getValue())
                             : 0;
                     String type = "";
-                    if ((type = ServiceFormatarDado.getFieldFormat(node.getAccessibleText(), "type").getValue()) == null)
+                    if ((type = ServiceFormatarDado.getFieldFormatPair(node.getAccessibleText(), "type").getValue()) == null)
                         type = "TEXTO";
-                    System.out.printf("len:[%s]   type:[%s]   campo:[%s]\n", len, type, node.getId());
-                    new ServiceFormatarDado().maskField((JFXTextField) node, type + len);
+                    new ServiceFormatarDado().maskField((JFXTextField) node, len + type);
                 }
             }
             if (node instanceof AnchorPane) {

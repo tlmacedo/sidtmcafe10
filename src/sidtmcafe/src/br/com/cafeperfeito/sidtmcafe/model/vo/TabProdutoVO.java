@@ -4,6 +4,7 @@ import br.com.cafeperfeito.sidtmcafe.model.dao.TabProdutoDAO;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.*;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     StringProperty codigo, descricao, nfeGenero, ncm, cest;
 
-    DoubleProperty peso, precoFabrica, precoVenda, precoUltimoFrete, comissao;
+    BigDecimal peso, precoFabrica, precoVenda, precoUltimoImpostoSefaz, precoUltimoFrete, comissao;
 
     public TabProdutoVO() {
 
@@ -358,68 +359,122 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
         cestProperty().set(cest);
     }
 
-    public double getPeso() {
-        return pesoProperty().get();
-    }
-
-    public DoubleProperty pesoProperty() {
-        if (peso == null) peso = new SimpleDoubleProperty(0);
+    public BigDecimal getPeso() {
+        if (peso == null) peso = new BigDecimal(0);
         return peso;
     }
 
-    public void setPeso(double peso) {
-        pesoProperty().set(peso);
+    public void setPeso(BigDecimal peso) {
+        this.peso = peso;
     }
 
-    public double getPrecoFabrica() {
-        return precoFabricaProperty().get();
-    }
-
-    public DoubleProperty precoFabricaProperty() {
-        if (precoFabrica == null) precoFabrica = new SimpleDoubleProperty(0);
+    public BigDecimal getPrecoFabrica() {
+        if (precoFabrica == null) precoFabrica = new BigDecimal(0);
         return precoFabrica;
     }
 
-    public void setPrecoFabrica(double precoFabrica) {
-        precoFabricaProperty().set(precoFabrica);
+    public void setPrecoFabrica(BigDecimal precoFabrica) {
+        this.precoFabrica = precoFabrica;
     }
 
-    public double getPrecoVenda() {
-        return precoVendaProperty().get();
-    }
-
-    public DoubleProperty precoVendaProperty() {
-        if (precoVenda == null) precoVenda = new SimpleDoubleProperty(0);
+    public BigDecimal getPrecoVenda() {
+        if (precoVenda == null) precoVenda = new BigDecimal(0);
         return precoVenda;
     }
 
-    public void setPrecoVenda(double precoVenda) {
-        precoVendaProperty().set(precoVenda);
+    public void setPrecoVenda(BigDecimal precoVenda) {
+        this.precoVenda = precoVenda;
     }
 
-    public double getPrecoUltimoFrete() {
-        return precoUltimoFreteProperty().get();
+    public BigDecimal getPrecoUltimoImpostoSefaz() {
+        if (precoUltimoImpostoSefaz == null) precoUltimoImpostoSefaz = new BigDecimal(0);
+        return precoUltimoImpostoSefaz;
     }
 
-    public DoubleProperty precoUltimoFreteProperty() {
-        if (precoUltimoFrete == null) precoUltimoFrete = new SimpleDoubleProperty(0);
+    public void setPrecoUltimoImpostoSefaz(BigDecimal precoUltimoImpostoSefaz) {
+        this.precoUltimoImpostoSefaz = precoUltimoImpostoSefaz;
+    }
+
+    public BigDecimal getPrecoUltimoFrete() {
+        if (precoUltimoFrete == null) precoUltimoFrete = new BigDecimal(0);
         return precoUltimoFrete;
     }
 
-    public void setPrecoUltimoFrete(double precoUltimoFrete) {
-        precoUltimoFreteProperty().set(precoUltimoFrete);
+    public void setPrecoUltimoFrete(BigDecimal precoUltimoFrete) {
+        this.precoUltimoFrete = precoUltimoFrete;
     }
 
-    public double getComissao() {
-        return comissaoProperty().get();
-    }
-
-    public DoubleProperty comissaoProperty() {
-        if (comissao == null) comissao = new SimpleDoubleProperty(0);
+    public BigDecimal getComissao() {
+        if (comissao == null) comissao = new BigDecimal(0);
         return comissao;
     }
 
-    public void setComissao(double comissao) {
-        comissaoProperty().set(comissao);
+    public void setComissao(BigDecimal comissao) {
+        this.comissao = comissao;
     }
+
+    //    public double getPeso() {
+//        return pesoProperty().get();
+//    }
+//
+//    public DoubleProperty pesoProperty() {
+//        if (peso == null) peso = new SimpleDoubleProperty(0);
+//        return peso;
+//    }
+//
+//    public void setPeso(double peso) {
+//        pesoProperty().set(peso);
+//    }
+//
+//    public double getPrecoFabrica() {
+//        return precoFabricaProperty().get();
+//    }
+//
+//    public DoubleProperty precoFabricaProperty() {
+//        if (precoFabrica == null) precoFabrica = new SimpleDoubleProperty(0);
+//        return precoFabrica;
+//    }
+//
+//    public void setPrecoFabrica(double precoFabrica) {
+//        precoFabricaProperty().set(precoFabrica);
+//    }
+//
+//    public double getPrecoVenda() {
+//        return precoVendaProperty().get();
+//    }
+//
+//    public DoubleProperty precoVendaProperty() {
+//        if (precoVenda == null) precoVenda = new SimpleDoubleProperty(0);
+//        return precoVenda;
+//    }
+//
+//    public void setPrecoVenda(double precoVenda) {
+//        precoVendaProperty().set(precoVenda);
+//    }
+//
+//    public double getPrecoUltimoFrete() {
+//        return precoUltimoFreteProperty().get();
+//    }
+//
+//    public DoubleProperty precoUltimoFreteProperty() {
+//        if (precoUltimoFrete == null) precoUltimoFrete = new SimpleDoubleProperty(0);
+//        return precoUltimoFrete;
+//    }
+//
+//    public void setPrecoUltimoFrete(double precoUltimoFrete) {
+//        precoUltimoFreteProperty().set(precoUltimoFrete);
+//    }
+//
+//    public double getComissao() {
+//        return comissaoProperty().get();
+//    }
+//
+//    public DoubleProperty comissaoProperty() {
+//        if (comissao == null) comissao = new SimpleDoubleProperty(0);
+//        return comissao;
+//    }
+//
+//    public void setComissao(double comissao) {
+//        comissaoProperty().set(comissao);
+//    }
 }

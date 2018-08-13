@@ -176,7 +176,7 @@ public class TabModel {
             colunaPrecoFabrica.setGraphic(lblPrecoFab);
             colunaPrecoFabrica.setPrefWidth(90);
             colunaPrecoFabrica.setStyle("-fx-alignment: center-right;");
-            colunaPrecoFabrica.setCellValueFactory(param -> new SimpleStringProperty(ServiceFormatarDado.getValorFormatado(param.getValue().getValue().precoFabricaProperty().getValue().toString(), "moeda2")));
+            colunaPrecoFabrica.setCellValueFactory(param -> new SimpleStringProperty(ServiceFormatarDado.getValorFormatado(param.getValue().getValue().getPrecoFabrica().setScale(2).toString(), "moeda2")));
 
             Label lblPrecoCons = new Label("Preço Cons.");
             lblPrecoCons.setPrefWidth(90);
@@ -184,7 +184,7 @@ public class TabModel {
             colunaPrecoVenda.setGraphic(lblPrecoCons);
             colunaPrecoVenda.setPrefWidth(90);
             colunaPrecoVenda.setStyle("-fx-alignment: center-right;");
-            colunaPrecoVenda.setCellValueFactory(param -> new SimpleStringProperty(ServiceFormatarDado.getValorFormatado(param.getValue().getValue().precoVendaProperty().getValue().toString(), "moeda2")));
+            colunaPrecoVenda.setCellValueFactory(param -> new SimpleStringProperty(ServiceFormatarDado.getValorFormatado(param.getValue().getValue().getPrecoVenda().setScale(2).toString(), "moeda2")));
 
             Label lblSituacaoSistema = new Label("Situação");
             lblSituacaoSistema.setPrefWidth(100);
