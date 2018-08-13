@@ -321,13 +321,13 @@ public class ServiceFormatarDado implements Constants {
     }
 
     public static Pair<String, String> getFieldFormatPair(String accessibleText, String keyFormat) {
-        for (String strAccessibleText : accessibleText.toLowerCase().split(", ")) {
+        for (String strAccessibleText : accessibleText.split(", ")) {
             String key = null, value = null;
             for (String detalhe : strAccessibleText.split(":")) {
                 if (key == null) key = detalhe.trim();
                 else value = detalhe.trim();
 
-                if (key.equals(keyFormat.toLowerCase()) && value != null)
+                if (key.toLowerCase().equals(keyFormat) && value != null)
                     return new Pair(key, value);
             }
         }

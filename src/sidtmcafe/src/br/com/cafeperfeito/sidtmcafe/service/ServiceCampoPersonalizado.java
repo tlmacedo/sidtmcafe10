@@ -24,7 +24,7 @@ public class ServiceCampoPersonalizado implements Constants {
 
     public static void fieldClear(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
-            String vlrInicial = "", txtAcessivel = node.getAccessibleText();
+            String vlrInicial = "", txtAcessivel  = node.getAccessibleText() != null ? node.getAccessibleText() : "";
             if (txtAcessivel.toLowerCase().contains("value:")) {
                 if ((vlrInicial = ServiceFormatarDado.getFieldFormatPair(txtAcessivel, "value").getValue()) == null)
                     vlrInicial = "";
