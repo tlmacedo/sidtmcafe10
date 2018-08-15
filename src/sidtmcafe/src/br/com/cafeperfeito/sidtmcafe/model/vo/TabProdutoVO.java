@@ -4,6 +4,7 @@ import br.com.cafeperfeito.sidtmcafe.model.dao.TabProdutoDAO;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.*;
 
+import java.io.ObjectInputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
     StringProperty codigo, descricao, nfeGenero, ncm, cest;
 
     BigDecimal peso, precoFabrica, precoVenda, precoUltimoImpostoSefaz, precoUltimoFrete, comissao;
+
+    byte[] imgProduto, imgCodBarra;
 
     public TabProdutoVO() {
 
@@ -413,68 +416,19 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
         this.comissao = comissao;
     }
 
-    //    public double getPeso() {
-//        return pesoProperty().get();
-//    }
-//
-//    public DoubleProperty pesoProperty() {
-//        if (peso == null) peso = new SimpleDoubleProperty(0);
-//        return peso;
-//    }
-//
-//    public void setPeso(double peso) {
-//        pesoProperty().set(peso);
-//    }
-//
-//    public double getPrecoFabrica() {
-//        return precoFabricaProperty().get();
-//    }
-//
-//    public DoubleProperty precoFabricaProperty() {
-//        if (precoFabrica == null) precoFabrica = new SimpleDoubleProperty(0);
-//        return precoFabrica;
-//    }
-//
-//    public void setPrecoFabrica(double precoFabrica) {
-//        precoFabricaProperty().set(precoFabrica);
-//    }
-//
-//    public double getPrecoVenda() {
-//        return precoVendaProperty().get();
-//    }
-//
-//    public DoubleProperty precoVendaProperty() {
-//        if (precoVenda == null) precoVenda = new SimpleDoubleProperty(0);
-//        return precoVenda;
-//    }
-//
-//    public void setPrecoVenda(double precoVenda) {
-//        precoVendaProperty().set(precoVenda);
-//    }
-//
-//    public double getPrecoUltimoFrete() {
-//        return precoUltimoFreteProperty().get();
-//    }
-//
-//    public DoubleProperty precoUltimoFreteProperty() {
-//        if (precoUltimoFrete == null) precoUltimoFrete = new SimpleDoubleProperty(0);
-//        return precoUltimoFrete;
-//    }
-//
-//    public void setPrecoUltimoFrete(double precoUltimoFrete) {
-//        precoUltimoFreteProperty().set(precoUltimoFrete);
-//    }
-//
-//    public double getComissao() {
-//        return comissaoProperty().get();
-//    }
-//
-//    public DoubleProperty comissaoProperty() {
-//        if (comissao == null) comissao = new SimpleDoubleProperty(0);
-//        return comissao;
-//    }
-//
-//    public void setComissao(double comissao) {
-//        comissaoProperty().set(comissao);
-//    }
+    public byte[] getImgProduto() {
+        return imgProduto;
+    }
+
+    public void setImgProduto(byte[] imgProduto) {
+        this.imgProduto = imgProduto;
+    }
+
+    public byte[] getImgCodBarra() {
+        return imgCodBarra;
+    }
+
+    public void setImgCodBarra(byte[] imgCodBarra) {
+        this.imgCodBarra = imgCodBarra;
+    }
 }

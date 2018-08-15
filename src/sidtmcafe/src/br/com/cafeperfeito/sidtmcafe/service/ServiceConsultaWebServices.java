@@ -43,7 +43,7 @@ public class ServiceConsultaWebServices {
 
     public String getProdutoNcmCest_WsEanCosmos(String busca) {
         final String[] retorno = new String[1];
-        Task<Void> buscaCNPJ = new Task<Void>() {
+        Task<Void> buscaGtin = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 updateMessage(String.format("Pesquisando código de barra: [%s]", busca));
@@ -52,8 +52,9 @@ public class ServiceConsultaWebServices {
                 return null;
             }
         };
-        new ServiceAlertMensagem("Aguarde pesquisando cnpj na receita federal...", "",
-                "ic_aguarde_sentado_orange_32dp.png").getProgressBar(buscaCNPJ, true, false, 1);
+        new ServiceAlertMensagem("Aguarde pesquisando código de barras...", "",
+                "ic_aguarde_sentado_orange_32dp.png").getProgressBar(buscaGtin, true, false, 1);
         return retorno[0];
+//        return new WsEanCosmosDAO().getWsEanCosmosVO(busca);
     }
 }

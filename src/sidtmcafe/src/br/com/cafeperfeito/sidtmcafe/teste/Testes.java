@@ -1,15 +1,27 @@
 package br.com.cafeperfeito.sidtmcafe.teste;
 
+import br.com.cafeperfeito.sidtmcafe.model.dao.FiscalCestNcmDAO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceAlertMensagem;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceConsultaWebServices;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 
+import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.PATH_IMAGE_DOWNLOAD;
 import static br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema.USUARIO_LOGADO_APELIDO;
 
 public class Testes {
 
     public static void main(String... args) {
+
+        System.out.printf("diretorio.home: [%s]\n\n\n", PATH_IMAGE_DOWNLOAD);
+
+        System.out.printf("%s/%s.%s", PATH_IMAGE_DOWNLOAD, "codBarras", ".png");
+
+        //new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(new TabEmpresaVO(), "08009246000136");
+
+        new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos("7896078301063");
+
 
         int tamMascara = 0;
         String tipMascara = "nfenumero";

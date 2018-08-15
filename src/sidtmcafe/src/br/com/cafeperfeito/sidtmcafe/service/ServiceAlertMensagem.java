@@ -47,6 +47,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
     ImageView imageViewDialog;
 
     ProgressBar progressBarDialog = new ProgressBar();
+    //    ProgressBar progressBarDialog;
     ProgressIndicator progressIndicatorDialog;
 
     HBox hBoxDialog;

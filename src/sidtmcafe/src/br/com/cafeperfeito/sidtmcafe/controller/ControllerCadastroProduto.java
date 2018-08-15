@@ -24,15 +24,25 @@ import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import javafx.util.Pair;
 
+import javax.swing.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -79,6 +89,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     public JFXComboBox<FiscalIcmsVO> cboFiscalIcms;
     public JFXComboBox<FiscalPisCofinsVO> cboFiscalPis;
     public JFXComboBox<FiscalPisCofinsVO> cboFiscalCofins;
+    public ImageView imgCodBarras;
+    public ImageView imgProduto;
 
     @Override
     public void fechar() {
@@ -663,13 +675,42 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 .orElse(null)) == null) return;
         if (buscaDuplicidadeCode(codBarras, true)) return;
         String wsRetorno = new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos(codBarras);
+        System.out.printf("inicio image:[%s]\n", "oiiiiiiii");
         if (wsRetorno.contains("descricao"))
             txtDescricao.setText(ServiceFormatarDado.getFieldFormatPair(wsRetorno, "descricao").getValue());
         if (wsRetorno.contains("ncm"))
             cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(ServiceFormatarDado.getFieldFormatPair(wsRetorno, "ncm").getValue()));
         getProdutoVO().getCodBarraVOList().add(new TabProduto_CodBarraVO(codBarras));
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
+        addImagens(codBarras);
     }
+
+    void addImagens(String codBarras) {
+        int cont = 0;
+        System.out.printf("Path:[%s]\n", Paths.get(String.format("%s%s.jpg", PATH_IMAGE_DOWNLOAD, codBarras)).toString());
+        System.out.printf("inicio image:0[%s]\n", "oiiiiiiii");
+        System.out.printf("inicio image:1[%d]\n", cont++);
+        if (Files.exists(Paths.get(String.format("%s%s.jpg", PATH_IMAGE_DOWNLOAD, codBarras)))) {
+            getProdutoVO().setImgProduto(ServiceImage.getImgToByte(new File(String.format("%s%s.jpg", PATH_IMAGE_DOWNLOAD, codBarras))));
+            imgProduto.setImage(new Image(ServiceImage.getByteToImg(getProdutoVO().getImgProduto()).toString()));
+        }
+
+
+            /*            VBox vBoxIsCliente = new VBox();
+            Label lblImgIsCliente = new Label();
+            lblImgIsCliente.getStyleClass().add("lbl_ico_cliente");
+            lblImgIsCliente.setPrefSize(24, 24);
+            Label lblIsCliente = new Label("Cliente");
+            vBoxIsCliente.setAlignment(Pos.CENTER);
+            vBoxIsCliente.getChildren().addAll(lblImgIsCliente, lblIsCliente);
+            colunaIsCliente = new TreeTableColumn<TabEmpresaVO, Boolean>();
+            colunaIsCliente.setPrefWidth(55);
+            colunaIsCliente.setGraphic(vBoxIsCliente);
+            colunaIsCliente.setCellValueFactory(param -> param.getValue().getValue().isClienteProperty());
+*/
+        System.out.printf("inicio image:4[%d]\n", cont++);
+    }
+
 
     void delCodeBar() {
         TabProduto_CodBarraVO codBarraVO = null;

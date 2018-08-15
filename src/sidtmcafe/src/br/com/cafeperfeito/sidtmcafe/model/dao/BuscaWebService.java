@@ -1,18 +1,22 @@
 package br.com.cafeperfeito.sidtmcafe.model.dao;
 
+import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
+import javafx.scene.image.Image;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.TimeoutException;
 
-public class BuscaWebService {
+public class BuscaWebService implements Constants {
     Object wsJsonObjectWebServiceVO;
     String strRetURL;
     BufferedReader bufferedReader;
@@ -101,6 +105,37 @@ public class BuscaWebService {
         } catch (Exception ex) {
         }
         return stringBuilder;
+    }
+
+    public static void getImagem(String strUrl, String saveAs, String type) throws IOException {
+        System.out.printf("strUrl:[%s]\nsaveAs:[%s]\ntype:[%s]\n", strUrl, saveAs, type);
+
+        InputStream in = new URL(strUrl).openStream();
+        try {
+            Files.copy(in, Paths.get(String.format("%s%s.%s", PATH_IMAGE_DOWNLOAD, saveAs, type)));
+        } catch (Exception ex) {
+            if (ex instanceof FileAlreadyExistsException) {
+                Files.delete(Paths.get(String.format("%s%s.%s", PATH_IMAGE_DOWNLOAD, saveAs, type)));
+                Files.copy(in, Paths.get(String.format("%s%s.%s", PATH_IMAGE_DOWNLOAD, saveAs, type)));
+            }
+        }
+
+//        URL url = new URL(strUrl);
+//        File file = new File(String.format("%s/%s.%s", PATH_IMAGE_DOWNLOAD, saveAs, type));
+//
+//        InputStream is = url.openStream();
+//        FileOutputStream fos = new FileOutputStream(file);
+//
+//        int bytes = 0;
+//
+//        while ((bytes = is.read()) != -1) {
+//            fos.write(bytes);
+//        }
+//
+//        is.close();
+//        fos.close();
+
+
     }
 
 }
