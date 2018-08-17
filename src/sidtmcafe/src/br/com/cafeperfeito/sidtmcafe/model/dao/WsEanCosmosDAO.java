@@ -32,9 +32,9 @@ public class WsEanCosmosDAO extends BuscaWebService implements Constants {
                     String.format("%s", jsonObject.getJSONObject("ncm").getString("code")));
         try {
             if (jsonObject.has("thumbnail"))
-                getImagem(jsonObject.getString("thumbnail"), "7896078301063", "jpg");
+                getImagem(jsonObject.getString("thumbnail"), busca);
             if (jsonObject.has("barcode_image"))
-                getImagem(jsonObject.getString("barcode_image"), "7896078301063" + "_barcode", "jpg");
+                getImagem(jsonObject.getString("barcode_image"), busca + "_barcode");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

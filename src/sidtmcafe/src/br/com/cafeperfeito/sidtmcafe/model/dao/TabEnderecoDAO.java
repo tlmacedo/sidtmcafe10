@@ -23,7 +23,7 @@ public class TabEnderecoDAO extends BuscaBancoDados {
     }
 
     void getResultSet(String comandoSql) {
-        rs = getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 tabEnderecoVO = new TabEnderecoVO();

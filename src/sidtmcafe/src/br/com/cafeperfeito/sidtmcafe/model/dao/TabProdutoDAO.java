@@ -53,8 +53,8 @@ public class TabProdutoDAO extends BuscaBancoDados {
         return tabProdutoVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 tabProdutoVO = new TabProdutoVO();
@@ -123,14 +123,14 @@ public class TabProdutoDAO extends BuscaBancoDados {
                         "sisUnidadeComercial_id = %d, sisSituacaoSistema_id = %d, precoFabrica = %s, precoVenda = %s, " +
                         "varejo = %d, precoUltimoImpostoSEFAZ, precoUltimoFrete = %s, comissao = %s, ncm = '%s', cest = '%s', fiscalCestNcm_id = %d, " +
                         "fiscalCstOrigem_id = %d, fiscalIcms_id = %d, fiscalPis_id = %d, fiscalCofins_id = %d, " +
-                        "nfeGenero = '%s', usuarioAtualizacao_id = %d, imgProduto = %b, imgCodBarra = %b WHERE id = %d",
+                        "nfeGenero = '%s', usuarioAtualizacao_id = %d WHERE id = %d",
                 produtoVO.getCodigo(), produtoVO.getDescricao(), produtoVO.getPeso(), produtoVO.getSisUnidadeComercialVO().getId(),
                 produtoVO.getSisSituacaoSistemaVO().getId(), produtoVO.getPrecoFabrica(), produtoVO.getPrecoVenda(),
                 produtoVO.getVarejo(), produtoVO.getPrecoUltimoImpostoSefaz(), produtoVO.getPrecoUltimoFrete(),
                 produtoVO.getComissao(), produtoVO.getNcm(), produtoVO.getCest(), produtoVO.getFiscalCestNcmVO().getId(),
                 produtoVO.getFiscalCstOrigemVO().getId(), produtoVO.getFiscalIcmsVO().getId(), produtoVO.getFiscalPisVO().getId(),
                 produtoVO.getFiscalCofinsVO().getId(), produtoVO.getNfeGenero(), produtoVO.getUsuarioAtualizacao_id(),
-                new SerialBlob(produtoVO.getImgProduto()), new SerialBlob(produtoVO.getImgCodBarra()), produtoVO.getId());
+                produtoVO.getId());
         getUpdateBancoDados(conn, comandoSql);
     }
 
@@ -139,14 +139,13 @@ public class TabProdutoDAO extends BuscaBancoDados {
                         "sisSituacaoSistema_id, precoFabrica, precoVenda, varejo, precoUltimoImpostoSEFAZ, precoUltimoFrete, comissao, ncm, cest, " +
                         "fiscalCestNcm_id, fiscalCSTOrigem_id, fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, nfeGenero, " +
                         "usuarioCadastro_id) VALUES('%s', '%s', %s, %d, %d, %s, %s, %d, %s, %s, %s, '%s', '%s', %d, %d, %d, %d, " +
-                        "%d, '%s', %d, %b, %b)",
+                        "%d, '%s', %d)",
                 produtoVO.getCodigo(), produtoVO.getDescricao(), produtoVO.getPeso(), produtoVO.getSisUnidadeComercialVO().getId(),
                 produtoVO.getSisSituacaoSistemaVO().getId(), produtoVO.getPrecoFabrica(), produtoVO.getPrecoVenda(),
                 produtoVO.getVarejo(), produtoVO.getPrecoUltimoImpostoSefaz(), produtoVO.getPrecoUltimoFrete(),
                 produtoVO.getComissao(), produtoVO.getNcm(), produtoVO.getCest(), produtoVO.getFiscalCestNcmVO().getId(),
                 produtoVO.getFiscalCstOrigemVO().getId(), produtoVO.getFiscalIcmsVO().getId(), produtoVO.getFiscalPisVO().getId(),
-                produtoVO.getFiscalCofinsVO().getId(), produtoVO.getNfeGenero(), produtoVO.getUsuarioCadastro_id(),
-                new SerialBlob(produtoVO.getImgProduto()), new SerialBlob(produtoVO.getImgCodBarra()));
+                produtoVO.getFiscalCofinsVO().getId(), produtoVO.getNfeGenero(), produtoVO.getUsuarioCadastro_id());
         return getInsertBancoDados(conn, comandoSql);
     }
 

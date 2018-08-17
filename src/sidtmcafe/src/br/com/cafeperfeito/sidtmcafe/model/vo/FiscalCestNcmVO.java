@@ -107,6 +107,6 @@ public class FiscalCestNcmVO extends RecursiveTreeObject<FiscalCestNcmVO> {
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", idProperty().get(), descricaoProperty().get());
+        return String.format("[%s]%s-%s", ncmProperty().get(), idProperty().get(), descricaoProperty().get());
     }
 }

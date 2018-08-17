@@ -42,8 +42,8 @@ public class SisMunicipioDAO extends BuscaBancoDados {
         return sisMunicipioVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 sisMunicipioVO = new SisMunicipioVO();

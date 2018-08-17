@@ -21,8 +21,8 @@ public class TabInformacaoReceitaFederalDAO extends BuscaBancoDados {
         return tabInformacaoReceitaFederalVO;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 tabInformacaoReceitaFederalVO = new TabInformacaoReceitaFederalVO();

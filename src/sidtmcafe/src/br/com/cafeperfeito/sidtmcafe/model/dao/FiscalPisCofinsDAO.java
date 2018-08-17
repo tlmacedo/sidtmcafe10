@@ -24,8 +24,8 @@ public class FiscalPisCofinsDAO extends BuscaBancoDados {
         return fiscalPisCofinsVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 fiscalPisCofinsVO = new FiscalPisCofinsVO();

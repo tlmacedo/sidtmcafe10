@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.FiscalCestNcmVO;
+import javafx.util.Pair;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -9,42 +10,46 @@ import java.util.List;
 
 public class FiscalCestNcmDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    FiscalCestNcmVO fiscalCestNcmVO;
-    List<FiscalCestNcmVO> fiscalCestNcmVOList;
-    boolean returnList = false;
+    FiscalCestNcmVO fiscalCestNcmVO = null;
+    List<FiscalCestNcmVO> fiscalCestNcmVOList = null;
 
     public FiscalCestNcmVO getFiscalCestNcmVO(int id) {
-        getResultSet(String.format("SELECT * FROM fiscalCestNcm WHERE id = %d", id), false);
+        addNewParametro(new Pair<>("int", String.valueOf(id)));
+        getResultSet("SELECT * FROM fiscalCestNcm WHERE id = ? ");
         return fiscalCestNcmVO;
     }
 
     public FiscalCestNcmVO getFiscalCestNcmVO(String ncm) {
-        getResultSet(String.format("SELECT * FROM fiscalCestNcm %s ", ncm != null ?
-                String.format("WHERE ncm = '%s'", ncm) : ""), false);
-        if (fiscalCestNcmVO == null && ncm.length() > 4)
-            getResultSet(String.format("SELECT * FROM fiscalCestNcm %s ", ncm != null ?
-                    String.format("WHERE ncm = '%s'", ncm.substring(0, 4)) : ""), false);
+        String comandoSql = "SELECT * FROM fiscalCestNcm ";
+        if (!ncm.equals("")) {
+            comandoSql += "WHERE ncm = ? ";
+            addNewParametro(new Pair<>("String", ncm));
+        }
+        getResultSet(comandoSql);
+        if (fiscalCestNcmVO == null && ncm.length() >= 4) {
+            addNewParametro(new Pair<>("String", ncm.substring(0, 4) + "%"));
+            getResultSet(comandoSql);
+        }
         return fiscalCestNcmVO;
     }
 
     public List<FiscalCestNcmVO> getFiscalCestNcmVOList(String ncm) {
-        try {
-            fiscalCestNcmVOList = new ArrayList<>();
-            getResultSet(String.format("SELECT * FROM fiscalCestNcm %s ", (ncm != null && !ncm.equals("")) ?
-                    String.format("WHERE ncm LIKE '%s'", ncm + "%") : ""), true);
-            if (fiscalCestNcmVOList.size() == 0)
-                if (ncm.length() >= 4)
-                    getResultSet(String.format("SELECT * FROM fiscalCestNcm %s ", (ncm != null && !ncm.equals("")) ?
-                            String.format("WHERE ncm LIKE '%s'", ncm.substring(0, 4) + "%") : ""), true);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        fiscalCestNcmVOList = new ArrayList<>();
+        String comandoSql = "SELECT * FROM fiscalCestNcm ";
+        if (!ncm.equals("")) {
+            comandoSql += "WHERE ncm LIKE ? ";
+            addNewParametro(new Pair<String, String>("String", ncm));
+        }
+        getResultSet(comandoSql);
+        if (fiscalCestNcmVOList.size() == 0 && ncm.length() >= 4) {
+            addNewParametro(new Pair<String, String>("String", ncm.substring(0, 4) + "%"));
+            getResultSet(comandoSql);
         }
         return fiscalCestNcmVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(String.format("%s ORDER BY ncm, cest", comandoSql));
+    void getResultSet(String sql) {
+        getResultadosBandoDados(sql + "ORDER BY ncm ");
         try {
             while (rs.next()) {
                 fiscalCestNcmVO = new FiscalCestNcmVO();
@@ -53,7 +58,7 @@ public class FiscalCestNcmDAO extends BuscaBancoDados {
                 fiscalCestNcmVO.setDescricao(rs.getString("descricao"));
                 fiscalCestNcmVO.setCest(rs.getString("cest").replaceAll("\\D", ""));
                 fiscalCestNcmVO.setNcm(rs.getString("ncm").replaceAll("\\D", ""));
-                if (returnList) fiscalCestNcmVOList.add(fiscalCestNcmVO);
+                if (fiscalCestNcmVOList != null) fiscalCestNcmVOList.add(fiscalCestNcmVO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

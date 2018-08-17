@@ -26,8 +26,8 @@ public class SisTipoEnderecoDAO extends BuscaBancoDados {
         return sisTipoEnderecoVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 sisTipoEnderecoVO = new SisTipoEnderecoVO();

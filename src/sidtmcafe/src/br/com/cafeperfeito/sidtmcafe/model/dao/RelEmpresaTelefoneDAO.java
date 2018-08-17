@@ -29,8 +29,8 @@ public class RelEmpresaTelefoneDAO extends BuscaBancoDados {
         return relEmpresaTelefoneVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 relEmpresaTelefoneVO = new RelEmpresaTelefoneVO();

@@ -30,8 +30,8 @@ public class TabColaboradorDAO extends BuscaBancoDados {
         return tabColaboradorVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 tabColaboradorVO = new TabColaboradorVO();

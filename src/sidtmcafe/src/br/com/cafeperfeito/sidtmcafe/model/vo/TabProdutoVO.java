@@ -3,6 +3,7 @@ package br.com.cafeperfeito.sidtmcafe.model.vo;
 import br.com.cafeperfeito.sidtmcafe.model.dao.TabProdutoDAO;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.*;
+import javafx.scene.image.Image;
 
 import java.io.ObjectInputStream;
 import java.math.BigDecimal;
@@ -32,7 +33,7 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     BigDecimal peso, precoFabrica, precoVenda, precoUltimoImpostoSefaz, precoUltimoFrete, comissao;
 
-    byte[] imgProduto, imgCodBarra;
+    Image imgProduto, imgCodBarra;
 
     public TabProdutoVO() {
 
@@ -416,19 +417,19 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
         this.comissao = comissao;
     }
 
-    public byte[] getImgProduto() {
+    public Image getImgProduto() {
         return imgProduto;
     }
 
-    public void setImgProduto(byte[] imgProduto) {
+    public void setImgProduto(Image imgProduto) {
         this.imgProduto = imgProduto;
     }
 
-    public byte[] getImgCodBarra() {
+    public Image getImgCodBarra() {
         return imgCodBarra;
     }
 
-    public void setImgCodBarra(byte[] imgCodBarra) {
+    public void setImgCodBarra(Image imgCodBarra) {
         this.imgCodBarra = imgCodBarra;
     }
 }

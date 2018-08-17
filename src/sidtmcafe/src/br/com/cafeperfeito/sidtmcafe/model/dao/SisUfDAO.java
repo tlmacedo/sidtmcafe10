@@ -33,8 +33,8 @@ public class SisUfDAO extends BuscaBancoDados {
         return sisUfVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 sisUfVO = new SisUfVO();

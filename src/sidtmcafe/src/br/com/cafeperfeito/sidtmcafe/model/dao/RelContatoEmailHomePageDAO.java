@@ -29,8 +29,8 @@ public class RelContatoEmailHomePageDAO extends BuscaBancoDados {
         return relContatoEmailHomePageVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 relContatoEmailHomePageVO = new RelContatoEmailHomePageVO();

@@ -26,8 +26,8 @@ public class SisCargoDAO extends BuscaBancoDados {
         return sisCargoVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 sisCargoVO = new SisCargoVO();

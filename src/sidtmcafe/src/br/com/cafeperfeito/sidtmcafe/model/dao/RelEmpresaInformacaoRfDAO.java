@@ -29,8 +29,8 @@ public class RelEmpresaInformacaoRfDAO extends BuscaBancoDados {
         return relEmpresaInformacaoRfVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 relEmpresaInformacaoRfVO = new RelEmpresaInformacaoRfVO();

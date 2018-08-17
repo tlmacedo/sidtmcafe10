@@ -31,8 +31,8 @@ public class SisMenuPrincipalDAO extends BuscaBancoDados {
         return menuPrincipalVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 menuPrincipalVO = new SisMenuPrincipalVO();

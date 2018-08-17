@@ -29,8 +29,8 @@ public class RelEmpresaEnderecoDAO extends BuscaBancoDados {
         return relEmpresaEnderecoVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 relEmpresaEnderecoVO = new RelEmpresaEnderecoVO();

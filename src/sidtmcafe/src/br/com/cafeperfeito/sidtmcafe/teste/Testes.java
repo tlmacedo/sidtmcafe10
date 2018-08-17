@@ -14,24 +14,28 @@ public class Testes {
 
     public static void main(String... args) {
 
-        System.out.printf("diretorio.home: [%s]\n\n\n", PATH_IMAGE_DOWNLOAD);
+        new FiscalCestNcmDAO().getFiscalCestNcmVOList("0901").stream().forEach(System.out::println);
 
-        System.out.printf("%s/%s.%s", PATH_IMAGE_DOWNLOAD, "codBarras", ".png");
+        System.out.println("\n\n\n" +new FiscalCestNcmDAO().getFiscalCestNcmVO("0901"));
 
-        //new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(new TabEmpresaVO(), "08009246000136");
-
-        new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos("7896078301063");
-
-
-        int tamMascara = 0;
-        String tipMascara = "nfenumero";
-        String valor = "123456789";
-        System.out.printf("mascara de retorno  tipMascara[%s]:\n    [%s]\n", tipMascara, ServiceFormatarDado.gerarMascara(tipMascara));
-        System.out.printf("valor formatado  tipMascara[%s]  valor[%s]\n    [%s]\n", tipMascara, valor, ServiceFormatarDado.getValorFormatado(valor, tipMascara));
-        tipMascara = "nfechave";
-        valor = "12345678901234567890123456789012345678901234";
-        System.out.printf("mascara de retorno  tipMascara[%s]:\n    [%s]\n", tipMascara, ServiceFormatarDado.gerarMascara(tipMascara));
-        System.out.printf("valor formatado  tipMascara[%s]  valor[%s]\n    [%s]\n", tipMascara, valor, ServiceFormatarDado.getValorFormatado(valor, tipMascara));
+//        System.out.printf("diretorio.home: [%s]\n\n\n", PATH_IMAGE_DOWNLOAD);
+//
+//        System.out.printf("%s/%s.%s", PATH_IMAGE_DOWNLOAD, "codBarras", ".png");
+//
+//        //new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(new TabEmpresaVO(), "08009246000136");
+//
+//        new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos("7896078301063");
+//
+//
+//        int tamMascara = 0;
+//        String tipMascara = "nfenumero";
+//        String valor = "123456789";
+//        System.out.printf("mascara de retorno  tipMascara[%s]:\n    [%s]\n", tipMascara, ServiceFormatarDado.gerarMascara(tipMascara));
+//        System.out.printf("valor formatado  tipMascara[%s]  valor[%s]\n    [%s]\n", tipMascara, valor, ServiceFormatarDado.getValorFormatado(valor, tipMascara));
+//        tipMascara = "nfechave";
+//        valor = "12345678901234567890123456789012345678901234";
+//        System.out.printf("mascara de retorno  tipMascara[%s]:\n    [%s]\n", tipMascara, ServiceFormatarDado.gerarMascara(tipMascara));
+//        System.out.printf("valor formatado  tipMascara[%s]  valor[%s]\n    [%s]\n", tipMascara, valor, ServiceFormatarDado.getValorFormatado(valor, tipMascara));
 
 
         //SisTelefoneOperadoraVO operadoraVO = new ServiceConsultaWebServices().getOperadoraTelefone_WsPortabilidadeCelular("92981686148");

@@ -18,7 +18,7 @@ public class TabEmailHomePageDAO extends BuscaBancoDados {
     }
 
     void getResultSet(String comandoSql) {
-        rs = getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 tabEmailHomePageVO = new TabEmailHomePageVO();

@@ -29,8 +29,8 @@ public class RelContatoTelefoneDAO extends BuscaBancoDados {
         return relContatoTelefoneVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 relContatoTelefoneVO = new RelContatoTelefoneVO();

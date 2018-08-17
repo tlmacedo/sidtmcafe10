@@ -42,8 +42,8 @@ public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
         return tabEmpresaVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 tabEmpresaVO = new TabEmpresaVO();

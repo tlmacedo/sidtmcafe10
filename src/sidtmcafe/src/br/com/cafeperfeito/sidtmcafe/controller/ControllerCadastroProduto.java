@@ -39,6 +39,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -675,7 +676,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 .orElse(null)) == null) return;
         if (buscaDuplicidadeCode(codBarras, true)) return;
         String wsRetorno = new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos(codBarras);
-        System.out.printf("inicio image:[%s]\n", "oiiiiiiii");
         if (wsRetorno.contains("descricao"))
             txtDescricao.setText(ServiceFormatarDado.getFieldFormatPair(wsRetorno, "descricao").getValue());
         if (wsRetorno.contains("ncm"))
@@ -686,29 +686,15 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void addImagens(String codBarras) {
-        int cont = 0;
-        System.out.printf("Path:[%s]\n", Paths.get(String.format("%s%s.jpg", PATH_IMAGE_DOWNLOAD, codBarras)).toString());
-        System.out.printf("inicio image:0[%s]\n", "oiiiiiiii");
-        System.out.printf("inicio image:1[%d]\n", cont++);
-        if (Files.exists(Paths.get(String.format("%s%s.jpg", PATH_IMAGE_DOWNLOAD, codBarras)))) {
-            getProdutoVO().setImgProduto(ServiceImage.getImgToByte(new File(String.format("%s%s.jpg", PATH_IMAGE_DOWNLOAD, codBarras))));
-            imgProduto.setImage(new Image(ServiceImage.getByteToImg(getProdutoVO().getImgProduto()).toString()));
+        File file;
+        if ((file = new File(String.format("%s%s.png", PATH_IMAGE_DOWNLOAD, codBarras))) != null) {
+            //getProdutoVO().setImgProduto(ServiceImage.getImgToByte(file));
+            //imgProduto.setImage(new Image("byte[]:" + ServiceImage.getByteToImg(getProdutoVO().getImgProduto()).toString()));
+            System.out.println("Terminou:::");
+//            imgProduto.setImage(new Image("file:" + file.toString()));
         }
 
 
-            /*            VBox vBoxIsCliente = new VBox();
-            Label lblImgIsCliente = new Label();
-            lblImgIsCliente.getStyleClass().add("lbl_ico_cliente");
-            lblImgIsCliente.setPrefSize(24, 24);
-            Label lblIsCliente = new Label("Cliente");
-            vBoxIsCliente.setAlignment(Pos.CENTER);
-            vBoxIsCliente.getChildren().addAll(lblImgIsCliente, lblIsCliente);
-            colunaIsCliente = new TreeTableColumn<TabEmpresaVO, Boolean>();
-            colunaIsCliente.setPrefWidth(55);
-            colunaIsCliente.setGraphic(vBoxIsCliente);
-            colunaIsCliente.setCellValueFactory(param -> param.getValue().getValue().isClienteProperty());
-*/
-        System.out.printf("inicio image:4[%d]\n", cont++);
     }
 
 

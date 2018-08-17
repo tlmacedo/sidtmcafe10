@@ -26,8 +26,8 @@ public class SisSituacaoSistemaDAO extends BuscaBancoDados {
         return sisSituacaoSistemaVOList;
     }
 
-    void getResultSet(String comandoSql, boolean returnList) {
-        rs = getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 sisSituacaoSistemaVO = new SisSituacaoSistemaVO();

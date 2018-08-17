@@ -57,6 +57,7 @@ public interface Constants {
     /*
      *Constants para estilos do sistema
      *///macOS⁩ ▸ ⁨Usuários⁩ ▸ ⁨thiagomacedo⁩ ▸ ⁨Imagens⁩
+    String TYPE_IMAGE_DOWNLOAD = ".png";
     String PATH_IMAGE_DOWNLOAD = System.getProperty("user.home") + "/Pictures/";
     //String PATH_IMAGE_DOWNLOAD = "/volumes/macOS/Usuários/thiagomacedo/Imagens/";
     String STYLE_SHEETS = "/style/min/sidtm.min.css";

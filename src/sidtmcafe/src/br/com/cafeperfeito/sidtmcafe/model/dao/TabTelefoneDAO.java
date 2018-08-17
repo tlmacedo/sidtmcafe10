@@ -21,7 +21,7 @@ public class TabTelefoneDAO extends BuscaBancoDados implements Constants {
     }
 
     void getResultSet(String comandoSql) {
-        rs = getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(comandoSql);
         try {
             while (rs.next()) {
                 tabTelefoneVO = new TabTelefoneVO();

@@ -107,16 +107,15 @@ public class BuscaWebService implements Constants {
         return stringBuilder;
     }
 
-    public static void getImagem(String strUrl, String saveAs, String type) throws IOException {
-        System.out.printf("strUrl:[%s]\nsaveAs:[%s]\ntype:[%s]\n", strUrl, saveAs, type);
-
+    public static void getImagem(String strUrl, String nomeArquivo) throws IOException {
+        String saveAs = String.format("%s%s%s",PATH_IMAGE_DOWNLOAD, nomeArquivo, TYPE_IMAGE_DOWNLOAD);
         InputStream in = new URL(strUrl).openStream();
         try {
-            Files.copy(in, Paths.get(String.format("%s%s.%s", PATH_IMAGE_DOWNLOAD, saveAs, type)));
+            Files.copy(in, Paths.get(saveAs));
         } catch (Exception ex) {
             if (ex instanceof FileAlreadyExistsException) {
-                Files.delete(Paths.get(String.format("%s%s.%s", PATH_IMAGE_DOWNLOAD, saveAs, type)));
-                Files.copy(in, Paths.get(String.format("%s%s.%s", PATH_IMAGE_DOWNLOAD, saveAs, type)));
+                Files.delete(Paths.get(saveAs));
+                Files.copy(in, Paths.get(saveAs));
             }
         }
 
