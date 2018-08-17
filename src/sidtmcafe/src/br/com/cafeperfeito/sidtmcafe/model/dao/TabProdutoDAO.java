@@ -3,6 +3,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
+import javafx.util.Pair;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Blob;
@@ -14,20 +15,20 @@ import java.util.List;
 
 public class TabProdutoDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    TabProdutoVO tabProdutoVO;
-    List<TabProdutoVO> tabProdutoVOList;
-    boolean returnList = false;
+    TabProdutoVO tabProdutoVO = null;
+    List<TabProdutoVO> tabProdutoVOList = null;
 
     public TabProdutoVO getTabProdutoVO(int id) {
-        getResultSet(String.format("SELECT * FROM tabProduto WHERE id = %d ORDER BY descricao", id), false);
+        addNewParametro(new Pair<>("int", String.valueOf(id)));
+        getResultSet("SELECT * FROM tabProduto WHERE id = ? ");
         if (tabProdutoVO != null)
             addObjetosPesquisa(tabProdutoVO);
         return tabProdutoVO;
     }
 
     public TabProdutoVO getTabProdutoVO(String codigo) {
-        getResultSet(String.format("SELECT * FROM tabProduto WHERE codigo = '%s' ORDER BY descricao", codigo), false);
+        addNewParametro(new Pair<>("String", codigo));
+        getResultSet("SELECT * FROM tabProduto WHERE codigo = ? ");
         if (tabProdutoVO != null)
             addObjetosPesquisa(tabProdutoVO);
         return tabProdutoVO;
@@ -38,7 +39,8 @@ public class TabProdutoDAO extends BuscaBancoDados {
         if ((codBarraVO = new TabProduto_CodBarraDAO().getTabProduto_codBarraVO(codBarra)) == null) return null;
         int produto_id = new RelProduto_CodBarraDAO().getRelProduto_CodBarraVO(0, codBarraVO.getId()).getTabProduto_id();
         if (produto_id == 0) return null;
-        getResultSet(String.format("SELECT * FROM tabProduto WHERE id = %d ORDER BY descricao", produto_id), false);
+        addNewParametro(new Pair<>("int", String.valueOf(produto_id)));
+        getResultSet("SELECT * FROM tabProduto WHERE id = ? ");
         if (tabProdutoVO != null)
             addObjetosPesquisa(tabProdutoVO);
         return tabProdutoVO;
@@ -46,7 +48,7 @@ public class TabProdutoDAO extends BuscaBancoDados {
 
     public List<TabProdutoVO> getTabProdutoVOList() {
         tabProdutoVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * FROM tabProduto ORDER BY descricao"), true);
+        getResultSet("SELECT * FROM tabProduto ");
         if (tabProdutoVO != null)
             for (TabProdutoVO produtoVO : tabProdutoVOList)
                 addObjetosPesquisa(produtoVO);
@@ -54,7 +56,7 @@ public class TabProdutoDAO extends BuscaBancoDados {
     }
 
     void getResultSet(String sql) {
-        getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(sql + "ORDER BY descricao ");
         try {
             while (rs.next()) {
                 tabProdutoVO = new TabProdutoVO();
@@ -82,7 +84,7 @@ public class TabProdutoDAO extends BuscaBancoDados {
                 tabProdutoVO.setDataCadastro(rs.getTimestamp("dataCadastro"));
                 tabProdutoVO.setUsuarioAtualizacao_id(rs.getInt("usuarioAtualizacao_id"));
                 tabProdutoVO.setDataAtualizacao(rs.getTimestamp("dataAtualizacao"));
-                if (returnList) tabProdutoVOList.add(tabProdutoVO);
+                if (tabProdutoVOList != null) tabProdutoVOList.add(tabProdutoVO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -119,33 +121,96 @@ public class TabProdutoDAO extends BuscaBancoDados {
     }
 
     public void updateTabProdutoVO(Connection conn, TabProdutoVO produtoVO) throws SQLException {
-        String comandoSql = String.format("UPDATE tabProduto SET codigo = '%s', descricao = '%s', peso = %s, " +
-                        "sisUnidadeComercial_id = %d, sisSituacaoSistema_id = %d, precoFabrica = %s, precoVenda = %s, " +
-                        "varejo = %d, precoUltimoImpostoSEFAZ, precoUltimoFrete = %s, comissao = %s, ncm = '%s', cest = '%s', fiscalCestNcm_id = %d, " +
-                        "fiscalCstOrigem_id = %d, fiscalIcms_id = %d, fiscalPis_id = %d, fiscalCofins_id = %d, " +
-                        "nfeGenero = '%s', usuarioAtualizacao_id = %d WHERE id = %d",
-                produtoVO.getCodigo(), produtoVO.getDescricao(), produtoVO.getPeso(), produtoVO.getSisUnidadeComercialVO().getId(),
-                produtoVO.getSisSituacaoSistemaVO().getId(), produtoVO.getPrecoFabrica(), produtoVO.getPrecoVenda(),
-                produtoVO.getVarejo(), produtoVO.getPrecoUltimoImpostoSefaz(), produtoVO.getPrecoUltimoFrete(),
-                produtoVO.getComissao(), produtoVO.getNcm(), produtoVO.getCest(), produtoVO.getFiscalCestNcmVO().getId(),
-                produtoVO.getFiscalCstOrigemVO().getId(), produtoVO.getFiscalIcmsVO().getId(), produtoVO.getFiscalPisVO().getId(),
-                produtoVO.getFiscalCofinsVO().getId(), produtoVO.getNfeGenero(), produtoVO.getUsuarioAtualizacao_id(),
-                produtoVO.getId());
+        String comandoSql = "UPDATE tabProduto " +
+                "SET codigo = ?, " +
+                "descricao = ?, " +
+                "peso = ?, " +
+                "sisUnidadeComercial_id = ?, " +
+                "sisSituacaoSistema_id = ?, " +
+                "precoFabrica = ?, " +
+                "precoVenda = ?, " +
+                "varejo = ?, " +
+                "precoUltimoImpostoSEFAZ = ?, " +
+                "precoUltimoFrete = ?, " +
+                "comissao = ?, " +
+                "ncm = ?, " +
+                "cest = ?, " +
+                "fiscalCestNcm_id = ?, " +
+                "fiscalCstOrigem_id = ?, " +
+                "fiscalIcms_id = ?, " +
+                "fiscalPis_id = ?, " +
+                "fiscalCofins_id = ?, " +
+                "nfeGenero = ?, " +
+                "usuarioAtualizacao_id = ? " +
+                "WHERE id = ? ";
+        addNewParametro(new Pair<>("int", String.valueOf(produtoVO.getCodigo())));
+        addParametro(new Pair<>("String", produtoVO.getDescricao()));
+        addParametro(new Pair<>("Decimal", produtoVO.getPeso().toString()));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getSisUnidadeComercialVO().getId())));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getSisSituacaoSistemaVO().getId())));
+        addParametro(new Pair<>("Decimal", produtoVO.getPrecoFabrica().toString()));
+        addParametro(new Pair<>("Decimal", produtoVO.getPrecoVenda().toString()));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getVarejo())));
+        addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoImpostoSefaz().toString()));
+        addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoFrete().toString()));
+        addParametro(new Pair<>("Decimal", produtoVO.getComissao().toString()));
+        addParametro(new Pair<>("String", produtoVO.getNcm()));
+        addParametro(new Pair<>("String", produtoVO.getCest()));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCestNcmVO().getId())));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCstOrigemVO().getId())));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalIcmsVO().getId())));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalPisVO().getId())));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCofinsVO().getId())));
+        addParametro(new Pair<>("String", produtoVO.getNfeGenero()));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getUsuarioAtualizacao_id())));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getId())));
         getUpdateBancoDados(conn, comandoSql);
     }
 
     public int insertTabProdutoVO(Connection conn, TabProdutoVO produtoVO) throws SQLException {
-        String comandoSql = String.format("INSERT INTO tabProduto (codigo, descricao, peso, sisUnidadeComercial_id, " +
-                        "sisSituacaoSistema_id, precoFabrica, precoVenda, varejo, precoUltimoImpostoSEFAZ, precoUltimoFrete, comissao, ncm, cest, " +
-                        "fiscalCestNcm_id, fiscalCSTOrigem_id, fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, nfeGenero, " +
-                        "usuarioCadastro_id) VALUES('%s', '%s', %s, %d, %d, %s, %s, %d, %s, %s, %s, '%s', '%s', %d, %d, %d, %d, " +
-                        "%d, '%s', %d)",
-                produtoVO.getCodigo(), produtoVO.getDescricao(), produtoVO.getPeso(), produtoVO.getSisUnidadeComercialVO().getId(),
-                produtoVO.getSisSituacaoSistemaVO().getId(), produtoVO.getPrecoFabrica(), produtoVO.getPrecoVenda(),
-                produtoVO.getVarejo(), produtoVO.getPrecoUltimoImpostoSefaz(), produtoVO.getPrecoUltimoFrete(),
-                produtoVO.getComissao(), produtoVO.getNcm(), produtoVO.getCest(), produtoVO.getFiscalCestNcmVO().getId(),
-                produtoVO.getFiscalCstOrigemVO().getId(), produtoVO.getFiscalIcmsVO().getId(), produtoVO.getFiscalPisVO().getId(),
-                produtoVO.getFiscalCofinsVO().getId(), produtoVO.getNfeGenero(), produtoVO.getUsuarioCadastro_id());
+        String comandoSql = "INSERT INTO tabProduto " +
+                "(codigo, " +
+                "descricao, " +
+                "peso, " +
+                "sisUnidadeComercial_id, " +
+                "sisSituacaoSistema_id, " +
+                "precoFabrica, " +
+                "precoVenda, " +
+                "varejo, " +
+                "precoUltimoImpostoSEFAZ, " +
+                "precoUltimoFrete, " +
+                "comissao, " +
+                "ncm, " +
+                "cest, " +
+                "fiscalCestNcm_id, " +
+                "fiscalCSTOrigem_id, " +
+                "fiscalICMS_id, " +
+                "fiscalPIS_id, " +
+                "fiscalCOFINS_id, " +
+                "nfeGenero, " +
+                "usuarioCadastro_id) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        addNewParametro(new Pair<>("int", String.valueOf(produtoVO.getCodigo())));
+        addParametro(new Pair<>("String", produtoVO.getDescricao()));
+        addParametro(new Pair<>("Decimal", produtoVO.getPeso().toString()));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getSisUnidadeComercialVO().getId())));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getSisSituacaoSistemaVO().getId())));
+        addParametro(new Pair<>("Decimal", produtoVO.getPrecoFabrica().toString()));
+        addParametro(new Pair<>("Decimal", produtoVO.getPrecoVenda().toString()));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getVarejo())));
+        addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoImpostoSefaz().toString()));
+        addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoFrete().toString()));
+        addParametro(new Pair<>("Decimal", produtoVO.getComissao().toString()));
+        addParametro(new Pair<>("String", produtoVO.getNcm()));
+        addParametro(new Pair<>("String", produtoVO.getCest()));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCestNcmVO().getId())));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCstOrigemVO().getId())));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalIcmsVO().getId())));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalPisVO().getId())));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCofinsVO().getId())));
+        addParametro(new Pair<>("String", produtoVO.getNfeGenero()));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getUsuarioCadastro_id())));
+        getUpdateBancoDados(conn, comandoSql);
         return getInsertBancoDados(conn, comandoSql);
     }
 

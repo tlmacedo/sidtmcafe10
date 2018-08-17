@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEnderecoVO;
+import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,19 +12,18 @@ import java.sql.SQLException;
 
 public class TabEnderecoDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    TabEnderecoVO tabEnderecoVO;
-    boolean returnList = false;
+    TabEnderecoVO tabEnderecoVO = null;
 
     public TabEnderecoVO getTabEnderecoVO(int id) {
-        getResultSet(String.format("SELECT * FROM tabEndereco WHERE id = %d ORDER BY id", id));
+        addNewParametro(new Pair<>("int", String.valueOf(id)));
+        getResultSet("SELECT * FROM tabEndereco WHERE id = ? ");
         if (tabEnderecoVO != null)
             addObjetosPesquisa(tabEnderecoVO);
         return tabEnderecoVO;
     }
 
-    void getResultSet(String comandoSql) {
-        getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(sql + "ORDER BY id ");
         try {
             while (rs.next()) {
                 tabEnderecoVO = new TabEnderecoVO();
@@ -50,20 +50,47 @@ public class TabEnderecoDAO extends BuscaBancoDados {
     }
 
     public void updateTabEnderecoVO(Connection conn, TabEnderecoVO endereco) throws SQLException {
-        String comandoSql = String.format("UPDATE tabEndereco SET sisTipoEndereco_id = %d, cep = '%s', logradouro = '%s', " +
-                        "numero = '%s', complemento = '%s', bairro = '%s', sisMunicipio_id = %d, pontoReferencia = '%s' " +
-                        "WHERE id = %d",
-                endereco.getSisTipoEndereco_id(), endereco.getCep(), endereco.getLogradouro(), endereco.getNumero(),
-                endereco.getComplemento(), endereco.getBairro(), endereco.getSisMunicipio_id(), endereco.getPontoReferencia(),
-                endereco.getId());
+        String comandoSql = "UPDATE tabEndereco SET " +
+                "sisTipoEndereco_id = %d, " +
+                "cep = '%s', " +
+                "logradouro = '%s', " +
+                "numero = '%s', " +
+                "complemento = '%s', " +
+                "bairro = '%s', " +
+                "sisMunicipio_id = %d, " +
+                "pontoReferencia = '%s' " +
+                "WHERE id = %d";
+        addNewParametro(new Pair<>("int", String.valueOf(endereco.getSisTipoEndereco_id())));
+        addParametro(new Pair<>("String", endereco.getCep().replaceAll("\\D", "")));
+        addParametro(new Pair<>("String", endereco.getLogradouro()));
+        addParametro(new Pair<>("String", endereco.getNumero()));
+        addParametro(new Pair<>("String", endereco.getComplemento()));
+        addParametro(new Pair<>("String", endereco.getBairro()));
+        addParametro(new Pair<>("int", String.valueOf(endereco.getSisMunicipio_id())));
+        addParametro(new Pair<>("String", endereco.getPontoReferencia()));
+        addParametro(new Pair<>("int", String.valueOf(endereco.getId())));
         getUpdateBancoDados(conn, comandoSql);
     }
 
     public int insertTabEnderecoVO(Connection conn, TabEnderecoVO endereco, int empresa_id) throws SQLException {
-        String comandoSql = String.format("INSERT INTO tabEndereco (sisTipoEndereco_id, cep, logradouro, numero, complemento, " +
-                        "bairro, sisMunicipio_id, pontoReferencia) VALUES(%d, '%s', '%s', '%s', '%s', '%s', %d, '%s')",
-                endereco.getSisTipoEndereco_id(), endereco.getCep(), endereco.getLogradouro(), endereco.getNumero(),
-                endereco.getComplemento(), endereco.getBairro(), endereco.getSisMunicipio_id(), endereco.getPontoReferencia());
+        String comandoSql = "INSERT INTO tabEndereco " +
+                "(sisTipoEndereco_id, " +
+                "cep, " +
+                "logradouro, " +
+                "numero, " +
+                "complemento, " +
+                "bairro, " +
+                "sisMunicipio_id, " +
+                "pontoReferencia) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        addNewParametro(new Pair<>("int", String.valueOf(endereco.getSisTipoEndereco_id())));
+        addParametro(new Pair<>("String", endereco.getCep().replaceAll("\\D", "")));
+        addParametro(new Pair<>("String", endereco.getLogradouro()));
+        addParametro(new Pair<>("String", endereco.getNumero()));
+        addParametro(new Pair<>("String", endereco.getComplemento()));
+        addParametro(new Pair<>("String", endereco.getBairro()));
+        addParametro(new Pair<>("int", String.valueOf(endereco.getSisMunicipio_id())));
+        addParametro(new Pair<>("String", endereco.getPontoReferencia()));
         int endereco_id = getInsertBancoDados(conn, comandoSql);
         new RelEmpresaEnderecoDAO().insertRelEmpresaEndereco(conn, empresa_id, endereco_id);
         return endereco_id;
@@ -72,7 +99,8 @@ public class TabEnderecoDAO extends BuscaBancoDados {
     public void deleteTabEnderecoVO(Connection conn, int endereco_id, int empresa_id) throws SQLException {
         if (endereco_id < 0) endereco_id = endereco_id * (-1);
         new RelEmpresaEnderecoDAO().dedeteRelEmpresaEndereco(conn, empresa_id, endereco_id);
-        String comandoSql = String.format("DELETE FROM tabEndereco WHERE id = %d", endereco_id);
+        addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
+        String comandoSql = "DELETE FROM tabEndereco WHERE id = ? ";
         getDeleteBancoDados(conn, comandoSql);
     }
 

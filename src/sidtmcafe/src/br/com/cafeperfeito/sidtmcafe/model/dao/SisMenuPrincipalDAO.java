@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisMenuPrincipalVO;
+import javafx.util.Pair;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,29 +11,29 @@ import java.util.List;
 
 public class SisMenuPrincipalDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    SisMenuPrincipalVO menuPrincipalVO;
-    List<SisMenuPrincipalVO> menuPrincipalVOList;
-    boolean returnList = false;
+    SisMenuPrincipalVO menuPrincipalVO = null;
+    List<SisMenuPrincipalVO> menuPrincipalVOList = null;
 
     public SisMenuPrincipalVO getMenuPrincipalVO(int id) {
-        getResultSet(String.format("SELECT * FROM sisMenuPrincipal WHERE id = %d ORDER BY id", id), false);
+        addNewParametro(new Pair<>("int", String.valueOf(id)));
+        getResultSet("SELECT * FROM sisMenuPrincipal WHERE id = ? ");
         return menuPrincipalVO;
     }
 
     public SisMenuPrincipalVO getMenuPrincipalVO(String teclaAtalho) {
-        getResultSet(String.format("SELECT * FROM sisMenuPrincipal WHERE teclaAtalho = '%s' ORDER BY id", teclaAtalho), false);
+        addNewParametro(new Pair<>("String", teclaAtalho));
+        getResultSet("SELECT * FROM sisMenuPrincipal WHERE teclaAtalho = ? ");
         return menuPrincipalVO;
     }
 
     public List<SisMenuPrincipalVO> getMenuPrincipalVOList() {
         menuPrincipalVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * FROM sisMenuPrincipal ORDER BY id"), true);
+        getResultSet("SELECT * FROM sisMenuPrincipal ");
         return menuPrincipalVOList;
     }
 
     void getResultSet(String sql) {
-        getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(sql + "ORDER BY id ");
         try {
             while (rs.next()) {
                 menuPrincipalVO = new SisMenuPrincipalVO();
@@ -43,8 +44,7 @@ public class SisMenuPrincipalDAO extends BuscaBancoDados {
                 menuPrincipalVO.setIcoMenu(rs.getString("icoMenu"));
                 menuPrincipalVO.setTabPane(rs.getBoolean("tabPane"));
                 menuPrincipalVO.setTeclaAtalho(rs.getString("teclaAtalho"));
-                if (returnList)
-                    menuPrincipalVOList.add(menuPrincipalVO);
+                if (menuPrincipalVOList != null) menuPrincipalVOList.add(menuPrincipalVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

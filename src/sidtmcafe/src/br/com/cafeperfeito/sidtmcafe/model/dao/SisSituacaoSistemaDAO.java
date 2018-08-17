@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisSituacaoSistemaVO;
+import javafx.util.Pair;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,31 +11,30 @@ import java.util.List;
 
 public class SisSituacaoSistemaDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    SisSituacaoSistemaVO sisSituacaoSistemaVO;
-    List<SisSituacaoSistemaVO> sisSituacaoSistemaVOList;
-    boolean returnList = false;
+    SisSituacaoSistemaVO sisSituacaoSistemaVO = null;
+    List<SisSituacaoSistemaVO> sisSituacaoSistemaVOList = null;
 
     public SisSituacaoSistemaVO getSisSituacaoSistemaVO(int id) {
-        getResultSet(String.format("SELECT * FROM sisSituacaoSistema WHERE id = %d ORDER BY descricao", id), false);
+        addNewParametro(new Pair<>("int", String.valueOf(id)));
+        getResultSet("SELECT * FROM sisSituacaoSistema WHERE id = ? ");
         return sisSituacaoSistemaVO;
     }
 
     public List<SisSituacaoSistemaVO> getSisSituacaoSistemaVOList() {
         sisSituacaoSistemaVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * FROM sisSituacaoSistema ORDER BY descricao"), true);
+        getResultSet("SELECT * FROM sisSituacaoSistema ");
         return sisSituacaoSistemaVOList;
     }
 
     void getResultSet(String sql) {
-        getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(sql + "ORDER BY descricao ");
         try {
             while (rs.next()) {
                 sisSituacaoSistemaVO = new SisSituacaoSistemaVO();
                 sisSituacaoSistemaVO.setId(rs.getInt("id"));
                 sisSituacaoSistemaVO.setDescricao(rs.getString("descricao"));
                 sisSituacaoSistemaVO.setClassificacao(rs.getInt("classificacao"));
-                if (returnList) sisSituacaoSistemaVOList.add(sisSituacaoSistemaVO);
+                if (sisSituacaoSistemaVOList != null) sisSituacaoSistemaVOList.add(sisSituacaoSistemaVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

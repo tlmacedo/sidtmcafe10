@@ -519,7 +519,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     public void preencherCboFiscalCestNcm() {
-        cboFiscalCestNcm.getItems().setAll(new ArrayList<>(new FiscalCestNcmDAO().getFiscalCestNcmVOList(null)));
+        cboFiscalCestNcm.getItems().setAll(new ArrayList<>(new FiscalCestNcmDAO().getFiscalCestNcmVOList("")));
 //        cboFiscalCestNcm.getSelectionModel().select(-1);
     }
 

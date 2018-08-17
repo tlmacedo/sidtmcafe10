@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.RelEmpresaContatoVO;
+import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,32 +12,31 @@ import java.util.List;
 
 public class RelEmpresaContatoDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    RelEmpresaContatoVO relEmpresaContatoVO;
-    List<RelEmpresaContatoVO> relEmpresaContatoVOList;
-    boolean returnList = false;
+    RelEmpresaContatoVO relEmpresaContatoVO = null;
+    List<RelEmpresaContatoVO> relEmpresaContatoVOList = null;
 
     public RelEmpresaContatoVO getRelEmpresaContatoVO(int empresa_id, int contato_id) {
-        getResultSet(String.format("SELECT * FROM relEmpresaContato WHERE tabEmpresa_id = %d " +
-                "AND tabContato_id = %d ORDER BY tabEmpresa_id, tabContato_id", empresa_id, contato_id), false);
+        addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
+        addParametro(new Pair<>("int", String.valueOf(contato_id)));
+        getResultSet("SELECT * FROM relEmpresaContato WHERE tabEmpresa_id = ? AND tabContato_id = ? ");
         return relEmpresaContatoVO;
     }
 
     public List<RelEmpresaContatoVO> getRelEmpresaContatoVOList(int empresa_id) {
         relEmpresaContatoVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * FROM relEmpresaContato WHERE tabEmpresa_id = %d " +
-                "ORDER BY tabEmpresa_id, tabContato_id", empresa_id), true);
+        addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
+        getResultSet("SELECT * FROM relEmpresaContato WHERE tabEmpresa_id = ? ");
         return relEmpresaContatoVOList;
     }
 
     void getResultSet(String sql) {
-        getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(sql + "ORDER BY tabEmpresa_id, tabContato_id");
         try {
             while (rs.next()) {
                 relEmpresaContatoVO = new RelEmpresaContatoVO();
                 relEmpresaContatoVO.setTabEmpresa_id(rs.getInt("tabEmpresa_id"));
                 relEmpresaContatoVO.setTabContato_id(rs.getInt("tabContato_id"));
-                if (returnList) relEmpresaContatoVOList.add(relEmpresaContatoVO);
+                if (relEmpresaContatoVOList != null) relEmpresaContatoVOList.add(relEmpresaContatoVO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -46,15 +46,19 @@ public class RelEmpresaContatoDAO extends BuscaBancoDados {
     }
 
     public int insertRelEmpresaContatoVO(Connection conn, int empresa_id, int contato_id) throws SQLException {
-        String comandoSql = String.format("INSERT INTO relEmpresaContato (tabEmpresa_id, tabContato_id) " +
-                "VALUES(%d, %d)", empresa_id, contato_id);
+        addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
+        addParametro(new Pair<>("int", String.valueOf(contato_id)));
+        String comandoSql = "INSERT INTO relEmpresaContato (tabEmpresa_id, tabContato_id) VALUES(?, ?)";
         return getInsertBancoDados(conn, comandoSql);
     }
 
     public void deleteRelEmpresaContatoVO(Connection conn, int empresa_id, int contato_id) throws SQLException {
-        String comandoSql = String.format("DELETE FROM relEmpresaContato WHERE tabEmpresa_id = %d ", empresa_id);
-        if (contato_id > 0)
-            comandoSql += String.format("AND tabContato = %d", contato_id);
+        addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
+        String comandoSql = "DELETE FROM relEmpresaContato WHERE tabEmpresa_id = ? ";
+        if (contato_id > 0) {
+            addParametro(new Pair<>("int", String.valueOf(contato_id)));
+            comandoSql += "AND tabContato = ? ";
+        }
         getDeleteBancoDados(conn, comandoSql);
     }
 }

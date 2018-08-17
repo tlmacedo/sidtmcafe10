@@ -18,6 +18,7 @@ public class BuscaBancoDados {
     List<Pair<String, String>> listParametro = new ArrayList<>();
 
     void getResultadosBandoDados(String sql) {
+        System.out.println("sql:[" + sql + "]");
         try {
             stmt = (connection = ConnectionFactory.getConnection()).prepareStatement(sql);
             rs = loadParametro().executeQuery();

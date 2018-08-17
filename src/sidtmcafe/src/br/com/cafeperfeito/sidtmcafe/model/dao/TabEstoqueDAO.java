@@ -7,10 +7,8 @@ import java.util.List;
 
 public class TabEstoqueDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    TabEstoqueVO tabEstoqueVO;
-    List<TabEstoqueVO> tabEstoqueVOList;
-    boolean returnList = false;
+    TabEstoqueVO tabEstoqueVO = null;
+    List<TabEstoqueVO> tabEstoqueVOList = null;
 
 
     void buscaTabEstoqueVO(int id, int produto_id) {

@@ -3,6 +3,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
+import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,37 +13,36 @@ import java.util.List;
 
 public class TabProduto_CodBarraDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    TabProduto_CodBarraVO codBarraVO;
-    List<TabProduto_CodBarraVO> codBarraVOList;
-    boolean returnList = false;
+    TabProduto_CodBarraVO codBarraVO = null;
+    List<TabProduto_CodBarraVO> codBarraVOList = null;
 
     public TabProduto_CodBarraVO getTabProduto_codBarraVO(int id) {
-        getResultSet(String.format("SELECT * FROM tabProduto_CodBarra WHERE id = %d ORDER BY id", id), false);
+        addNewParametro(new Pair<>("int", String.valueOf(id)));
+        getResultSet("SELECT * FROM tabProduto_CodBarra WHERE id = ? ");
         return codBarraVO;
     }
 
     public TabProduto_CodBarraVO getTabProduto_codBarraVO(String barCode) {
-        getResultSet(String.format("SELECT * FROM tabProduto_CodBarra WHERE codBarra = '%s'", barCode), false);
-//        if (codBarraVO!=null)
-//
+        addNewParametro(new Pair<>("String", barCode));
+        getResultSet("SELECT * FROM tabProduto_CodBarra WHERE codBarra = ? ");
         return codBarraVO;
     }
 
     public List<TabProduto_CodBarraVO> getTabProduto_codBarraVOList(int produto_id) {
         codBarraVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * FROM tabProduto_CodBarra WHERE produto_id = %d ORDER BY id", produto_id), true);
+        addNewParametro(new Pair<>("int", String.valueOf(produto_id)));
+        getResultSet("SELECT * FROM tabProduto_CodBarra WHERE produto_id = ? ");
         return codBarraVOList;
     }
 
     void getResultSet(String sql) {
-        getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(sql + "ORDER BY id ");
         try {
             while (rs.next()) {
                 codBarraVO = new TabProduto_CodBarraVO();
                 codBarraVO.setId(rs.getInt("id"));
                 codBarraVO.setCodBarra(rs.getString("codBarra"));
-                if (returnList) codBarraVOList.add(codBarraVO);
+                if (codBarraVOList != null) codBarraVOList.add(codBarraVO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

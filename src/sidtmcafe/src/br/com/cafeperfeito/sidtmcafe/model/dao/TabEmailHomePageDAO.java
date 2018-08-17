@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmailHomePageVO;
+import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,16 +10,16 @@ import java.sql.SQLException;
 
 public class TabEmailHomePageDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    TabEmailHomePageVO tabEmailHomePageVO;
+    TabEmailHomePageVO tabEmailHomePageVO = null;
 
     public TabEmailHomePageVO getTabEmailHomePageVO(int id) {
-        getResultSet(String.format("SELECT * FROM tabEmailHomePage WHERE id = %d ORDER BY id", id));
+        addNewParametro(new Pair<>("int", String.valueOf(id)));
+        getResultSet("SELECT * FROM tabEmailHomePage WHERE id = ? ");
         return tabEmailHomePageVO;
     }
 
-    void getResultSet(String comandoSql) {
-        getResultadosBandoDados(comandoSql);
+    void getResultSet(String sql) {
+        getResultadosBandoDados(sql + "ORDER BY descricao ");
         try {
             while (rs.next()) {
                 tabEmailHomePageVO = new TabEmailHomePageVO();
@@ -34,14 +35,16 @@ public class TabEmailHomePageDAO extends BuscaBancoDados {
     }
 
     public void updateTabEmailHomePageVO(Connection conn, TabEmailHomePageVO emailHomePage) throws SQLException {
-        String comandoSql = String.format("UPDATE tabEmailHomePage SET descricao = '%s' WHERE id = %d",
-                emailHomePage.getDescricao(), emailHomePage.getId());
+        addNewParametro(new Pair<>("String", emailHomePage.getDescricao()));
+        addNewParametro(new Pair<>("int", String.valueOf(emailHomePage.getId())));
+        String comandoSql = "UPDATE tabEmailHomePage SET descricao = ? WHERE id = ? ";
         getUpdateBancoDados(conn, comandoSql);
     }
 
     public int insertEmailHomePageVO(Connection conn, TabEmailHomePageVO emailHomePage, int empresa_id, int contato_id) throws SQLException {
-        String comandoSql = String.format("INSERT INTO tabEmailHomePage (descricao, isEmail) VALUES('%s', %b)",
-                emailHomePage.getDescricao(), emailHomePage.isIsEmail());
+        addNewParametro(new Pair<>("String", emailHomePage.getDescricao()));
+        addParametro(new Pair<>("boolean", emailHomePage.isIsEmail() ? "true" : "false"));
+        String comandoSql = "INSERT INTO tabEmailHomePage (descricao, isEmail) VALUES(?, ?) ";
         int emailHomePage_id = getInsertBancoDados(conn, comandoSql);
         if (empresa_id > 0)
             new RelEmpresaEmailHomePageDAO().insertRelEmpresaEmailHomePage(conn, empresa_id, emailHomePage_id);
@@ -56,7 +59,8 @@ public class TabEmailHomePageDAO extends BuscaBancoDados {
             new RelEmpresaEmailHomePageDAO().dedeteRelEmpresaEmailHomePage(conn, empresa_id, emailHome_id);
         if (contato_id > 0)
             new RelContatoEmailHomePageDAO().deleteRelContatoEmailHomePageVO(conn, contato_id, emailHome_id);
-        String comandoSql = String.format("DELETE FROM tabEmailHomePage WHERE id = %d", emailHome_id);
+        addNewParametro(new Pair<>("int", String.valueOf(emailHome_id)));
+        String comandoSql = "DELETE FROM tabEmailHomePage WHERE id = ? ";
         getDeleteBancoDados(conn, comandoSql);
     }
 

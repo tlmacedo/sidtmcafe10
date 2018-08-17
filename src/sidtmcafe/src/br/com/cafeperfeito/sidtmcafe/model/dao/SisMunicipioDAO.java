@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisMunicipioVO;
+import javafx.util.Pair;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,13 +11,12 @@ import java.util.List;
 
 public class SisMunicipioDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    SisMunicipioVO sisMunicipioVO;
-    List<SisMunicipioVO> sisMunicipioVOList;
-    boolean returnList = false;
+    SisMunicipioVO sisMunicipioVO = null;
+    List<SisMunicipioVO> sisMunicipioVOList = null;
 
     public SisMunicipioVO getSisMunicipioVO(int id, boolean addUfVO) {
-        getResultSet(String.format("SELECT * FROM sisMunicipio WHERE id = %d ORDER BY isCapital DESC, descricao", id), false);
+        addNewParametro(new Pair<>("int", String.valueOf(id)));
+        getResultSet("SELECT * FROM sisMunicipio WHERE id = ? ");
         if (addUfVO)
             addDetalheObjeto(sisMunicipioVO);
         return sisMunicipioVO;
@@ -29,8 +29,13 @@ public class SisMunicipioDAO extends BuscaBancoDados {
             find[i] = achado;
             i++;
         }
-        getResultSet(String.format("SELECT * FROM sisMunicipio WHERE descricao = '%s' %sORDER BY isCapital DESC, descricao",
-                find[0], find[1] != null ? String.format("AND sisUf_id = %d ", Integer.parseInt(find[1])) : ""), false);
+        addNewParametro(new Pair<>("String", find[0]));
+        String comandoSql = "SELECT * FROM sisMunicipio WHERE descricao= ? ";
+        if (find[1] != null) {
+            addParametro(new Pair<>("int", find[1]));
+            comandoSql += "AND sisUf_id = ? ";
+        }
+        getResultSet(comandoSql);
         if (addUfVO)
             addDetalheObjeto(sisMunicipioVO);
         return sisMunicipioVO;
@@ -38,12 +43,13 @@ public class SisMunicipioDAO extends BuscaBancoDados {
 
     public List<SisMunicipioVO> getMunicipioVOList(int uf_id) {
         sisMunicipioVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * FROM sisMunicipio WHERE sisUF_id = %d ORDER BY isCapital DESC, descricao", uf_id), true);
+        addNewParametro(new Pair<>("int", String.valueOf(uf_id)));
+        getResultSet("SELECT * FROM sisMunicipio WHERE sisUF_id = ? ");
         return sisMunicipioVOList;
     }
 
     void getResultSet(String sql) {
-        getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(sql + "ORDER BY isCapital DESC, descricao ");
         try {
             while (rs.next()) {
                 sisMunicipioVO = new SisMunicipioVO();
@@ -53,7 +59,7 @@ public class SisMunicipioDAO extends BuscaBancoDados {
                 sisMunicipioVO.setIsCapital(rs.getInt("isCapital"));
                 sisMunicipioVO.setIbge_id(rs.getInt("ibge_id"));
                 sisMunicipioVO.setDdd(rs.getInt("ddd"));
-                if (returnList) sisMunicipioVOList.add(sisMunicipioVO);
+                if (sisMunicipioVOList != null) sisMunicipioVOList.add(sisMunicipioVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

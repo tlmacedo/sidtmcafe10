@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.RelEmpresaEmailHomePageVO;
+import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,32 +12,31 @@ import java.util.List;
 
 public class RelEmpresaEmailHomePageDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    RelEmpresaEmailHomePageVO relEmpresaEmailHomePageVO;
-    List<RelEmpresaEmailHomePageVO> relEmpresaEmailHomePageVOList;
-    boolean returnList = false;
+    RelEmpresaEmailHomePageVO relEmpresaEmailHomePageVO = null;
+    List<RelEmpresaEmailHomePageVO> relEmpresaEmailHomePageVOList = null;
 
     public RelEmpresaEmailHomePageVO getRelEmpresaEmailHomePageVO(int empresa_id, int emailHoePage_id) {
-        getResultSet(String.format("SELECT * FROM relEmpresaEmailHomePage WHERE tabEmpresa_id = %d " +
-                "AND tabEmailHomePage_id = %d ORDER BY tabEmpresa_id, tabEmailHomePage_id", empresa_id, emailHoePage_id), false);
+        addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
+        addParametro(new Pair<>("int", String.valueOf(emailHoePage_id)));
+        getResultSet("SELECT * FROM relEmpresaEmailHomePage WHERE tabEmpresa_id = ? AND tabEmailHomePage_id = ? ");
         return relEmpresaEmailHomePageVO;
     }
 
     public List<RelEmpresaEmailHomePageVO> getRelEmpresaEmailHomePageVOList(int empresa_id) {
         relEmpresaEmailHomePageVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * FROM relEmpresaEmailHomePage WHERE tabEmpresa_id = %d " +
-                "ORDER BY tabEmpresa_id, tabEmailHomePage_id", empresa_id), true);
+        addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
+        getResultSet("SELECT * FROM relEmpresaEmailHomePage WHERE tabEmpresa_id = ? ");
         return relEmpresaEmailHomePageVOList;
     }
 
     void getResultSet(String sql) {
-        getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(sql + "ORDER BY tabEmpresa_id, tabEmailHomePage_id ");
         try {
             while (rs.next()) {
                 relEmpresaEmailHomePageVO = new RelEmpresaEmailHomePageVO();
                 relEmpresaEmailHomePageVO.setTabEmpresa_id(rs.getInt("tabEmpresa_id"));
                 relEmpresaEmailHomePageVO.setTabEmailHomePage_id(rs.getInt("tabEmailHomePage_id"));
-                if (returnList) relEmpresaEmailHomePageVOList.add(relEmpresaEmailHomePageVO);
+                if (relEmpresaEmailHomePageVOList != null) relEmpresaEmailHomePageVOList.add(relEmpresaEmailHomePageVO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -46,15 +46,19 @@ public class RelEmpresaEmailHomePageDAO extends BuscaBancoDados {
     }
 
     public int insertRelEmpresaEmailHomePage(Connection conn, int empresa_id, int emailHomePage_id) throws SQLException {
-        String comandoSql = String.format("INSERT INTO relEmpresaEmailHomePage (tabEmpresa_id, tabEmailHomePage_id) " +
-                "VALUES(%d, %d)", empresa_id, emailHomePage_id);
+        addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
+        addParametro(new Pair<>("int", String.valueOf(emailHomePage_id)));
+        String comandoSql = "INSERT INTO relEmpresaEmailHomePage (tabEmpresa_id, tabEmailHomePage_id) VALUES(?, ?)";
         return getInsertBancoDados(conn, comandoSql);
     }
 
     public void dedeteRelEmpresaEmailHomePage(Connection conn, int empresa_id, int emailHome_id) throws SQLException {
-        String comandoSql = String.format("DELETE FROM relEmpresaEmailHomePage WHERE tabEmpresa_id = %d ", empresa_id);
-        if (emailHome_id > 0)
-            comandoSql += String.format("AND tabEmailHomePage_id = %d", emailHome_id);
+        addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
+        String comandoSql = "DELETE FROM relEmpresaEmailHomePage WHERE tabEmpresa_id = ? ";
+        if (emailHome_id > 0) {
+            addParametro(new Pair<>("int", String.valueOf(emailHome_id)));
+            comandoSql += "AND tabEmailHomePage_id = ? ";
+        }
         getDeleteBancoDados(conn, comandoSql);
     }
 

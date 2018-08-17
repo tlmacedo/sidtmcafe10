@@ -3,6 +3,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
+import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,20 +14,20 @@ import java.util.List;
 
 public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
 
-    ResultSet rs;
-    TabEmpresaVO tabEmpresaVO;
-    List<TabEmpresaVO> tabEmpresaVOList;
-    boolean returnList = false;
+    TabEmpresaVO tabEmpresaVO = null;
+    List<TabEmpresaVO> tabEmpresaVOList = null;
 
     public TabEmpresaVO getTabEmpresaVO(int id) {
-        getResultSet(String.format("SELECT * FROM tabEmpresa WHERE id = %d ORDER BY razao", id), false);
+        addNewParametro(new Pair<>("int", String.valueOf(id)));
+        getResultSet("SELECT * FROM tabEmpresa WHERE id = ? ");
         if (tabEmpresaVO != null)
             addObjetosPesquisa(tabEmpresaVO);
         return tabEmpresaVO;
     }
 
     public TabEmpresaVO getTabEmpresaVO(String cnpj) {
-        getResultSet(String.format("SELECT * FROM tabEmpresa WHERE cnpj = '%s' ORDER BY razao", cnpj.replaceAll("\\D", "")), false);
+        addNewParametro(new Pair<>("String", cnpj.replaceAll("\\D", "")));
+        getResultSet("SELECT * FROM tabEmpresa WHERE cnpj = ? ");
         if (tabEmpresaVO != null)
             addObjetosPesquisa(tabEmpresaVO);
         return tabEmpresaVO;
@@ -34,8 +35,12 @@ public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
 
     public List<TabEmpresaVO> getTabEmpresaVOList(boolean isLoja) {
         tabEmpresaVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * FROM tabEmpresa %sORDER BY razao",
-                isLoja ? String.format("WHERE isLoja = %b ", 1) : ""), true);
+        String comandoSql = "SELECT * FROM tabEmpresa ";
+        if (isLoja) {
+            addNewParametro(new Pair<>("boolean", "true"));
+            comandoSql += "WHERE isLoja = ? ";
+        }
+        getResultSet(comandoSql);
         if (tabEmpresaVOList != null)
             for (TabEmpresaVO empresa : tabEmpresaVOList)
                 addObjetosPesquisa(empresa);
@@ -43,7 +48,7 @@ public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
     }
 
     void getResultSet(String sql) {
-        getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(sql + "ORDER BY razao ");
         try {
             while (rs.next()) {
                 tabEmpresaVO = new TabEmpresaVO();
@@ -65,7 +70,7 @@ public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
                 tabEmpresaVO.setDataAtualizacao(rs.getTimestamp("dataAtualizacao"));
                 tabEmpresaVO.setDataAbertura(rs.getDate("dataAbertura"));
                 tabEmpresaVO.setNaturezaJuridica(rs.getString("naturezaJuridica"));
-                if (returnList) tabEmpresaVOList.add(tabEmpresaVO);
+                if (tabEmpresaVOList != null) tabEmpresaVOList.add(tabEmpresaVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -116,41 +121,78 @@ public class TabEmpresaDAO extends BuscaBancoDados implements Constants {
     }
 
     public void updateTabEmpresaVO(Connection conn, TabEmpresaVO empresa) throws SQLException {
-        String comandoSql = String.format("UPDATE tabEmpresa SET isEmpresa = %b, cnpj = '%s', ieIsento = %b, " +
-                        "ie = '%s', razao = '%s', fantasia = '%s', isLoja = %b, isCliente = %b, isFornecedor = %b, " +
-                        "isTransportadora = %b, sisSituacaoSistema_id = %d, usuarioAtualizacao_id = %d, " +
-                        "dataAtualizacao = '%s', dataAbertura = '%s', naturezaJuridica = '%s' WHERE id = %d",
-                empresa.isIsEmpresa(), empresa.getCnpj().replaceAll("[\\D]", ""),
-                empresa.isIeIsento(), empresa.getIe().replaceAll("[\\D]", ""),
-                empresa.getRazao().trim().replaceAll("'", "''"),
-                empresa.getFantasia().trim().replaceAll("'", "''"),
-                empresa.isIsLoja(), empresa.isIsCliente(), empresa.isIsFornecedor(),
-                empresa.isIsTransportadora(), empresa.getSisSituacaoSistema_id(),
-                empresa.getUsuarioAtualizacao_id(), DTF_MYSQL_DATAHORA.format(LocalDateTime.now()),
-                empresa.getDataAbertura(), empresa.getNaturezaJuridica().trim().replaceAll("'", "''"),
-                empresa.getId());
+        String comandoSql = "UPDATE tabEmpresa SET " +
+                "isEmpresa = ?, " +
+                "cnpj = ?, " +
+                "ieIsento = ?, " +
+                "ie = ?, " +
+                "razao = ?, " +
+                "fantasia = ?, " +
+                "isLoja = ?, " +
+                "isCliente = ?, " +
+                "isFornecedor = ?, " +
+                "isTransportadora = ?, " +
+                "sisSituacaoSistema_id = ?, " +
+                "usuarioAtualizacao_id = ?, " +
+                "dataAbertura = ?, " +
+                "naturezaJuridica = ? " +
+                "WHERE id = ? ";
+        addNewParametro(new Pair<>("boolean", empresa.isIsEmpresa() ? "true" : "false"));
+        addParametro(new Pair<>("String", empresa.getCnpj().replaceAll("\\D", "")));
+        addParametro(new Pair<>("boolean", empresa.isIeIsento() ? "true" : "false"));
+        addParametro(new Pair<>("String", empresa.getIe().replaceAll("\\D", "")));
+        addParametro(new Pair<>("String", empresa.getRazao().trim().replaceAll("'", "''")));
+        addParametro(new Pair<>("String", empresa.getFantasia().trim().replaceAll("'", "''")));
+        addParametro(new Pair<>("boolean", empresa.isIsLoja() ? "true" : "false"));
+        addParametro(new Pair<>("boolean", empresa.isIsCliente() ? "true" : "false"));
+        addParametro(new Pair<>("boolean", empresa.isIsFornecedor() ? "true" : "false"));
+        addParametro(new Pair<>("boolean", empresa.isIsTransportadora() ? "true" : "false"));
+        addParametro(new Pair<>("int", String.valueOf(empresa.getSisSituacaoSistema_id())));
+        addParametro(new Pair<>("int", String.valueOf(empresa.getUsuarioAtualizacao_id())));
+        addParametro(new Pair<>("date", empresa.getDataAbertura().toString()));
+        addParametro(new Pair<>("String", empresa.getNaturezaJuridica().trim().replaceAll("'", "''")));
+        addParametro(new Pair<>("int", String.valueOf(empresa.getId())));
         getUpdateBancoDados(conn, comandoSql);
     }
 
     public int insertTabEmpresaVO(Connection conn, TabEmpresaVO empresa) throws SQLException {
-        String comandoSql = String.format("INSERT INTO tabEmpresa (isEmpresa, cnpj, ieIsento, ie, " +
-                        "razao, fantasia, isLoja, isCliente, isFornecedor, isTransportadora, sisSituacaoSistema_id, " +
-                        "usuarioCadastro_id, dataAbertura, naturezaJuridica) VALUES(%b, '%s', %b, '%s', '%s', '%s', " +
-                        "%b, %b, %b, %b, %d, %d, '%s', '%s')",
-                empresa.isIsEmpresa(), empresa.getCnpj().replaceAll("[\\D]", ""),
-                empresa.isIeIsento(), empresa.getIe().replaceAll("[\\D]", ""),
-                empresa.getRazao().trim().replaceAll("'", "''"),
-                empresa.getFantasia().trim().replaceAll("'", "''"),
-                empresa.isIsLoja(), empresa.isIsCliente(), empresa.isIsFornecedor(),
-                empresa.isIsTransportadora(), empresa.getSisSituacaoSistema_id(),
-                empresa.getUsuarioCadastro_id(), empresa.getDataAbertura(),
-                empresa.getNaturezaJuridica().trim().replaceAll("'", "''"));
+        String comandoSql = "INSERT INTO tabEmpresa " +
+                "(isEmpresa, " +
+                "cnpj, " +
+                "ieIsento, " +
+                "ie, " +
+                "razao, " +
+                "fantasia, " +
+                "isLoja, " +
+                "isCliente, " +
+                "isFornecedor, " +
+                "isTransportadora, " +
+                "sisSituacaoSistema_id, " +
+                "usuarioCadastro_id, " +
+                "dataAbertura, " +
+                "naturezaJuridica) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        addNewParametro(new Pair<>("boolean", empresa.isIsEmpresa() ? "true" : "false"));
+        addParametro(new Pair<>("String", empresa.getCnpj().replaceAll("\\D", "")));
+        addParametro(new Pair<>("boolean", empresa.isIeIsento() ? "true" : "false"));
+        addParametro(new Pair<>("String", empresa.getIe().replaceAll("\\D", "")));
+        addParametro(new Pair<>("String", empresa.getRazao().trim().replaceAll("'", "''")));
+        addParametro(new Pair<>("String", empresa.getFantasia().trim().replaceAll("'", "''")));
+        addParametro(new Pair<>("boolean", empresa.isIsLoja() ? "true" : "false"));
+        addParametro(new Pair<>("boolean", empresa.isIsCliente() ? "true" : "false"));
+        addParametro(new Pair<>("boolean", empresa.isIsFornecedor() ? "true" : "false"));
+        addParametro(new Pair<>("boolean", empresa.isIsTransportadora() ? "true" : "false"));
+        addParametro(new Pair<>("int", String.valueOf(empresa.getSisSituacaoSistema_id())));
+        addParametro(new Pair<>("int", String.valueOf(empresa.getUsuarioCadastro_id())));
+        addParametro(new Pair<>("date", empresa.getDataAbertura().toString()));
+        addParametro(new Pair<>("String", empresa.getNaturezaJuridica().trim().replaceAll("'", "''")));
         return getInsertBancoDados(conn, comandoSql);
     }
 
     public void deleteTabEmpresaVO(Connection conn, int empresa_id) throws SQLException {
         if (empresa_id < 0) empresa_id = empresa_id * (-1);
-        String comandoSql = String.format("DELETE FROM tabEmpresa WHERE id = %d", empresa_id);
+        addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
+        String comandoSql = "DELETE FROM tabEmpresa WHERE id = ? ";
         getDeleteBancoDados(conn, comandoSql);
     }
 

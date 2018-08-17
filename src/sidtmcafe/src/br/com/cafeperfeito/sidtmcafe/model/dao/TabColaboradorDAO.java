@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabColaboradorVO;
+import javafx.util.Pair;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,13 +11,12 @@ import java.util.List;
 
 public class TabColaboradorDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    TabColaboradorVO tabColaboradorVO;
-    List<TabColaboradorVO> tabColaboradorVOList;
-    boolean returnList = false;
+    TabColaboradorVO tabColaboradorVO = null;
+    List<TabColaboradorVO> tabColaboradorVOList = null;
 
     public TabColaboradorVO getTabColaboradorVO(int id, boolean getDetalhe) {
-        getResultSet(String.format("SELECT * FROM tabColaborador WHERE id = %d ORDER BY nome", id), false);
+        addNewParametro(new Pair<>("int", String.valueOf(id)));
+        getResultSet("SELECT * FROM tabColaborador WHERE id = ? ");
         if (getDetalhe)
             addDetalheObjeto(tabColaboradorVO);
         return tabColaboradorVO;
@@ -24,14 +24,14 @@ public class TabColaboradorDAO extends BuscaBancoDados {
 
     public List<TabColaboradorVO> getTabColaboradorVOList() {
         tabColaboradorVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * FROM tabColaborador ORDER BY nome"), true);
+        getResultSet("SELECT * FROM tabColaborador ");
         for (TabColaboradorVO colaborador : tabColaboradorVOList)
             addDetalheObjeto(colaborador);
         return tabColaboradorVOList;
     }
 
     void getResultSet(String sql) {
-        getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(sql + "ORDER BY nome ");
         try {
             while (rs.next()) {
                 tabColaboradorVO = new TabColaboradorVO();
@@ -43,8 +43,7 @@ public class TabColaboradorDAO extends BuscaBancoDados {
                 tabColaboradorVO.setSisCargo_id(rs.getInt("sisCargo_id"));
                 tabColaboradorVO.setSisSituacaoSistema_id(rs.getInt("sisSituacaoSistema_id"));
                 tabColaboradorVO.setTabLoja_id(rs.getInt("tabLoja_id"));
-                if (returnList)
-                    tabColaboradorVOList.add(tabColaboradorVO);
+                if (tabColaboradorVOList != null) tabColaboradorVOList.add(tabColaboradorVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

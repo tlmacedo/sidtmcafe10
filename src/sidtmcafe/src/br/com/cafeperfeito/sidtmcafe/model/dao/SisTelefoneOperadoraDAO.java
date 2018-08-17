@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
+import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,20 +12,20 @@ import java.util.List;
 
 public class SisTelefoneOperadoraDAO extends BuscaBancoDados {
 
-    ResultSet rs;
-    SisTelefoneOperadoraVO sisTelefoneOperadoraVO;
-    List<SisTelefoneOperadoraVO> sisTelefoneOperadoraVOList;
-    boolean returnList = false;
+    SisTelefoneOperadoraVO sisTelefoneOperadoraVO = null;
+    List<SisTelefoneOperadoraVO> sisTelefoneOperadoraVOList = null;
 
     public SisTelefoneOperadoraVO getSisTelefoneOperadoraVO(int id) {
-        getResultSet(String.format("SELECT * FROM sisTelefoneOperadora WHERE id = %d ORDER BY tipo DESC, descricao", id), false);
+        addNewParametro(new Pair<>("int", String.valueOf(id)));
+        getResultSet("SELECT * FROM sisTelefoneOperadora WHERE id = ? ");
         return sisTelefoneOperadoraVO;
     }
 
     public SisTelefoneOperadoraVO getSisTelefoneOperadoraVO_WS(String wsOperadora) {
         String[] wsDetalhes = wsOperadora.replace("|", ";").split(";");
 
-        getResultSet(String.format("SELECT * FROM sisTelefoneOperadora WHERE codWsPortabilidadeCelular LIKE '%s' ORDER BY tipo DESC, descricao", ("%" + wsDetalhes[0] + "%")), false);
+        addNewParametro(new Pair<>("String", "%" + wsDetalhes[0] + "%"));
+        getResultSet("SELECT * FROM sisTelefoneOperadora WHERE codWsPortabilidadeCelular LIKE ? ");
         if (sisTelefoneOperadoraVO == null) {
             sisTelefoneOperadoraVO = new SisTelefoneOperadoraVO(wsDetalhes[3], wsDetalhes[0]);
             try {
@@ -38,12 +39,12 @@ public class SisTelefoneOperadoraDAO extends BuscaBancoDados {
 
     public List<SisTelefoneOperadoraVO> getSisTelefoneOperadoraVOList() {
         sisTelefoneOperadoraVOList = new ArrayList<>();
-        getResultSet(String.format("SELECT * FROM sisTelefoneOperadora ORDER BY tipo DESC, descricao"), true);
+        getResultSet("SELECT * FROM sisTelefoneOperadora ");
         return sisTelefoneOperadoraVOList;
     }
 
     void getResultSet(String sql) {
-        getResultadosBandoDados(comandoSql);
+        getResultadosBandoDados(sql + "ORDER BY tipo DESC, descricao ");
         try {
             while (rs.next()) {
                 sisTelefoneOperadoraVO = new SisTelefoneOperadoraVO();
@@ -51,7 +52,7 @@ public class SisTelefoneOperadoraDAO extends BuscaBancoDados {
                 sisTelefoneOperadoraVO.setDescricao(rs.getString("descricao"));
                 sisTelefoneOperadoraVO.setTipo(rs.getInt("tipo"));
                 sisTelefoneOperadoraVO.setCodigoDDD(rs.getInt("ddd"));
-                if (returnList) sisTelefoneOperadoraVOList.add(sisTelefoneOperadoraVO);
+                if (sisTelefoneOperadoraVOList != null) sisTelefoneOperadoraVOList.add(sisTelefoneOperadoraVO);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -61,10 +62,11 @@ public class SisTelefoneOperadoraDAO extends BuscaBancoDados {
     }
 
     public int insertSisTelefoneOperadoraVO(Connection conn, SisTelefoneOperadoraVO telefoneOperadora) throws SQLException {
-        String comandoSql = String.format("INSERT INTO sisTelefoneOperadora (descricao, tipo, ddd, codWsPortabilidadeCelular)" +
-                        "VALUES('%s', %d, %d, '%s')",
-                telefoneOperadora.getDescricao(), telefoneOperadora.getTipo(), telefoneOperadora.getCodigoDDD(),
-                telefoneOperadora.getCodigoWs());
+        addNewParametro(new Pair<>("String", telefoneOperadora.getDescricao()));
+        addParametro(new Pair<>("int", String.valueOf(telefoneOperadora.getTipo())));
+        addParametro(new Pair<>("int", String.valueOf(telefoneOperadora.getCodigoDDD())));
+        addParametro(new Pair<>("String", telefoneOperadora.getCodigoWs()));
+        String comandoSql = "INSERT INTO sisTelefoneOperadora (descricao, tipo, ddd, codWsPortabilidadeCelular) VALUES(?, ?, ?, ?)";
         return getInsertBancoDados(conn, comandoSql);
     }
 
