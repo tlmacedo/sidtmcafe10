@@ -32,6 +32,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import javafx.util.Pair;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
@@ -686,14 +687,19 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void addImagens(String codBarras) {
-        File file;
-        if ((file = new File(String.format("%s%s.png", PATH_IMAGE_DOWNLOAD, codBarras))) != null) {
-            //getProdutoVO().setImgProduto(ServiceImage.getImgToByte(file));
-            //imgProduto.setImage(new Image("byte[]:" + ServiceImage.getByteToImg(getProdutoVO().getImgProduto()).toString()));
+        Path path = Paths.get(String.format("%s%s.png", PATH_IMAGE_DOWNLOAD, codBarras));
+        if (Files.exists(path)) {
+            try {
+                //FileInputStream inputStream = new FileInputStream(String.format("%s%s.png", PATH_IMAGE_DOWNLOAD, codBarras));
+                //Image image = new Image(new FileInputStream(path.toString()));
+                getProdutoVO().setImgProduto(new Image(new FileInputStream(path.toString())));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            imgProduto.setImage(getProdutoVO().getImgProduto());
             System.out.println("Terminou:::");
 //            imgProduto.setImage(new Image("file:" + file.toString()));
         }
-
 
     }
 
