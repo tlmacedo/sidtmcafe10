@@ -4,13 +4,13 @@ import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEnderecoVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.WsCepPostmonVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceAlertMensagem;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaWebService;
 import org.json.JSONObject;
 
 import static br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema.USUARIO_LOGADO_APELIDO;
 
 
-public class WsCepPostmonDAO extends BuscaWebService implements Constants {
+public class WsCepPostmonDAO extends ServiceBuscaWebService implements Constants {
 
     JSONObject jsonObject;
 

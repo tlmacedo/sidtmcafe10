@@ -3,17 +3,15 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
 import javafx.util.Pair;
 
-import javax.sql.rowset.serial.SerialBlob;
-import java.sql.Blob;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabProdutoDAO extends BuscaBancoDados {
+public class TabProdutoDAO extends ServiceBuscaBancoDados {
 
     TabProdutoVO tabProdutoVO = null;
     List<TabProdutoVO> tabProdutoVOList = null;

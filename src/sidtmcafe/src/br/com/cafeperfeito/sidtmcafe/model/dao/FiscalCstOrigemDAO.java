@@ -2,13 +2,13 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.FiscalCstOrigemVO;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
 import javafx.util.Pair;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FiscalCstOrigemDAO extends BuscaBancoDados {
+public class FiscalCstOrigemDAO extends ServiceBuscaBancoDados {
 
     FiscalCstOrigemVO fiscalCstOrigemVO = null;
     List<FiscalCstOrigemVO> fiscalCstOrigemVOList = null;

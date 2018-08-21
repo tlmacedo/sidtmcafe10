@@ -2,15 +2,15 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEnderecoVO;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
 import javafx.util.Pair;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 //import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
-public class TabEnderecoDAO extends BuscaBancoDados {
+public class TabEnderecoDAO extends ServiceBuscaBancoDados {
 
     TabEnderecoVO tabEnderecoVO = null;
 

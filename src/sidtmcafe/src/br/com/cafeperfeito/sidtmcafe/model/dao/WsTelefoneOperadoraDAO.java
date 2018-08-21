@@ -2,9 +2,9 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
-import org.json.JSONException;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaWebService;
 
-public class WsTelefoneOperadoraDAO extends BuscaWebService implements Constants {
+public class WsTelefoneOperadoraDAO extends ServiceBuscaWebService implements Constants {
 
     String retURL;
     SisTelefoneOperadoraVO wsTelefoneOperadoraVO;

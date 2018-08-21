@@ -2,14 +2,14 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabColaboradorVO;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
 import javafx.util.Pair;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabColaboradorDAO extends BuscaBancoDados {
+public class TabColaboradorDAO extends ServiceBuscaBancoDados {
 
     TabColaboradorVO tabColaboradorVO = null;
     List<TabColaboradorVO> tabColaboradorVOList = null;

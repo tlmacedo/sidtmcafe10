@@ -2,15 +2,15 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.RelEmpresaContatoVO;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
 import javafx.util.Pair;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelEmpresaContatoDAO extends BuscaBancoDados {
+public class RelEmpresaContatoDAO extends ServiceBuscaBancoDados {
 
     RelEmpresaContatoVO relEmpresaContatoVO = null;
     List<RelEmpresaContatoVO> relEmpresaContatoVOList = null;

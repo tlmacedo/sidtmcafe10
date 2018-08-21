@@ -41,7 +41,7 @@ public class ServiceConsultaWebServices {
         return new TabTelefoneDAO().getTelefone_WsPortabilidadeCelular(busca);
     }
 
-    public String getProdutoNcmCest_WsEanCosmos(String busca) {
+    public static String getProdutoNcmCest_WsEanCosmos(String busca) {
         final String[] retorno = new String[1];
         Task<Void> buscaGtin = new Task<Void>() {
             @Override

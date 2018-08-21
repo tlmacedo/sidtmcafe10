@@ -2,14 +2,14 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisTipoEnderecoVO;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
 import javafx.util.Pair;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SisTipoEnderecoDAO extends BuscaBancoDados {
+public class SisTipoEnderecoDAO extends ServiceBuscaBancoDados {
 
     SisTipoEnderecoVO sisTipoEnderecoVO = null;
     List<SisTipoEnderecoVO> sisTipoEnderecoVOList = null;

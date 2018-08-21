@@ -7,9 +7,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ServiceCampoPersonalizado implements Constants {
+
+    static HashMap<String, String> hashMap;
 
     //999@_CNPJ
     //(0, 3) qtdMax
@@ -24,12 +27,15 @@ public class ServiceCampoPersonalizado implements Constants {
 
     public static void fieldClear(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
-            String vlrInicial = "", txtAcessivel  = node.getAccessibleText() != null ? node.getAccessibleText() : "";
-            if (txtAcessivel.toLowerCase().contains("value:")) {
-                if ((vlrInicial = ServiceFormatarDado.getFieldFormatPair(txtAcessivel, "value").getValue()) == null)
+            if (node.getAccessibleText() == null)
+                continue;
+            String vlrInicial = "";
+            hashMap = ServiceFormatarDado.getFieldFormatMap(node.getAccessibleText());
+            if (hashMap.containsKey("value")) {
+                if ((vlrInicial = hashMap.get("value")) == null)
                     vlrInicial = "";
                 if (node instanceof Label)
-                    ((Label) node).setText(vlrInicial);
+                    ((Label) node).setText(vlrInicial.replace("_", " "));
             }
             if (node instanceof JFXTextField)
                 ((JFXTextField) node).setText(vlrInicial);
@@ -53,10 +59,17 @@ public class ServiceCampoPersonalizado implements Constants {
 
     public static void fieldDisable(AnchorPane anchorPane, boolean setDisable) {
         for (Node node : anchorPane.getChildren()) {
-            String txtAcessivel = node.getAccessibleText() != null ? node.getAccessibleText() : "", vlrEditable = "";
-            if (txtAcessivel.toLowerCase().contains("seteditable:"))
-                if ((vlrEditable = ServiceFormatarDado.getFieldFormatPair(txtAcessivel, "seteditable").getValue()) == null)
-                    vlrEditable = "";
+            //if (node.getAccessibleText() != null) continue;
+            String vlrEditable = "";
+            try {
+                hashMap = ServiceFormatarDado.getFieldFormatMap(node.getAccessibleText());
+                if (hashMap.containsKey("seteditable"))
+                    if ((vlrEditable = hashMap.get("seteditable")) == null)
+                        vlrEditable = "";
+            } catch (Exception ex) {
+                if (!(ex instanceof NullPointerException))
+                    ex.printStackTrace();
+            }
             boolean fieldEditable = (vlrEditable.equals("") || vlrEditable.equals("true"));
             if (node instanceof DatePicker) {
                 ((DatePicker) node).setDisable(setDisable);
@@ -76,6 +89,8 @@ public class ServiceCampoPersonalizado implements Constants {
                     ((TreeTableView) node).setEditable(fieldEditable);
             } else if (node instanceof JFXComboBox) {
                 ((JFXComboBox) node).setDisable(setDisable);
+            } else if (node instanceof ComboBox) {
+                ((ComboBox) node).setDisable(setDisable);
             } else if (node instanceof JFXCheckBox) {
                 ((JFXCheckBox) node).setDisable(setDisable);
             } else if (node instanceof AnchorPane) {
@@ -94,17 +109,17 @@ public class ServiceCampoPersonalizado implements Constants {
 
     public static void fieldMask(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
+            if (node.getAccessibleText() == null) continue;
             if (node instanceof JFXTextField) {
-                if (node.getAccessibleText().toLowerCase().contains("type:")) {
-                    int len = 0;
-                    len = node.getAccessibleText().toLowerCase().contains("len:")
-                            ? Integer.parseInt(ServiceFormatarDado.getFieldFormatPair(node.getAccessibleText(), "len").getValue())
-                            : 0;
-                    String type = "";
-                    if ((type = ServiceFormatarDado.getFieldFormatPair(node.getAccessibleText(), "type").getValue()) == null)
+                int len = 0;
+                String type = "";
+                hashMap = ServiceFormatarDado.getFieldFormatMap(node.getAccessibleText());
+                if (hashMap.containsKey("len"))
+                    len = Integer.parseInt(hashMap.get("len"));
+                if (hashMap.containsKey("type"))
+                    if ((type = hashMap.get("len")) == null)
                         type = "TEXTO";
-                    new ServiceFormatarDado().maskField((JFXTextField) node, len + type);
-                }
+                new ServiceFormatarDado().maskField((JFXTextField) node, len + type);
             }
             if (node instanceof AnchorPane) {
                 fieldMask((AnchorPane) node);

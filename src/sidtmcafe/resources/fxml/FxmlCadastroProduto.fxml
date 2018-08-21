@@ -21,7 +21,7 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="1278.0">
                     <children>
-                        <JFXTextField fx:id="txtPesquisaProduto" accessibleText="len:80, type:TEXTO, value: "
+                        <JFXTextField fx:id="txtPesquisaProduto" accessibleText="len=80_type=TEXTO_value="
                                       labelFloat="true" layoutX="10.0" layoutY="10.0" maxHeight="20.0"
                                       prefColumnCount="8" prefHeight="20.0" prefWidth="360.0"
                                       promptText="Pesquisar produto">
@@ -29,13 +29,13 @@
                                 <Tooltip text="campo de pesquisa."/>
                             </tooltip>
                         </JFXTextField>
-                        <TreeTableView fx:id="ttvProduto" accessibleText="value: " layoutX="5.0" layoutY="37.0"
+                        <TreeTableView fx:id="ttvProduto" accessibleText="value=" layoutX="5.0" layoutY="37.0"
                                        nodeOrientation="LEFT_TO_RIGHT" prefHeight="110.0" prefWidth="1330.0">
                             <tooltip>
                                 <Tooltip text="tabela com lista de produto"/>
                             </tooltip>
                         </TreeTableView>
-                        <Label fx:id="lblRegistrosLocalizados" accessibleText="value:[] registro(s) localizado(s)."
+                        <Label fx:id="lblRegistrosLocalizados" accessibleText="value=[] registro(s) localizado(s)."
                                layoutX="380.0" layoutY="20.0" styleClass="lbl-informacoes" text="Registros localizados">
                             <tooltip>
                                 <Tooltip text="informações de status e quantidade de registros localizados"/>
@@ -50,7 +50,7 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="1278.0">
                     <children>
-                        <JFXTextField fx:id="txtCodigo" accessibleText="len:15, type:TEXTO, value: " layoutX="10.0"
+                        <JFXTextField fx:id="txtCodigo" accessibleText="len=15_type=TEXTO_value=" layoutX="10.0"
                                       layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="125.0" promptText="Código"
                                       styleClass="a-direita" text="Código">
@@ -58,7 +58,7 @@
                                 <Tooltip text="código do produto"/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtDescricao" accessibleText="len:150, type:TEXTO, value: " layoutX="145.0"
+                        <JFXTextField fx:id="txtDescricao" accessibleText="len=150_type=TEXTO_value=" layoutX="145.0"
                                       layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0" promptText="Descrição"
                                       text="Descrição">
@@ -66,7 +66,7 @@
                                 <Tooltip text="descrição do produto"/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtPeso" accessibleText="type:peso3, value:0,000" layoutX="610.0"
+                        <JFXTextField fx:id="txtPeso" accessibleText="type=peso3_value=0,000" layoutX="610.0"
                                       layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Peso"
                                       styleClass="a-direita" text="Peso">
@@ -89,7 +89,7 @@
                                 <Tooltip text="situação do produto no sistema"/>
                             </tooltip>
                         </JFXComboBox>
-                        <JFXTextField fx:id="txtPrecoFabrica" accessibleText="type:moeda2, value:0,00" layoutX="10.0"
+                        <JFXTextField fx:id="txtPrecoFabrica" accessibleText="type=moeda2_value=0,00" layoutX="10.0"
                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Preço Fab. (R$)" styleClass="a-direita" text="Preço fab. (R$)">
@@ -97,7 +97,7 @@
                                 <Tooltip text="preço de fabrica do produto"/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtMargem" accessibleText="type:moeda2, value:0,00" layoutX="110.0"
+                        <JFXTextField fx:id="txtMargem" accessibleText="type=moeda2_value=0,00" layoutX="110.0"
                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Margem (%)"
                                       styleClass="a-direita" text="Margem (%)">
@@ -105,7 +105,7 @@
                                 <Tooltip text="margem do produto"/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtPrecoVenda" accessibleText="type:moeda2, value:0,00" layoutX="210.0"
+                        <JFXTextField fx:id="txtPrecoVenda" accessibleText="type=moeda2_value=0,00" layoutX="210.0"
                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Preço Cons. (R$)" styleClass="a-direita" text="Preço cons. (R$)">
@@ -113,7 +113,7 @@
                                 <Tooltip text="preço de consumidor do produto"/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtVarejo" accessibleText="len:4, type:numero, value:1" layoutX="310.0"
+                        <JFXTextField fx:id="txtVarejo" accessibleText="len=4_type=numero_value=1" layoutX="310.0"
                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="40.0" promptText="Varejo (Und)"
                                       styleClass="a-direita" text="Varejo">
@@ -121,7 +121,7 @@
                                 <Tooltip text="quantidade de varejo no atacado"/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtComissaoPorc" accessibleText="type:moeda2, value:0,00" layoutX="360.0"
+                        <JFXTextField fx:id="txtComissaoPorc" accessibleText="type=moeda2_value=0,00" layoutX="360.0"
                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Comissão (%)"
                                       styleClass="a-direita" text="Comissão (%)">
@@ -129,7 +129,7 @@
                                 <Tooltip text="comissão do produto"/>
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtLucroBruto" accessibleText="type:moeda2, value:0,00, setEditable:false"
+                        <JFXTextField fx:id="txtLucroBruto" accessibleText="type=moeda2_value=0,00_setEditable=false"
                                       layoutX="460.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Lucro Bruto (R$)" styleClass="a-direita" text="Lucro bruto (R$)">
@@ -138,7 +138,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtPrecoUltimoImpostoSefaz"
-                                      accessibleText="type:moeda2, value:0,00, setEditable:false" layoutX="560.0"
+                                      accessibleText="type=moeda2_value=0,00_setEditable=false" layoutX="560.0"
                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Útimo Imposto (R$)" styleClass="a-direita" text="Útimo Imposto (R$)">
@@ -147,7 +147,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtPrecoUltimoFrete"
-                                      accessibleText="type:moeda2, value:0,00, setEditable:false" layoutX="660.0"
+                                      accessibleText="type=moeda2_value=0,00_setEditable=false" layoutX="660.0"
                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Útimo Frete (R$)" styleClass="a-direita" text="Útimo frete (R$)">
@@ -156,7 +156,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtComissaoReal"
-                                      accessibleText="type:moeda2, value:0,00, setEditable:false" layoutX="760.0"
+                                      accessibleText="type=moeda2_value=0,00_setEditable=false" layoutX="760.0"
                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Comissão (R$)"
                                       styleClass="a-direita" text="Comissão (R$)">
@@ -165,7 +165,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtLucroLiquido"
-                                      accessibleText="type:moeda2, value:0,00, setEditable:false" layoutX="860.0"
+                                      accessibleText="type=moeda2_value=0,00_setEditable=false" layoutX="860.0"
                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Lucro Líquido (R$)" styleClass="a-direita" text="Lucro líquido (R$)">
@@ -174,7 +174,7 @@
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtLucratividade"
-                                      accessibleText="type:moeda2, value:0,00, setEditable:false" layoutX="960.0"
+                                      accessibleText="type=moeda2_value=0,00_setEditable=false" layoutX="960.0"
                                       layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0"
                                       promptText="Lucratividade (%)" styleClass="a-direita" text="Lucratividade (%)">
@@ -182,28 +182,28 @@
                                 <Tooltip text="lucratividade do produto"/>
                             </tooltip>
                         </JFXTextField>
-                        <Label fx:id="lblDataCadastro" accessibleText="value: " alignment="CENTER_RIGHT"
+                        <Label fx:id="lblDataCadastro" accessibleText="value=" alignment="CENTER_RIGHT"
                                layoutX="1000.0" layoutY="5.0" prefHeight="10.0" prefWidth="335.0"
                                styleClass="lbl-informaçoes" text="DataCadastro" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip text="data de cadastro do produto no sistema"/>
                             </tooltip>
                         </Label>
-                        <Label fx:id="lblDataCadastroDiff" accessibleText="value: " alignment="CENTER_RIGHT"
+                        <Label fx:id="lblDataCadastroDiff" accessibleText="value=" alignment="CENTER_RIGHT"
                                layoutX="1000.0" layoutY="15.0" prefHeight="10.0" prefWidth="335.0"
                                styleClass="lbl-informacoes" text="DataCadastroDiff" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip text="tempo que o produto está cadastrada no sistema"/>
                             </tooltip>
                         </Label>
-                        <Label fx:id="lblDataAtualizacao" accessibleText="value: " alignment="CENTER_RIGHT"
+                        <Label fx:id="lblDataAtualizacao" accessibleText="value=" alignment="CENTER_RIGHT"
                                layoutX="1000.0" layoutY="25.0" prefHeight="10.0" prefWidth="335.0"
                                styleClass="lbl-informacoes" text="DataAtualizacao" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip text="data da ultima atualizacao feita no cadastro do produto no sistema"/>
                             </tooltip>
                         </Label>
-                        <Label fx:id="lblDataAtualizacaoDiff" accessibleText="value: " alignment="CENTER_RIGHT"
+                        <Label fx:id="lblDataAtualizacaoDiff" accessibleText="value=" alignment="CENTER_RIGHT"
                                layoutX="1000.0" layoutY="35.0" prefHeight="10.0" prefWidth="335.0"
                                styleClass="lbl-informacoes" text="DataAtualizacaoDiff" textAlignment="RIGHT">
                             <tooltip>
@@ -211,7 +211,7 @@
                                         text="tempo que a foi feita a ultima atualizacao no cadastro do produto no sistema"/>
                             </tooltip>
                         </Label>
-                        <Label accessibleText="value: Código de barras" layoutX="1068.0" layoutY="48.0"
+                        <Label accessibleText="value=Código de barras" layoutX="1068.0" layoutY="48.0"
                                prefHeight="17.0" prefWidth="234.0" styleClass="lbl-informacoes"
                                text="Códigos de barras">
                             <tooltip>
@@ -221,7 +221,7 @@
                                 <Font name="System Bold" size="15.0"/>
                             </font>
                         </Label>
-                        <JFXListView fx:id="listCodigoBarra" accessibleText="value: " layoutX="1068.0" layoutY="68.0"
+                        <JFXListView fx:id="listCodigoBarra" accessibleText="value=" layoutX="1068.0" layoutY="68.0"
                                      prefHeight="186.0" prefWidth="260.0" styleClass="endereco">
                             <tooltip>
                                 <Tooltip text="códigos de barras do produto"/>
@@ -242,7 +242,7 @@
                                             </tooltip>
                                         </JFXComboBox>
                                         <JFXTextField fx:id="txtFiscalGenero"
-                                                      accessibleText="len:2, type:numero, value: " layoutX="570.0"
+                                                      accessibleText="len=2_type=numero_value=" layoutX="570.0"
                                                       layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0"
                                                       prefWidth="90.0" promptText="Género" styleClass="a-direita"
@@ -251,7 +251,7 @@
                                                 <Tooltip text="género fiscal do produto"/>
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtFiscalNcm" accessibleText="type:nfencm, value: "
+                                        <JFXTextField fx:id="txtFiscalNcm" accessibleText="type=nfencm_value="
                                                       layoutX="670.0" layoutY="10.0" maxHeight="-Infinity"
                                                       maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                                                       prefHeight="20.0" prefWidth="90.0" promptText="N.C.M."
@@ -260,7 +260,7 @@
                                                 <Tooltip text="código fiscal NCM do produto"/>
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtFiscalCest" accessibleText="type:nfecest, value: "
+                                        <JFXTextField fx:id="txtFiscalCest" accessibleText="type=nfecest_value="
                                                       layoutX="770.0" layoutY="10.0" maxHeight="-Infinity"
                                                       maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                                                       prefHeight="20.0" prefWidth="90.0" promptText="CEST"

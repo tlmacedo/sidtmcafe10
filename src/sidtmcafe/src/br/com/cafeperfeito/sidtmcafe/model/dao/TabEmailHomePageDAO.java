@@ -2,13 +2,13 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmailHomePageVO;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
 import javafx.util.Pair;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TabEmailHomePageDAO extends BuscaBancoDados {
+public class TabEmailHomePageDAO extends ServiceBuscaBancoDados {
 
     TabEmailHomePageVO tabEmailHomePageVO = null;
 

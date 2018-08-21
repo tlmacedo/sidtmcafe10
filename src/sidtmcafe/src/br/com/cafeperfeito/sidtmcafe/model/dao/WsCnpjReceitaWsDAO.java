@@ -15,7 +15,7 @@ import static br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema.*;
 
 //import br.com.cafeperfeito.sidtmcafe.service.FormatarDado;
 
-public class WsCnpjReceitaWsDAO extends BuscaWebService implements Constants {
+public class WsCnpjReceitaWsDAO extends ServiceBuscaWebService implements Constants {
 
     WsCnpjReceitaWsVO wsCnpjReceitaWsVO;
 

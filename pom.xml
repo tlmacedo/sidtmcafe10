@@ -62,11 +62,6 @@
             <artifactId>jfoenix</artifactId>
             <version>9.0.4</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>mysql</groupId>-->
-            <!--<artifactId>mysql-connector-java</artifactId>-->
-            <!--<version>8.0.11</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -87,6 +82,19 @@
             <artifactId>controlsfx</artifactId>
             <version>9.0.0</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.google.guava</groupId>-->
+            <!--<artifactId>guava</artifactId>-->
+            <!--<version>26.0-jre</version>-->
+            <!--&lt;!&ndash; or, for Android: &ndash;&gt;-->
+            <!--&lt;!&ndash;<version>26.0-android</version>&ndash;&gt;-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava-gwt</artifactId>
+            <version>26.0-jre</version>
+        </dependency>
+
 
 
         <!--<dependency>-->

@@ -1,21 +1,29 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.CheckBoxTreeTableCell;
+import javafx.scene.image.Image;
 import javafx.util.Callback;
 import javafx.util.Pair;
 
+import javax.imageio.ImageIO;
 import javax.swing.text.MaskFormatter;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -321,31 +329,24 @@ public class ServiceFormatarDado implements Constants {
     }
 
     public static Pair<String, String> getFieldFormatPair(String accessibleText, String keyFormat) {
-        for (String strAccessibleText : accessibleText.split(", ")) {
-            String key = null, value = null;
-            for (String detalhe : strAccessibleText.split(":")) {
-                if (key == null) key = detalhe.trim();
-                else value = detalhe.trim();
-
-                if (key.toLowerCase().equals(keyFormat) && value != null)
-                    return new Pair(key, value);
-            }
-        }
-        return null;
+        if (accessibleText.equals("")) return null;
+        HashMap<String, String> hashMap = getFieldFormatMap(accessibleText);
+        return new Pair<String, String>(keyFormat, hashMap.get(keyFormat));
     }
 
-    public static List<Pair<String, String>> getFieldFormatPairList(String accessibleText) {
-        List<Pair<String, String>> list = new ArrayList<>();
-        for (String strAccessibleText : accessibleText.split(", ")) {
-            String key = null, value = null;
-            for (String detalhe : strAccessibleText.split(":")) {
-                if (key == null) key = detalhe.trim();
-                else value = detalhe.trim();
+    public static HashMap<String, String> getFieldFormatMap(String accessibleText) {
+        if (accessibleText.equals("")) return null;
+        return new HashMap<String, String>(Splitter.on("_").withKeyValueSeparator("=").split(accessibleText));
+    }
 
-                if (key != null && value != null)
-                    list.add(new Pair(key, value));
-            }
+    public byte[] getImgToByte(Image image) {
+        try {
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            ImageIO.write((RenderedImage) image, "png", output);
+            return output.toByteArray();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
         }
-        return list;
     }
 }

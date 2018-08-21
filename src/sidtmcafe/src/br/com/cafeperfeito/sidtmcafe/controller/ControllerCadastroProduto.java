@@ -47,10 +47,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ControllerCadastroProduto extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
@@ -388,6 +385,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     static String STATUS_BAR_TECLA_INCLUIR = "[F2-Incluir]  [F3-Cancelar inclusão]  ";
 
     EventHandler<KeyEvent> eventHandlerCadastroProduto;
+    HashMap<String, String> hashMap;
     List<Pair> listaTarefa = new ArrayList<>();
     ServiceFormatarDado formatPeso;
     ServiceAlertMensagem alertMensagem;
@@ -676,31 +674,19 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 "barcode", "")
                 .orElse(null)) == null) return;
         if (buscaDuplicidadeCode(codBarras, true)) return;
-        String wsRetorno = new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos(codBarras);
-        if (wsRetorno.contains("descricao"))
-            txtDescricao.setText(ServiceFormatarDado.getFieldFormatPair(wsRetorno, "descricao").getValue());
-        if (wsRetorno.contains("ncm"))
-            cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(ServiceFormatarDado.getFieldFormatPair(wsRetorno, "ncm").getValue()));
+        hashMap = ServiceFormatarDado.getFieldFormatMap(ServiceConsultaWebServices.getProdutoNcmCest_WsEanCosmos(codBarras));
+        if (hashMap.containsKey("descricao"))
+            txtDescricao.setText(hashMap.get("descricao"));
+        if (hashMap.containsKey("ncm"))
+            cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(hashMap.get("ncm")));
         getProdutoVO().getCodBarraVOList().add(new TabProduto_CodBarraVO(codBarras));
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
-        addImagens(codBarras);
-    }
-
-    void addImagens(String codBarras) {
-        Path path = Paths.get(String.format("%s%s.png", PATH_IMAGE_DOWNLOAD, codBarras));
-        if (Files.exists(path)) {
-            try {
-                //FileInputStream inputStream = new FileInputStream(String.format("%s%s.png", PATH_IMAGE_DOWNLOAD, codBarras));
-                //Image image = new Image(new FileInputStream(path.toString()));
-                getProdutoVO().setImgProduto(new Image(new FileInputStream(path.toString())));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            imgProduto.setImage(getProdutoVO().getImgProduto());
-            System.out.println("Terminou:::");
-//            imgProduto.setImage(new Image("file:" + file.toString()));
-        }
-
+        if (hashMap.containsKey("imgProduto"))
+            getProdutoVO().setImgProduto(ServiceBuscaWebService.getImagem(hashMap.get("imgProduto")));
+        imgProduto.setImage(getProdutoVO().getImgProduto());
+        if (hashMap.containsKey("imgCodBarra"))
+            getProdutoVO().setImgCodBarra(ServiceBuscaWebService.getImagem(hashMap.get("imgCodBarra")));
+        imgCodBarras.setImage(getProdutoVO().getImgCodBarra());
     }
 
 

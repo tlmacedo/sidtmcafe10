@@ -1,24 +1,23 @@
-package br.com.cafeperfeito.sidtmcafe.model.dao;
+package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import javafx.util.Pair;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.sql.rowset.serial.SerialBlob;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuscaBancoDados {
+public class ServiceBuscaBancoDados {
 
-    Connection connection = null;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    List<Pair<String, String>> listParametro = new ArrayList<>();
+    public Connection connection = null;
+    public PreparedStatement stmt = null;
+    public ResultSet rs = null;
+    public byte[] bytes0;
+    public byte[] bytes1;
+    public List<Pair<String, String>> listParametro = new ArrayList<>();
 
-    void getResultadosBandoDados(String sql) {
-        System.out.println("sql:[" + sql + "]");
+    public void getResultadosBandoDados(String sql) {
         try {
             stmt = (connection = ConnectionFactory.getConnection()).prepareStatement(sql);
             rs = loadParametro().executeQuery();
@@ -28,12 +27,12 @@ public class BuscaBancoDados {
         }
     }
 
-    void getUpdateBancoDados(Connection conn, String sql) throws SQLException {
+    public void getUpdateBancoDados(Connection conn, String sql) throws SQLException {
         stmt = conn.prepareStatement(sql);
         loadParametro().execute();
     }
 
-    int getInsertBancoDados(Connection conn, String sql) throws SQLException {
+    public int getInsertBancoDados(Connection conn, String sql) throws SQLException {
         stmt = conn.prepareStatement(sql);
         loadParametro().execute();
         rs = conn.prepareStatement("SELECT LAST_INSERT_ID()").executeQuery();
@@ -42,16 +41,16 @@ public class BuscaBancoDados {
         return 0;
     }
 
-    void getDeleteBancoDados(Connection conn, String sql) throws SQLException {
+    public void getDeleteBancoDados(Connection conn, String sql) throws SQLException {
         stmt = conn.prepareStatement(sql);
         loadParametro().execute();
     }
 
-    void addParametro(Pair<String, String> parametro) {
+    public void addParametro(Pair<String, String> parametro) {
         listParametro.add(parametro);
     }
 
-    void addNewParametro(Pair<String, String> parametro) {
+    public void addNewParametro(Pair<String, String> parametro) {
         listParametro = new ArrayList<>();
         listParametro.add(parametro);
     }
@@ -68,6 +67,14 @@ public class BuscaBancoDados {
                     case "int":
                         stmt.setInt(i + 1, Integer.parseInt(listParametro.get(i).getValue()));
                         break;
+                    case "blob0":
+                        Blob blob = new SerialBlob(bytes0);
+                        stmt.setBlob(i + 1, blob);
+                        break;
+                    case "blob10":
+                        Blob blob1 = new SerialBlob(bytes1);
+                        stmt.setBlob(i + 1, blob1);
+                        break;
                 }
             }
         } catch (SQLException e) {
@@ -75,5 +82,4 @@ public class BuscaBancoDados {
         }
         return stmt;
     }
-
 }

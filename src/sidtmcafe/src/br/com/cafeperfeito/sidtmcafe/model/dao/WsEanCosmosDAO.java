@@ -1,16 +1,12 @@
 package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.WsEanCosmosVO;
-import javafx.util.Pair;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaWebService;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.swing.text.Style;
-
-public class WsEanCosmosDAO extends BuscaWebService implements Constants {
+public class WsEanCosmosDAO extends ServiceBuscaWebService implements Constants {
 
     JSONObject jsonObject;
     JSONArray jsonArray;
@@ -26,17 +22,18 @@ public class WsEanCosmosDAO extends BuscaWebService implements Constants {
         if (getRetWs(busca) == null)
             return retorno;
         if (jsonObject.has("description"))
-            retorno += String.format(String.format("descricao:%s", jsonObject.getString("description")));
-        if (jsonObject.has("ncm"))
-            retorno += String.format("%sncm:%s", retorno.equals("") ? "" : ", ",
-                    String.format("%s", jsonObject.getJSONObject("ncm").getString("code")));
-        try {
-            if (jsonObject.has("thumbnail"))
-                getImagem(jsonObject.getString("thumbnail"), busca);
-            if (jsonObject.has("barcode_image"))
-                getImagem(jsonObject.getString("barcode_image"), busca + "_barcode");
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            retorno += String.format(String.format("descricao=%s", jsonObject.getString("description")));
+        if (jsonObject.has("ncm")) {
+            if (!retorno.equals("")) retorno += "_";
+            retorno += String.format("ncm=%s", jsonObject.getJSONObject("ncm").getString("code"));
+        }
+        if (jsonObject.has("thumbnail")) {
+            if (!retorno.equals("")) retorno += "_";
+            retorno += String.format("imgProduto=%s", jsonObject.getString("thumbnail"));
+        }
+        if (jsonObject.has("barcode_image")) {
+            if (!retorno.equals("")) retorno += "_";
+            retorno += String.format("imgCodBarra=%s", jsonObject.getString("barcode_image"));
         }
         return retorno;
     }
