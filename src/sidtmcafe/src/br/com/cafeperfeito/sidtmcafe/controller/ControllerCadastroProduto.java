@@ -280,6 +280,11 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             txtFiscalCest.setText(newValue.getCest());
         });
 
+        listCodigoBarra.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) return;
+            imgCodBarras.setImage(newValue.getImgCodBarra());
+        });
+
         listCodBarraVOObservableList.addListener((ListChangeListener) c -> {
             listCodigoBarra.setItems(listCodBarraVOObservableList.stream()
                     .filter(codBarra -> codBarra.getId() >= 0)
@@ -675,18 +680,20 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 .orElse(null)) == null) return;
         if (buscaDuplicidadeCode(codBarras, true)) return;
         hashMap = ServiceFormatarDado.getFieldFormatMap(ServiceConsultaWebServices.getProdutoNcmCest_WsEanCosmos(codBarras));
+        getProdutoVO().getCodBarraVOList().add(new TabProduto_CodBarraVO(codBarras, null));
+        listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
+        listCodigoBarra.getSelectionModel().selectLast();
+        if (hashMap.containsKey("imgCodBarra"))
+            getProdutoVO().getCodBarraVOList().get(listCodigoBarra.getSelectionModel().getSelectedIndex()).setImgCodBarra(ServiceBuscaWebService.getImagem(hashMap.get("imgCodBarra")));
+
         if (hashMap.containsKey("descricao"))
             txtDescricao.setText(hashMap.get("descricao"));
         if (hashMap.containsKey("ncm"))
             cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(hashMap.get("ncm")));
-        getProdutoVO().getCodBarraVOList().add(new TabProduto_CodBarraVO(codBarras));
-        listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
         if (hashMap.containsKey("imgProduto"))
             getProdutoVO().setImgProduto(ServiceBuscaWebService.getImagem(hashMap.get("imgProduto")));
         imgProduto.setImage(getProdutoVO().getImgProduto());
-        if (hashMap.containsKey("imgCodBarra"))
-            getProdutoVO().setImgCodBarra(ServiceBuscaWebService.getImagem(hashMap.get("imgCodBarra")));
-        imgCodBarras.setImage(getProdutoVO().getImgCodBarra());
+        imgCodBarras.setImage(listCodigoBarra.getSelectionModel().getSelectedItem().getImgCodBarra());
     }
 
 

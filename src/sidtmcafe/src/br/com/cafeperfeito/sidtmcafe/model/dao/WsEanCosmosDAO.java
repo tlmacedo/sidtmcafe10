@@ -22,20 +22,15 @@ public class WsEanCosmosDAO extends ServiceBuscaWebService implements Constants 
         if (getRetWs(busca) == null)
             return retorno;
         if (jsonObject.has("description"))
-            retorno += String.format(String.format("descricao=%s", jsonObject.getString("description")));
-        if (jsonObject.has("ncm")) {
-            if (!retorno.equals("")) retorno += "_";
-            retorno += String.format("ncm=%s", jsonObject.getJSONObject("ncm").getString("code"));
-        }
-        if (jsonObject.has("thumbnail")) {
-            if (!retorno.equals("")) retorno += "_";
-            retorno += String.format("imgProduto=%s", jsonObject.getString("thumbnail"));
-        }
-        if (jsonObject.has("barcode_image")) {
-            if (!retorno.equals("")) retorno += "_";
-            retorno += String.format("imgCodBarra=%s", jsonObject.getString("barcode_image"));
-        }
+            retorno += String.format(String.format("descricao::%s;", jsonObject.getString("description")));
+        if (jsonObject.has("ncm"))
+            retorno += String.format("ncm::%s;", jsonObject.getJSONObject("ncm").getString("code"));
+        if (jsonObject.has("thumbnail"))
+            retorno += String.format("imgProduto::%s;", jsonObject.getString("thumbnail"));
+        if (jsonObject.has("barcode_image"))
+            retorno += String.format("imgCodBarra::%s;", jsonObject.getString("barcode_image"));
         return retorno;
     }
-
 }
+
+

@@ -5,18 +5,21 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
 
 public class TabProduto_CodBarraVO extends RecursiveTreeObject<TabProduto_CodBarraVO> {
 
     IntegerProperty id;
     StringProperty codBarra;
+    Image imgCodBarra;
 
     public TabProduto_CodBarraVO() {
     }
 
-    public TabProduto_CodBarraVO(String codigoBarra) {
+    public TabProduto_CodBarraVO(String codigoBarra, Image image) {
         this.id = new SimpleIntegerProperty(0);
         this.codBarra = new SimpleStringProperty(codigoBarra);
+        this.setImgCodBarra(image);
     }
 
     public int getId() {
@@ -43,6 +46,14 @@ public class TabProduto_CodBarraVO extends RecursiveTreeObject<TabProduto_CodBar
 
     public void setCodBarra(String codBarra) {
         codBarraProperty().set(codBarra);
+    }
+
+    public Image getImgCodBarra() {
+        return imgCodBarra;
+    }
+
+    public void setImgCodBarra(Image imgCodBarra) {
+        this.imgCodBarra = imgCodBarra;
     }
 
     @Override

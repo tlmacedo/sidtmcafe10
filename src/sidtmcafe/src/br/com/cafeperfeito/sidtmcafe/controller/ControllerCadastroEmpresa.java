@@ -319,7 +319,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                                     USUARIO_LOGADO_APELIDO, txtCNPJ.getPromptText(), m.group()));
                             alertMensagem.setStrIco("ic_webservice_24dp");
                             alertMensagem.getRetornoAlert_OK();
-                            txtIE.requestFocus();
+                            txtCNPJ.requestFocus();
                         } else {
                             new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(getEmpresaVO(), m.group());
                             exibirDadosEmpresa();
@@ -626,6 +626,14 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         ttvEmpresa.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         ttvEmpresa.setRoot(root);
         ttvEmpresa.setShowRoot(false);
+    }
+
+    void preencheDigitoADigito(JFXTextField textField, String value) {
+        String temp = "";
+        for (int i = 0; i < value.length(); i++) {
+            temp += value.charAt(i);
+            textField.setText(temp);
+        }
     }
 
     void pesquisaEmpresa() {

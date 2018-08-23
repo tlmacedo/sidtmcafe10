@@ -33,7 +33,7 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     BigDecimal peso, precoFabrica, precoVenda, precoUltimoImpostoSefaz, precoUltimoFrete, comissao;
 
-    Image imgProduto, imgCodBarra;
+    Image imgProduto;
 
     public TabProdutoVO() {
 
@@ -425,11 +425,4 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
         this.imgProduto = imgProduto;
     }
 
-    public Image getImgCodBarra() {
-        return imgCodBarra;
-    }
-
-    public void setImgCodBarra(Image imgCodBarra) {
-        this.imgCodBarra = imgCodBarra;
-    }
 }

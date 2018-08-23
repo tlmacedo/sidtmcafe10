@@ -1,7 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
@@ -19,50 +18,31 @@ import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ServiceFormatarDado implements Constants {
-    String mascara;
 
-//    public static String getValueMoeda(String valor, int casaDecimal) {
-//        String value = String.valueOf(Long.parseLong(valor.replaceAll("[\\D]", "")));
-//        for (int i = value.length(); i < (casaDecimal + 1); i++)
-//            value = "0" + value;
-//        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 18) + "})$", "$1.$2");
-//        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 15) + "})$", "$1.$2");
-//        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 12) + "})$", "$1.$2");
-//        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 9) + "})$", "$1.$2");
-//        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 6) + "})$", "$1.$2");
-//        value = value.replaceAll("(\\d{1})(\\d{" + (casaDecimal + 3) + "})$", "$1.$2");
-//        if (casaDecimal > 0)
-//            value = value.replaceAll("(\\d{1})(\\d{" + casaDecimal + "})$", "$1,$2");
-//        if (valor.contains("-")) value = "-" + value;
-//
-//        return value;
-//    }
+    String mascara;
 
     public static BigDecimal getBigDecimalFromTextField(String value) {
         return new BigDecimal(value.replace(".", "").replace(",", "."));
     }
 
-    public static String getValorFormatado(String value, String tipMascara) {
-        String strValue = value.replaceAll("\\W", "");
-        String mascara = gerarMascara(tipMascara);
-        if (strValue.length() > 0)
+    public static String getValorFormatado(String strValue, String tipMascara) {
+        String value = strValue.replaceAll("\\W", "");
+        String mask = gerarMascara(tipMascara);
+        if (value.length() > 0)
             try {
-                if (mascara.contains("#,##0")) {
-                    int qtdCasa = Integer.parseInt(tipMascara.replaceAll("\\D", ""));
-                    String decValue = value.replaceAll("\\D", "");
-                    decValue = String.format(getFormato(qtdCasa + 1), Long.parseLong(decValue));
-                    return new DecimalFormat(mascara).format(Double.parseDouble(decValue.replaceAll("(\\d+)(\\d{" + qtdCasa + "})", "$1.$2")));
+                if (mask.contains("#,##0")) {
+                    int decimal = Integer.parseInt(tipMascara.replaceAll("\\D", ""));
+                    strValue = String.format(getFormato(decimal + 1), Long.parseLong(value)).replaceAll("(\\d+)(\\d{" + decimal + "})", "$1.$2");
+                    if (strValue.length() > 12) strValue = strValue.substring(strValue.length() - 12);
+                    String valor = new DecimalFormat(mask).format(new BigDecimal(strValue));
+                    return valor;
                 }
-                MaskFormatter formatter = new MaskFormatter(mascara);
+                MaskFormatter formatter = new MaskFormatter(mask);
                 formatter.setValueContainsLiteralCharacters(false);
                 return formatter.valueToString(strValue).trim();
             } catch (Exception ex) {
@@ -79,10 +59,10 @@ public class ServiceFormatarDado implements Constants {
     public static String gerarMascara(String tipMascara) {
         String mask = tipMascara.replaceAll("\\d", "");
         if (!mask.equals("TEXTO") && !mask.equals("Texto")) mask = mask.toLowerCase();
-        int digMask = tipMascara.replaceAll("\\D", "").length() > 0
+        int len = tipMascara.replaceAll("\\D", "").length() > 0
                 ? Integer.parseInt(tipMascara.replaceAll("\\D", ""))
-                : 0;
-        String formato = (digMask == 0) ? getFormato(120) : getFormato(digMask);
+                : 120;
+        String formato = getFormato(len);
         if (mask == null) return String.format(formato, 0).replace("0", CARACTER_UPPER);
         if (mask.length() >= 2 && mask.substring(0, 2).equals("ie")) {
             return getMascaraIE(mask.length() >= 4 ? mask.substring(2).toUpperCase() : "");
@@ -123,7 +103,7 @@ public class ServiceFormatarDado implements Constants {
             case "moeda":
             case "valor":
             case "peso":
-                String maskMoeda = "#,###,###,##0" + (digMask > 0 ? "." + String.format("%0" + digMask + "d", 0) : "");
+                String maskMoeda = "#,##0" + (len > 0 ? "." + String.format("%0" + len + "d", 0) : "");
                 return String.format("%s;-%s", maskMoeda, maskMoeda);
             case "cep":
                 formato = getFormato(8);
@@ -222,79 +202,69 @@ public class ServiceFormatarDado implements Constants {
         if (tipMascara.length() > 0)
             setMascara(tipMascara);
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            String strValue = newValue, value = newValue;
             if (getMascara().contains("#,##0")) {
-                if (newValue.length() > getMascara().length())
-                    textField.setText(getValorFormatado(newValue.substring(0, getMascara().length()), tipMascara));
-                else
-                    textField.setText(getValorFormatado(newValue, tipMascara));
+                textField.setText(getValorFormatado(strValue, tipMascara));
+                textField.positionCaret(textField.getLength());
             } else {
-                if (newValue == null || newValue.length() <= 0) {
+                if (strValue.length() <= 0) {
                     textField.setText("");
                 } else {
-                    if (newValue.length() > getMascara().length()) {
-                        textField.setText(newValue.substring(0, getMascara().length()));
-                    } else {
-                        StringBuilder resultado = new StringBuilder();
-                        int digitado = 0;
-                        String value;
-                        Pattern p = Pattern.compile(REGEX_PONTUACAO);
-                        Matcher m = p.matcher(getMascara());
-                        if (m.find()) {
-                            value = textField.getText().replaceAll("\\W", "");
-                        } else {
-                            value = textField.getText();//.replaceAll("", "");
-                        }
-                        for (int i = 0; i < getMascara().length(); i++) {
-                            if (digitado < value.length()) {
-                                switch (getMascara().substring(i, i + 1)) {
-                                    case "#":
-                                        if (Character.isDigit(value.charAt(digitado))
-                                                || Character.isSpaceChar(value.charAt(digitado))
-                                                || Character.isDefined(value.charAt(digitado)))
-                                            resultado.append(value.substring(digitado, digitado + 1));
-                                        digitado++;
-                                        break;
-                                    case "U":
-                                        if (Character.isLetterOrDigit(value.charAt(digitado))
-                                                || Character.isSpaceChar(value.charAt(digitado))
-                                                || Character.isDefined(value.charAt(digitado))) {
-                                            resultado.append(value.substring(i, i + 1).toUpperCase());
-                                        }
-                                        digitado++;
-                                        break;
-                                    case "L":
-                                        if (Character.isLetterOrDigit(value.charAt(digitado))
-                                                || Character.isSpaceChar(value.charAt(digitado))
-                                                || Character.isDefined(value.charAt(digitado)))
-                                            resultado.append(value.substring(i, i + 1).toLowerCase());
-                                        digitado++;
-                                        break;
-                                    case "A":
-                                        if (Character.isLetterOrDigit(value.charAt(digitado))
-                                                || Character.isSpaceChar(value.charAt(digitado))
-                                                || Character.isDefined(value.charAt(digitado)))
-                                            resultado.append(value.substring(i, i + 1).toUpperCase());
-                                        digitado++;
-                                        break;
-                                    case "?":
-                                    case "*":
-                                        resultado.append(value.substring(i, i + 1));
-                                        digitado++;
-                                        break;
-                                    default:
-                                        resultado.append(getMascara().substring(i, i + 1));
-                                        break;
-                                }
+                    StringBuilder resultado = new StringBuilder();
+                    int digitado = 0;
+                    Pattern p = Pattern.compile(REGEX_PONTUACAO);
+                    Matcher m = p.matcher(getMascara());
+                    if (m.find())
+                        value = strValue.replaceAll("\\W", "");
+                    for (int i = 0; i < getMascara().length(); i++) {
+                        if (digitado < value.length()) {
+                            switch (getMascara().substring(i, i + 1)) {
+                                case "#":
+                                    if (Character.isDigit(value.charAt(digitado))
+                                            || Character.isSpaceChar(value.charAt(digitado))
+                                            || Character.isDefined(value.charAt(digitado)))
+                                        resultado.append(value.substring(digitado, digitado + 1));
+                                    digitado++;
+                                    break;
+                                case "U":
+                                    if (Character.isLetterOrDigit(value.charAt(digitado))
+                                            || Character.isSpaceChar(value.charAt(digitado))
+                                            || Character.isDefined(value.charAt(digitado))) {
+                                        resultado.append(value.substring(i, i + 1).toUpperCase());
+                                    }
+                                    digitado++;
+                                    break;
+                                case "L":
+                                    if (Character.isLetterOrDigit(value.charAt(digitado))
+                                            || Character.isSpaceChar(value.charAt(digitado))
+                                            || Character.isDefined(value.charAt(digitado)))
+                                        resultado.append(value.substring(i, i + 1).toLowerCase());
+                                    digitado++;
+                                    break;
+                                case "A":
+                                    if (Character.isLetterOrDigit(value.charAt(digitado))
+                                            || Character.isSpaceChar(value.charAt(digitado))
+                                            || Character.isDefined(value.charAt(digitado)))
+                                        resultado.append(value.substring(i, i + 1).toUpperCase());
+                                    digitado++;
+                                    break;
+                                case "?":
+                                case "*":
+                                    resultado.append(value.substring(i, i + 1));
+                                    digitado++;
+                                    break;
+                                default:
+                                    resultado.append(getMascara().substring(i, i + 1));
+                                    break;
                             }
                         }
-                        Platform.runLater(() -> {
-                            textField.setText(resultado.toString());
-                            textField.positionCaret(resultado.length());
-                        });
                     }
+                    Platform.runLater(() -> {
+                        textField.setText(resultado.toString());
+                        textField.positionCaret(resultado.length());
+                    });
                 }
             }
-            //textField.positionCaret(textField.getLength());
         });
     }
 
@@ -336,7 +306,7 @@ public class ServiceFormatarDado implements Constants {
 
     public static HashMap<String, String> getFieldFormatMap(String accessibleText) {
         if (accessibleText.equals("")) return null;
-        return new HashMap<String, String>(Splitter.on("_").withKeyValueSeparator("=").split(accessibleText));
+        return new HashMap<String, String>(Splitter.on(";").omitEmptyStrings().withKeyValueSeparator(Splitter.onPattern("\\:\\:")).split(accessibleText));
     }
 
     public byte[] getImgToByte(Image image) {
