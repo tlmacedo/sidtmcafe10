@@ -37,7 +37,7 @@ public class FiscalCestNcmDAO extends ServiceBuscaBancoDados {
         fiscalCestNcmVOList = new ArrayList<>();
         String comandoSql = "SELECT * FROM fiscalCestNcm ";
         if (!ncm.equals("") || ncm != null) {
-            addNewParametro(new Pair<String, String>("String", ncm));
+            addNewParametro(new Pair<String, String>("String", ncm + "%"));
             comandoSql += "WHERE ncm LIKE ? ";
         }
         getResultSet(comandoSql);

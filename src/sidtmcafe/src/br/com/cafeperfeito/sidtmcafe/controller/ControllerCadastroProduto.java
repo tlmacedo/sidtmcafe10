@@ -249,6 +249,12 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                         if (getStatusFormulario().toLowerCase().equals("pesquisa")) break;
                         if (CODE_KEY_CTRL_ALT_B.match(event) || CHAR_KEY_CTRL_ALT_B.match(event))
                             addCodeBar();
+                        break;
+                    case Z:
+                        if (getStatusFormulario().toLowerCase().equals("pesquisa")) break;
+                        if (CODE_KEY_CTRL_Z.match(event) || CHAR_KEY_CTRL_Z.match(event))
+                            reverseImageProduto();
+                        break;
                 }
                 if (ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedIndex() > 0)
                     ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedItem().setOnCloseRequest(event1 -> {
@@ -651,6 +657,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                         getProdutoVO().getUsuarioAtualizacaoVO())));
         lblDataAtualizacaoDiff.setText(String.format("tempo de atualização%s",
                 getProdutoVO().getDataAtualizacao() == null ? "" : String.format(": %s", ServiceDataHora.getIntervaloData(getProdutoVO().getDataAtualizacao().toLocalDateTime().toLocalDate(), null))));
+
+        imgProduto.setImage(getProdutoVO().getImgProduto());
     }
 
     void keyShiftF6() {
@@ -668,6 +676,14 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             delCodeBar();
     }
 
+    void reverseImageProduto() {
+        if (getProdutoVO().getImgProduto() != null && getProdutoVO().getImgProdutoBack() != null) {
+            getProdutoVO().setImgProduto(getProdutoVO().getImgProdutoBack());
+            getProdutoVO().setImgProdutoBack(null);
+            imgProduto.setImage(getProdutoVO().getImgProduto());
+        }
+    }
+
     void addCodeBar() {
         alertMensagem = new ServiceAlertMensagem();
         alertMensagem.setStrIco("ic_barcode_add_24dp");
@@ -679,21 +695,14 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 "barcode", "")
                 .orElse(null)) == null) return;
         if (buscaDuplicidadeCode(codBarras, true)) return;
-        hashMap = ServiceFormatarDado.getFieldFormatMap(ServiceConsultaWebServices.getProdutoNcmCest_WsEanCosmos(codBarras));
-        getProdutoVO().getCodBarraVOList().add(new TabProduto_CodBarraVO(codBarras, null));
+        String retorno = ServiceConsultaWebServices.getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarras);
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
         listCodigoBarra.getSelectionModel().selectLast();
-        if (hashMap.containsKey("imgCodBarra"))
-            getProdutoVO().getCodBarraVOList().get(listCodigoBarra.getSelectionModel().getSelectedIndex()).setImgCodBarra(ServiceBuscaWebService.getImagem(hashMap.get("imgCodBarra")));
-
-        if (hashMap.containsKey("descricao"))
-            txtDescricao.setText(hashMap.get("descricao"));
-        if (hashMap.containsKey("ncm"))
-            cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(hashMap.get("ncm")));
-        if (hashMap.containsKey("imgProduto"))
-            getProdutoVO().setImgProduto(ServiceBuscaWebService.getImagem(hashMap.get("imgProduto")));
+        if (retorno.equals("")) return;
+        ServiceFormatarDado.getFieldFormatMap(ServiceConsultaWebServices.getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarras));
+        txtDescricao.setText(getProdutoVO().getDescricao());
+        cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(getProdutoVO().getNcm()));
         imgProduto.setImage(getProdutoVO().getImgProduto());
-        imgCodBarras.setImage(listCodigoBarra.getSelectionModel().getSelectedItem().getImgCodBarra());
     }
 
 
@@ -819,7 +828,9 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             getProdutoVO().setPrecoUltimoImpostoSefaz(ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoUltimoImpostoSefaz.getText()));
             getProdutoVO().setPrecoUltimoFrete(ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoUltimoFrete.getText()));
             getProdutoVO().setComissao(ServiceFormatarDado.getBigDecimalFromTextField(txtComissaoPorc.getText()));
-            getProdutoVO().setFiscalCestNcmVO(cboFiscalCestNcm.getSelectionModel().getSelectedItem());
+            getProdutoVO().setFiscalCestNcm_id(0);
+            if (cboFiscalCestNcm.getSelectionModel().getSelectedItem() != null)
+                getProdutoVO().setFiscalCestNcm_id(cboFiscalCestNcm.getSelectionModel().getSelectedItem().getId());
             getProdutoVO().setNcm(txtFiscalNcm.getText().equals("") ? "" : txtFiscalNcm.getText().replaceAll("\\D", ""));
             getProdutoVO().setCest(txtFiscalCest.getText().equals("") ? "" : txtFiscalCest.getText().replaceAll("\\D", ""));
             getProdutoVO().setFiscalCstOrigemVO(cboFiscalOrigem.getSelectionModel().getSelectedItem());
@@ -889,14 +900,13 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void vlrMargem() {
+        BigDecimal prcFabrica = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoFabrica.getText());
+        BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
+        BigDecimal margem;
         try {
-            BigDecimal prcFabrica = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoFabrica.getText());
-            BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
-            BigDecimal margem;
             if (prcConsumidor.compareTo(prcFabrica) == 0)
                 margem = BigDecimal.ZERO;
             else
-                //margem = ((prcConsumidor.subtract(prcFabrica)).multiply(new BigDecimal(100))).divide(prcFabrica, 5);
                 margem = ((prcConsumidor.subtract(prcFabrica)).divide(prcFabrica, RoundingMode.HALF_UP)).multiply(new BigDecimal("100."));
             txtMargem.setText(margem.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
@@ -945,7 +955,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             if (lucroLiquido.compareTo(BigDecimal.ZERO) == 0)
                 lucratividade = BigDecimal.ZERO;
             else
-                //lucratividade = (lucroLiquido.multiply(new BigDecimal("100"))).divide(prcConsumidor, 5);
                 lucratividade = (lucroLiquido.divide(prcConsumidor, RoundingMode.HALF_UP)).multiply(new BigDecimal("100."));
             txtLucratividade.setText(lucratividade.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {

@@ -41,14 +41,14 @@ public class ServiceConsultaWebServices {
         return new TabTelefoneDAO().getTelefone_WsPortabilidadeCelular(busca);
     }
 
-    public static String getProdutoNcmCest_WsEanCosmos(String busca) {
+    public static String getProdutoNcmCest_WsEanCosmos(TabProdutoVO produto, String busca) {
         final String[] retorno = new String[1];
         Task<Void> buscaGtin = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 updateMessage(String.format("Pesquisando código de barra: [%s]", busca));
                 Thread.sleep(300);
-                retorno[0] = new WsEanCosmosDAO().getWsEanCosmosVO(busca);
+                retorno[0] = new WsEanCosmosDAO().getWsEanCosmosVO(produto, busca);
                 return null;
             }
         };

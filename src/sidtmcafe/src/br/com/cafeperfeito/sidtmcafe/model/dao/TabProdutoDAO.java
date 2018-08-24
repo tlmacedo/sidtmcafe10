@@ -4,8 +4,17 @@ import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceImage;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.util.Pair;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -82,6 +91,7 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
                 tabProdutoVO.setDataCadastro(rs.getTimestamp("dataCadastro"));
                 tabProdutoVO.setUsuarioAtualizacao_id(rs.getInt("usuarioAtualizacao_id"));
                 tabProdutoVO.setDataAtualizacao(rs.getTimestamp("dataAtualizacao"));
+                tabProdutoVO.setImgProduto(ServiceImage.getImage(rs.getBinaryStream("imgProduto")));
                 if (tabProdutoVOList != null) tabProdutoVOList.add(tabProdutoVO);
             }
         } catch (Exception ex) {
@@ -119,28 +129,29 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
     }
 
     public void updateTabProdutoVO(Connection conn, TabProdutoVO produtoVO) throws SQLException {
-        String comandoSql = "UPDATE tabProduto " +
-                "SET codigo = ?, " +
-                "descricao = ?, " +
-                "peso = ?, " +
-                "sisUnidadeComercial_id = ?, " +
-                "sisSituacaoSistema_id = ?, " +
-                "precoFabrica = ?, " +
-                "precoVenda = ?, " +
-                "varejo = ?, " +
-                "precoUltimoImpostoSEFAZ = ?, " +
-                "precoUltimoFrete = ?, " +
-                "comissao = ?, " +
-                "ncm = ?, " +
-                "cest = ?, " +
-                "fiscalCestNcm_id = ?, " +
-                "fiscalCstOrigem_id = ?, " +
-                "fiscalIcms_id = ?, " +
-                "fiscalPis_id = ?, " +
-                "fiscalCofins_id = ?, " +
-                "nfeGenero = ?, " +
-                "usuarioAtualizacao_id = ? " +
-                "WHERE id = ? ";
+        String comandoSql = "UPDATE tabProduto SET " +
+                "codigo = ?, " +                     //1
+                "descricao = ?, " +                  //2
+                "peso = ?, " +                       //3
+                "sisUnidadeComercial_id = ?, " +     //4
+                "sisSituacaoSistema_id = ?, " +      //5
+                "precoFabrica = ?, " +               //6
+                "precoVenda = ?, " +                 //7
+                "varejo = ?, " +                     //8
+                "precoUltimoImpostoSEFAZ = ?, " +    //9
+                "precoUltimoFrete = ?, " +           //10
+                "comissao = ?, " +                   //11
+                "fiscalCestNcm_id = ?, " +           //12
+                "ncm = ?, " +                        //13
+                "cest = ?, " +                       //14
+                "fiscalCSTOrigem_id = ?, " +         //15
+                "fiscalICMS_id = ?, " +              //16
+                "fiscalPIS_id = ?, " +               //17
+                "fiscalCOFINS_id = ?, " +            //18
+                "nfeGenero = ?, " +                  //19
+                "usuarioAtualizacao_id = ?, " +      //20
+                "imgProduto = ? " +                  //21
+                "WHERE id = ? ";                     //22
         addNewParametro(new Pair<>("int", String.valueOf(produtoVO.getCodigo())));
         addParametro(new Pair<>("String", produtoVO.getDescricao()));
         addParametro(new Pair<>("Decimal", produtoVO.getPeso().toString()));
@@ -152,42 +163,50 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoImpostoSefaz().toString()));
         addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoFrete().toString()));
         addParametro(new Pair<>("Decimal", produtoVO.getComissao().toString()));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCestNcmVO().getId())));
         addParametro(new Pair<>("String", produtoVO.getNcm()));
         addParametro(new Pair<>("String", produtoVO.getCest()));
-        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCestNcmVO().getId())));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCstOrigemVO().getId())));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalIcmsVO().getId())));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalPisVO().getId())));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCofinsVO().getId())));
         addParametro(new Pair<>("String", produtoVO.getNfeGenero()));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getUsuarioAtualizacao_id())));
+        image[0] = ServiceImage.getInputStream(produtoVO.getImgProduto());
+        addParametro(new Pair<>("blob0", "image"));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getId())));
         getUpdateBancoDados(conn, comandoSql);
     }
 
     public int insertTabProdutoVO(Connection conn, TabProdutoVO produtoVO) throws SQLException {
         String comandoSql = "INSERT INTO tabProduto " +
-                "(codigo, " +
-                "descricao, " +
-                "peso, " +
-                "sisUnidadeComercial_id, " +
-                "sisSituacaoSistema_id, " +
-                "precoFabrica, " +
-                "precoVenda, " +
-                "varejo, " +
-                "precoUltimoImpostoSEFAZ, " +
-                "precoUltimoFrete, " +
-                "comissao, " +
-                "ncm, " +
-                "cest, " +
-                "fiscalCestNcm_id, " +
-                "fiscalCSTOrigem_id, " +
-                "fiscalICMS_id, " +
-                "fiscalPIS_id, " +
-                "fiscalCOFINS_id, " +
-                "nfeGenero, " +
-                "usuarioCadastro_id) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "(codigo, " +                    //1
+                "descricao, " +                  //2
+                "peso, " +                       //3
+                "sisUnidadeComercial_id, " +     //4
+                "sisSituacaoSistema_id, " +      //5
+                "precoFabrica, " +               //6
+                "precoVenda, " +                 //7
+                "varejo, " +                     //8
+                "precoUltimoImpostoSEFAZ, " +    //9
+                "precoUltimoFrete, " +           //10
+                "comissao, " +                   //11
+                "fiscalCestNcm_id, " +           //12
+                "ncm, " +                        //13
+                "cest, " +                       //14
+                "fiscalCSTOrigem_id, " +         //15
+                "fiscalICMS_id, " +              //16
+                "fiscalPIS_id, " +               //17
+                "fiscalCOFINS_id, " +            //18
+                "nfeGenero, " +                  //19
+                "usuarioCadastro_id, " +         //20
+                "imgProduto) " +                 //21
+                "VALUES(" +
+                "?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, " +
+                "?)";
         addNewParametro(new Pair<>("int", String.valueOf(produtoVO.getCodigo())));
         addParametro(new Pair<>("String", produtoVO.getDescricao()));
         addParametro(new Pair<>("Decimal", produtoVO.getPeso().toString()));
@@ -199,16 +218,17 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoImpostoSefaz().toString()));
         addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoFrete().toString()));
         addParametro(new Pair<>("Decimal", produtoVO.getComissao().toString()));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCestNcmVO().getId())));
         addParametro(new Pair<>("String", produtoVO.getNcm()));
         addParametro(new Pair<>("String", produtoVO.getCest()));
-        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCestNcmVO().getId())));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCstOrigemVO().getId())));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalIcmsVO().getId())));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalPisVO().getId())));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCofinsVO().getId())));
         addParametro(new Pair<>("String", produtoVO.getNfeGenero()));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getUsuarioCadastro_id())));
-        getUpdateBancoDados(conn, comandoSql);
+        image[0] = ServiceImage.getInputStream(produtoVO.getImgProduto());
+        addParametro(new Pair<>("blob0", "image"));
         return getInsertBancoDados(conn, comandoSql);
     }
 

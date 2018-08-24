@@ -33,13 +33,12 @@ public class ServiceCampoPersonalizado implements Constants {
                 if ((vlrInicial = hashMap.get("value")) == null)
                     vlrInicial = "";
                 if (node instanceof Label)
-                    ((Label) node).setText(vlrInicial.replace("_", " "));
+                    ((Label) node).setText(vlrInicial);
             }
             if (node instanceof JFXTextField)
                 ((JFXTextField) node).setText(vlrInicial);
             else if (node instanceof JFXCheckBox)
                 ((JFXCheckBox) node).setSelected(vlrInicial.equals("true")
-                        || vlrInicial.equals("verdadeiro")
                         || vlrInicial.equals("true"));
             else if (node instanceof JFXComboBox)
                 ((JFXComboBox) node).getSelectionModel().select(vlrInicial.equals("") ? -1 : Integer.parseInt(vlrInicial));
@@ -61,7 +60,7 @@ public class ServiceCampoPersonalizado implements Constants {
             if (node.getAccessibleText() != null) {
                 HashMap<String, String> hashMap = ServiceFormatarDado.getFieldFormatMap(node.getAccessibleText());
                 if (hashMap.containsKey("seteditable"))
-                    setEditable = (hashMap.get("seteditable") == "true");
+                    setEditable = (hashMap.get("seteditable").equals("true") || hashMap.get("seteditable").equals(""));
             }
             if (node instanceof DatePicker) {
                 ((DatePicker) node).setDisable(setDisable);
@@ -107,9 +106,9 @@ public class ServiceCampoPersonalizado implements Constants {
                 String type = "";
                 HashMap<String, String> hashMap = ServiceFormatarDado.getFieldFormatMap(node.getAccessibleText());
                 if (hashMap.containsKey("len"))
-                    len = Integer.parseInt(hashMap.get("len"));
+                    len = hashMap.get("len").equals("") ? 0 : Integer.parseInt(hashMap.get("len"));
                 if (hashMap.containsKey("type")) {
-                    if ((type = hashMap.get("type")) == null)
+                    if ((type = hashMap.get("type")).equals(""))
                         type = "TEXTO";
                     new ServiceFormatarDado().maskField((JFXTextField) node, len + type);
                 }

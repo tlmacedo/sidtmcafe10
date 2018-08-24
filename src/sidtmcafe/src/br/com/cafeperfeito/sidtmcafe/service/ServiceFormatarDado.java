@@ -1,6 +1,7 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
@@ -18,15 +19,20 @@ import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class ServiceFormatarDado implements Constants {
 
     String mascara;
 
     public static BigDecimal getBigDecimalFromTextField(String value) {
+        if (value.equals("") || value == null) return BigDecimal.ZERO;
         return new BigDecimal(value.replace(".", "").replace(",", "."));
     }
 
@@ -204,7 +210,9 @@ public class ServiceFormatarDado implements Constants {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             String strValue = newValue, value = newValue;
             if (getMascara().contains("#,##0")) {
-                textField.setText(getValorFormatado(strValue, tipMascara));
+                if (strValue.equals("") || strValue == null)
+                    value = "0";
+                textField.setText(getValorFormatado(value, tipMascara));
                 textField.positionCaret(textField.getLength());
             } else {
                 if (strValue.length() <= 0) {
@@ -220,31 +228,19 @@ public class ServiceFormatarDado implements Constants {
                         if (digitado < value.length()) {
                             switch (getMascara().substring(i, i + 1)) {
                                 case "#":
-                                    if (Character.isDigit(value.charAt(digitado))
-                                            || Character.isSpaceChar(value.charAt(digitado))
-                                            || Character.isDefined(value.charAt(digitado)))
-                                        resultado.append(value.substring(digitado, digitado + 1));
+                                    if (!Character.isDigit(value.charAt(digitado))) break;
+                                    resultado.append(value.substring(digitado, digitado + 1));
                                     digitado++;
                                     break;
                                 case "U":
-                                    if (Character.isLetterOrDigit(value.charAt(digitado))
-                                            || Character.isSpaceChar(value.charAt(digitado))
-                                            || Character.isDefined(value.charAt(digitado))) {
-                                        resultado.append(value.substring(i, i + 1).toUpperCase());
-                                    }
-                                    digitado++;
-                                    break;
-                                case "L":
-                                    if (Character.isLetterOrDigit(value.charAt(digitado))
-                                            || Character.isSpaceChar(value.charAt(digitado))
-                                            || Character.isDefined(value.charAt(digitado)))
-                                        resultado.append(value.substring(i, i + 1).toLowerCase());
-                                    digitado++;
-                                    break;
                                 case "A":
-                                    if (Character.isLetterOrDigit(value.charAt(digitado))
+                                case "L":
+                                    if (!(Character.isLetterOrDigit(value.charAt(digitado))
                                             || Character.isSpaceChar(value.charAt(digitado))
-                                            || Character.isDefined(value.charAt(digitado)))
+                                            || Character.isDefined(value.charAt(digitado)))) break;
+                                    if (getMascara().substring(i, i + 1).equals("L"))
+                                        resultado.append(value.substring(i, i + 1).toLowerCase());
+                                    else
                                         resultado.append(value.substring(i, i + 1).toUpperCase());
                                     digitado++;
                                     break;

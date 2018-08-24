@@ -129,6 +129,8 @@ public interface Constants {
 
     KeyCombination CODE_KEY_CTRL_ALT_B = new KeyCodeCombination(KeyCode.B, KeyCombination.CONTROL_DOWN, KeyCombination.ALT_DOWN);
     KeyCombination CHAR_KEY_CTRL_ALT_B = new KeyCharacterCombination("b".toLowerCase(), KeyCombination.CONTROL_DOWN, KeyCombination.ALT_DOWN);
+    KeyCombination CODE_KEY_CTRL_Z = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
+    KeyCombination CHAR_KEY_CTRL_Z = new KeyCharacterCombination("z".toLowerCase(), KeyCombination.CONTROL_DOWN);
     KeyCombination CODE_KEY_SHIFT_CTRL_POSITIVO = new KeyCodeCombination(KeyCode.PLUS, KeyCombination.SHIFT_DOWN, KeyCombination.CONTROL_DOWN);
     KeyCombination CHAR_KEY_SHIFT_CTRL_POSITIVO = new KeyCharacterCombination("+", KeyCombination.SHIFT_DOWN, KeyCombination.CONTROL_DOWN);
     KeyCombination CODE_KEY_SHIFT_CTRL_NEGATIVO = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.SHIFT_DOWN, KeyCombination.CONTROL_DOWN);

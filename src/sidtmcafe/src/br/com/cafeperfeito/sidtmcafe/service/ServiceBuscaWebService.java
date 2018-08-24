@@ -66,6 +66,8 @@ public class ServiceBuscaWebService implements Constants {
             if (urlConnection.getResponseCode() == 200) {
                 wsJsonObjectWebServiceVO = urlConnection.getInputStream();
                 jsonObject = new JSONObject(getStringBuilder(wsJsonObjectWebServiceVO).toString());
+            } else {
+                System.out.println("urlConnection.getResponseCode(1): [" + urlConnection.getResponseCode() + "]");
             }
         } catch (SocketTimeoutException ex) {
             try {
@@ -80,8 +82,11 @@ public class ServiceBuscaWebService implements Constants {
                 }
                 urlConnection.connect();
                 wsJsonObjectWebServiceVO = urlConnection.getInputStream();
-                if (urlConnection.getResponseCode() == 200)
+                if (urlConnection.getResponseCode() == 200) {
                     jsonObject = new JSONObject(getStringBuilder(wsJsonObjectWebServiceVO));
+                } else {
+                    System.out.println("urlConnection.getResponseCode(2): [" + urlConnection.getResponseCode() + "]");
+                }
             } catch (Exception ex1) {
                 if (!(ex1 instanceof TimeoutException))
                     ex1.printStackTrace();

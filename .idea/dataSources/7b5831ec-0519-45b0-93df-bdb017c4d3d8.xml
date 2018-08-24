@@ -2391,120 +2391,120 @@
     </column>
     <column id="528" parent="308" name="imgProduto">
       <Position>25</Position>
-      <DataType>blob|0s</DataType>
+      <DataType>longblob|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="529" parent="308" name="imgCodBarra">
-      <Position>26</Position>
-      <DataType>blob|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="530" parent="308" name="fk_tabProduto_sisUnidadeComercial1_idx">
+    <index id="529" parent="308" name="fk_tabProduto_sisUnidadeComercial1_idx">
       <ColNames>sisUnidadeComercial_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="531" parent="308" name="fk_tabProduto_sisSituacaoSistema1_idx">
+    <index id="530" parent="308" name="fk_tabProduto_sisSituacaoSistema1_idx">
       <ColNames>sisSituacaoSistema_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="532" parent="308" name="fk_tabProduto_fiscalCestNcm1_idx">
+    <index id="531" parent="308" name="fk_tabProduto_fiscalCestNcm1_idx">
       <ColNames>fiscalCestNcm_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="533" parent="308" name="fk_tabProduto_fiscalCSTOrigem1_idx">
+    <index id="532" parent="308" name="fk_tabProduto_fiscalCSTOrigem1_idx">
       <ColNames>fiscalCstOrigem_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="534" parent="308" name="fk_tabProduto_fiscalICMS1_idx">
+    <index id="533" parent="308" name="fk_tabProduto_fiscalICMS1_idx">
       <ColNames>fiscalIcms_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="535" parent="308" name="fk_tabProduto_fiscalPISCOFINS1_idx">
+    <index id="534" parent="308" name="fk_tabProduto_fiscalPISCOFINS1_idx">
       <ColNames>fiscalPis_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="536" parent="308" name="fk_tabProduto_fiscalPISCOFINS1_idx1">
+    <index id="535" parent="308" name="fk_tabProduto_fiscalPISCOFINS1_idx1">
       <ColNames>fiscalCofins_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="537" parent="308" name="fk_tabProduto_tabColaborador1_idx">
+    <index id="536" parent="308" name="fk_tabProduto_tabColaborador1_idx">
       <ColNames>usuarioCadastro_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="538" parent="308" name="fk_tabProduto_tabColaborador2_idx">
+    <index id="537" parent="308" name="fk_tabProduto_tabColaborador2_idx">
       <ColNames>usuarioAtualizacao_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="539" parent="308" name="PRIMARY">
+    <key id="538" parent="308" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="540" parent="308" name="fk_tabProduto_sisUnidadeComercial1">
+    <foreign-key id="539" parent="308" name="fk_tabProduto_sisUnidadeComercial1">
       <ColNames>sisUnidadeComercial_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>sisunidadecomercial</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="541" parent="308" name="fk_tabProduto_sisSituacaoSistema1">
+    <foreign-key id="540" parent="308" name="fk_tabProduto_sisSituacaoSistema1">
       <ColNames>sisSituacaoSistema_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>sissituacaosistema</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="542" parent="308" name="fk_tabProduto_fiscalCestNcm1">
+    <foreign-key id="541" parent="308" name="fk_tabProduto_fiscalCestNcm1">
       <ColNames>fiscalCestNcm_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalcestncm</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="543" parent="308" name="fk_tabProduto_fiscalCSTOrigem1">
+    <foreign-key id="542" parent="308" name="fk_tabProduto_fiscalCSTOrigem1">
       <ColNames>fiscalCstOrigem_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalCstOrigem</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="544" parent="308" name="fk_tabProduto_fiscalICMS1">
+    <foreign-key id="543" parent="308" name="fk_tabProduto_fiscalICMS1">
       <ColNames>fiscalIcms_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalIcms</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="545" parent="308" name="fk_tabProduto_fiscalPIS1">
+    <foreign-key id="544" parent="308" name="fk_tabProduto_fiscalPIS1">
       <ColNames>fiscalPis_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalPisCofins</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="546" parent="308" name="fk_tabProduto_fiscalCOFINS1">
+    <foreign-key id="545" parent="308" name="fk_tabProduto_fiscalCOFINS1">
       <ColNames>fiscalCofins_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalPisCofins</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="547" parent="308" name="fk_tabProduto_tabColaborador1">
+    <foreign-key id="546" parent="308" name="fk_tabProduto_tabColaborador1">
       <ColNames>usuarioCadastro_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabcolaborador</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="548" parent="308" name="fk_tabProduto_tabColaborador2">
+    <foreign-key id="547" parent="308" name="fk_tabProduto_tabColaborador2">
       <ColNames>usuarioAtualizacao_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabcolaborador</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="549" parent="309" name="id">
+    <column id="548" parent="309" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="550" parent="309" name="codBarra">
+    <column id="549" parent="309" name="codBarra">
       <Position>2</Position>
       <DataType>varchar(13)|0s</DataType>
       <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="550" parent="309" name="imgCodBarra">
+      <Position>3</Position>
+      <DataType>longblob|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
     <key id="551" parent="309" name="PRIMARY">
