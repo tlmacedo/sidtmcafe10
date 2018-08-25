@@ -103,6 +103,7 @@ public class ServiceCampoPersonalizado implements Constants {
             node.getId();
             if (node instanceof JFXTextField && node.getAccessibleText() != null) {
                 int len = 0;
+                node.getId();
                 String type = "";
                 HashMap<String, String> hashMap = ServiceFormatarDado.getFieldFormatMap(node.getAccessibleText());
                 if (hashMap.containsKey("len"))

@@ -121,9 +121,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         new ServiceSegundoPlano().tarefaAbreCadastroEmpresa(getTaskCadastroEmpresa(), listaTarefa.size());
 
         formatCnpj = new ServiceFormatarDado();
-        formatCnpj.maskField(txtCNPJ, "cnpj");
+        formatCnpj.maskField(txtCNPJ, "0cnpj");
         formatIe = new ServiceFormatarDado();
-        formatIe.maskField(txtIE, "ie");
+        formatIe.maskField(txtIE, "0ie");
     }
 
     @Override
@@ -289,8 +289,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             txtRazao.setPromptText(newValue.intValue() == 0 ? "Nome" : "Razão");
             txtFantasia.setPromptText(newValue.intValue() == 0 ? "Apelido" : "Fantasia");
             formatCnpj.setMascara(txtCNPJ.getPromptText().toLowerCase().replace(".", ""));
-            if (txtCNPJ.getLength() > 0)
-                txtCNPJ.setText(ServiceFormatarDado.getValorFormatado(txtCNPJ.getText(), txtCNPJ.getPromptText().toLowerCase().replace(".", "")));
+            txtCNPJ.setText(txtCNPJ.getText().replaceAll("\\d", ""));
+//            if (txtCNPJ.getLength() > 0)F
+//                txtCNPJ.setText(ServiceFormatarDado.getValorFormatado(txtCNPJ.getText(), txtCNPJ.getPromptText().toLowerCase().replace(".", "")));
             verificaIeRg();
         });
 
@@ -818,7 +819,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 ? cboEndUF.getSelectionModel().getSelectedItem().getSigla()
                 : ""));
         formatIe.setMascara(mask);
-        txtIE.setText(ServiceFormatarDado.getValorFormatado(txtIE.getText(), mask));
+        txtIE.setText(txtIE.getText().replaceAll("\\d", ""));
+        //txtIE.setText(ServiceFormatarDado.getValorFormatado(txtIE.getText(), mask));
     }
 
     boolean guardarEmpresa() {

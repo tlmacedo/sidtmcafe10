@@ -63,9 +63,10 @@ public class ServiceFormatarDado implements Constants {
     }
 
     public static String gerarMascara(String tipMascara) {
-        String mask = tipMascara.replaceAll("\\d", "");
+        String mask = tipMascara.replaceAll("\\d", ""), tmpLen;
+        if ((tmpLen = tipMascara.replaceAll("\\D", "")).equals("")) tmpLen = "0";
         if (!mask.equals("TEXTO") && !mask.equals("Texto")) mask = mask.toLowerCase();
-        int len = tipMascara.replaceAll("\\D", "").length() > 0
+        int len = !tmpLen.equals("0")
                 ? Integer.parseInt(tipMascara.replaceAll("\\D", ""))
                 : 120;
         String formato = getFormato(len);
