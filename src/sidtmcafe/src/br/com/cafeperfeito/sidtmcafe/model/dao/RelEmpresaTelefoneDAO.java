@@ -46,15 +46,20 @@ public class RelEmpresaTelefoneDAO extends ServiceBuscaBancoDados {
     }
 
     public int insertRelEmpresaTelefoneVO(Connection conn, int empresa_id, int telefone_id) throws SQLException {
+        String comandoSql = "INSERT INTO relEmpresaTelefone " +
+                "(tabEmpresa_id, " +
+                "tabTelefone_id) " +
+                "VALUES (" +
+                "?, ?)";
         addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
         addParametro(new Pair<>("int", String.valueOf(telefone_id)));
-        String comandoSql = "INSERT INTO relEmpresaTelefone (tabEmpresa_id, tabTelefone_id) VALUES(?, ?)";
         return getInsertBancoDados(conn, comandoSql);
     }
 
     public void deleteRelEmpresaTelefoneVO(Connection conn, int empresa_id, int telefone_id) throws SQLException {
+        String comandoSql = "DELETE FROM relEmpresaTelefone " +
+                "WHERE tabEmpresa_id = ? ";
         addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
-        String comandoSql = "DELETE FROM relEmpresaTelefone WHERE tabEmpresa_id = ? ";
         if (telefone_id > 0) {
             addParametro(new Pair<>("int", String.valueOf(telefone_id)));
             comandoSql += "AND tabTelefone_id = ? ";

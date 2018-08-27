@@ -201,12 +201,12 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
                 "nfeGenero, " +                  //19
                 "usuarioCadastro_id, " +         //20
                 "imgProduto) " +                 //21
-                "VALUES(" +
+                "VALUES (" +
                 "?, ?, ?, ?, ?, " +
                 "?, ?, ?, ?, ?, " +
                 "?, ?, ?, ?, ?, " +
                 "?, ?, ?, ?, ?, " +
-                "?)";
+                "?) ";
         addNewParametro(new Pair<>("int", String.valueOf(produtoVO.getCodigo())));
         addParametro(new Pair<>("String", produtoVO.getDescricao()));
         addParametro(new Pair<>("Decimal", produtoVO.getPeso().toString()));
@@ -218,7 +218,7 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoImpostoSefaz().toString()));
         addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoFrete().toString()));
         addParametro(new Pair<>("Decimal", produtoVO.getComissao().toString()));
-        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCestNcmVO().getId())));
+        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCestNcm_id())));
         addParametro(new Pair<>("String", produtoVO.getNcm()));
         addParametro(new Pair<>("String", produtoVO.getCest()));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCstOrigemVO().getId())));
@@ -234,7 +234,8 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
 
     public void deleteTabProdutoVO(Connection conn, int produto_id) throws SQLException {
         if (produto_id < 0) produto_id = produto_id * (-1);
-        String comandoSql = String.format("DELETE FROM tabProduto WHERE id = %d", produto_id);
+        String comandoSql = "DELETE FROM tabProduto WHERE id = ? ";
+        addNewParametro(new Pair<>("int", String.valueOf(produto_id)));
         getDeleteBancoDados(conn, comandoSql);
     }
 }

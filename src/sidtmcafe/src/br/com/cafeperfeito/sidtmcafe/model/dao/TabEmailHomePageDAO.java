@@ -35,16 +35,22 @@ public class TabEmailHomePageDAO extends ServiceBuscaBancoDados {
     }
 
     public void updateTabEmailHomePageVO(Connection conn, TabEmailHomePageVO emailHomePage) throws SQLException {
+        String comandoSql = "UPDATE tabEmailHomePage SET " +
+                "descricao = ? " +
+                "WHERE id = ? ";
         addNewParametro(new Pair<>("String", emailHomePage.getDescricao()));
-        addNewParametro(new Pair<>("int", String.valueOf(emailHomePage.getId())));
-        String comandoSql = "UPDATE tabEmailHomePage SET descricao = ? WHERE id = ? ";
+        addParametro(new Pair<>("int", String.valueOf(emailHomePage.getId())));
         getUpdateBancoDados(conn, comandoSql);
     }
 
     public int insertEmailHomePageVO(Connection conn, TabEmailHomePageVO emailHomePage, int empresa_id, int contato_id) throws SQLException {
+        String comandoSql = "INSERT INTO tabEmailHomePage " +
+                "(descricao, " +
+                "isEmail) " +
+                "VALUES(" +
+                "?, ?) ";
         addNewParametro(new Pair<>("String", emailHomePage.getDescricao()));
         addParametro(new Pair<>("boolean", emailHomePage.isIsEmail() ? "true" : "false"));
-        String comandoSql = "INSERT INTO tabEmailHomePage (descricao, isEmail) VALUES(?, ?) ";
         int emailHomePage_id = getInsertBancoDados(conn, comandoSql);
         if (empresa_id > 0)
             new RelEmpresaEmailHomePageDAO().insertRelEmpresaEmailHomePage(conn, empresa_id, emailHomePage_id);
@@ -54,13 +60,14 @@ public class TabEmailHomePageDAO extends ServiceBuscaBancoDados {
     }
 
     public void deleteEmailHomePageVO(Connection conn, int emailHome_id, int empresa_id, int contato_id) throws SQLException {
+        String comandoSql = "DELETE FROM tabEmailHomePage " +
+                "WHERE id = ? ";
         if (emailHome_id < 0) emailHome_id = emailHome_id * (-1);
         if (empresa_id > 0)
             new RelEmpresaEmailHomePageDAO().dedeteRelEmpresaEmailHomePage(conn, empresa_id, emailHome_id);
         if (contato_id > 0)
             new RelContatoEmailHomePageDAO().deleteRelContatoEmailHomePageVO(conn, contato_id, emailHome_id);
         addNewParametro(new Pair<>("int", String.valueOf(emailHome_id)));
-        String comandoSql = "DELETE FROM tabEmailHomePage WHERE id = ? ";
         getDeleteBancoDados(conn, comandoSql);
     }
 

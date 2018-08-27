@@ -20,7 +20,6 @@ public class ServiceVariavelSistema {
     public static String DATA_HORA_STR;
     public static String USUARIO_LOGADO_DATA_STR;
     public static String USUARIO_LOGADO_HORA_STR;
-    public static Image IMG_PRODUTO_DEFAULT;
 
     public static void newServiceVariavelSistema(TabColaboradorVO colaboradorVO) {
         if (colaboradorVO == null)
@@ -34,7 +33,6 @@ public class ServiceVariavelSistema {
         ServiceVariavelSistema.USUARIO_LOGADO_DATA_STR = ServiceVariavelSistema.USUARIO_LOGADO_DATA.format(DTF_DATA);
         ServiceVariavelSistema.USUARIO_LOGADO_HORA = LocalTime.now();
         ServiceVariavelSistema.USUARIO_LOGADO_HORA_STR = ServiceVariavelSistema.USUARIO_LOGADO_HORA.format(DTF_HORA);
-        ServiceVariavelSistema.IMG_PRODUTO_DEFAULT = ServiceBuscaWebService.getImagem("http://api.cosmos.bluesoft.com.br/assets/product-placeholder-55580b779c0ed40855059c6a9634108e.png");
     }
 }
 

@@ -467,6 +467,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     TabEmpresaVO empresaVO = new TabEmpresaVO();
     TabEnderecoVO enderecoVO = new TabEnderecoVO();
     TabContatoVO contatoVO = new TabContatoVO();
+    TreeItem<TabEmpresaVO> treeItemRoot;
 
     static String STATUS_BAR_TECLA_PESQUISA = "[F1-Novo]  [F4-Editar]  [F7-Pesquisar]  [F12-Sair]  ";
     static String STATUS_BAR_TECLA_EDITAR = "[F3-Cancelar edição]  [F5-Atualizar]  ";
@@ -619,14 +620,15 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         if (empresaVOFilteredList == null) {
             carregarListaEmpresa();
             pesquisaEmpresa();
+            return;
         }
-        final TreeItem<TabEmpresaVO> root = new RecursiveTreeItem<TabEmpresaVO>(empresaVOFilteredList, RecursiveTreeObject::getChildren);
+        treeItemRoot = new RecursiveTreeItem<TabEmpresaVO>(empresaVOFilteredList, RecursiveTreeObject::getChildren);
         ttvEmpresa.getColumns().setAll(TabModel.getColunaIdEmpresa(), TabModel.getColunaCnpj(), TabModel.getColunaIe(),
                 TabModel.getColunaRazao(), TabModel.getColunaFantasia(), TabModel.getColunaEndereco(),
                 TabModel.getColunaIsCliente(), TabModel.getColunaIsFornecedor(), TabModel.getColunaIsTransportadora());
         ttvEmpresa.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        ttvEmpresa.setRoot(root);
         ttvEmpresa.setShowRoot(false);
+        ttvEmpresa.setRoot(treeItemRoot);
     }
 
     void preencheDigitoADigito(JFXTextField textField, String value) {

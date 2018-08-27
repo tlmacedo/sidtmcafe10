@@ -60,18 +60,25 @@ public class TabContatoDAO extends ServiceBuscaBancoDados {
     }
 
     public void updateTabContatoVO(Connection conn, TabContatoVO contato) throws SQLException {
+        String comandoSql = "UPDATE tabContato SET " +
+                "descricao = ?, " +
+                "sisCargo_id = ? " +
+                "WHERE id = ? ";
         addNewParametro(new Pair<>("String", contato.getDescricao()));
         addParametro(new Pair<>("int", String.valueOf(contato.getSisCargo_id())));
         addParametro(new Pair<>("int", String.valueOf(contato.getId())));
-        String comandoSql = "UPDATE tabContato SET descricao = ?, sisCargo_id = ? WHERE id = ? ";
         verificaDetalhes(conn, contato, contato.getId());
         getUpdateBancoDados(conn, comandoSql);
     }
 
     public int insertTabContatoVO(Connection conn, TabContatoVO contato, int empresa_id) throws SQLException {
+        String comandoSql = "INSERT INTO tabContato " +
+                "(descricao, " +
+                "sisCargo_id) " +
+                "VALUES (" +
+                "?, ?) ";
         addNewParametro(new Pair<>("String", contato.getDescricao()));
         addParametro(new Pair<>("int", String.valueOf(contato.getSisCargo_id())));
-        String comandoSql = "INSERT INTO tabContato (descricao, sisCargo_id) VALUES(?, ?) ";
         int contato_id = getInsertBancoDados(conn, comandoSql);
         new RelEmpresaContatoDAO().insertRelEmpresaContatoVO(conn, empresa_id, contato_id);
         verificaDetalhes(conn, contato, contato_id);
@@ -79,11 +86,12 @@ public class TabContatoDAO extends ServiceBuscaBancoDados {
     }
 
     public void deleteTabContatoVO(Connection conn, TabContatoVO contato, int empresa_id) throws SQLException {
+        String comandoSql = "DELETE FROM tabContato " +
+                "WHERE id = ? ";
         verificaDetalhes(conn, contato, contato.getId());
         if (contato.getId() < 0) contato.setId(contato.getId() * (-1));
         new RelEmpresaContatoDAO().deleteRelEmpresaContatoVO(conn, empresa_id, contato.getId());
         addNewParametro(new Pair<>("int", String.valueOf(contato.getId())));
-        String comandoSql = "DELETE FROM tabContato WHERE id = ? ";
         getDeleteBancoDados(conn, comandoSql);
     }
 

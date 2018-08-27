@@ -8,10 +8,7 @@ import org.json.JSONObject;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
-import java.net.URL;
+import java.net.*;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -66,9 +63,10 @@ public class ServiceBuscaWebService implements Constants {
             if (urlConnection.getResponseCode() == 200) {
                 wsJsonObjectWebServiceVO = urlConnection.getInputStream();
                 jsonObject = new JSONObject(getStringBuilder(wsJsonObjectWebServiceVO).toString());
-            } else {
-                System.out.println("urlConnection.getResponseCode(1): [" + urlConnection.getResponseCode() + "]");
             }
+//            else {
+//                System.out.println("urlConnection.getResponseCode(1): [" + urlConnection.getResponseCode() + "]");
+//            }
         } catch (SocketTimeoutException ex) {
             try {
                 urlConnection = (HttpURLConnection) new URL(strUrl + compl).openConnection();
@@ -77,24 +75,22 @@ public class ServiceBuscaWebService implements Constants {
                 if (strUrl.contains("cosmos")) {
                     urlConnection.setRequestProperty("Content-Type", "application/json");
                     urlConnection.setRequestProperty("X-Cosmos-Token", token);
-                } else {
-                    urlConnection.setRequestProperty("Authorization", "Bearer " + token);
                 }
                 urlConnection.connect();
                 wsJsonObjectWebServiceVO = urlConnection.getInputStream();
                 if (urlConnection.getResponseCode() == 200) {
                     jsonObject = new JSONObject(getStringBuilder(wsJsonObjectWebServiceVO));
-                } else {
-                    System.out.println("urlConnection.getResponseCode(2): [" + urlConnection.getResponseCode() + "]");
                 }
             } catch (Exception ex1) {
                 if (!(ex1 instanceof TimeoutException))
                     ex1.printStackTrace();
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        } catch (UnknownHostException ex) {
+            //ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
 
         return jsonObject;
@@ -118,7 +114,6 @@ public class ServiceBuscaWebService implements Constants {
         try {
             URL url = new URL(strUrl);
             image = SwingFXUtils.toFXImage(ImageIO.read(url), null);
-
         } catch (IOException ex) {
             ex.printStackTrace();
         }

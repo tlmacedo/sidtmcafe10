@@ -306,6 +306,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         txtFiscalNcm.textProperty().addListener((observable, oldValue, newValue) -> {
             if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
             if (newValue == null || cboFiscalCestNcm.getSelectionModel().getSelectedItem() != null) return;
+            cboFiscalCestNcm.getItems().clear();
             cboFiscalCestNcm.setItems(new FiscalCestNcmDAO()
                     .getFiscalCestNcmVOList(newValue.replaceAll("\\D", ""))
                     .stream().collect(Collectors.toCollection(FXCollections::observableArrayList)));
@@ -698,11 +699,11 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         String retorno = ServiceConsultaWebServices.getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarras);
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
         listCodigoBarra.getSelectionModel().selectLast();
+        imgProduto.resize(250, 250);
+        imgProduto.setImage(getProdutoVO().getImgProduto());
         if (retorno.equals("")) return;
-        ServiceFormatarDado.getFieldFormatMap(ServiceConsultaWebServices.getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarras));
         txtDescricao.setText(getProdutoVO().getDescricao());
         cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(getProdutoVO().getNcm()));
-        imgProduto.setImage(getProdutoVO().getImgProduto());
     }
 
 

@@ -149,18 +149,23 @@ public class TabColaboradorVO {
     }
 
     public String getDetalheColaborador() {
-        StringBuilder stbColaborador = new StringBuilder();
-        Optional.ofNullable(nomeProperty().get()).ifPresent(c -> {
-            stbColaborador.append(String.format("[Usuário]:%s;[Cargo]:%s | [Loja]:%s;[End]:%s",
-                    nomeProperty().get().equals("") ? "" : String.format(" %s (%s)", nomeProperty().get(), apelidoProperty().get()),
-                    sisCargoVO == null ? "" : String.format(" %s", sisCargoVO.getDescricao()),
-                    lojaVO == null ? "" : String.format(" %s", lojaVO.getFantasia()),
-                    lojaVO.getTabEnderecoVOList().size() == 0 ? "" : String.format(" %s, %s - %s",
-                            lojaVO.getTabEnderecoVOList().get(0).getLogradouro(),
-                            lojaVO.getTabEnderecoVOList().get(0).getNumero(),
-                            lojaVO.getTabEnderecoVOList().get(0).getBairro())));
+        StringBuilder detColaborador = new StringBuilder();
+        Optional.ofNullable(nomeProperty().get()).ifPresent(c ->
+                detColaborador.append(String.format("usuario::%s;", nomeProperty().get()))
+        );
+        Optional.ofNullable(apelidoProperty().get()).ifPresent(c ->
+                detColaborador.append(String.format("apelido::%s;", apelidoProperty().get()))
+        );
+        Optional.ofNullable(sisCargoVO).ifPresent(c ->
+                detColaborador.append(String.format("cargo::%s;", sisCargoVO.getDescricao()))
+        );
+        Optional.ofNullable(lojaVO).ifPresent(c -> {
+            detColaborador.append(String.format("loja::%s;", lojaVO.getFantasia()));
+            Optional.ofNullable(lojaVO.getTabEnderecoVOList().get(0)).ifPresent(c1 ->
+                    detColaborador.append(String.format("end::%s;", (String.format(" %s, %s - %s", lojaVO.getTabEnderecoVOList().get(0).getLogradouro(), lojaVO.getTabEnderecoVOList().get(0).getNumero(), lojaVO.getTabEnderecoVOList().get(0).getBairro()))))
+            );
         });
-        return stbColaborador.toString();
+        return detColaborador.toString();
     }
 
     @Override

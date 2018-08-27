@@ -170,7 +170,10 @@ public class TabEmpresaDAO extends ServiceBuscaBancoDados implements Constants {
                 "usuarioCadastro_id, " +
                 "dataAbertura, " +
                 "naturezaJuridica) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (" +
+                "?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?) ";
         addNewParametro(new Pair<>("boolean", empresa.isIsEmpresa() ? "true" : "false"));
         addParametro(new Pair<>("String", empresa.getCnpj().replaceAll("\\D", "")));
         addParametro(new Pair<>("boolean", empresa.isIeIsento() ? "true" : "false"));
@@ -189,9 +192,10 @@ public class TabEmpresaDAO extends ServiceBuscaBancoDados implements Constants {
     }
 
     public void deleteTabEmpresaVO(Connection conn, int empresa_id) throws SQLException {
+        String comandoSql = "DELETE FROM tabEmpresa " +
+                "WHERE id = ? ";
         if (empresa_id < 0) empresa_id = empresa_id * (-1);
         addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
-        String comandoSql = "DELETE FROM tabEmpresa WHERE id = ? ";
         getDeleteBancoDados(conn, comandoSql);
     }
 

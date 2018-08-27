@@ -24,10 +24,10 @@ public class RelProduto_CodBarraDAO extends ServiceBuscaBancoDados {
         } else {
             if (produto_id > 0) {
                 addNewParametro(new Pair<>("int", String.valueOf(produto_id)));
-                comandoSql += "tabProduto_id = ? ";
+                comandoSql += "WHERE tabProduto_id = ? ";
             } else {
                 addNewParametro(new Pair<>("int", String.valueOf(codBarra_id)));
-                comandoSql += "tabProduto_CodBarra_id = ? ";
+                comandoSql += "WHERE tabProduto_CodBarra_id = ? ";
             }
         }
         getResultSet(comandoSql);

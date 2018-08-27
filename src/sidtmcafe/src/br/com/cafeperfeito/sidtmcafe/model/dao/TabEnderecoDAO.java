@@ -51,15 +51,15 @@ public class TabEnderecoDAO extends ServiceBuscaBancoDados {
 
     public void updateTabEnderecoVO(Connection conn, TabEnderecoVO endereco) throws SQLException {
         String comandoSql = "UPDATE tabEndereco SET " +
-                "sisTipoEndereco_id = %d, " +
-                "cep = '%s', " +
-                "logradouro = '%s', " +
-                "numero = '%s', " +
-                "complemento = '%s', " +
-                "bairro = '%s', " +
-                "sisMunicipio_id = %d, " +
-                "pontoReferencia = '%s' " +
-                "WHERE id = %d";
+                "sisTipoEndereco_id = ?, " +
+                "cep = ?, " +
+                "logradouro = ?, " +
+                "numero = ?, " +
+                "complemento = ?, " +
+                "bairro = ?, " +
+                "sisMunicipio_id = ?, " +
+                "pontoReferencia = ? " +
+                "WHERE id = ? ";
         addNewParametro(new Pair<>("int", String.valueOf(endereco.getSisTipoEndereco_id())));
         addParametro(new Pair<>("String", endereco.getCep().replaceAll("\\D", "")));
         addParametro(new Pair<>("String", endereco.getLogradouro()));
@@ -82,7 +82,9 @@ public class TabEnderecoDAO extends ServiceBuscaBancoDados {
                 "bairro, " +
                 "sisMunicipio_id, " +
                 "pontoReferencia) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (" +
+                "?, ?, ?, ?, ?, " +
+                "?, ?, ?)";
         addNewParametro(new Pair<>("int", String.valueOf(endereco.getSisTipoEndereco_id())));
         addParametro(new Pair<>("String", endereco.getCep().replaceAll("\\D", "")));
         addParametro(new Pair<>("String", endereco.getLogradouro()));
@@ -97,10 +99,11 @@ public class TabEnderecoDAO extends ServiceBuscaBancoDados {
     }
 
     public void deleteTabEnderecoVO(Connection conn, int endereco_id, int empresa_id) throws SQLException {
+        String comandoSql = "DELETE FROM tabEndereco " +
+                "WHERE id = ? ";
         if (endereco_id < 0) endereco_id = endereco_id * (-1);
         new RelEmpresaEnderecoDAO().dedeteRelEmpresaEndereco(conn, empresa_id, endereco_id);
         addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
-        String comandoSql = "DELETE FROM tabEndereco WHERE id = ? ";
         getDeleteBancoDados(conn, comandoSql);
     }
 

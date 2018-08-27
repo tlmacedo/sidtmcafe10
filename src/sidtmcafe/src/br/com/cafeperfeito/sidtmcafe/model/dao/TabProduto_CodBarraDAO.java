@@ -3,6 +3,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceImage;
 import javafx.util.Pair;
 
 import java.sql.Connection;
@@ -50,15 +51,27 @@ public class TabProduto_CodBarraDAO extends ServiceBuscaBancoDados {
         }
     }
 
-    public void updateTabProduto_CodBarraVO(Connection conn, TabProduto_CodBarraVO codBarraVO) throws SQLException {
-        String comandoSql = String.format("UPDATE tabProduto_CodBarra SET codBarra = '%s' WHERE id = %d",
-                codBarraVO.getCodBarra(), codBarraVO.getId());
+    public void updateTabProduto_CodBarraVO(Connection conn, TabProduto_CodBarraVO codBarra) throws SQLException {
+        String comandoSql = "UPDATE tabProduto_CodBarra SET " +
+                "codBarra = ?, " +
+                "imgCodBarra = ? " +
+                "WHERE id = ? ";
+        addNewParametro(new Pair<>("String", codBarra.getCodBarra()));
+        image[0] = ServiceImage.getInputStream(codBarra.getImgCodBarra());
+        addParametro(new Pair<>("blob0", "image"));
+        addParametro(new Pair<>("int", String.valueOf(codBarra.getId())));
         getUpdateBancoDados(conn, comandoSql);
     }
 
-    public int insertTabProduto_CodBarraVO(Connection conn, TabProduto_CodBarraVO codBarraVO, int produto_id) throws SQLException {
-        String comandoSql = String.format("INSERT INTO tabProduto_CodBarra (codBarra) " +
-                "VALUES('%s')", codBarraVO.getCodBarra());
+    public int insertTabProduto_CodBarraVO(Connection conn, TabProduto_CodBarraVO codBarra, int produto_id) throws SQLException {
+        String comandoSql = "INSERT INTO tabProduto_CodBarra " +
+                "(codBarra, " +
+                "imgCodBarra) " +
+                "VALUES(" +
+                "?, ?) ";
+        addNewParametro(new Pair<>("String", codBarra.getCodBarra()));
+        image[0] = ServiceImage.getInputStream(codBarra.getImgCodBarra());
+        addParametro(new Pair<>("blob0", "image"));
         int produto_CodBarra_id = getInsertBancoDados(conn, comandoSql);
         if (produto_id > 0)
             new RelProduto_CodBarraDAO().insertRelProduto_CodBarraVO(conn, produto_id, produto_CodBarra_id);
@@ -69,7 +82,8 @@ public class TabProduto_CodBarraDAO extends ServiceBuscaBancoDados {
         if (codBarra_id < 0) codBarra_id = codBarra_id * (-1);
         if (produto_id > 0)
             new RelProduto_CodBarraDAO().deleteRelProduto_CodBarraVO(conn, produto_id, codBarra_id);
-        String comandoSql = String.format("DELETE FROM tabProduto_CodBarra WHERE id = %d", codBarra_id);
+        String comandoSql = "DELETE FROM tabProduto_CodBarra WHERE id = ? ";
+        addNewParametro(new Pair<>("int", String.valueOf(codBarra_id)));
         getDeleteBancoDados(conn, comandoSql);
     }
 }

@@ -37,27 +37,5 @@ public class ServiceImage implements Constants {
         return null;
     }
 
-    public static byte[] getImgToByte(File imagemPng) {
-        try {
-            BufferedImage image = ImageIO.read(imagemPng);
-
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ImageIO.write(image, "jpg", outputStream);
-            return outputStream.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static BufferedImage getByteToImg(byte[] imgByte) {
-        try {
-            InputStream inputStream = new ByteArrayInputStream(imgByte);
-            return ImageIO.read(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 }

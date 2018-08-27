@@ -94,7 +94,11 @@
             <artifactId>guava-gwt</artifactId>
             <version>26.0-jre</version>
         </dependency>
-
+        <dependency>
+            <groupId>net.sourceforge.barbecue</groupId>
+            <artifactId>barbecue</artifactId>
+            <version>1.5-beta1</version>
+        </dependency>
 
 
         <!--<dependency>-->

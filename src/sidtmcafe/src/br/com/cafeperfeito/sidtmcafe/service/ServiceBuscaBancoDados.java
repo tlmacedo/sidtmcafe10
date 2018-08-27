@@ -28,12 +28,12 @@ public class ServiceBuscaBancoDados {
         }
     }
 
-    public void getUpdateBancoDados(Connection conn, String sql) throws SQLException {
+    public void getUpdateBancoDados(Connection conn,String sql) throws SQLException {
         stmt = conn.prepareStatement(sql);
         loadParametro().execute();
     }
 
-    public int getInsertBancoDados(Connection conn, String sql) throws SQLException {
+    public int getInsertBancoDados(Connection conn,String sql) throws SQLException {
         stmt = conn.prepareStatement(sql);
         loadParametro().execute();
         rs = conn.prepareStatement("SELECT LAST_INSERT_ID()").executeQuery();
@@ -42,7 +42,7 @@ public class ServiceBuscaBancoDados {
         return 0;
     }
 
-    public void getDeleteBancoDados(Connection conn, String sql) throws SQLException {
+    public void getDeleteBancoDados(Connection conn,String sql) throws SQLException {
         stmt = conn.prepareStatement(sql);
         loadParametro().execute();
     }
@@ -70,6 +70,13 @@ public class ServiceBuscaBancoDados {
                         break;
                     case "int":
                         stmt.setInt(i + 1, Integer.parseInt(listParametro.get(i).getValue()));
+                        break;
+                    case "boolean":
+                        stmt.setBoolean(i + 1, listParametro.get(i).getValue().equals("true"));
+                        break;
+                    case "date":
+                        System.out.println("date: [" + Date.valueOf(listParametro.get(i).getValue()) + "]");
+                        stmt.setDate(i + 1, Date.valueOf(listParametro.get(i).getValue()));
                         break;
                     case "blob0":
                         stmt.setBlob(i + 1, image[0]);

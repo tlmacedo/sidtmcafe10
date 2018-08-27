@@ -43,17 +43,24 @@ public class TabTelefoneDAO extends ServiceBuscaBancoDados implements Constants 
     }
 
     public void updateTabTelefoneVO(Connection conn, TabTelefoneVO telefone) throws SQLException {
+        String comandoSql = "UPDATE tabTelefone SET " +
+                "descricao = ?, " +
+                "sisTelefoneOperadora_id = ? " +
+                "WHERE id = ? ";
         addNewParametro(new Pair<>("String", telefone.getDescricao().replaceAll("\\D", "")));
         addParametro(new Pair<>("int", String.valueOf(telefone.getSisTelefoneOperadora_id())));
         addParametro(new Pair<>("int", String.valueOf(telefone.getId())));
-        String comandoSql = "UPDATE tabTelefone SET descricao = ?, sisTelefoneOperadora_id = ? WHERE id = ? ";
         getInsertBancoDados(conn, comandoSql);
     }
 
     public int insertTabTelefoneVO(Connection conn, TabTelefoneVO telefone, int empresa_id, int contato_id) throws SQLException {
+        String comandoSql = "INSERT INTO tabTelefone " +
+                "(descricao, " +
+                "sisTelefoneOperadora_id) " +
+                "VALUES(" +
+                "?, ?) ";
         addNewParametro(new Pair<>("String", telefone.getDescricao().replaceAll("\\D", "")));
         addParametro(new Pair<>("int", String.valueOf(telefone.getSisTelefoneOperadora_id())));
-        String comandoSql = "INSERT INTO tabTelefone (descricao, sisTelefoneOperadora_id) VALUES(?, ?) ";
         int telefone_id = getInsertBancoDados(conn, comandoSql);
         if (empresa_id > 0)
             new RelEmpresaTelefoneDAO().insertRelEmpresaTelefoneVO(conn, empresa_id, telefone_id);

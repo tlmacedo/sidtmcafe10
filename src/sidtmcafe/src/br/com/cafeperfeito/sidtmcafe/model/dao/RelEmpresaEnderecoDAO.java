@@ -46,15 +46,15 @@ public class RelEmpresaEnderecoDAO extends ServiceBuscaBancoDados {
     }
 
     public int insertRelEmpresaEndereco(Connection conn, int empresa_id, int endereco_id) throws SQLException {
+        String comandoSql = "INSERT INTO relEmpresaEndereco (tabEmpresa_id, tabEndereco_id) VALUES(?, ?)";
         addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
         addParametro(new Pair<>("int", String.valueOf(endereco_id)));
-        String comandoSql = "INSERT INTO relEmpresaEndereco (tabEmpresa_id, tabEndereco_id) VALUES(?, ?)";
         return getInsertBancoDados(conn, comandoSql);
     }
 
     public void dedeteRelEmpresaEndereco(Connection conn, int empresa_id, int endereco_id) throws SQLException {
-        addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
         String comandoSql = "DELETE FROM relEmpresaEndereco WHERE tabEmpresa_id = ? ";
+        addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
         if (endereco_id > 0) {
             addParametro(new Pair<>("int", String.valueOf(endereco_id)));
             comandoSql += "AND tabEndereco_id = ?";

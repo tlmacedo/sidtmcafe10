@@ -256,10 +256,10 @@ public class ServiceFormatarDado implements Constants {
                             }
                         }
                     }
-                    Platform.runLater(() -> {
+//                    Platform.runLater(() -> {
                         textField.setText(resultado.toString());
                         textField.positionCaret(resultado.length());
-                    });
+//                    });
                 }
             }
         });
