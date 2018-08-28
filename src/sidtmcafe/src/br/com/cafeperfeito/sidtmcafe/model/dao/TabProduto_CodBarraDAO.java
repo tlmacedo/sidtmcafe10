@@ -42,6 +42,7 @@ public class TabProduto_CodBarraDAO extends ServiceBuscaBancoDados {
                 codBarraVO = new TabProduto_CodBarraVO();
                 codBarraVO.setId(rs.getInt("id"));
                 codBarraVO.setCodBarra(rs.getString("codBarra"));
+                codBarraVO.setImgCodBarra(ServiceImage.getImageFromInputStream(rs.getBinaryStream("imgCodBarra")));
                 if (codBarraVOList != null) codBarraVOList.add(codBarraVO);
             }
         } catch (Exception ex) {
@@ -57,7 +58,7 @@ public class TabProduto_CodBarraDAO extends ServiceBuscaBancoDados {
                 "imgCodBarra = ? " +
                 "WHERE id = ? ";
         addNewParametro(new Pair<>("String", codBarra.getCodBarra()));
-        image[0] = ServiceImage.getInputStream(codBarra.getImgCodBarra());
+        image[0] = ServiceImage.getInputStreamFromImage(codBarra.getImgCodBarra());
         addParametro(new Pair<>("blob0", "image"));
         addParametro(new Pair<>("int", String.valueOf(codBarra.getId())));
         getUpdateBancoDados(conn, comandoSql);
@@ -70,7 +71,7 @@ public class TabProduto_CodBarraDAO extends ServiceBuscaBancoDados {
                 "VALUES(" +
                 "?, ?) ";
         addNewParametro(new Pair<>("String", codBarra.getCodBarra()));
-        image[0] = ServiceImage.getInputStream(codBarra.getImgCodBarra());
+        image[0] = ServiceImage.getInputStreamFromImage(codBarra.getImgCodBarra());
         addParametro(new Pair<>("blob0", "image"));
         int produto_CodBarra_id = getInsertBancoDados(conn, comandoSql);
         if (produto_id > 0)

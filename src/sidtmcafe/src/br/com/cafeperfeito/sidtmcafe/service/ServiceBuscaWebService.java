@@ -6,12 +6,11 @@ import javafx.scene.image.Image;
 import org.json.JSONObject;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.*;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.concurrent.TimeoutException;
 
 public class ServiceBuscaWebService implements Constants {
@@ -109,42 +108,4 @@ public class ServiceBuscaWebService implements Constants {
         return stringBuilder;
     }
 
-    public static Image getImagem(String strUrl) {
-        Image image = null;
-        try {
-            URL url = new URL(strUrl);
-            image = SwingFXUtils.toFXImage(ImageIO.read(url), null);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return image;
-
-
-        /*
-        InputStream in = null;
-        try {
-            urlConnection = (HttpURLConnection) new URL(strUrl).openConnection();
-            urlConnection.connect();
-            in = urlConnection.getInputStream();
-            Image image = new Image(String.valueOf(ImageIO.read(in)));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        */
-
-        /*
-        String saveAs = String.format("%s%s%s",PATH_IMAGE_DOWNLOAD, nomeArquivo, TYPE_IMAGE_DOWNLOAD);
-        InputStream in = new URL(strUrl).openStream();
-        try {
-            Files.copy(in, Paths.get(saveAs));
-        } catch (Exception ex) {
-            if (ex instanceof FileAlreadyExistsException) {
-                Files.delete(Paths.get(saveAs));
-                Files.copy(in, Paths.get(saveAs));
-            }
-        }
-         */
-
-
-    }
 }

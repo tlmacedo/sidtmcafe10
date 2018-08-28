@@ -1,14 +1,10 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
-import br.com.cafeperfeito.sidtmcafe.controller.ControllerCadastroProduto;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
-import br.com.cafeperfeito.sidtmcafe.model.model.TabModel;
 import javafx.concurrent.Task;
-import javafx.util.Pair;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.List;
 
 public class ServiceSegundoPlano implements Constants {
 

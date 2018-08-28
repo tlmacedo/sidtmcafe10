@@ -14,7 +14,7 @@ public class SisUnidadeComercialVO extends RecursiveTreeObject<SisUnidadeComerci
     public SisUnidadeComercialVO() {
     }
 
-    public SisUnidadeComercialVO(int id){
+    public SisUnidadeComercialVO(int id) {
         this.id = new SimpleIntegerProperty(-1);
         this.descricao = new SimpleStringProperty("");
         this.sigla = new SimpleStringProperty("");

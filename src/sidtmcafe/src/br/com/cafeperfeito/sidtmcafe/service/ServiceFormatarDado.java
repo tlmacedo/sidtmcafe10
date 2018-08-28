@@ -1,10 +1,8 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.jfoenix.controls.JFXTextField;
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
@@ -19,13 +17,9 @@ import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class ServiceFormatarDado implements Constants {
 
@@ -257,8 +251,8 @@ public class ServiceFormatarDado implements Constants {
                         }
                     }
 //                    Platform.runLater(() -> {
-                        textField.setText(resultado.toString());
-                        textField.positionCaret(resultado.length());
+                    textField.setText(resultado.toString());
+                    textField.positionCaret(resultado.length());
 //                    });
                 }
             }

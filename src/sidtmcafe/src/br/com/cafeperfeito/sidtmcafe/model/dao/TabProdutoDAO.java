@@ -1,20 +1,12 @@
 package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceImage;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.util.Pair;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -91,7 +83,7 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
                 tabProdutoVO.setDataCadastro(rs.getTimestamp("dataCadastro"));
                 tabProdutoVO.setUsuarioAtualizacao_id(rs.getInt("usuarioAtualizacao_id"));
                 tabProdutoVO.setDataAtualizacao(rs.getTimestamp("dataAtualizacao"));
-                tabProdutoVO.setImgProduto(ServiceImage.getImage(rs.getBinaryStream("imgProduto")));
+                tabProdutoVO.setImgProduto(ServiceImage.getImageFromInputStream(rs.getBinaryStream("imgProduto")));
                 if (tabProdutoVOList != null) tabProdutoVOList.add(tabProdutoVO);
             }
         } catch (Exception ex) {
@@ -172,7 +164,7 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCofinsVO().getId())));
         addParametro(new Pair<>("String", produtoVO.getNfeGenero()));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getUsuarioAtualizacao_id())));
-        image[0] = ServiceImage.getInputStream(produtoVO.getImgProduto());
+        image[0] = ServiceImage.getInputStreamFromImage(produtoVO.getImgProduto());
         addParametro(new Pair<>("blob0", "image"));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getId())));
         getUpdateBancoDados(conn, comandoSql);
@@ -227,7 +219,7 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCofinsVO().getId())));
         addParametro(new Pair<>("String", produtoVO.getNfeGenero()));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getUsuarioCadastro_id())));
-        image[0] = ServiceImage.getInputStream(produtoVO.getImgProduto());
+        image[0] = ServiceImage.getInputStreamFromImage(produtoVO.getImgProduto());
         addParametro(new Pair<>("blob0", "image"));
         return getInsertBancoDados(conn, comandoSql);
     }

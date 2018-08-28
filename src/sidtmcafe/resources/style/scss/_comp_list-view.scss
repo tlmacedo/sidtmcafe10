@@ -46,5 +46,21 @@
     }
   }
 
+  &.produtoCodBarra {
+    .list-cell {
+      -fx-pref-height: 60;
+      -fx-background-colobr: -fx-control-inner-background;
+      -fx-text-fill: $sisColor_black;
+      -fx-padding: 0 0 0 3;
+      &:odd {
+        -fx-background-color: derive(-fx-control-inner-background, -12%);
+      }
+      &:filled:selected {
+        -fx-background-color: -fx-selection-bar;
+        -fx-text-fill: -fx-selection-bar-text;
+      }
+    }
+  }
+
 }
 

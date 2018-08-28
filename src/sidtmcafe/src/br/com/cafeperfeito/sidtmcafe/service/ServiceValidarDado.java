@@ -1,7 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -32,7 +32,7 @@ public class FiscalIcmsDAO extends ServiceBuscaBancoDados {
                 fiscalIcmsVO = new FiscalIcmsVO();
                 fiscalIcmsVO.setId(rs.getInt("id"));
                 fiscalIcmsVO.setDescricao(rs.getString("descricao"));
-                if (fiscalIcmsVOList!=null) fiscalIcmsVOList.add(fiscalIcmsVO);
+                if (fiscalIcmsVOList != null) fiscalIcmsVOList.add(fiscalIcmsVO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

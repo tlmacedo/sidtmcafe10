@@ -24,27 +24,18 @@ import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.util.Callback;
 import javafx.util.Pair;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
@@ -88,8 +79,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     public JFXComboBox<FiscalIcmsVO> cboFiscalIcms;
     public JFXComboBox<FiscalPisCofinsVO> cboFiscalPis;
     public JFXComboBox<FiscalPisCofinsVO> cboFiscalCofins;
-    public ImageView imgCodBarras;
-    public ImageView imgProduto;
+    public Circle imgCirculo;
 
     @Override
     public void fechar() {
@@ -127,13 +117,42 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     @Override
                     protected void updateItem(FiscalCestNcmVO item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (item == null) setText(null);
-                        else {
+                        if (empty) {
+                            setText("");
+                        } else {
                             String novoTexto = "";
                             for (String det : item.getDetalheCestNcm().split(";"))
                                 if (novoTexto == "") novoTexto += det;
                                 else novoTexto += "\r\n" + det;
                             setText(novoTexto);
+                        }
+                    }
+                };
+                return cell;
+            }
+        });
+        listCodigoBarra.setCellFactory(new Callback<ListView<TabProduto_CodBarraVO>, ListCell<TabProduto_CodBarraVO>>() {
+            @Override
+            public ListCell<TabProduto_CodBarraVO> call(ListView<TabProduto_CodBarraVO> param) {
+                final ListCell<TabProduto_CodBarraVO> cell = new ListCell<TabProduto_CodBarraVO>() {
+                    private ImageView imageView = new ImageView();
+
+                    @Override
+                    protected void updateItem(TabProduto_CodBarraVO item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            if (item.getImgCodBarra() != null) {
+                                imageView.setImage(item.getImgCodBarra());
+                                imageView.setFitHeight(IMG_PRODUTO_CODBARRA_HEIGHT);
+                                imageView.setPreserveRatio(true);
+                                imageView.setSmooth(true);
+                                imageView.setCache(true);
+                            }
+                            setText(null);
+                            setGraphic(imageView);
                         }
                     }
                 };
@@ -284,11 +303,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 //            txtFiscalCest.setText(ServiceFormatarDado.getValorFormatado(newValue.getCest(), "cest"));
             txtFiscalNcm.setText(newValue.getNcm());
             txtFiscalCest.setText(newValue.getCest());
-        });
-
-        listCodigoBarra.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null) return;
-            imgCodBarras.setImage(newValue.getImgCodBarra());
         });
 
         listCodBarraVOObservableList.addListener((ListChangeListener) c -> {
@@ -658,8 +672,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                         getProdutoVO().getUsuarioAtualizacaoVO())));
         lblDataAtualizacaoDiff.setText(String.format("tempo de atualização%s",
                 getProdutoVO().getDataAtualizacao() == null ? "" : String.format(": %s", ServiceDataHora.getIntervaloData(getProdutoVO().getDataAtualizacao().toLocalDateTime().toLocalDate(), null))));
-
-        imgProduto.setImage(getProdutoVO().getImgProduto());
+        if (getProdutoVO().getImgProduto() != null)
+            imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
     }
 
     void keyShiftF6() {
@@ -681,7 +695,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         if (getProdutoVO().getImgProduto() != null && getProdutoVO().getImgProdutoBack() != null) {
             getProdutoVO().setImgProduto(getProdutoVO().getImgProdutoBack());
             getProdutoVO().setImgProdutoBack(null);
-            imgProduto.setImage(getProdutoVO().getImgProduto());
+            imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
         }
     }
 
@@ -695,12 +709,13 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         if ((codBarras = alertMensagem.getRetornoAlert_TextField(
                 "barcode", "")
                 .orElse(null)) == null) return;
+        if (codBarras.length() < 12)
+            codBarras = String.format("%012d", Long.parseLong(codBarras));
         if (buscaDuplicidadeCode(codBarras, true)) return;
         String retorno = ServiceConsultaWebServices.getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarras);
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
         listCodigoBarra.getSelectionModel().selectLast();
-        imgProduto.resize(250, 250);
-        imgProduto.setImage(getProdutoVO().getImgProduto());
+        imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
         if (retorno.equals("")) return;
         txtDescricao.setText(getProdutoVO().getDescricao());
         cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(getProdutoVO().getNcm()));

@@ -1,9 +1,14 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
-import br.com.cafeperfeito.sidtmcafe.model.dao.*;
-import br.com.cafeperfeito.sidtmcafe.model.vo.*;
+import br.com.cafeperfeito.sidtmcafe.model.dao.TabTelefoneDAO;
+import br.com.cafeperfeito.sidtmcafe.model.dao.WsCepPostmonDAO;
+import br.com.cafeperfeito.sidtmcafe.model.dao.WsCnpjReceitaWsDAO;
+import br.com.cafeperfeito.sidtmcafe.model.dao.WsEanCosmosDAO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabEnderecoVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabTelefoneVO;
 import javafx.concurrent.Task;
-import javafx.util.Pair;
 
 public class ServiceConsultaWebServices {
 
@@ -11,7 +16,7 @@ public class ServiceConsultaWebServices {
         Task<Void> buscaCep = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                updateMessage(String.format("Pesquisando C.E.P.: [%s]",busca));
+                updateMessage(String.format("Pesquisando C.E.P.: [%s]", busca));
                 Thread.sleep(200);
                 new WsCepPostmonDAO().getTabEnderecoVO(endereco, busca);
                 return null;
@@ -26,7 +31,7 @@ public class ServiceConsultaWebServices {
         Task<Void> buscaCNPJ = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                updateMessage(String.format("Pesquisando C.N.P.J: [%s]",busca));
+                updateMessage(String.format("Pesquisando C.N.P.J: [%s]", busca));
                 Thread.sleep(300);
                 new WsCnpjReceitaWsDAO().getTabEmpresaVO(empresa, busca);
                 return null;

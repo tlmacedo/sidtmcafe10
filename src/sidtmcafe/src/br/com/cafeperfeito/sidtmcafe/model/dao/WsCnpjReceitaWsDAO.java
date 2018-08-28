@@ -2,7 +2,10 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
-import br.com.cafeperfeito.sidtmcafe.service.*;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceAlertMensagem;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaWebService;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceConsultaWebServices;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceValidarDado;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,7 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema.*;
+import static br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema.USUARIO_LOGADO_APELIDO;
 
 //import br.com.cafeperfeito.sidtmcafe.service.FormatarDado;
 

@@ -1,6 +1,8 @@
 package br.com.cafeperfeito.sidtmcafe.model.model;
 
-import br.com.cafeperfeito.sidtmcafe.model.vo.*;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabInformacaoReceitaFederalVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Pos;

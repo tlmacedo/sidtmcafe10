@@ -1,17 +1,5 @@
 package br.com.cafeperfeito.sidtmcafe.teste;
 
-import br.com.cafeperfeito.sidtmcafe.model.dao.FiscalCestNcmDAO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceAlertMensagem;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceConsultaWebServices;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
-import com.google.common.base.Splitter;
-import com.mysql.cj.util.StringUtils;
-
-import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.PATH_IMAGE_DOWNLOAD;
-import static br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema.USUARIO_LOGADO_APELIDO;
-
 public class Testes {
 
 //    public static void main(String... args) {

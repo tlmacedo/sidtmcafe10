@@ -1,6 +1,5 @@
 package br.com.cafeperfeito.sidtmcafe.interfaces;
 
-import br.com.cafeperfeito.sidtmcafe.model.vo.SisTelefoneOperadoraVO;
 import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.util.Pair;
@@ -60,6 +59,8 @@ public interface Constants {
      *Constants para estilos do sistema
      *///macOS⁩ ▸ ⁨Usuários⁩ ▸ ⁨thiagomacedo⁩ ▸ ⁨Imagens⁩
     Image IMG_DEFAULT_PRODUTO = new Image("image/default/produtoDefault.png");
+    int IMG_PRODUTO_CODBARRA_WIDTH = 228;
+    int IMG_PRODUTO_CODBARRA_HEIGHT = 60;
     String TYPE_IMAGE_DOWNLOAD = ".png";
     String PATH_IMAGE_DOWNLOAD = System.getProperty("user.home") + "/Pictures/";
     //String PATH_IMAGE_DOWNLOAD = "/volumes/macOS/Usuários/thiagomacedo/Imagens/";

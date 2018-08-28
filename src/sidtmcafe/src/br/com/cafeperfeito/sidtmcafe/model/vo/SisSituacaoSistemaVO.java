@@ -57,5 +57,5 @@ public class SisSituacaoSistemaVO extends RecursiveTreeObject<SisSituacaoSistema
     public String toString() {
         return descricaoProperty().get();
     }
-    
+
 }

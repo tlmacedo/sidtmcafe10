@@ -4,11 +4,11 @@ import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import com.jfoenix.controls.*;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Pair;
+import javafx.scene.shape.Circle;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class ServiceCampoPersonalizado implements Constants {
 
@@ -42,6 +42,10 @@ public class ServiceCampoPersonalizado implements Constants {
                         || vlrInicial.equals("true"));
             else if (node instanceof JFXComboBox)
                 ((JFXComboBox) node).getSelectionModel().select(vlrInicial.equals("") ? -1 : Integer.parseInt(vlrInicial));
+            else if (node instanceof ImageView)
+                ((ImageView) node).setImage(null);
+            else if (node instanceof Circle)
+                ((Circle) node).setFill(null);
             else if (node instanceof JFXListView)
                 ((JFXListView) node).getItems().clear();
             else if (node instanceof AnchorPane)

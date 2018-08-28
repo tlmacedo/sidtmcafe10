@@ -2,7 +2,6 @@ package br.com.cafeperfeito.sidtmcafe.service;
 
 import br.com.cafeperfeito.sidtmcafe.model.dao.TabColaboradorDAO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabColaboradorVO;
-import javafx.scene.image.Image;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

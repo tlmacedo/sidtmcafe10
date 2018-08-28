@@ -3,7 +3,6 @@ package br.com.cafeperfeito.sidtmcafe.service;
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import javafx.util.Pair;
 
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.*;
@@ -28,12 +27,12 @@ public class ServiceBuscaBancoDados {
         }
     }
 
-    public void getUpdateBancoDados(Connection conn,String sql) throws SQLException {
+    public void getUpdateBancoDados(Connection conn, String sql) throws SQLException {
         stmt = conn.prepareStatement(sql);
         loadParametro().execute();
     }
 
-    public int getInsertBancoDados(Connection conn,String sql) throws SQLException {
+    public int getInsertBancoDados(Connection conn, String sql) throws SQLException {
         stmt = conn.prepareStatement(sql);
         loadParametro().execute();
         rs = conn.prepareStatement("SELECT LAST_INSERT_ID()").executeQuery();
@@ -42,7 +41,7 @@ public class ServiceBuscaBancoDados {
         return 0;
     }
 
-    public void getDeleteBancoDados(Connection conn,String sql) throws SQLException {
+    public void getDeleteBancoDados(Connection conn, String sql) throws SQLException {
         stmt = conn.prepareStatement(sql);
         loadParametro().execute();
     }

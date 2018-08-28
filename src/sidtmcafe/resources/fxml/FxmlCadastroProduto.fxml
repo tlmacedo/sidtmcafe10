@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXListView?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.control.TreeTableView?>
-<?import javafx.scene.image.ImageView?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
-
 <AnchorPane fx:id="painelViewCadastroProduto" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="780.0" prefWidth="1350.0" styleClass="view-cadastro-produto"
             xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
@@ -232,7 +226,7 @@
                         </Label>
                         <JFXListView fx:id="listCodigoBarra" accessibleText="len::;type::;value::;seteditable::;"
                                      layoutX="1068.0" layoutY="68.0" prefHeight="186.0" prefWidth="260.0"
-                                     styleClass="endereco">
+                                     styleClass="produtoCodBarra">
                             <tooltip>
                                 <Tooltip text="códigos de barras do produto"/>
                             </tooltip>
@@ -317,18 +311,9 @@
                                 </AnchorPane>
                             </content>
                         </TitledPane>
-                        <ImageView fx:id="imgCodBarras" fitHeight="153.0" fitWidth="228.0" layoutX="1068.0"
-                                   layoutY="262.0" pickOnBounds="true" preserveRatio="true">
-                            <!--<tooltip>-->
-                            <!--<Tooltip text="imagem do código de barras do produto"/>-->
-                            <!--</tooltip>-->
-                        </ImageView>
-                        <ImageView fx:id="imgProduto" fitHeight="250.0" fitWidth="250.0" layoutX="810.0" layoutY="262.0"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <!--<tooltip>-->
-                            <!--<Tooltip text="imagem do código de barras do produto"/>-->
-                            <!--</tooltip>-->
-                        </ImageView>
+                        <Circle fx:id="imgCirculo" fill="#1f93ff00" layoutX="1198.0" layoutY="392.0" radius="125.0"
+                                accessibleText="len::;type::;value::;seteditable::;"
+                                stroke="#ff6600" strokeLineCap="ROUND" strokeWidth="3.0"/>
                     </children>
                 </AnchorPane>
             </content>

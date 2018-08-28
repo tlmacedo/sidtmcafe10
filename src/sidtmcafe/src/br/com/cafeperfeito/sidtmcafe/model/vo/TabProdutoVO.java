@@ -2,10 +2,12 @@ package br.com.cafeperfeito.sidtmcafe.model.vo;
 
 import br.com.cafeperfeito.sidtmcafe.model.dao.TabProdutoDAO;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 
-import java.io.ObjectInputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;

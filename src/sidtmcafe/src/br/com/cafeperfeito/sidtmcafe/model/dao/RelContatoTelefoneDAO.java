@@ -13,7 +13,7 @@ import java.util.List;
 public class RelContatoTelefoneDAO extends ServiceBuscaBancoDados {
 
     RelContatoTelefoneVO relContatoTelefoneVO = null;
-    List<RelContatoTelefoneVO> relContatoTelefoneVOList=null;
+    List<RelContatoTelefoneVO> relContatoTelefoneVOList = null;
 
     public RelContatoTelefoneVO getRelContatoTelefoneVO(int contato_id, int telefone_id) {
         addNewParametro(new Pair<>("int", String.valueOf(contato_id)));
