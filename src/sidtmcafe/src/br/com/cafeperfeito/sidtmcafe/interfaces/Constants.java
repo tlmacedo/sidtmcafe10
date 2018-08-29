@@ -18,6 +18,7 @@ public interface Constants {
 
     //String REGEX_MASK_MOEDA_NUMERO = "#,###,###,###,###,###,##0";
     String REGEX_MASK_MOEDA_NUMERO = "#,##0";
+    String REGEX_IMAGENS_EXTENSAO = "\\.(jpg|jpeg|png|gif)";
     String REGEX_CNPJ_CPF = "(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})|(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})";
     String REGEX_EMAIL = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}";
     String REGEX_HOME_PAGE = "[A-Z0-9._%+-]+[A-Z0-9.-]+\\.[A-Z]{2,6}";
@@ -59,8 +60,10 @@ public interface Constants {
      *Constants para estilos do sistema
      *///macOS⁩ ▸ ⁨Usuários⁩ ▸ ⁨thiagomacedo⁩ ▸ ⁨Imagens⁩
     Image IMG_DEFAULT_PRODUTO = new Image("image/default/produtoDefault.png");
-    int IMG_PRODUTO_CODBARRA_WIDTH = 228;
+    int IMG_PRODUTO_CODBARRA_WIDTH = 200;
     int IMG_PRODUTO_CODBARRA_HEIGHT = 60;
+    int IMG_PRODUTO_IMAGE_WIDTH = 250;
+    int IMG_PRODUTO_IMAGE_HEIGHT = 250;
     String TYPE_IMAGE_DOWNLOAD = ".png";
     String PATH_IMAGE_DOWNLOAD = System.getProperty("user.home") + "/Pictures/";
     //String PATH_IMAGE_DOWNLOAD = "/volumes/macOS/Usuários/thiagomacedo/Imagens/";

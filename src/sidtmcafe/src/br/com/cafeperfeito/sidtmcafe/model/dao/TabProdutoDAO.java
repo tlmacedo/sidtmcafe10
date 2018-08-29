@@ -71,7 +71,6 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
                 tabProdutoVO.setPrecoUltimoImpostoSefaz(rs.getBigDecimal("precoUltimoImpostoSEFAZ"));
                 tabProdutoVO.setPrecoUltimoFrete(rs.getBigDecimal("precoUltimoFrete"));
                 tabProdutoVO.setComissao(rs.getBigDecimal("comissao"));
-                tabProdutoVO.setFiscalCestNcm_id(rs.getInt("fiscalCestNcm_id"));
                 tabProdutoVO.setNcm(rs.getString("ncm"));
                 tabProdutoVO.setCest(rs.getString("cest"));
                 tabProdutoVO.setFiscalCSTOrigem_id(rs.getInt("fiscalCstOrigem_id"));
@@ -97,8 +96,6 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
         produto.setSisUnidadeComercialVO(new SisUnidadeComercialDAO().getSisUnidadeComercialVO(produto.getSisUnidadeComercial_id()));
 
         produto.setSisSituacaoSistemaVO(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVO(produto.getSisSituacaoSistema_id()));
-
-        produto.setFiscalCestNcmVO(new FiscalCestNcmDAO().getFiscalCestNcmVO(produto.getFiscalCestNcm_id()));
 
         produto.setFiscalCstOrigemVO(new FiscalCstOrigemDAO().getFiscalCstOrigemVO(produto.getFiscalCSTOrigem_id()));
 
@@ -133,7 +130,6 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
                 "precoUltimoImpostoSEFAZ = ?, " +    //9
                 "precoUltimoFrete = ?, " +           //10
                 "comissao = ?, " +                   //11
-                "fiscalCestNcm_id = ?, " +           //12
                 "ncm = ?, " +                        //13
                 "cest = ?, " +                       //14
                 "fiscalCSTOrigem_id = ?, " +         //15
@@ -155,7 +151,6 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoImpostoSefaz().toString()));
         addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoFrete().toString()));
         addParametro(new Pair<>("Decimal", produtoVO.getComissao().toString()));
-        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCestNcmVO().getId())));
         addParametro(new Pair<>("String", produtoVO.getNcm()));
         addParametro(new Pair<>("String", produtoVO.getCest()));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCstOrigemVO().getId())));
@@ -183,7 +178,6 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
                 "precoUltimoImpostoSEFAZ, " +    //9
                 "precoUltimoFrete, " +           //10
                 "comissao, " +                   //11
-                "fiscalCestNcm_id, " +           //12
                 "ncm, " +                        //13
                 "cest, " +                       //14
                 "fiscalCSTOrigem_id, " +         //15
@@ -197,8 +191,7 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
                 "?, ?, ?, ?, ?, " +
                 "?, ?, ?, ?, ?, " +
                 "?, ?, ?, ?, ?, " +
-                "?, ?, ?, ?, ?, " +
-                "?) ";
+                "?, ?, ?, ?, ?) ";
         addNewParametro(new Pair<>("int", String.valueOf(produtoVO.getCodigo())));
         addParametro(new Pair<>("String", produtoVO.getDescricao()));
         addParametro(new Pair<>("Decimal", produtoVO.getPeso().toString()));
@@ -210,7 +203,6 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoImpostoSefaz().toString()));
         addParametro(new Pair<>("Decimal", produtoVO.getPrecoUltimoFrete().toString()));
         addParametro(new Pair<>("Decimal", produtoVO.getComissao().toString()));
-        addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCestNcm_id())));
         addParametro(new Pair<>("String", produtoVO.getNcm()));
         addParametro(new Pair<>("String", produtoVO.getCest()));
         addParametro(new Pair<>("int", String.valueOf(produtoVO.getFiscalCstOrigemVO().getId())));

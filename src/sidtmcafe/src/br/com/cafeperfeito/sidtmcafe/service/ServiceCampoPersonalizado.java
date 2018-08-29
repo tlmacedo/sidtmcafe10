@@ -86,6 +86,10 @@ public class ServiceCampoPersonalizado implements Constants {
                 ((JFXComboBox) node).setDisable(setDisable);
             } else if (node instanceof ComboBox) {
                 ((ComboBox) node).setDisable(setDisable);
+            } else if (node instanceof ImageView) {
+                ((ImageView) node).setDisable(setDisable);
+            } else if (node instanceof Circle) {
+                ((Circle) node).setDisable(setDisable);
             } else if (node instanceof JFXCheckBox) {
                 ((JFXCheckBox) node).setDisable(setDisable);
             } else if (node instanceof AnchorPane) {

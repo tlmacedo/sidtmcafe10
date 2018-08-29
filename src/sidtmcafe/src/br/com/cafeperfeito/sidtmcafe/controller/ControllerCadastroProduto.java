@@ -24,21 +24,30 @@ import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Callback;
 import javafx.util.Pair;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ControllerCadastroProduto extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
@@ -319,8 +328,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
         txtFiscalNcm.textProperty().addListener((observable, oldValue, newValue) -> {
             if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
-            if (newValue == null || cboFiscalCestNcm.getSelectionModel().getSelectedItem() != null) return;
+            //if (newValue == null || cboFiscalCestNcm.getSelectionModel().getSelectedItem() != null) return;
+            if (newValue == null) return;
             cboFiscalCestNcm.getItems().clear();
+            cboFiscalCestNcm.getSelectionModel().select(-1);
             cboFiscalCestNcm.setItems(new FiscalCestNcmDAO()
                     .getFiscalCestNcmVOList(newValue.replaceAll("\\D", ""))
                     .stream().collect(Collectors.toCollection(FXCollections::observableArrayList)));
@@ -388,7 +399,41 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 vlrLucroBruto();
             }
         });
+
+//        imgCirculo.setOnDragOver(evt -> {
+//            System.out.println("setOnDragOver");
+//            if (evt.getDragboard().hasFiles()) {
+//                evt.acceptTransferModes(TransferMode.LINK);
+//            }
+//        });
+//        imgCirculo.setOnDragDropped(evt -> {
+//            System.out.println("setOnDragDropped");
+//            System.out.println(evt.getDragboard().getFiles().stream().map(File::getAbsolutePath).collect(Collectors.joining("\n")));
+//            evt.setDropCompleted(true);
+//        });
+
+
+        imgCirculo.setOnDragOver(event -> {
+            if (imgCirculo.isDisabled()) return;
+            Dragboard board = event.getDragboard();
+            if (board.hasFiles())
+                if (Pattern.compile(REGEX_IMAGENS_EXTENSAO).matcher(board.getFiles().get(0).toPath().toString()).find())
+                    event.acceptTransferModes(TransferMode.ANY);
+        });
+
+        imgCirculo.setOnDragDropped(event -> {
+            if (imgCirculo.isDisabled()) return;
+            try {
+                Dragboard board = event.getDragboard();
+                getProdutoVO().setImgProdutoBack(getProdutoVO().getImgProduto());
+                getProdutoVO().setImgProduto(ServiceImage.getImageResized(new Image(new FileInputStream(board.getFiles().get(0))), "produto"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
+        });
     }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -411,7 +456,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     static String STATUS_BAR_TECLA_INCLUIR = "[F2-Incluir]  [F3-Cancelar inclusão]  ";
 
     EventHandler<KeyEvent> eventHandlerCadastroProduto;
-    HashMap<String, String> hashMap;
+    Pattern p;
     List<Pair> listaTarefa = new ArrayList<>();
     ServiceFormatarDado formatPeso;
     ServiceAlertMensagem alertMensagem;
@@ -595,8 +640,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         produtoVOFilteredList.setPredicate(produto -> {
             if (produto.getCodigo().contains(busca)) return true;
             if (produto.getDescricao().contains(busca)) return true;
-            if (produto.getFiscalCestNcmVO().getNcm().contains(busca)) return true;
-            if (produto.getFiscalCestNcmVO().getCest().contains(busca)) return true;
+            if (produto.getNcm().contains(busca)) return true;
+            if (produto.getCest().contains(busca)) return true;
             if (produto.getCodBarraVOList().stream()
                     .filter(codBarra -> codBarra.getCodBarra().contains(busca))
                     .findFirst().orElse(null) != null) return true;
@@ -640,10 +685,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 .filter(sitSistema -> sitSistema.getId() == getProdutoVO().getSisSituacaoSistema_id())
                 .findFirst().orElse(null));
 
-        cboFiscalCestNcm.getSelectionModel().select(cboFiscalCestNcm.getItems().stream()
-                .filter(cestNcm -> cestNcm.getId() == getProdutoVO().getFiscalCestNcm_id())
-                .findFirst().orElse(null));
-
         cboFiscalOrigem.getSelectionModel().select(cboFiscalOrigem.getItems().stream()
                 .filter(origem -> origem.getId() == getProdutoVO().getFiscalCSTOrigem_id())
                 .findFirst().orElse(null));
@@ -677,8 +718,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void keyShiftF6() {
-        if (listCodigoBarra.isFocused())
-            updateCodeBar();
+
     }
 
     void keyInsert() {
@@ -712,13 +752,12 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         if (codBarras.length() < 12)
             codBarras = String.format("%012d", Long.parseLong(codBarras));
         if (buscaDuplicidadeCode(codBarras, true)) return;
-        String retorno = ServiceConsultaWebServices.getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarras);
+        if (!ServiceConsultaWebServices.getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarras).equals("")) {
+            txtDescricao.setText(getProdutoVO().getDescricao());
+            cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(getProdutoVO().getNcm()));
+        }
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
-        listCodigoBarra.getSelectionModel().selectLast();
         imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
-        if (retorno.equals("")) return;
-        txtDescricao.setText(getProdutoVO().getDescricao());
-        cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(getProdutoVO().getNcm()));
     }
 
 
@@ -730,7 +769,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         alertMensagem.setStrIco("ic_barcode_remove_24dp");
         alertMensagem.setCabecalho(String.format("Deletar dados [código de barras]"));
         alertMensagem.setPromptText(String.format("%s, deseja deletar o código de barras: [%s]\ndo produto: [%s] ?",
-                USUARIO_LOGADO_APELIDO, codBarraVO, getProdutoVO()));
+                USUARIO_LOGADO_APELIDO, codBarraVO, getProdutoVO().getDescricao()));
         if (alertMensagem.getRetornoAlert_YES_NO().get() == ButtonType.NO) return;
         if (codBarraVO.getId() == 0)
             getProdutoVO().getCodBarraVOList().remove(codBarraVO);
@@ -740,22 +779,22 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
     }
 
-    void updateCodeBar() {
-        TabProduto_CodBarraVO codBarraVO;
-        codBarraVO = listCodigoBarra.getSelectionModel().getSelectedItem();
-        if (codBarraVO == null) return;
-        alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setStrIco("ic_barcode_update_24dp");
-        alertMensagem.setCabecalho(String.format("Editar dados [código de barras]"));
-        alertMensagem.setPromptText(String.format("%s, deseja editar o código de barras: [%s]\ndo produto: [%s] ?",
-                USUARIO_LOGADO_APELIDO, codBarraVO, txtDescricao.getText()));
-        String codBarras;
-        if ((codBarras = alertMensagem.getRetornoAlert_TextField(
-                "barcode", codBarraVO.getCodBarra())
-                .orElse(null)) == null) return;
-        codBarraVO.setCodBarra(codBarras);
-        listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
-    }
+//    void updateCodeBar() {
+//        TabProduto_CodBarraVO codBarraVO;
+//        codBarraVO = listCodigoBarra.getSelectionModel().getSelectedItem();
+//        if (codBarraVO == null) return;
+//        alertMensagem = new ServiceAlertMensagem();
+//        alertMensagem.setStrIco("ic_barcode_update_24dp");
+//        alertMensagem.setCabecalho(String.format("Editar dados [código de barras]"));
+//        alertMensagem.setPromptText(String.format("%s, deseja editar o código de barras: [%s]\ndo produto: [%s] ?",
+//                USUARIO_LOGADO_APELIDO, codBarraVO, txtDescricao.getText()));
+//        String codBarras;
+//        if ((codBarras = alertMensagem.getRetornoAlert_TextField(
+//                "barcode", codBarraVO.getCodBarra())
+//                .orElse(null)) == null) return;
+//        codBarraVO.setCodBarra(codBarras);
+//        listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
+//    }
 
     boolean buscaDuplicidadeCode(String buscaDuplicidade, boolean barCode) {
         TabProdutoVO duplicProduto;
@@ -786,36 +825,36 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     boolean validarDadosProduto() {
         boolean result = true;
-        String dado = null;
+        String dado = "";
         if (!(result = (txtCodigo.getText().length() >= 1 && result == true))) {
-            dado = "código";
+            dado +="código";
             txtCodigo.requestFocus();
         }
         if (!(result = (txtDescricao.getText().length() >= 3 && result == true))) {
-            dado = "descrição";
+            dado +="descrição";
             txtDescricao.requestFocus();
         }
         if (!(result = (txtFiscalNcm.getText().length() >= 1 && result == true))) {
-            dado = "descrição";
+            dado +="descrição";
             txtFiscalNcm.requestFocus();
         }
         if (!(result = (Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", ".")) > 0 && result == true))) {
-            dado = "preço de venda";
+            dado +="preço de venda";
             txtPrecoVenda.requestFocus();
         }
         if (!(result = ((cboUnidadeComercial.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
-            dado = "und comercial";
+            dado +="und comercial";
             cboUnidadeComercial.requestFocus();
         }
         if (!(result = ((cboSituacaoSistema.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
-            dado = "sit. sistema";
+            dado +="sit. sistema";
             cboSituacaoSistema.requestFocus();
         }
         if (!(result = ((cboFiscalOrigem.getSelectionModel().getSelectedIndex() >= 0
                 || cboFiscalIcms.getSelectionModel().getSelectedIndex() >= 0
                 || cboFiscalPis.getSelectionModel().getSelectedIndex() >= 0
                 || cboFiscalCofins.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
-            dado = "fiscal";
+            dado +="fiscal";
             cboFiscalIcms.requestFocus();
         }
         if (!result) {
@@ -844,9 +883,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             getProdutoVO().setPrecoUltimoImpostoSefaz(ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoUltimoImpostoSefaz.getText()));
             getProdutoVO().setPrecoUltimoFrete(ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoUltimoFrete.getText()));
             getProdutoVO().setComissao(ServiceFormatarDado.getBigDecimalFromTextField(txtComissaoPorc.getText()));
-            getProdutoVO().setFiscalCestNcm_id(0);
-            if (cboFiscalCestNcm.getSelectionModel().getSelectedItem() != null)
-                getProdutoVO().setFiscalCestNcm_id(cboFiscalCestNcm.getSelectionModel().getSelectedItem().getId());
             getProdutoVO().setNcm(txtFiscalNcm.getText().equals("") ? "" : txtFiscalNcm.getText().replaceAll("\\D", ""));
             getProdutoVO().setCest(txtFiscalCest.getText().equals("") ? "" : txtFiscalCest.getText().replaceAll("\\D", ""));
             getProdutoVO().setFiscalCstOrigemVO(cboFiscalOrigem.getSelectionModel().getSelectedItem());
@@ -890,12 +926,12 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     });
             conn.commit();
         } catch (SQLException ex) {
-            ex.printStackTrace();
             try {
                 conn.rollback();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            ex.printStackTrace();
             return false;
         }
         return true;
@@ -907,7 +943,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             BigDecimal margem = ServiceFormatarDado.getBigDecimalFromTextField(txtMargem.getText());
             BigDecimal prcConsumidor;
             if (margem.compareTo(BigDecimal.ZERO) == 0) prcConsumidor = prcFabrica;
-            else prcConsumidor = prcFabrica.multiply(BigDecimal.ONE.add(margem.divide(new BigDecimal(100))));
+            else prcConsumidor = ((margem.multiply(BigDecimal.valueOf(100))).add(BigDecimal.ONE)).multiply(prcFabrica);
             txtPrecoVenda.setText(prcConsumidor.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
@@ -920,10 +956,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
         BigDecimal margem;
         try {
-            if (prcConsumidor.compareTo(prcFabrica) == 0)
+            if (prcConsumidor.compareTo(BigDecimal.ZERO) == 0 || prcFabrica.compareTo(BigDecimal.ZERO) == 0)
                 margem = BigDecimal.ZERO;
             else
-                margem = ((prcConsumidor.subtract(prcFabrica)).divide(prcFabrica, RoundingMode.HALF_UP)).multiply(new BigDecimal("100."));
+                margem = ((prcConsumidor.subtract(prcFabrica)).divide(prcFabrica, RoundingMode.HALF_UP)).multiply(BigDecimal.valueOf(100));
             txtMargem.setText(margem.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
@@ -935,9 +971,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         try {
             BigDecimal prcFabrica = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoFabrica.getText());
             BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
-            BigDecimal lucroBruto;
-            if (prcConsumidor.compareTo(prcFabrica) == 0) lucroBruto = BigDecimal.ZERO;
-            else lucroBruto = prcConsumidor.subtract(prcFabrica);
+            BigDecimal lucroBruto = prcConsumidor.subtract(prcFabrica);
             txtLucroBruto.setText(lucroBruto.setScale(2, RoundingMode.HALF_UP).toString());
             vlrLucroLiq();
         } catch (Exception ex) {
@@ -968,10 +1002,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
             BigDecimal lucroLiquido = ServiceFormatarDado.getBigDecimalFromTextField(txtLucroLiquido.getText());
             BigDecimal lucratividade;
-            if (lucroLiquido.compareTo(BigDecimal.ZERO) == 0)
+            if (lucroLiquido.compareTo(BigDecimal.ZERO) == 0 || prcConsumidor.compareTo(BigDecimal.ZERO) == 0)
                 lucratividade = BigDecimal.ZERO;
             else
-                lucratividade = (lucroLiquido.divide(prcConsumidor, RoundingMode.HALF_UP)).multiply(new BigDecimal("100."));
+                lucratividade = (lucroLiquido.divide(prcConsumidor, RoundingMode.HALF_UP)).multiply(BigDecimal.valueOf(100));
             txtLucratividade.setText(lucratividade.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
@@ -984,8 +1018,9 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         BigDecimal comissaoPorc = ServiceFormatarDado.getBigDecimalFromTextField(txtComissaoPorc.getText());
         BigDecimal comissaoReal;
         try {
-            if (comissaoPorc.compareTo(BigDecimal.ZERO) == 0) comissaoReal = BigDecimal.ZERO;
-            else comissaoReal = prcConsumidor.multiply((comissaoPorc.divide(new BigDecimal(100))));
+            if (comissaoPorc.compareTo(BigDecimal.ZERO) == 0 || prcConsumidor.compareTo(BigDecimal.ZERO) == 0)
+                comissaoReal = BigDecimal.ZERO;
+            else comissaoReal = prcConsumidor.multiply((comissaoPorc.divide(BigDecimal.valueOf(100))));
             txtComissaoReal.setText(comissaoReal.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))

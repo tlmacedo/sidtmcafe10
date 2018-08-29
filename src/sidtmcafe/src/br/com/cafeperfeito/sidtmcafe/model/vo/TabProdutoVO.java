@@ -17,7 +17,6 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     SisUnidadeComercialVO sisUnidadeComercialVO;
     SisSituacaoSistemaVO sisSituacaoSistemaVO;
-    FiscalCestNcmVO fiscalCestNcmVO;
     FiscalCstOrigemVO fiscalCstOrigemVO;
     FiscalIcmsVO fiscalIcmsVO;
     FiscalPisCofinsVO fiscalPisVO;
@@ -28,7 +27,7 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     Timestamp dataCadastro, dataAtualizacao;
 
-    IntegerProperty id, sisUnidadeComercial_id, sisSituacaoSistema_id, varejo, fiscalCestNcm_id, fiscalCSTOrigem_id,
+    IntegerProperty id, sisUnidadeComercial_id, sisSituacaoSistema_id, varejo, fiscalCSTOrigem_id,
             fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, usuarioCadastro_id, usuarioAtualizacao_id;
 
     StringProperty codigo, descricao, nfeGenero, ncm, cest;
@@ -46,7 +45,6 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
         this.varejo = new SimpleIntegerProperty(1);
         this.sisUnidadeComercial_id = new SimpleIntegerProperty(-1);
         this.sisSituacaoSistema_id = new SimpleIntegerProperty(-1);
-        this.fiscalCestNcm_id = new SimpleIntegerProperty(-1);
         this.fiscalCSTOrigem_id = new SimpleIntegerProperty(-1);
         this.fiscalICMS_id = new SimpleIntegerProperty(-1);
         this.fiscalPIS_id = new SimpleIntegerProperty(-1);
@@ -75,14 +73,6 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     public void setSisSituacaoSistemaVO(SisSituacaoSistemaVO sisSituacaoSistemaVO) {
         this.sisSituacaoSistemaVO = sisSituacaoSistemaVO;
-    }
-
-    public FiscalCestNcmVO getFiscalCestNcmVO() {
-        return fiscalCestNcmVO;
-    }
-
-    public void setFiscalCestNcmVO(FiscalCestNcmVO fiscalCestNcmVO) {
-        this.fiscalCestNcmVO = fiscalCestNcmVO;
     }
 
     public FiscalCstOrigemVO getFiscalCstOrigemVO() {
@@ -207,19 +197,6 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     public void setVarejo(int varejo) {
         varejoProperty().set(varejo);
-    }
-
-    public int getFiscalCestNcm_id() {
-        return fiscalCestNcm_idProperty().get();
-    }
-
-    public IntegerProperty fiscalCestNcm_idProperty() {
-        if (fiscalCestNcm_id == null) fiscalCestNcm_id = new SimpleIntegerProperty(0);
-        return fiscalCestNcm_id;
-    }
-
-    public void setFiscalCestNcm_id(int fiscalCestNcm_id) {
-        fiscalCestNcm_idProperty().set(fiscalCestNcm_id);
     }
 
     public int getFiscalCSTOrigem_id() {

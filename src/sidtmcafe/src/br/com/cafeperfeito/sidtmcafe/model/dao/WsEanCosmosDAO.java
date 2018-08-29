@@ -33,8 +33,6 @@ public class WsEanCosmosDAO extends ServiceBuscaWebService implements Constants 
                 retorno += "ncm::" + jsonObject.getJSONObject("ncm").getString("code") + ";";
             if (jsonObject.has("thumbnail"))
                 retorno += "imgProduto::" + jsonObject.getString("thumbnail") + ";";
-            if (jsonObject.has("barcode_image"))
-                retorno += "imgCodBarra::" + jsonObject.getString("barcode_image") + ";";
         }
         getInforcacoesProduto(produto, busca);
 
@@ -45,7 +43,9 @@ public class WsEanCosmosDAO extends ServiceBuscaWebService implements Constants 
         Image imageTmp[] = new Image[2];
         if (produto.getImgProduto() != null)
             produto.setImgProdutoBack(produto.getImgProduto());
-        if (retorno != null) {
+        imageTmp[0] = IMG_DEFAULT_PRODUTO;
+        imageTmp[1] = ServiceImage.getImageCodBarrasEAN13(busca);
+        if (!retorno.equals("")) {
             HashMap hashMap = ServiceFormatarDado.getFieldFormatMap(retorno);
             if (hashMap.containsKey("descricao"))
                 produto.setDescricao(hashMap.get("descricao").toString());
@@ -54,18 +54,10 @@ public class WsEanCosmosDAO extends ServiceBuscaWebService implements Constants 
             if (hashMap.containsKey("imgProduto"))
                 if ((imageTmp[0] = ServiceImage.getImagemFromUrl(hashMap.get("imgProduto").toString())) == null)
                     imageTmp[0] = IMG_DEFAULT_PRODUTO;
-            if (hashMap.containsKey("imgCodBarra")) {
-                if ((imageTmp[1] = ServiceImage.getImageResized(ServiceImage.getImagemFromUrl(hashMap.get("imgCodBarra").toString()))) == null)
-                    imageTmp[1] = ServiceImage.getImageCodBarrasEAN13(busca);
-            }
         } else {
             retorno = "";
-            imageTmp[0] = IMG_DEFAULT_PRODUTO;
-            imageTmp[1] = ServiceImage.getImageCodBarrasEAN13(busca);
         }
         produto.setImgProduto(imageTmp[0]);
-        System.out.println(busca);
-        System.out.println(produto.getCodBarraVOList().toString() + "\n\n");
         if (produto.getCodBarraVOList().stream()
                 .filter(cod -> cod.getCodBarra().equals(busca))
                 .count() == 0)
