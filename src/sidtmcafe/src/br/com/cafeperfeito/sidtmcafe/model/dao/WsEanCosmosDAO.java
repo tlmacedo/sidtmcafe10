@@ -5,6 +5,7 @@ import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.WsEanCosmosVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaWebService;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceEan13;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceImage;
 import javafx.scene.image.Image;
@@ -44,7 +45,9 @@ public class WsEanCosmosDAO extends ServiceBuscaWebService implements Constants 
         if (produto.getImgProduto() != null)
             produto.setImgProdutoBack(produto.getImgProduto());
         imageTmp[0] = IMG_DEFAULT_PRODUTO;
-        imageTmp[1] = ServiceImage.getImageCodBarrasEAN13(busca);
+        //imageTmp[1] = ServiceImage.getImageCodBarrasEAN13(busca);
+//        imageTmp[1] = ServiceImage.getImageResized(ServiceImage.getImagemFromUrl(Constants.WS_BARCODE_URL + busca),"ean");
+        imageTmp[1] = new ServiceEan13(busca).createBarcodePNG();
         if (!retorno.equals("")) {
             HashMap hashMap = ServiceFormatarDado.getFieldFormatMap(retorno);
             if (hashMap.containsKey("descricao"))

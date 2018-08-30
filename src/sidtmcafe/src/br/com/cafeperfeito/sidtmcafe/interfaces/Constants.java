@@ -59,9 +59,7 @@ public interface Constants {
     /*
      *Constants para estilos do sistema
      *///macOS⁩ ▸ ⁨Usuários⁩ ▸ ⁨thiagomacedo⁩ ▸ ⁨Imagens⁩
-    Image IMG_DEFAULT_PRODUTO = new Image("image/default/produtoDefault.png");
-    int IMG_PRODUTO_CODBARRA_WIDTH = 200;
-    int IMG_PRODUTO_CODBARRA_HEIGHT = 60;
+    Image IMG_DEFAULT_PRODUTO = new Image( "image/default/produtoDefault.png");
     int IMG_PRODUTO_IMAGE_WIDTH = 250;
     int IMG_PRODUTO_IMAGE_HEIGHT = 250;
     String TYPE_IMAGE_DOWNLOAD = ".png";
@@ -149,6 +147,13 @@ public interface Constants {
      * WebServices
      *
      * */
+
+
+    /*
+     * http://bwipjs-api.metafloor.com/?bcid=ean13&text=7896078301063&includetext&scale=1&guardwhitespace
+     */
+    String WS_BARCODE_URL = "http://bwipjs-api.metafloor.com/?bcid=ean13&includetext&scale=1&guardwhitespace&text=";
+
 
     /*
      * cosmos */

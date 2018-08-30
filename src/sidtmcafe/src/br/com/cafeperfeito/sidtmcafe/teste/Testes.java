@@ -1,52 +1,67 @@
 package br.com.cafeperfeito.sidtmcafe.teste;
 
+import br.com.cafeperfeito.sidtmcafe.service.ServiceEan13;
+import net.sourceforge.barbecue.Barcode;
+import net.sourceforge.barbecue.BarcodeFactory;
+import net.sourceforge.barbecue.BarcodeImageHandler;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
 public class Testes {
 
-//    public static void main(String... args) {
+    public static void main(String... args) {
+        String ean = "7898903647025", path = System.getProperty("user.home") + "/Pictures/" + ean + "_EAN.png";
 
-//        new FiscalCestNcmDAO().getFiscalCestNcmVOList("0901").stream().forEach(System.out::println);
+//        String text = "123456789101";
 //
-//        System.out.println("\n\n\n" +new FiscalCestNcmDAO().getFiscalCestNcmVO("0901"));
-
-//        System.out.printf("diretorio.home: [%s]\n\n\n", PATH_IMAGE_DOWNLOAD);
+//        int width = 300;
+//        int height = 100;
+//        String imgFormat = "png";
+//        try {
+//            BitMatrix bitMatrix = new EAN13Writer().encode(ean, BarcodeFormat.EAN_13, width, height);
+//            MatrixToImageWriter.writeToStream(bitMatrix, imgFormat, new FileOutputStream(new File(path)));
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (WriterException e) {
+//            e.printStackTrace();
+//        }
 //
-//        System.out.printf("%s/%s.%s", PATH_IMAGE_DOWNLOAD, "codBarras", ".png");
-//
-//        //new ServiceConsultaWebServices().getSistuacaoCNPJ_receitaWs(new TabEmpresaVO(), "08009246000136");
-//
-//        new ServiceConsultaWebServices().getProdutoNcmCest_WsEanCosmos("7896078301063");
-//
-//
-//        int tamMascara = 0;
-//        String tipMascara = "6numero";
-//        String valor = "123456789";
-//        System.out.printf("mascara de retorno  tipMascara[%s]:\n    [%s]\n", tipMascara, ServiceFormatarDado.gerarMascara(tipMascara));
-//        System.out.printf("valor formatado  tipMascara[%s]  valor[%s]\n    [%s]\n", tipMascara, valor, ServiceFormatarDado.getValorFormatado(valor, tipMascara));
-//        tipMascara = "nfechave";
-//        valor = "12345678901234567890123456789012345678901234";
-//        System.out.printf("mascara de retorno  tipMascara[%s]:\n    [%s]\n", tipMascara, ServiceFormatarDado.gerarMascara(tipMascara));
-//        System.out.printf("valor formatado  tipMascara[%s]  valor[%s]\n    [%s]\n", tipMascara, valor, ServiceFormatarDado.getValorFormatado(valor, tipMascara));
+//        System.out.println("Success!");
 
 
-    //SisTelefoneOperadoraVO operadoraVO = new ServiceConsultaWebServices().getOperadoraTelefone_WsPortabilidadeCelular("92981686148");
-//        if ((operadoraVO = new ServiceConsultaWebServices().getOperadoraTelefone_WsPortabilidadeCelular("92981686148")) == null) {
-//            ServiceAlertMensagem alertMensagem = new ServiceAlertMensagem();
-//            alertMensagem.setCabecalho("Dado inválido!");
-//            alertMensagem.setPromptText(String.format("%s, o cep: [%s] não foi localizado na base de dados!",
-//                    USUARIO_LOGADO_APELIDO, txtEndCEP.getText()));
-//            alertMensagem.setStrIco("ic_webservice_24dp");
-//            alertMensagem.getRetornoAlert_OK();
-//            txtEndCEP.requestFocus();
-//        } else {
-//            setEnderecoVO(enderecoBuscaCEP);
-//            txtEndNumero.requestFocus();
+        new ServiceEan13(ean).createBarcodePNG();
+
+
+//        try{
+//            Barcode barcode = BarcodeFactory.createEAN13(ean);
+//            BufferedImage image = new BufferedImage(220, 130, BufferedImage.TYPE_BYTE_GRAY);
+//            Graphics2D g = (Graphics2D) image.getGraphics();
+//            g.setBackground(Color.BLUE);
+//            barcode.draw(g, 10, 56);
+//            File f = new File(path);
+//            // Let the barcode image handler do the hard work
+//            BarcodeImageHandler.saveJPEG(barcode, f);
+//        }catch(Exception ex){
+//            ex.getMessage();
 //        }
 
 
-//    }
 
 
-    public static void main(String... args) {
+//        Barcode barcode = null;
+//        try {
+//            barcode = BarcodeFactory.createEAN13(ean.substring(0, 12));
+//            ImageIO.write(BarcodeImageHandler.getImage(barcode), "PNG", new File(path));
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+
+
 //        System.out.println("cnpj: [" + new ServiceFormatarDado().gerarMascara("cnpj") + "]");
 //        System.out.println("cpf: [" + new ServiceFormatarDado().gerarMascara("cpf") + "]");
 //        System.out.println("barcode: [" + new ServiceFormatarDado().gerarMascara("barcode") + "]");

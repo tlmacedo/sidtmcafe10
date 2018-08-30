@@ -155,10 +155,9 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                         } else {
                             if (item.getImgCodBarra() != null) {
                                 imageView.setImage(item.getImgCodBarra());
-                                imageView.setFitHeight(IMG_PRODUTO_CODBARRA_HEIGHT);
-                                imageView.setPreserveRatio(true);
-                                imageView.setSmooth(true);
-                                imageView.setCache(true);
+//                                imageView.setPreserveRatio(true);
+//                                imageView.setSmooth(true);
+//                                imageView.setCache(true);
                             }
                             setText(null);
                             setGraphic(imageView);
@@ -400,19 +399,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             }
         });
 
-//        imgCirculo.setOnDragOver(evt -> {
-//            System.out.println("setOnDragOver");
-//            if (evt.getDragboard().hasFiles()) {
-//                evt.acceptTransferModes(TransferMode.LINK);
-//            }
-//        });
-//        imgCirculo.setOnDragDropped(evt -> {
-//            System.out.println("setOnDragDropped");
-//            System.out.println(evt.getDragboard().getFiles().stream().map(File::getAbsolutePath).collect(Collectors.joining("\n")));
-//            evt.setDropCompleted(true);
-//        });
-
-
         imgCirculo.setOnDragOver(event -> {
             if (imgCirculo.isDisabled()) return;
             Dragboard board = event.getDragboard();
@@ -426,7 +412,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             try {
                 Dragboard board = event.getDragboard();
                 getProdutoVO().setImgProdutoBack(getProdutoVO().getImgProduto());
-                getProdutoVO().setImgProduto(ServiceImage.getImageResized(new Image(new FileInputStream(board.getFiles().get(0))), "produto"));
+                getProdutoVO().setImgProduto(ServiceImage.getImageResized(new Image(new FileInputStream(board.getFiles().get(0))),
+                        IMG_PRODUTO_IMAGE_WIDTH, Constants.IMG_PRODUTO_IMAGE_HEIGHT));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -827,34 +814,34 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         boolean result = true;
         String dado = "";
         if (!(result = (txtCodigo.getText().length() >= 1 && result == true))) {
-            dado +="código";
+            dado += "código";
             txtCodigo.requestFocus();
         }
         if (!(result = (txtDescricao.getText().length() >= 3 && result == true))) {
-            dado +="descrição";
+            dado += "descrição";
             txtDescricao.requestFocus();
         }
         if (!(result = (txtFiscalNcm.getText().length() >= 1 && result == true))) {
-            dado +="descrição";
+            dado += "descrição";
             txtFiscalNcm.requestFocus();
         }
         if (!(result = (Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", ".")) > 0 && result == true))) {
-            dado +="preço de venda";
+            dado += "preço de venda";
             txtPrecoVenda.requestFocus();
         }
         if (!(result = ((cboUnidadeComercial.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
-            dado +="und comercial";
+            dado += "und comercial";
             cboUnidadeComercial.requestFocus();
         }
         if (!(result = ((cboSituacaoSistema.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
-            dado +="sit. sistema";
+            dado += "sit. sistema";
             cboSituacaoSistema.requestFocus();
         }
         if (!(result = ((cboFiscalOrigem.getSelectionModel().getSelectedIndex() >= 0
                 || cboFiscalIcms.getSelectionModel().getSelectedIndex() >= 0
                 || cboFiscalPis.getSelectionModel().getSelectedIndex() >= 0
                 || cboFiscalCofins.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
-            dado +="fiscal";
+            dado += "fiscal";
             cboFiscalIcms.requestFocus();
         }
         if (!result) {

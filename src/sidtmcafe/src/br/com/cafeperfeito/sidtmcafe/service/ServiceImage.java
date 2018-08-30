@@ -57,6 +57,8 @@ public class ServiceImage implements Constants {
         Barcode barcode = null;
         try {
             barcode = BarcodeFactory.createEAN13(busca.substring(0, 12));
+//            barcode.setBarHeight(2);
+//            barcode.setBarWidth(200);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -68,42 +70,13 @@ public class ServiceImage implements Constants {
         return null;
     }
 
-    public static Image getImageResized(final Image image, String typeImage) {
-        int width = 0, height = 0;
-        switch (typeImage) {
-            case "ean":
-            case "barcode":
-            case "barras":
-            case "codbarra":
-            case "codbarras":
-            case "codigobarra":
-            case "codigobarras":
-                width = IMG_PRODUTO_CODBARRA_WIDTH;
-                height = IMG_PRODUTO_CODBARRA_HEIGHT;
-                break;
-            case "produto":
-                width = IMG_PRODUTO_IMAGE_WIDTH;
-                height = IMG_PRODUTO_IMAGE_HEIGHT;
-                break;
-        }
-
+    public static Image getImageResized(final Image image, int width, int height) {
         BufferedImage inputImage = SwingFXUtils.fromFXImage(image, null);
         BufferedImage outputImage = new BufferedImage(width, height, inputImage.getType());
         Graphics2D g2d = outputImage.createGraphics();
         g2d.drawImage(inputImage, 0, 0, width, height, null);
         g2d.dispose();
         return SwingFXUtils.toFXImage(outputImage, null);
-
-//        final BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-//        final Graphics2D graphics2D = bufferedImage.createGraphics();
-//        graphics2D.setComposite(AlphaComposite.Src);
-//        graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-//        graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-//        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//        graphics2D.drawImage(SwingFXUtils.fromFXImage(image, null), 0, 0, width, height, null);
-//        graphics2D.dispose();
-//        return SwingFXUtils.toFXImage(bufferedImage, null);
-//
     }
 
 
