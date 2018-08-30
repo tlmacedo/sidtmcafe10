@@ -220,6 +220,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                                             new TabProdutoDAO().getTabProdutoVO(getProdutoVO().getId()));
                                     break;
                             }
+                            produtoVOFilteredList = new FilteredList<>(produtoVOObservableList);
                         }
                         break;
                     case F3:
@@ -625,12 +626,12 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         String busca = txtPesquisaProduto.getText().toLowerCase().trim();
 
         produtoVOFilteredList.setPredicate(produto -> {
-            if (produto.getCodigo().contains(busca)) return true;
-            if (produto.getDescricao().contains(busca)) return true;
-            if (produto.getNcm().contains(busca)) return true;
-            if (produto.getCest().contains(busca)) return true;
+            if (produto.getCodigo().toLowerCase().contains(busca)) return true;
+            if (produto.getDescricao().toLowerCase().contains(busca)) return true;
+            if (produto.getNcm().toLowerCase().contains(busca)) return true;
+            if (produto.getCest().toLowerCase().contains(busca)) return true;
             if (produto.getCodBarraVOList().stream()
-                    .filter(codBarra -> codBarra.getCodBarra().contains(busca))
+                    .filter(codBarra -> codBarra.getCodBarra().toLowerCase().contains(busca))
                     .findFirst().orElse(null) != null) return true;
             return false;
         });
