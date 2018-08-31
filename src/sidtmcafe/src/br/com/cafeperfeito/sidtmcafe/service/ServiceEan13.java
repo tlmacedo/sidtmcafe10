@@ -1,13 +1,12 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
-import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class ServiceEan13 implements Constants {
+public class ServiceEan13 {
 
 	/*
 	-=Structure=-
@@ -131,11 +130,11 @@ public class ServiceEan13 implements Constants {
                 this.barcodeBinary[i - 1] = this.encodings[current][this.firstSix[first][i - 1]];
             else
                 this.barcodeBinary[i - 1] = this.encodings[current][this.lastSix[i - 7]];
+            System.out.println(this.barcodeBinary[i - 1].toString());
         }
     }
 
     Image generateBarcodePNG() {
-//        try {
         bi = new BufferedImage(this.imgWidth, this.imgHeight, BufferedImage.TYPE_INT_ARGB);
         ig2 = bi.createGraphics();
 
@@ -172,10 +171,6 @@ public class ServiceEan13 implements Constants {
         drawSpecial(0);
 
         return SwingFXUtils.toFXImage(bi, null);
-
-//        } catch (IOException ie) {
-//            ie.printStackTrace();
-//        }
     }
 
     void drawGroup(int groupPart) {

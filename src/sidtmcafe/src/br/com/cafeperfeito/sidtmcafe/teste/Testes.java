@@ -1,6 +1,11 @@
 package br.com.cafeperfeito.sidtmcafe.teste;
 
 import br.com.cafeperfeito.sidtmcafe.service.ServiceEan13;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.Result;
+import com.nepxion.zxing.core.ZxingDecoder;
+import com.nepxion.zxing.core.ZxingEncoder;
+import com.nepxion.zxing.entity.ZxingEntity;
 import net.sourceforge.barbecue.Barcode;
 import net.sourceforge.barbecue.BarcodeFactory;
 import net.sourceforge.barbecue.BarcodeImageHandler;
@@ -14,6 +19,58 @@ public class Testes {
 
     public static void main(String... args) {
         String ean = "7898903647025", path = System.getProperty("user.home") + "/Pictures/" + ean + "_EAN.png";
+
+//        String text = "www.cafeperfeito.com.br";
+//        // 二维码图片导出路径
+//        //File file = new File("E:/二维码.jpg");
+//        File file = new File(path);
+//
+//        // 二维码参数的构造对象，很多参数赋予了默认值，可自行通过set方法更改
+//        ZxingEntity entity = new ZxingEntity();
+//        entity.setBarcodeFormat(BarcodeFormat.QR_CODE);
+//        entity.setText(text);
+//        entity.setOutputFile(file);
+//        entity.setWidth(300);
+//        entity.setHeight(300);
+//
+//        // 以文件格式读取并导出，该方式适合本地调用
+//        ZxingEncoder encoder = new ZxingEncoder();
+//        encoder.encodeForFile(entity);
+//
+//        // 以文件格式扫描并解析
+//        ZxingDecoder decoder = new ZxingDecoder();
+//        Result result = decoder.decodeByFile(file, entity.getEncoding());
+//
+//        System.out.println("扫描结果 - [Text] : " + result.getText() + " [Timestamp] : " + result.getTimestamp() + " [BarcodeFormat] : " + result.getBarcodeFormat() + " [NumBits] : " + result.getNumBits());
+
+
+//        // 条形码内容
+//        String text = ean;//"6943620593115";
+//        // 条形码图片导出路径
+//        File file = new File(path);
+//
+//        // 条形码参数的构造对象，很多参数赋予了默认值，可自行通过set方法更改
+//        ZxingEntity entity = new ZxingEntity();
+//        entity.setBarcodeFormat(BarcodeFormat.EAN_13);
+//        entity.setText(text);
+//        entity.setMargin(5);
+//        entity.setOutputFile(file);
+//        entity.setWidth(115);
+//        entity.setHeight(40);
+//
+//        // 以文件格式读取并导出，该方式适合本地调用
+//        ZxingEncoder encoder = new ZxingEncoder();
+//        encoder.encodeForFile(entity);
+//
+//        // 以文件格式扫描并解析
+//        ZxingDecoder decoder = new ZxingDecoder();
+//        Result result = decoder.decodeByFile(file, entity.getEncoding());
+//
+//        System.out.println("扫描结果 - [Text] : " + result.getText() + " [Timestamp] : " + result.getTimestamp() + " [BarcodeFormat] : " + result.getBarcodeFormat() + " [NumBits] : " + result.getNumBits());
+
+
+
+
 
 //        String text = "123456789101";
 //
