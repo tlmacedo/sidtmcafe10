@@ -294,7 +294,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
             formatCnpj.setMascara(txtCNPJ.getPromptText().toLowerCase().replace(".", ""));
             txtCNPJ.setText(txtCNPJ.getText().replaceAll("\\d", ""));
 //            if (txtCNPJ.getLength() > 0)F
-//                txtCNPJ.setText(ServiceFormatarDado.getValorFormatado(txtCNPJ.getText(), txtCNPJ.getPromptText().toLowerCase().replace(".", "")));
+//                txtCNPJ.setText(ServiceFormatarDado.getValorFormatado(txtCNPJ.getText(), "0" + txtCNPJ.getPromptText().toLowerCase().replace(".", "")));
             verificaIeRg();
         });
 
@@ -384,7 +384,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 txtIE.setText("");
             else {
                 if (getEmpresaVO() != null)
-//                    txtIE.setText(ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie" + getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()));
+//                    txtIE.setText(ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "0ie" + getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()));
                     txtIE.setText(getEmpresaVO().getIe());
             }
         });
@@ -747,8 +747,8 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     void exibirDadosEmpresa() {
         cboClassificacaoJuridica.getSelectionModel().select(getEmpresaVO().isIsEmpresa() ? 1 : 0);
-//        txtCNPJ.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cnpj") : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cpf"));
-//        txtIE.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie" + getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()) : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie"));
+//        txtCNPJ.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "0cnpj") : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cpf"));
+//        txtIE.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "0ie" + getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()) : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie"));
         txtCNPJ.setText(getEmpresaVO().getCnpj());
         txtIE.setText(getEmpresaVO().getIe());
         chkIeIsento.setSelected(getEmpresaVO().isIeIsento());
@@ -825,7 +825,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 : ""));
         formatIe.setMascara(mask);
         txtIE.setText(txtIE.getText().replaceAll("\\d", ""));
-        //txtIE.setText(ServiceFormatarDado.getValorFormatado(txtIE.getText(), mask));
+        //txtIE.setText(ServiceFormatarDado.getValorFormatado(txtIE.getText(), "0" + mask));
     }
 
     boolean guardarEmpresa() {

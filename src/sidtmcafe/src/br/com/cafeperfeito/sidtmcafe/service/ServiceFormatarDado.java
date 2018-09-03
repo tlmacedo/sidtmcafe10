@@ -10,6 +10,7 @@ import javafx.scene.control.cell.CheckBoxTreeTableCell;
 import javafx.scene.image.Image;
 import javafx.util.Callback;
 import javafx.util.Pair;
+import org.checkerframework.checker.units.qual.Length;
 
 import javax.imageio.ImageIO;
 import javax.swing.text.MaskFormatter;
@@ -37,14 +38,15 @@ public class ServiceFormatarDado implements Constants {
             try {
                 if (mask.contains("#,##0")) {
                     int decimal = Integer.parseInt(tipMascara.replaceAll("\\D", ""));
-                    strValue = String.format(getFormato(decimal + 1), Long.parseLong(value)).replaceAll("(\\d+)(\\d{" + decimal + "})", "$1.$2");
-                    if (strValue.length() > 12) strValue = strValue.substring(strValue.length() - 12);
-                    String valor = new DecimalFormat(mask).format(new BigDecimal(strValue));
-                    return valor;
+                    value = String.format(getFormato(decimal + 1), Long.parseLong(value));
+                    if (value.length() > 12) value = value.substring(strValue.length() - 12);
+                    value = value.replaceAll("(\\d+)(\\d{" + decimal + "})", "$1.$2");
+                    System.out.println("mask: [" + mask + "]");
+                    return new DecimalFormat(mask).format(Double.parseDouble(value));
                 }
                 MaskFormatter formatter = new MaskFormatter(mask);
                 formatter.setValueContainsLiteralCharacters(false);
-                return formatter.valueToString(strValue).trim();
+                return formatter.valueToString(value).trim();
             } catch (Exception ex) {
                 if (!(ex instanceof NumberFormatException))
                     ex.printStackTrace();
@@ -57,39 +59,52 @@ public class ServiceFormatarDado implements Constants {
     }
 
     public static String gerarMascara(String tipMascara) {
-        String mask = tipMascara.replaceAll("\\d", ""), tmpLen;
-        if ((tmpLen = tipMascara.replaceAll("\\D", "")).equals("")) tmpLen = "0";
+        int len = 0, decimal = 0;
+        String mask = "", strTmp = "", strDec;
+        if ((mask = tipMascara.replaceAll("\\d", "")).equals(""))
+            return String.format(getFormato(120), 0).replace("0", CARACTER_UPPER);
         if (!mask.equals("TEXTO") && !mask.equals("Texto")) mask = mask.toLowerCase();
-        int len = !tmpLen.equals("0")
-                ? Integer.parseInt(tipMascara.replaceAll("\\D", ""))
-                : 120;
-        String formato = getFormato(len);
-        if (mask == null) return String.format(formato, 0).replace("0", CARACTER_UPPER);
+        if ((strTmp = tipMascara.substring(0, 4).replaceAll("\\D", "")).equals(""))
+            switch (mask.toLowerCase()) {
+                case "texto":
+                case "email":
+                case "homepage":
+                    len = 120;
+                    break;
+                default:
+                    len = 0;
+                    break;
+            }
+        else len = Integer.parseInt(strTmp);
+        if (!(strDec = tipMascara.substring(tipMascara.length() - 2).replaceAll("\\D", "")).equals(""))
+            decimal = Integer.parseInt(strDec);
+
+        len = Integer.parseInt(strLen);
         if (mask.length() >= 2 && mask.substring(0, 2).equals("ie")) {
             return getMascaraIE(mask.length() >= 4 ? mask.substring(2).toUpperCase() : "");
         }
         switch (mask) {
             case "TEXTO":
-                return String.format(formato, 0).replace("0", CARACTER_UPPER);
+                return String.format(getFormato(len), 0).replace("0", CARACTER_UPPER);
             case "Texto":
-                return String.format(formato, 0).replace("0", CARACTER_ASTERISCO);
+                return String.format(getFormato(len), 0).replace("0", CARACTER_ASTERISCO);
             case "texto":
-                return String.format(formato, 0).replace("0", CARACTER_LOWER);
+                return String.format(getFormato(len), 0).replace("0", CARACTER_LOWER);
             case "email":
             case "homepage":
-                return String.format(formato, 0).replace("0", CARACTER_LOWER);
+                return String.format(getFormato(len), 0).replace("0", CARACTER_LOWER);
             case "cnpj":
-                formato = getFormato(14);
-                return String.format(formato, 0).replaceAll(REGEX_FS_CNPJ.getKey(), REGEX_FS_CNPJ.getValue()).replace("0", CARACTER_DIGITO);
+                len = 14;
+                return String.format(getFormato(len), 0).replaceAll(REGEX_FS_CNPJ.getKey(), REGEX_FS_CNPJ.getValue()).replace("0", CARACTER_DIGITO);
             case "cpf":
-                formato = getFormato(11);
-                return String.format(formato, 0).replaceAll(REGEX_FS_CPF.getKey(), REGEX_FS_CPF.getValue()).replace("0", CARACTER_DIGITO);
+                len = 11;
+                return String.format(getFormato(len), 0).replaceAll(REGEX_FS_CPF.getKey(), REGEX_FS_CPF.getValue()).replace("0", CARACTER_DIGITO);
             case "rg":
-                formato = getFormato(14);
-                return String.format(formato, 0).replace("0", CARACTER_DIGITO);
+                len = 11;
+                return String.format(getFormato(len), 0).replace("0", CARACTER_DIGITO);
             case "telefone":
             case "celular":
-                return String.format(formato, 0).replaceAll(REGEX_FS_TELEFONE.getKey(), REGEX_FS_TELEFONE.getValue()).replace("0", CARACTER_DIGITO);
+                return String.format(getFormato(len), 0).replaceAll(REGEX_FS_TELEFONE.getKey(), REGEX_FS_TELEFONE.getValue()).replace("0", CARACTER_DIGITO);
             case "ean":
             case "barcode":
             case "barras":
@@ -97,36 +112,45 @@ public class ServiceFormatarDado implements Constants {
             case "codbarras":
             case "codigobarra":
             case "codigobarras":
-                formato = getFormato(13);
-                return String.format(formato, 0).replace("0", CARACTER_DIGITO);
+                len = 13;
+                return String.format(getFormato(len), 0).replace("0", CARACTER_DIGITO);
             case "numero":
-                return String.format(formato, 0).replace("0", CARACTER_DIGITO);
+                return String.format(getFormato(len), 0).replace("0", CARACTER_DIGITO);
             case "moeda":
             case "valor":
             case "peso":
-                String maskMoeda = "#,##0" + (len > 0 ? "." + String.format("%0" + len + "d", 0) : "");
+                lenDecimal = getLenDecimal(strLen);
+                String maskMoeda = "#,##0" + (len > 0 ? "." + String.format("%0" + strLen + "d", 0) : "");
                 return String.format("%s;-%s", maskMoeda, maskMoeda);
             case "cep":
                 formato = getFormato(8);
-                return String.format(formato, 0).replaceAll(REGEX_FS_CEP.getKey(), REGEX_FS_CEP.getValue()).replace("0", CARACTER_DIGITO);
+                return String.format(getFormato(len), 0).replaceAll(REGEX_FS_CEP.getKey(), REGEX_FS_CEP.getValue()).replace("0", CARACTER_DIGITO);
             case "nfencm":
                 formato = getFormato(8);
-                return String.format(formato, 0).replaceAll(REGEX_FS_NCM.getKey(), REGEX_FS_NCM.getValue()).replace("0", CARACTER_DIGITO);
+                return String.format(getFormato(len), 0).replaceAll(REGEX_FS_NCM.getKey(), REGEX_FS_NCM.getValue()).replace("0", CARACTER_DIGITO);
             case "nfecest":
                 formato = getFormato(7);
-                return String.format(formato, 0).replaceAll(REGEX_FS_CEST.getKey(), REGEX_FS_CEST.getValue()).replace("0", CARACTER_DIGITO);
+                return String.format(getFormato(len), 0).replaceAll(REGEX_FS_CEST.getKey(), REGEX_FS_CEST.getValue()).replace("0", CARACTER_DIGITO);
             case "nfechave":
                 formato = getFormato(44);
-                return String.format(formato, 0).replaceAll(REGEX_FS_NFE_CHAVE.getKey(), REGEX_FS_NFE_CHAVE.getValue()).replace("0", CARACTER_DIGITO);
+                return String.format(getFormato(len), 0).replaceAll(REGEX_FS_NFE_CHAVE.getKey(), REGEX_FS_NFE_CHAVE.getValue()).replace("0", CARACTER_DIGITO);
             case "nfenumero":
                 formato = getFormato(9);
-                return String.format(formato, 0).replaceAll(REGEX_FS_NFE_NUMERO.getKey(), REGEX_FS_NFE_NUMERO.getValue()).replace("0", CARACTER_DIGITO);
+                return String.format(getFormato(len), 0).replaceAll(REGEX_FS_NFE_NUMERO.getKey(), REGEX_FS_NFE_NUMERO.getValue()).replace("0", CARACTER_DIGITO);
             case "nfedocorigem":
                 formato = getFormato(12);
-                return String.format(formato, 0).replaceAll(REGEX_FS_NFE_DOC_ORIGEM.getKey(), REGEX_FS_NFE_DOC_ORIGEM.getValue()).replace("0", CARACTER_DIGITO);
+                return String.format(getFormato(len), 0).replaceAll(REGEX_FS_NFE_DOC_ORIGEM.getKey(), REGEX_FS_NFE_DOC_ORIGEM.getValue()).replace("0", CARACTER_DIGITO);
         }
         formato = getFormato(60);
-        return String.format(formato, 0).replace("0", CARACTER_ASTERISCO);
+        return String.format(getFormato(strLen), 0).replace("0", CARACTER_ASTERISCO);
+    }
+
+    static Pair<Integer, Integer> getLenDecimal(String strLen) {
+        int decimal = 0, len = 12;
+        decimal = Integer.parseInt(strLen.substring(strLen.length() - 1));
+        if (strLen.length() > 1)
+            len = Integer.parseInt(strLen.substring(0, strLen.length() - 1));
+        return new Pair<>(len, decimal);
     }
 
     public String getMascara() {
@@ -207,6 +231,7 @@ public class ServiceFormatarDado implements Constants {
             if (getMascara().contains("#,##0")) {
                 if (strValue.equals("") || strValue == null)
                     value = "0";
+                textField.getId();
                 textField.setText(getValorFormatado(value, tipMascara));
                 textField.positionCaret(textField.getLength());
             } else {

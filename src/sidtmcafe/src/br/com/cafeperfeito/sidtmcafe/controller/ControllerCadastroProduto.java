@@ -308,8 +308,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         cboFiscalCestNcm.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
             if (newValue == null) return;
-//            txtFiscalNcm.setText(ServiceFormatarDado.getValorFormatado(newValue.getNcm(), "ncm"));
-//            txtFiscalCest.setText(ServiceFormatarDado.getValorFormatado(newValue.getCest(), "cest"));
+//            txtFiscalNcm.setText(ServiceFormatarDado.getValorFormatado(newValue.getNcm(), "0ncm"));
+//            txtFiscalCest.setText(ServiceFormatarDado.getValorFormatado(newValue.getCest(), "0cest"));
             txtFiscalNcm.setText(newValue.getNcm());
             txtFiscalCest.setText(newValue.getCest());
         });
@@ -931,7 +931,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             BigDecimal margem = ServiceFormatarDado.getBigDecimalFromTextField(txtMargem.getText());
             BigDecimal prcConsumidor;
             if (margem.compareTo(BigDecimal.ZERO) == 0) prcConsumidor = prcFabrica;
-            else prcConsumidor = ((margem.multiply(BigDecimal.valueOf(100))).add(BigDecimal.ONE)).multiply(prcFabrica);
+            else prcConsumidor = ((margem.multiply(new BigDecimal(100.0))).add(BigDecimal.ONE)).multiply(prcFabrica);
             txtPrecoVenda.setText(prcConsumidor.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
@@ -947,7 +947,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             if (prcConsumidor.compareTo(BigDecimal.ZERO) == 0 || prcFabrica.compareTo(BigDecimal.ZERO) == 0)
                 margem = BigDecimal.ZERO;
             else
-                margem = ((prcConsumidor.subtract(prcFabrica)).divide(prcFabrica, RoundingMode.HALF_UP)).multiply(BigDecimal.valueOf(100));
+                margem = ((prcConsumidor.subtract(prcFabrica)).divide(prcFabrica, RoundingMode.HALF_UP)).multiply(new BigDecimal(100.));
             txtMargem.setText(margem.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
@@ -993,7 +993,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             if (lucroLiquido.compareTo(BigDecimal.ZERO) == 0 || prcConsumidor.compareTo(BigDecimal.ZERO) == 0)
                 lucratividade = BigDecimal.ZERO;
             else
-                lucratividade = (lucroLiquido.divide(prcConsumidor, RoundingMode.HALF_UP)).multiply(BigDecimal.valueOf(100));
+                lucratividade = (lucroLiquido.divide(prcConsumidor, RoundingMode.HALF_UP)).multiply(new BigDecimal(100.0));
             txtLucratividade.setText(lucratividade.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
@@ -1008,7 +1008,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         try {
             if (comissaoPorc.compareTo(BigDecimal.ZERO) == 0 || prcConsumidor.compareTo(BigDecimal.ZERO) == 0)
                 comissaoReal = BigDecimal.ZERO;
-            else comissaoReal = prcConsumidor.multiply((comissaoPorc.divide(BigDecimal.valueOf(100))));
+            else comissaoReal = prcConsumidor.multiply((comissaoPorc.divide(new BigDecimal(100.0))));
             txtComissaoReal.setText(comissaoReal.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))

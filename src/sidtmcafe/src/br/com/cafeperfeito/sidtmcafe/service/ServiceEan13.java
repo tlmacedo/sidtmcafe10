@@ -10,33 +10,30 @@ public class ServiceEan13 {
 
 	/*
 	-=Structure=-
-
-	Fist, First Six, Last Six
-	LGR = 012
-	0 	LLLLLL 	RRRRRR
-	1 	LLGLGG 	RRRRRR
-	2 	LLGGLG 	RRRRRR
-	3 	LLGGGL 	RRRRRR
-	4 	LGLLGG 	RRRRRR
-	5 	LGGLLG 	RRRRRR
-	6 	LGGGLL 	RRRRRR
-	7 	LGLGLG 	RRRRRR
-	8 	LGLGGL 	RRRRRR
-	9 	LGGLGL 	RRRRRR
+|First |First 6|Last 6|
+    0   LLLLLL  RRRRRR
+    1	LLGLGG	RRRRRR
+    2	LLGGLG	RRRRRR
+    3	LLGGGL	RRRRRR
+    4	LGLLGG	RRRRRR
+    5	LGGLLG	RRRRRR
+    6	LGGGLL	RRRRRR
+    7	LGLGLG	RRRRRR
+    8	LGLGGL  RRRRRR
+    9   LGGLGL	RRRRRR
 
 	-=Encodings=-
-
-	Digit 	L-code 	G-code 	R-code
-	0 	0001101 	0100111 	1110010
-	1 	0011001 	0110011 	1100110
-	2 	0010011 	0011011 	1101100
-	3 	0111101 	0100001 	1000010
-	4 	0100011 	0011101 	1011100
-	5 	0110001 	0111001 	1001110
-	6 	0101111 	0000101 	1010000
-	7 	0111011 	0010001 	1000100
-	8 	0110111 	0001001 	1001000
-	9 	0001011 	0010111 	1110100
+|Digit |L-code |G-code |R-code
+    0   0001101 0100111	1110010
+    1	0011001	0110011	1100110
+    2	0010011	0011011	1101100
+    3	0111101	0100001	1000010
+    4	0100011	0011101	1011100
+    5	0110001	0111001	1001110
+    6	0101111	0000101	1010000
+    7	0111011	0010001	1000100
+    8	0110111	0001001	1001000
+    9	0001011	0010111	1110100
 	*/
 
     static String code;
@@ -54,16 +51,16 @@ public class ServiceEan13 {
     static Font font = new Font("Arial", Font.PLAIN, 10);
 
     int[][] firstSix = {
-            {0, 0, 0, 0, 0, 0}, //LLLLLL
-            {0, 0, 1, 0, 1, 1}, //LLGLGG
-            {0, 0, 1, 1, 0, 1}, //LLGGLG
-            {0, 0, 1, 1, 1, 0}, //LLGGGL
-            {0, 1, 0, 0, 1, 1}, //LGLLGG
-            {0, 1, 1, 0, 0, 1}, //LGGLLG
-            {0, 1, 1, 1, 0, 0}, //LGGGLL
-            {0, 1, 0, 1, 0, 1}, //LGLGLG
-            {0, 1, 0, 1, 1, 0}, //LGLGGL
-            {0, 1, 1, 0, 1, 0}  //LGGLGL
+            {0, 0, 0, 0, 0, 0},
+            {0, 0, 1, 0, 1, 1},
+            {0, 0, 1, 1, 0, 1},
+            {0, 0, 1, 1, 1, 0},
+            {0, 1, 0, 0, 1, 1},
+            {0, 1, 1, 0, 0, 1},
+            {0, 1, 1, 1, 0, 0},
+            {0, 1, 0, 1, 0, 1},
+            {0, 1, 0, 1, 1, 0},
+            {0, 1, 1, 0, 1, 0}
     };
 
     int[] lastSix = {2, 2, 2, 2, 2, 2};
@@ -102,7 +99,7 @@ public class ServiceEan13 {
     };
 
     public ServiceEan13(String ean) {
-        this.code = ean.substring(0, 12);
+        this.code = ean.length() < 13 ? String.format("%013d", ean) : ean;
         this.barPos = 12;
         this.barPosBin = 7;
         this.imgPixelPos = 12;
@@ -114,7 +111,8 @@ public class ServiceEan13 {
     }
 
     public Image createBarcodePNG() {
-        this.code += Integer.toString(calculateControlDigit(this.code));
+        if (!ServiceValidarDado.isEan13Valido(this.code)) return null;
+//        this.code += Integer.toString(calculateControlDigit(this.code));
         generateBinaryMap();
         return generateBarcodePNG();
     }
@@ -130,7 +128,6 @@ public class ServiceEan13 {
                 this.barcodeBinary[i - 1] = this.encodings[current][this.firstSix[first][i - 1]];
             else
                 this.barcodeBinary[i - 1] = this.encodings[current][this.lastSix[i - 7]];
-            System.out.println(this.barcodeBinary[i - 1].toString());
         }
     }
 
@@ -243,20 +240,5 @@ public class ServiceEan13 {
         ig2.drawString(texto, x, this.barHeight + 10);
     }
 
-    int calculateControlDigit(String ean) {
-        int sum = 0;
-        for (int i = 0; i < 12; ++i) {
-            int val = charToInt(ean.charAt(i));
-            if ((i + 1) % 2 == 0)
-                sum += val * 3;
-            else
-                sum += val * 1;
-        }
 
-        return (10 - (sum % 10));
-    }
-
-    int charToInt(char c) {
-        return Integer.parseInt(String.valueOf(c));
-    }
 }

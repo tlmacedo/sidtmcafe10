@@ -1,24 +1,87 @@
 package br.com.cafeperfeito.sidtmcafe.teste;
 
-import br.com.cafeperfeito.sidtmcafe.service.ServiceEan13;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.Result;
-import com.nepxion.zxing.core.ZxingDecoder;
-import com.nepxion.zxing.core.ZxingEncoder;
-import com.nepxion.zxing.entity.ZxingEntity;
-import net.sourceforge.barbecue.Barcode;
-import net.sourceforge.barbecue.BarcodeFactory;
-import net.sourceforge.barbecue.BarcodeImageHandler;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import br.com.cafeperfeito.sidtmcafe.service.Cryptografica;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 
 public class Testes {
 
-    public static void main(String... args) {
-        String ean = "7898903647025", path = System.getProperty("user.home") + "/Pictures/" + ean + "_EAN.png";
+    public static void main(String... args) throws Exception {
+
+//        String senhaSimples = "cafeperfeito";
+//        System.out.println("senhaSimples: [" + senhaSimples + "]");
+//
+//
+//        String encryptValue = Cryptografica.encrypt(senhaSimples);
+//        System.out.println("encryptValue: [" + encryptValue + "]");
+//        String decryptValue = Cryptografica.decrypt(encryptValue);
+//        System.out.println("decryptValue: [" + decryptValue + "]");
+
+//        System.out.println(Cryptografica.decrypt(key, initVector,
+//                Cryptografica.encrypt(key, initVector, "Hello World")));
+
+//        String originalString = "Tlm487901";
+//        System.out.println("Original String to encrypt - " + originalString);
+//        String encryptedString = Cryptografica.encrypt(originalString);
+//        System.out.println("Encrypted String - " + encryptedString);
+//        String decryptedString = Cryptografica.decrypt(encryptedString);
+//        System.out.println("After decryption - " + decryptedString);
+
+        //String key = "DB99A2A8EB6904F492E9DF0595ED683C";
+        //String password = "Admin";
+
+//        String salt ="cafeperfeito.com";// Cryptografica.gerarSenhaSalt();
+//        Scanner scan = new Scanner(System.in);
+////        System.out.println("Please Enter Key:");
+//        //key = key;//scanner.next();
+//        System.out.println("Please Enter Plain Text Password:");
+//        String senha = scan.next();
+//        String encrypt = Cryptografica.encrypt(senha,salt);
+//        System.out.println("SenhaEncrypt: " + encrypt);
+//        String decrypt = Cryptografica.decrypt(encrypt,salt);
+//        System.out.println("SenhaDecrypt: " + decrypt);
+//
+//
+//
+//        String key;
+//        KeyGenerator keyGen = KeyGenerator.getInstance(Cryptografica.AES);
+//        keyGen.init(128);
+//        SecretKey sk = keyGen.generateKey();
+//        key = Cryptografica.byteArrayToHexString(sk.getEncoded());
+//        System.out.println("key:" + key);
+//        key = Cryptografica.gerarSenhaSalt();
+//        System.out.println("key:" + key);
+//        Scanner scanner = new Scanner(System.in);
+////        System.out.println("Please Enter Key:");
+//        //key = key;//scanner.next();
+//        System.out.println("Please Enter Plain Text Password:");
+//        String password = scanner.next();
+//
+//        byte[] bytekey = hexStringToByteArray(key);
+//        SecretKeySpec sks = new SecretKeySpec(bytekey, Cryptografica.AES);
+//        Cipher cipher = Cipher.getInstance(Cryptografica.AES);
+//        cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
+//        byte[] encrypted = cipher.doFinal(password.getBytes());
+//        String encryptedpwd = Cryptografica.byteArrayToHexString(encrypted);
+//        System.out.println("****************  Encrypted Password  ****************");
+//        System.out.println(encryptedpwd);
+//        System.out.println("****************  Encrypted Password  ****************");
+//
+//
+//        String tempkey = key;
+//        password = encryptedpwd;
+//
+//        bytekey = hexStringToByteArray(tempkey);
+//        sks = new SecretKeySpec(bytekey, Cryptografica.AES);
+//        cipher = Cipher.getInstance(Cryptografica.AES);
+//        cipher.init(Cipher.DECRYPT_MODE, sks);
+//        byte[] decrypted = cipher.doFinal(hexStringToByteArray(password));
+//        String OriginalPassword = new String(decrypted);
+//        System.out.println("****************  Original Password  ****************");
+//        System.out.println(OriginalPassword);
+//        System.out.println("****************  Original Password  ****************");
+//
+//
+//        String ean = "7898903647025", path = System.getProperty("user.home") + "/Pictures/" + ean + "_EAN.png";
 
 //        String text = "www.cafeperfeito.com.br";
 //        // 二维码图片导出路径
@@ -69,9 +132,6 @@ public class Testes {
 //        System.out.println("扫描结果 - [Text] : " + result.getText() + " [Timestamp] : " + result.getTimestamp() + " [BarcodeFormat] : " + result.getBarcodeFormat() + " [NumBits] : " + result.getNumBits());
 
 
-
-
-
 //        String text = "123456789101";
 //
 //        int width = 300;
@@ -91,7 +151,7 @@ public class Testes {
 //        System.out.println("Success!");
 
 
-        new ServiceEan13(ean).createBarcodePNG();
+//        new ServiceEan13(ean).createBarcodePNG();
 
 
 //        try{
@@ -108,8 +168,6 @@ public class Testes {
 //        }
 
 
-
-
 //        Barcode barcode = null;
 //        try {
 //            barcode = BarcodeFactory.createEAN13(ean.substring(0, 12));
@@ -119,21 +177,21 @@ public class Testes {
 //        }
 
 
-//        System.out.println("cnpj: [" + new ServiceFormatarDado().gerarMascara("cnpj") + "]");
-//        System.out.println("cpf: [" + new ServiceFormatarDado().gerarMascara("cpf") + "]");
-//        System.out.println("barcode: [" + new ServiceFormatarDado().gerarMascara("barcode") + "]");
-//        System.out.println("6numero0(123456): [" + new ServiceFormatarDado().gerarMascara("6numero0") + "]");
-//        System.out.println("6peso3(123456): [" + new ServiceFormatarDado().gerarMascara("6peso3") + "]");
-//        System.out.println("8moeda2(123456): [" + new ServiceFormatarDado().gerarMascara("8moeda2") + "]");
-//        System.out.println("8moeda3(123456): [" + new ServiceFormatarDado().gerarMascara("8moeda3") + "]");
-//        System.out.println("cep(69067360): [" + new ServiceFormatarDado().gerarMascara("cep") + "]");
-//        System.out.println("ncm(09012100): [" + new ServiceFormatarDado().gerarMascara("nfencm") + "]");
-//        System.out.println("cest(1234567): [" + new ServiceFormatarDado().gerarMascara("nfecest") + "]");
-//        System.out.println("nfechave: [" + new ServiceFormatarDado().gerarMascara("nfechave") + "]");
-//        System.out.println("nfenumero: [" + new ServiceFormatarDado().gerarMascara("nfenumero") + "]");
-//        System.out.println("nfedocorigem: [" + new ServiceFormatarDado().gerarMascara("nfedocorigem") + "]");
-//        System.out.println("telefone8: [" + new ServiceFormatarDado().gerarMascara("telefone8") + "]");
-//        System.out.println("telefone9: [" + new ServiceFormatarDado().gerarMascara("telefone9") + "]");
+        System.out.println("cnpj: [" + new ServiceFormatarDado().gerarMascara("len::;cnpj::;") + "]");
+        System.out.println("0cpf: [" + new ServiceFormatarDado().gerarMascara("cpf") + "]");
+        System.out.println("0barcode: [" + new ServiceFormatarDado().gerarMascara("barcode") + "]");
+        System.out.println("6numero0(123456): [" + new ServiceFormatarDado().gerarMascara("6numero0") + "]");
+        System.out.println("6peso3(123456): [" + new ServiceFormatarDado().gerarMascara("peso3") + "]");
+        System.out.println("8moeda2(123456): [" + new ServiceFormatarDado().gerarMascara("moeda2") + "]");
+        System.out.println("8moeda3(123456): [" + new ServiceFormatarDado().gerarMascara("moeda3") + "]");
+        System.out.println("0cep(69067360): [" + new ServiceFormatarDado().gerarMascara("cep") + "]");
+        System.out.println("0ncm(09012100): [" + new ServiceFormatarDado().gerarMascara("nfencm") + "]");
+        System.out.println("0cest(1234567): [" + new ServiceFormatarDado().gerarMascara("nfecest") + "]");
+        System.out.println("0nfechave: [" + new ServiceFormatarDado().gerarMascara("nfechave") + "]");
+        System.out.println("0nfenumero: [" + new ServiceFormatarDado().gerarMascara("nfenumero") + "]");
+        System.out.println("0nfedocorigem: [" + new ServiceFormatarDado().gerarMascara("nfedocorigem") + "]");
+        System.out.println("0telefone8: [" + new ServiceFormatarDado().gerarMascara("telefone8") + "]");
+        System.out.println("0telefone9: [" + new ServiceFormatarDado().gerarMascara("telefone9") + "]");
 //        System.out.println("ie(ac): [" + new ServiceFormatarDado().gerarMascara("ieac") + "]");
 //        System.out.println("ie(al): [" + new ServiceFormatarDado().gerarMascara("ieal") + "]");
 //        System.out.println("ie(am): [" + new ServiceFormatarDado().gerarMascara("ieam") + "]");

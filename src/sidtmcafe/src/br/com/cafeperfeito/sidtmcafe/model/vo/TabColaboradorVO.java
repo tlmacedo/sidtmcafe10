@@ -15,7 +15,7 @@ public class TabColaboradorVO {
     TabEmpresaVO lojaVO;
 
     IntegerProperty id, sisCargo_id, sisSituacaoSistema_id, tabLoja_id;
-    StringProperty nome, apelido, senha, senhaSalt;
+    StringProperty nome, apelido, senha;
 
     public TabColaboradorVO() {
     }
@@ -133,19 +133,6 @@ public class TabColaboradorVO {
 
     public void setSenha(String senha) {
         senhaProperty().set(senha);
-    }
-
-    public String getSenhaSalt() {
-        return senhaSaltProperty().get();
-    }
-
-    public StringProperty senhaSaltProperty() {
-        if (senhaSalt == null) senhaSalt = new SimpleStringProperty("");
-        return senhaSalt;
-    }
-
-    public void setSenhaSalt(String senhaSalt) {
-        senhaSaltProperty().set(senhaSalt);
     }
 
     public String getDetalheColaborador() {

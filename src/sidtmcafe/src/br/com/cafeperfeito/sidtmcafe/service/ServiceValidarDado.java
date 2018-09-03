@@ -76,6 +76,27 @@ public class ServiceValidarDado implements Constants {
         return mail;
     }
 
+    public static boolean isEan13Valido(final String ean13) {
+        Integer[] digitoDV = {0, 0};
+        digitoDV[0] = Integer.valueOf(ean13.substring(12));
+        String base = ean13.substring(0, 12);
+        int sum = 0;
+        for (int i = 0; i < 12; ++i) {
+            int val = charToInt(base.charAt(i));
+            if ((i + 1) % 2 == 0)
+                sum += val * 3;
+            else
+                sum += val * 1;
+        }
+
+        digitoDV[1] = (10 - (sum % 10));
+        return digitoDV[0].equals(digitoDV[1]);
+    }
+
+    static int charToInt(char c) {
+        return Integer.parseInt(String.valueOf(c));
+    }
+
     public static boolean isTelefoneValido(final String value, boolean getMsgFaill) {
         p = Pattern.compile(REGEX_TELEFONE);
         m = p.matcher(value);

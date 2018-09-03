@@ -1,5 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.interfaces;
 
+import br.com.cafeperfeito.sidtmcafe.service.Cryptografica;
 import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.util.Pair;
@@ -15,6 +16,13 @@ public interface Constants {
     String COPYRIGHT = "Café Perfeito " + "\u00a9 " + LocalDate.now().getYear();
     String LOJA_ID = "1";
     int DDD_SISTEMA = 92;
+
+    /*
+     * Cryptografia no Sistema
+     */
+    static String CRYPT_PALAVRA_CHAVE = "CafePerfeito.Com";
+    static String CRYPT_INITVECTOR = "RandomInitVector";
+
 
     //String REGEX_MASK_MOEDA_NUMERO = "#,###,###,###,###,###,##0";
     String REGEX_MASK_MOEDA_NUMERO = "#,##0";
@@ -47,19 +55,20 @@ public interface Constants {
      * Constantes para conexão com banco de dados MySql
      */
     String BD_DRIVER = "com.mysql.cj.jdbc.Driver";
-    String BD_DATABASE = "cafeperfeito";
+    String BD_DATABASE = Cryptografica.decrypt("0+PeSCliRZ0xWuIPgPR44Q==");
     String BD_HOST = "127.0.0.1";
     String BD_DRIVER_CONN = "jdbc:mysql://";
     String BD_PORTA = ":3306/";
-    String BD_USER = "root";
-    String BD_PASS = "Tlm487901";
+    String BD_USER = Cryptografica.decrypt("rE58q+UsGH2Y1nsOECjpqw==");
+    String BD_PASS = Cryptografica.decrypt("jcdiZEm9zbyuL0now2zfMA==");
     String BD_URL = BD_DRIVER_CONN + BD_HOST + BD_PORTA + BD_DATABASE + "?useSSL=false";//"?useTimezone=true&serverTimezone=UTC&useSSL=true";
     String BD_DATABASE_STB = BD_HOST + BD_PORTA + BD_DATABASE;
 
     /*
      *Constants para estilos do sistema
      *///macOS⁩ ▸ ⁨Usuários⁩ ▸ ⁨thiagomacedo⁩ ▸ ⁨Imagens⁩
-    Image IMG_DEFAULT_PRODUTO = new Image( "image/default/produtoDefault.png");
+//    Image IMG_DEFAULT_PRODUTO = new Image("image/default/produtoDefault.png");
+    Image IMG_DEFAULT_PRODUTO = null;
     int IMG_PRODUTO_IMAGE_WIDTH = 250;
     int IMG_PRODUTO_IMAGE_HEIGHT = 250;
     String TYPE_IMAGE_DOWNLOAD = ".png";

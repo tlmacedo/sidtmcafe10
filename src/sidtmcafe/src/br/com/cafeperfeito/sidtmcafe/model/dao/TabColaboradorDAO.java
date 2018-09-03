@@ -39,7 +39,6 @@ public class TabColaboradorDAO extends ServiceBuscaBancoDados {
                 tabColaboradorVO.setNome(rs.getString("nome"));
                 tabColaboradorVO.setApelido(rs.getString("apelido"));
                 tabColaboradorVO.setSenha(rs.getString("senha"));
-                tabColaboradorVO.setSenhaSalt(rs.getString("senhaSalt"));
                 tabColaboradorVO.setSisCargo_id(rs.getInt("sisCargo_id"));
                 tabColaboradorVO.setSisSituacaoSistema_id(rs.getInt("sisSituacaoSistema_id"));
                 tabColaboradorVO.setTabLoja_id(rs.getInt("tabLoja_id"));
