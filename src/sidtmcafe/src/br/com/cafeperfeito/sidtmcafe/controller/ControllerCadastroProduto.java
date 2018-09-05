@@ -926,10 +926,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void vlrConsumidor() {
+        BigDecimal prcFabrica = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoFabrica.getText());
+        BigDecimal margem = ServiceFormatarDado.getBigDecimalFromTextField(txtMargem.getText());
+        BigDecimal prcConsumidor;
         try {
-            BigDecimal prcFabrica = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoFabrica.getText());
-            BigDecimal margem = ServiceFormatarDado.getBigDecimalFromTextField(txtMargem.getText());
-            BigDecimal prcConsumidor;
             if (margem.compareTo(BigDecimal.ZERO) == 0) prcConsumidor = prcFabrica;
             else prcConsumidor = ((margem.multiply(new BigDecimal(100.0))).add(BigDecimal.ONE)).multiply(prcFabrica);
             txtPrecoVenda.setText(prcConsumidor.setScale(2, RoundingMode.HALF_UP).toString());
@@ -948,6 +948,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 margem = BigDecimal.ZERO;
             else
                 margem = ((prcConsumidor.subtract(prcFabrica)).divide(prcFabrica, RoundingMode.HALF_UP)).multiply(new BigDecimal(100.));
+            margem.setScale(2, RoundingMode.HALF_UP).toString();
             txtMargem.setText(margem.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
@@ -956,10 +957,11 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void vlrLucroBruto() {
+        BigDecimal prcFabrica = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoFabrica.getText());
+        BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
+        BigDecimal lucroBruto = prcConsumidor.subtract(prcFabrica);
         try {
-            BigDecimal prcFabrica = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoFabrica.getText());
-            BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
-            BigDecimal lucroBruto = prcConsumidor.subtract(prcFabrica);
+            lucroBruto.setScale(2, RoundingMode.HALF_UP).toString();
             txtLucroBruto.setText(lucroBruto.setScale(2, RoundingMode.HALF_UP).toString());
             vlrLucroLiq();
         } catch (Exception ex) {
@@ -969,14 +971,15 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void vlrLucroLiq() {
+        BigDecimal lucroBruto = ServiceFormatarDado.getBigDecimalFromTextField(txtLucroBruto.getText());
+        BigDecimal ultimoImposto = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoUltimoImpostoSefaz.getText());
+        BigDecimal ultimoFrete = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoUltimoFrete.getText());
+        BigDecimal comissaoReal = ServiceFormatarDado.getBigDecimalFromTextField(txtComissaoReal.getText());
+        BigDecimal lucroLiquido;
         try {
-            BigDecimal lucroBruto = ServiceFormatarDado.getBigDecimalFromTextField(txtLucroBruto.getText());
-            BigDecimal ultimoImposto = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoUltimoImpostoSefaz.getText());
-            BigDecimal ultimoFrete = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoUltimoFrete.getText());
-            BigDecimal comissaoReal = ServiceFormatarDado.getBigDecimalFromTextField(txtComissaoReal.getText());
-            BigDecimal lucroLiquido;
             if (lucroBruto.compareTo(BigDecimal.ZERO) == 0) lucroLiquido = BigDecimal.ZERO;
             else lucroLiquido = lucroBruto.subtract((ultimoFrete.add(comissaoReal)).add(ultimoImposto));
+            lucroLiquido.setScale(2, RoundingMode.HALF_UP).toString();
             txtLucroLiquido.setText(lucroLiquido.setScale(2, RoundingMode.HALF_UP).toString());
             vlrLucratividade();
         } catch (Exception ex) {
@@ -986,14 +989,15 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void vlrLucratividade() {
+        BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
+        BigDecimal lucroLiquido = ServiceFormatarDado.getBigDecimalFromTextField(txtLucroLiquido.getText());
+        BigDecimal lucratividade;
         try {
-            BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
-            BigDecimal lucroLiquido = ServiceFormatarDado.getBigDecimalFromTextField(txtLucroLiquido.getText());
-            BigDecimal lucratividade;
             if (lucroLiquido.compareTo(BigDecimal.ZERO) == 0 || prcConsumidor.compareTo(BigDecimal.ZERO) == 0)
                 lucratividade = BigDecimal.ZERO;
             else
                 lucratividade = (lucroLiquido.divide(prcConsumidor, RoundingMode.HALF_UP)).multiply(new BigDecimal(100.0));
+            lucratividade.setScale(2, RoundingMode.HALF_UP).toString();
             txtLucratividade.setText(lucratividade.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))
@@ -1009,6 +1013,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             if (comissaoPorc.compareTo(BigDecimal.ZERO) == 0 || prcConsumidor.compareTo(BigDecimal.ZERO) == 0)
                 comissaoReal = BigDecimal.ZERO;
             else comissaoReal = prcConsumidor.multiply((comissaoPorc.divide(new BigDecimal(100.0))));
+            comissaoReal.setScale(2, RoundingMode.HALF_UP).toString();
             txtComissaoReal.setText(comissaoReal.setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
             if (!(ex instanceof NumberFormatException))

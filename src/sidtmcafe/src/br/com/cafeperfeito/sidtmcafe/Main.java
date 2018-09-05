@@ -6,6 +6,8 @@ import br.com.cafeperfeito.sidtmcafe.view.ViewPrincipal;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+
 public class Main extends Application {
 
     @Override

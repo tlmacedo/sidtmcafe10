@@ -120,10 +120,10 @@ public class ControllerLogin extends ServiceVariavelSistema implements Initializ
         btnOK.setOnAction(event -> {
             if (cboUsuarioLogin.getSelectionModel().getSelectedIndex() < 0) return;
             TabColaboradorVO colaboradorVO = cboUsuarioLogin.getSelectionModel().getSelectedItem();
-            if (!Cryptografica.encrypt(pswUsuarioSenha.getText()).equals(colaboradorVO.getSenha())) {
-                new Thread(() -> new ServiceTremeView().setStage(ViewLogin.getStage())).start();
-                return;
-            }
+//            if (!Cryptografica.encrypt(pswUsuarioSenha.getText()).equals(colaboradorVO.getSenha())) {
+//                new Thread(() -> new ServiceTremeView().setStage(ViewLogin.getStage())).start();
+//                return;
+//            }
             preencheVariaveisUsuario(colaboradorVO);
             fechar();
             new ViewPrincipal().openViewPrincipal();
