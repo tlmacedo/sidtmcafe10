@@ -701,6 +701,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                         getProdutoVO().getUsuarioAtualizacaoVO())));
         lblDataAtualizacaoDiff.setText(String.format("tempo de atualização%s",
                 getProdutoVO().getDataAtualizacao() == null ? "" : String.format(": %s", ServiceDataHora.getIntervaloData(getProdutoVO().getDataAtualizacao().toLocalDateTime().toLocalDate(), null))));
+        imgCirculo.setFill(GRADIENT1);
         if (getProdutoVO().getImgProduto() != null)
             imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
     }
@@ -745,7 +746,9 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(getProdutoVO().getNcm()));
         }
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
-        imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
+        imgCirculo.setFill(GRADIENT1);
+        if (getProdutoVO().getImgProduto() != null)
+            imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
     }
 
 

@@ -31,6 +31,8 @@ public class ServiceImage implements Constants {
     }
 
     public static InputStream getInputStreamFromImage(Image image) {
+        if (image == null)
+            return null;
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
@@ -44,6 +46,8 @@ public class ServiceImage implements Constants {
     }
 
     public static Image getImageFromInputStream(InputStream inputStream) {
+        if (inputStream==null)
+            return null;
         try {
             return SwingFXUtils.toFXImage(ImageIO.read(inputStream), null);
         } catch (Exception ex) {

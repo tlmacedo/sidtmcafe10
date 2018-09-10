@@ -8,12 +8,17 @@ import javafx.stage.Stage;
 
 import java.util.Locale;
 
+import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.LOCALE_MY;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Locale.setDefault(LOCALE_MY);
+
+//        new ViewLogin().openViewLogin(false);
+
         ServiceVariavelSistema.newServiceVariavelSistema(null);
         new ViewPrincipal().openViewPrincipal();
-//        new ViewLogin().openViewLogin(false);
     }
 }

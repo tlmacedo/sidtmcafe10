@@ -3,6 +3,7 @@ package br.com.cafeperfeito.sidtmcafe.interfaces;
 import br.com.cafeperfeito.sidtmcafe.service.Cryptografica;
 import javafx.scene.image.Image;
 import javafx.scene.input.*;
+import javafx.scene.paint.*;
 import javafx.util.Pair;
 
 import java.text.DecimalFormat;
@@ -67,7 +68,36 @@ public interface Constants {
     /*
      *Constants para estilos do sistema
      *///macOS⁩ ▸ ⁨Usuários⁩ ▸ ⁨thiagomacedo⁩ ▸ ⁨Imagens⁩
-//    Image IMG_DEFAULT_PRODUTO = new Image("image/default/produtoDefault.png");
+//    Image IMG_DEFAULT_PRODUTO = new Image("image/default/
+    /*
+                            <RadialGradient centerX="0.5056179775280899" centerY="0.5" cycleMethod="REFLECT" radius="0.7738095238095238">
+                           <stops>
+                              <Stop color="#ff6600" />
+                              <Stop color="#ff6600cc" offset="0.10738396886772511" />
+                              <Stop color="#ff6600cc" offset="0.19250040407305635" />
+                              <Stop color="#ff6600cc" offset="0.2545535925202969" />
+                              <Stop color="#ff6600cc" offset="0.38875557931643273" />
+                              <Stop color="#ff6600cb" offset="0.5721052827889741" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </RadialGradient>
+
+<RadialGradient centerX="0.5056179775280899" centerY="0.5" cycleMethod="REFLECT" radius="1.0">
+                           <stops>
+                              <Stop color="#ff6600" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+     */
+    RadialGradient GRADIENT1 =
+            new RadialGradient(0,
+                    0,
+                    0.5056179775280899,
+                    0.5,
+                    1.0,
+                    true, CycleMethod.REFLECT,
+                    new Stop(0.0, Color.color(1.0f, 0.4f, 0.0f, 1.0)),
+                    new Stop(1.0, Color.color(1.0f, 1.0f, 1.0f, 1.0))
+            );
     Image IMG_DEFAULT_PRODUTO = null;
     int IMG_PRODUTO_IMAGE_WIDTH = 250;
     int IMG_PRODUTO_IMAGE_HEIGHT = 250;

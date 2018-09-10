@@ -41,7 +41,6 @@ public class ServiceFormatarDado implements Constants {
                     value = String.format(getFormato(decimal + 1), Long.parseLong(value));
                     if (value.length() >= 12) value = value.substring(strValue.length() - 12);
                     value = value.replaceAll("(\\d+)(\\d{" + decimal + "})", "$1.$2");
-                    System.out.println("mask: [" + mask + "]");
                     return new DecimalFormat(mask).format(new BigDecimal(value).setScale(decimal));
                 }
                 MaskFormatter formatter = new MaskFormatter(mask);

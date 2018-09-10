@@ -3,6 +3,10 @@ package br.com.cafeperfeito.sidtmcafe.teste;
 import br.com.cafeperfeito.sidtmcafe.service.Cryptografica;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 
+import java.util.Locale;
+
+import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.LOCALE_MY;
+
 public class Testes {
 
     public static void main(String... args) throws Exception {
