@@ -20,29 +20,31 @@ public class FiscalCestNcmDAO extends ServiceBuscaBancoDados {
     }
 
     public FiscalCestNcmVO getFiscalCestNcmVO(String ncm) {
+        String value = ncm.replaceAll("\\D", "");
         String comandoSql = "SELECT * FROM fiscalCestNcm ";
-        if (!ncm.equals("")) {
+        if (!value.equals("")) {
             comandoSql += "WHERE ncm = ? ";
-            addNewParametro(new Pair<>("String", ncm));
+            addNewParametro(new Pair<>("String", value));
         }
         getResultSet(comandoSql);
-        if (fiscalCestNcmVO == null && ncm.length() >= 4) {
-            addNewParametro(new Pair<>("String", ncm.substring(0, 4) + "%"));
+        if (fiscalCestNcmVO == null && value.length() >= 4) {
+            addNewParametro(new Pair<>("String", value.substring(0, 4) + "%"));
             getResultSet(comandoSql);
         }
         return fiscalCestNcmVO;
     }
 
     public List<FiscalCestNcmVO> getFiscalCestNcmVOList(String ncm) {
+        String value = ncm.replaceAll("\\D", "");
         fiscalCestNcmVOList = new ArrayList<>();
         String comandoSql = "SELECT * FROM fiscalCestNcm ";
-        if (!ncm.equals("") || ncm != null) {
-            addNewParametro(new Pair<String, String>("String", ncm + "%"));
+        if (!value.equals("") || value != null) {
+            addNewParametro(new Pair<String, String>("String", value + "%"));
             comandoSql += "WHERE ncm LIKE ? ";
         }
         getResultSet(comandoSql);
-        if (fiscalCestNcmVOList.size() == 0 && ncm.length() >= 4) {
-            addNewParametro(new Pair<String, String>("String", ncm.substring(0, 4) + "%"));
+        if (fiscalCestNcmVOList.size() == 0 && value.length() >= 4) {
+            addNewParametro(new Pair<String, String>("String", value.substring(0, 4) + "%"));
             getResultSet(comandoSql);
         }
         return fiscalCestNcmVOList;

@@ -32,6 +32,8 @@ public class WsEanCosmosDAO extends ServiceBuscaWebService implements Constants 
                 retorno += "descricao::" + jsonObject.getString("description") + ";";
             if (jsonObject.has("ncm"))
                 retorno += "ncm::" + jsonObject.getJSONObject("ncm").getString("code") + ";";
+            if (jsonObject.has("cest"))
+                retorno += "cest::" + jsonObject.getJSONObject("cest").getString("code") + ";";
             if (jsonObject.has("thumbnail"))
                 retorno += "imgProduto::" + jsonObject.getString("thumbnail") + ";";
         }
@@ -45,8 +47,6 @@ public class WsEanCosmosDAO extends ServiceBuscaWebService implements Constants 
         if (produto.getImgProduto() != null)
             produto.setImgProdutoBack(produto.getImgProduto());
         imageTmp[0] = IMG_DEFAULT_PRODUTO;
-        //imageTmp[1] = ServiceImage.getImageCodBarrasEAN13(busca);
-//        imageTmp[1] = ServiceImage.getImageResized(ServiceImage.getImagemFromUrl(Constants.WS_BARCODE_URL + busca),"ean");
         imageTmp[1] = new ServiceEan13(busca).createBarcodePNG();
         if (!retorno.equals("")) {
             HashMap hashMap = ServiceFormatarDado.getFieldFormatMap(retorno);
@@ -54,6 +54,8 @@ public class WsEanCosmosDAO extends ServiceBuscaWebService implements Constants 
                 produto.setDescricao(hashMap.get("descricao").toString());
             if (hashMap.containsKey("ncm"))
                 produto.setNcm(hashMap.get("ncm").toString());
+            if (hashMap.containsKey("cest"))
+                produto.setCest(hashMap.get("cest").toString());
             if (hashMap.containsKey("imgProduto"))
                 if ((imageTmp[0] = ServiceImage.getImagemFromUrl(hashMap.get("imgProduto").toString())) == null)
                     imageTmp[0] = IMG_DEFAULT_PRODUTO;

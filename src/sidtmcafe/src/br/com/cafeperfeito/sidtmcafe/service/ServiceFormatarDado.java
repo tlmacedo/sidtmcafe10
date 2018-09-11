@@ -3,6 +3,7 @@ package br.com.cafeperfeito.sidtmcafe.service;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import com.google.common.base.Splitter;
 import com.jfoenix.controls.JFXTextField;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
@@ -273,10 +274,10 @@ public class ServiceFormatarDado implements Constants {
                             }
                         }
                     }
-//                    Platform.runLater(() -> {
+//                        Platform.runLater(() -> {
                     textField.setText(resultado.toString());
                     textField.positionCaret(resultado.length());
-//                    });
+//                        });
                 }
             }
         });

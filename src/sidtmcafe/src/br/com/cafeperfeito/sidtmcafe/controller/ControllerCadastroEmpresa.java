@@ -1103,9 +1103,10 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         if ((emailHomePage = alertMensagem.getRetornoAlert_TextField(
                 "email120", temp)
                 .orElse(null)) == null) return;
-        if (!ServiceValidarDado.isEmailHomePageValido(emailHomePage, isEmail, true))
+        if (!ServiceValidarDado.isEmailHomePageValido(emailHomePage, isEmail, true)) {
             addEmailHomePage(emailHomePage);
-        if (!ServiceValidarDado.isEmailHomePageValido(emailHomePage, isEmail, false)) return;
+            return;
+        }
         if (isEmpresa) {
             getEmpresaVO().getTabEmailHomePageVOList().add(new TabEmailHomePageVO(emailHomePage, isEmail));
             listEmailHomePageVOObservableList.setAll(getEmpresaVO().getTabEmailHomePageVOList());

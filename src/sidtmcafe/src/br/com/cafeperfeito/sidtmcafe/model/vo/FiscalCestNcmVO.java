@@ -86,9 +86,9 @@ public class FiscalCestNcmVO extends RecursiveTreeObject<FiscalCestNcmVO> {
             String espacoTmp = "", segmentoFormatado, descricaoFormatada = "", cestFormatado,
                     ncmFormatado;
             segmentoFormatado = String.format(";      %s", segmentoProperty().get());
-            if ((cestFormatado = ServiceFormatarDado.getValorFormatado(cestProperty().get().replaceAll("\\D", ""), "0cest")) == null)
+            if ((cestFormatado = ServiceFormatarDado.getValorFormatado(cestProperty().get().replaceAll("\\D", ""), "nfecest")) == null)
                 cestFormatado = cestProperty().get();
-            if ((ncmFormatado = ServiceFormatarDado.getValorFormatado(ncmProperty().get().replaceAll("\\D", ""), "0ncm")) == null)
+            if ((ncmFormatado = ServiceFormatarDado.getValorFormatado(ncmProperty().get().replaceAll("\\D", ""), "nfencm")) == null)
                 ncmFormatado = ncmProperty().get();
             for (int i = 0; i < ((int) ((descricaoProperty().get().length() / 80) + 1)); i++) {
                 if (descricaoProperty().get().length() <= ((i * 80) + 80))
@@ -96,7 +96,7 @@ public class FiscalCestNcmVO extends RecursiveTreeObject<FiscalCestNcmVO> {
                 else
                     descricaoFormatada += String.format(";      %s", descricaoProperty().get().substring(i * 80, (i * 80) + 80));
             }
-            for (int i = ServiceFormatarDado.getValorFormatado(cestProperty().get(), "0cest").length(); i < 10; i++) {
+            for (int i = cestFormatado.length(); i < 10; i++) {
                 espacoTmp += " ";
             }
             txtRetorno += String.format("[Segmento]:%s;[Descrição]:%s;[Ncm]: %s %s [Cest]: %s",

@@ -153,12 +153,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                             setText(null);
                             setGraphic(null);
                         } else {
-                            if (item.getImgCodBarra() != null) {
+                            if (item.getImgCodBarra() != null)
                                 imageView.setImage(item.getImgCodBarra());
-//                                imageView.setPreserveRatio(true);
-//                                imageView.setSmooth(true);
-//                                imageView.setCache(true);
-                            }
                             setText(null);
                             setGraphic(imageView);
                         }
@@ -258,7 +254,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     case F8:
                         if (!getStatusBarTecla().contains(event.getCode().toString()))
                             return;
-                        //cboFiltroPesquisa.requestFocus();
                         break;
                     case F12:
                         if (!getStatusBarTecla().contains(event.getCode().toString()))
@@ -276,7 +271,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     case B:
                         if (getStatusFormulario().toLowerCase().equals("pesquisa")) break;
                         if (CODE_KEY_CTRL_ALT_B.match(event) || CHAR_KEY_CTRL_ALT_B.match(event))
-                            addCodeBar();
+                            addCodeBar("");
                         break;
                     case Z:
                         if (getStatusFormulario().toLowerCase().equals("pesquisa")) break;
@@ -306,12 +301,13 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         });
 
         cboFiscalCestNcm.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (!cboFiscalCestNcm.isFocused()) return;
             if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
             if (newValue == null) return;
-//            txtFiscalNcm.setText(ServiceFormatarDado.getValorFormatado(newValue.getNcm(), "0ncm"));
-//            txtFiscalCest.setText(ServiceFormatarDado.getValorFormatado(newValue.getCest(), "0cest"));
-            txtFiscalNcm.setText(newValue.getNcm());
-            txtFiscalCest.setText(newValue.getCest());
+            Platform.runLater(() -> {
+                txtFiscalNcm.setText(newValue.getNcm());
+                txtFiscalCest.setText(newValue.getCest());
+            });
         });
 
         listCodBarraVOObservableList.addListener((ListChangeListener) c -> {
@@ -325,16 +321,16 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             preencherTabelaProduto();
         });
 
-
         txtFiscalNcm.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!txtFiscalNcm.isFocused()) return;
             if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
-            //if (newValue == null || cboFiscalCestNcm.getSelectionModel().getSelectedItem() != null) return;
             if (newValue == null) return;
-            cboFiscalCestNcm.getItems().clear();
-            cboFiscalCestNcm.getSelectionModel().select(-1);
-            cboFiscalCestNcm.setItems(new FiscalCestNcmDAO()
-                    .getFiscalCestNcmVOList(newValue.replaceAll("\\D", ""))
-                    .stream().collect(Collectors.toCollection(FXCollections::observableArrayList)));
+            Platform.runLater(() -> {
+                cboFiscalCestNcm.getItems().clear();
+                cboFiscalCestNcm.setItems(new FiscalCestNcmDAO()
+                        .getFiscalCestNcmVOList(newValue)
+                        .stream().collect(Collectors.toCollection(FXCollections::observableArrayList)));
+            });
         });
 
         txtPrecoFabrica.textProperty().addListener(new ChangeListener<String>() {
@@ -342,7 +338,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtPrecoFabrica.isFocused()) return;
-//                if (txtPrecoFabrica.getText().substring(newValue.length() - 1).equals(",")) return;
                 vlrConsumidor();
                 vlrLucroBruto();
             }
@@ -355,7 +350,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 if (!txtMargem.isFocused()) {
                     return;
                 }
-//                if (txtMargem.getText().substring(newValue.length() - 1).equals(",")) return;
                 vlrConsumidor();
                 vlrLucroBruto();
             }
@@ -366,7 +360,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtPrecoVenda.isFocused()) return;
-//                if (txtPrecoVenda.getText().substring(newValue.length() - 1).equals(",")) return;
                 vlrMargem();
                 vlrLucroBruto();
             }
@@ -377,7 +370,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtComissaoPorc.isFocused()) return;
-//                if (txtComissaoPorc.getText().substring(newValue.length() - 1).equals(",")) return;
                 vlrComissaoReal();
                 vlrLucroBruto();
             }
@@ -386,7 +378,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         txtPrecoUltimoImpostoSefaz.textProperty().addListener((observable, oldValue, newValue) -> {
             if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
             if (!txtPrecoUltimoImpostoSefaz.isFocused()) return;
-//            if (txtPrecoUltimoImpostoSefaz.getText().substring(newValue.length() - 1).equals(",")) return;
             vlrLucroBruto();
         });
 
@@ -395,7 +386,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
                 if (!txtPrecoUltimoFrete.isFocused()) return;
-//                if (txtPrecoUltimoFrete.getText().substring(newValue.length() - 1).equals(",")) return;
                 vlrLucroBruto();
             }
         });
@@ -412,16 +402,12 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             if (imgCirculo.isDisabled()) return;
             try {
                 Dragboard board = event.getDragboard();
-                getProdutoVO().setImgProdutoBack(getProdutoVO().getImgProduto());
-                getProdutoVO().setImgProduto(ServiceImage.getImageResized(new Image(new FileInputStream(board.getFiles().get(0))),
-                        IMG_PRODUTO_IMAGE_WIDTH, Constants.IMG_PRODUTO_IMAGE_HEIGHT));
+                addImageProduto(new Image(new FileInputStream(board.getFiles().get(0))));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
         });
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -568,37 +554,30 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     public void preencherCboUnidadeComercial() {
         cboUnidadeComercial.getItems().setAll(new ArrayList<>(new SisUnidadeComercialDAO().getSisUnidadeComercialVOList()));
-//        cboUnidadeComercial.getSelectionModel().select(-1);
     }
 
     public void preencherCboSituacaoSistema() {
         cboSituacaoSistema.getItems().setAll(new ArrayList<>(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVOList()));
-//        cboSituacaoSistema.getSelectionModel().select(-1);
     }
 
     public void preencherCboFiscalCestNcm() {
         cboFiscalCestNcm.getItems().setAll(new ArrayList<>(new FiscalCestNcmDAO().getFiscalCestNcmVOList("")));
-//        cboFiscalCestNcm.getSelectionModel().select(-1);
     }
 
     public void preencherCboFiscalOrigem() {
         cboFiscalOrigem.getItems().setAll(new ArrayList<>(new FiscalCstOrigemDAO().getFiscalCstOrigemVOList()));
-//        cboFiscalOrigem.getSelectionModel().select(-1);
     }
 
     public void preencherCboFiscalIcms() {
         cboFiscalIcms.getItems().setAll(new ArrayList<>(new FiscalIcmsDAO().getFiscalIcmsVOList()));
-//        cboFiscalIcms.getSelectionModel().select(-1);
     }
 
     public void preencherCboFiscalPis() {
         cboFiscalPis.getItems().setAll(new ArrayList<>(new FiscalPisCofinsDAO().getFiscalPisCofinsVOList()));
-//        cboFiscalPis.getSelectionModel().select(-1);
     }
 
     public void preencherCboFiscalCofins() {
         cboFiscalCofins.getItems().setAll(new ArrayList<>(new FiscalPisCofinsDAO().getFiscalPisCofinsVOList()));
-//        cboFiscalCofins.getSelectionModel().select(-1);
     }
 
     void carregarListaProduto() {
@@ -635,7 +614,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     .findFirst().orElse(null) != null) return true;
             return false;
         });
-        preencherTabelaProduto();
+//        preencherTabelaProduto();
     }
 
     public TabProdutoVO getProdutoVO() {
@@ -701,9 +680,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                         getProdutoVO().getUsuarioAtualizacaoVO())));
         lblDataAtualizacaoDiff.setText(String.format("tempo de atualização%s",
                 getProdutoVO().getDataAtualizacao() == null ? "" : String.format(": %s", ServiceDataHora.getIntervaloData(getProdutoVO().getDataAtualizacao().toLocalDateTime().toLocalDate(), null))));
-        imgCirculo.setFill(GRADIENT1);
-        if (getProdutoVO().getImgProduto() != null)
-            imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
+        refreshImageProduto();
     }
 
     void keyShiftF6() {
@@ -712,7 +689,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     void keyInsert() {
         if (listCodigoBarra.isFocused())
-            addCodeBar();
+            addCodeBar("");
     }
 
     void keyDelete() {
@@ -724,31 +701,48 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         if (getProdutoVO().getImgProduto() != null && getProdutoVO().getImgProdutoBack() != null) {
             getProdutoVO().setImgProduto(getProdutoVO().getImgProdutoBack());
             getProdutoVO().setImgProdutoBack(null);
-            imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
         }
+        refreshImageProduto();
     }
 
-    void addCodeBar() {
+    void addImageProduto(Image image) {
+        if (getProdutoVO().getImgProduto() != null)
+            getProdutoVO().setImgProdutoBack(getProdutoVO().getImgProduto());
+        getProdutoVO().setImgProduto(ServiceImage.getImageResized(image,
+                IMG_PRODUTO_IMAGE_WIDTH, Constants.IMG_PRODUTO_IMAGE_HEIGHT));
+        refreshImageProduto();
+    }
+
+    void refreshImageProduto() {
+        imgCirculo.setFill(GRADIENT1);
+        if (getProdutoVO().getImgProduto() == null) return;
+        imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
+    }
+
+    void addCodeBar(String temp) {
         alertMensagem = new ServiceAlertMensagem();
         alertMensagem.setStrIco("ic_barcode_add_24dp");
         alertMensagem.setCabecalho(String.format("Adicionar dados [código de barras]"));
         alertMensagem.setPromptText(String.format("%s, qual o código de barras a ser adicionado para o produto: [%s] ?",
                 USUARIO_LOGADO_APELIDO, getProdutoVO()));
-        String codBarras;
-        if ((codBarras = alertMensagem.getRetornoAlert_TextField(
-                "barcode", "")
+        String codBarra;
+        if ((codBarra = alertMensagem.getRetornoAlert_TextField(
+                "barcode", temp)
                 .orElse(null)) == null) return;
-        if (codBarras.length() < 12)
-            codBarras = String.format("%012d", Long.parseLong(codBarras));
-        if (buscaDuplicidadeCode(codBarras, true)) return;
-        if (!ServiceConsultaWebServices.getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarras).equals("")) {
+        if (codBarra.length() < 13)
+            codBarra = String.format("%013d", Long.parseLong(codBarra));
+        if (!ServiceValidarDado.isEan13Valido(codBarra)) {
+            addCodeBar(codBarra);
+            return;
+        }
+        if (buscaDuplicidadeCode(codBarra, true)) return;
+        if (!ServiceConsultaWebServices.getProdutoNcmCest_WsEanCosmos(getProdutoVO(), codBarra).equals("")) {
             txtDescricao.setText(getProdutoVO().getDescricao());
-            cboFiscalCestNcm.getSelectionModel().select(new FiscalCestNcmDAO().getFiscalCestNcmVO(getProdutoVO().getNcm()));
+            txtFiscalNcm.setText(getProdutoVO().getNcm());
+            txtFiscalCest.setText(getProdutoVO().getCest());
         }
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
-        imgCirculo.setFill(GRADIENT1);
-        if (getProdutoVO().getImgProduto() != null)
-            imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
+        refreshImageProduto();
     }
 
 
@@ -769,23 +763,6 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     .setId(codBarraVO.getId() * (-1));
         listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
     }
-
-//    void updateCodeBar() {
-//        TabProduto_CodBarraVO codBarraVO;
-//        codBarraVO = listCodigoBarra.getSelectionModel().getSelectedItem();
-//        if (codBarraVO == null) return;
-//        alertMensagem = new ServiceAlertMensagem();
-//        alertMensagem.setStrIco("ic_barcode_update_24dp");
-//        alertMensagem.setCabecalho(String.format("Editar dados [código de barras]"));
-//        alertMensagem.setPromptText(String.format("%s, deseja editar o código de barras: [%s]\ndo produto: [%s] ?",
-//                USUARIO_LOGADO_APELIDO, codBarraVO, txtDescricao.getText()));
-//        String codBarras;
-//        if ((codBarras = alertMensagem.getRetornoAlert_TextField(
-//                "barcode", codBarraVO.getCodBarra())
-//                .orElse(null)) == null) return;
-//        codBarraVO.setCodBarra(codBarras);
-//        listCodBarraVOObservableList.setAll(getProdutoVO().getCodBarraVOList());
-//    }
 
     boolean buscaDuplicidadeCode(String buscaDuplicidade, boolean barCode) {
         TabProdutoVO duplicProduto;

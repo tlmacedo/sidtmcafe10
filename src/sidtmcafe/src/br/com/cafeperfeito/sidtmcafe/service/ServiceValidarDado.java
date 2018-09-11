@@ -76,10 +76,10 @@ public class ServiceValidarDado implements Constants {
         return mail;
     }
 
-    public static boolean isEan13Valido(final String ean13) {
+    public static boolean isEan13Valido(final String value) {
         Integer[] digitoDV = {0, 0};
-        digitoDV[0] = Integer.valueOf(ean13.substring(12));
-        String base = ean13.substring(0, 12);
+        digitoDV[0] = Integer.valueOf(value.substring(12));
+        String base = value.substring(0, 12);
         int sum = 0;
         for (int i = 0; i < 12; ++i) {
             int val = charToInt(base.charAt(i));
@@ -88,9 +88,19 @@ public class ServiceValidarDado implements Constants {
             else
                 sum += val * 1;
         }
-
         digitoDV[1] = (10 - (sum % 10));
-        return digitoDV[0].equals(digitoDV[1]);
+
+        if (!digitoDV[0].equals(digitoDV[1])) {
+            ServiceAlertMensagem alertMensagem = new ServiceAlertMensagem();
+            alertMensagem.setCabecalho("Dados inválidos");
+            alertMensagem.setStrIco("ic_msg_alerta_triangulo_white_24dp.png");
+            alertMensagem.setPromptText(String.format("%s, o código de barras informado: [%s], é inválido!",
+                    USUARIO_LOGADO_APELIDO,
+                    value));
+            alertMensagem.getRetornoAlert_OK();
+            return false;
+        }
+        return true;
     }
 
     static int charToInt(char c) {
