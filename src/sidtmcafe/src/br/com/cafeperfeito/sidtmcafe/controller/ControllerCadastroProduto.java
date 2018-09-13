@@ -906,8 +906,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void vlrConsumidor() {
-        BigDecimal prcFabrica = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoFabrica.getText());
-        BigDecimal margem = ServiceFormatarDado.getBigDecimalFromTextField(txtMargem.getText());
+        BigDecimal prcFabrica = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoFabrica.getText()).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal margem = ServiceFormatarDado.getBigDecimalFromTextField(txtMargem.getText()).setScale(2, RoundingMode.HALF_UP);
         BigDecimal prcConsumidor;
         try {
             if (margem.compareTo(BigDecimal.ZERO) == 0) prcConsumidor = prcFabrica;

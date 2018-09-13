@@ -29,7 +29,7 @@ public class ServiceFormatarDado implements Constants {
 
     public static BigDecimal getBigDecimalFromTextField(String value) {
         if (value.equals("") || value == null) return BigDecimal.ZERO;
-        return new BigDecimal(value.replace(".", "").replace(",", "."));
+        return new BigDecimal(Double.parseDouble(value.replace(".", "").replace(",", ".")));//.replace(".", "").replace(",", "."));
     }
 
     public static String getValorFormatado(String strValue, String tipMascara) {
@@ -226,63 +226,67 @@ public class ServiceFormatarDado implements Constants {
         if (tipMascara.length() > 0)
             setMascara(tipMascara);
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            String strValue = newValue;
+            textField.getId();
+            String strValue = newValue, value = newValue, maskDigit = "";
             StringBuilder resultado = new StringBuilder();
+            int posicao = textField.getCaretPosition() == newValue.length()
+                    ? newValue.length()
+                    : (newValue.length() > oldValue.length())
+                    ? textField.getCaretPosition() + 1
+                    : textField.getCaretPosition();
             if (getMascara().contains("#,##0")) {
                 if (strValue.equals("") || strValue == null)
-                    strValue = "0";
-                resultado.append(getValorFormatado(strValue, tipMascara).toString());
+                    value = "0";
+                resultado.append(getValorFormatado(value, tipMascara));
             } else {
-//                if (strValue.length() <= 0) {
-//                    textField.setText("");
-//                } else {
-//                    StringBuilder resultado = new StringBuilder();
-//                    int digitado = 0;
-//                    Pattern p = Pattern.compile(REGEX_PONTUACAO);
-//                    Matcher m = p.matcher(getMascara());
-//                    if (m.find())
-//                        value = strValue.replaceAll("\\W", "");
-//                    for (int i = 0; i < getMascara().length(); i++) {
-//                        if (digitado < value.length()) {
-//                            switch (getMascara().substring(i, i + 1)) {
-//                                case "#":
-//                                    if (!Character.isDigit(value.charAt(digitado))) break;
-//                                    resultado.append(value.substring(digitado, digitado + 1));
-//                                    digitado++;
-//                                    break;
-//                                case "U":
-//                                case "A":
-//                                case "L":
-//                                    if (!(Character.isLetterOrDigit(value.charAt(digitado))
-//                                            || Character.isSpaceChar(value.charAt(digitado))
-//                                            || Character.isDefined(value.charAt(digitado)))) break;
-//                                    if (getMascara().substring(i, i + 1).equals("L"))
-//                                        resultado.append(value.substring(i, i + 1).toLowerCase());
-//                                    else
-//                                        resultado.append(value.substring(i, i + 1).toUpperCase());
-//                                    digitado++;
-//                                    break;
-//                                case "?":
-//                                case "*":
-//                                    resultado.append(value.substring(i, i + 1));
-//                                    digitado++;
-//                                    break;
-//                                default:
-//                                    resultado.append(getMascara().substring(i, i + 1));
-//                                    break;
-//                            }
-//                        }
-//                    }
-////                        Platform.runLater(() -> {
-//                    textField.setText(resultado.toString());
-//                    textField.positionCaret(resultado.length());
-////                        });
-//                }
+                if (strValue.length() > 0) {
+                    int digitado = 0;
+                    Pattern p = Pattern.compile(REGEX_PONTUACAO);
+                    Matcher m = p.matcher(getMascara());
+                    if (m.find())
+                        value = strValue.replaceAll("\\W", "");
+                    for (int i = 0; i < getMascara().length(); i++) {
+                        if (digitado < value.length()) {
+                            switch ((maskDigit = getMascara().substring(i, i + 1))) {
+                                case "#":
+                                    if (Character.isDigit(value.charAt(digitado))) {
+                                        resultado.append(value.substring(digitado, digitado + 1));
+                                        digitado++;
+                                    }
+                                    break;
+                                case "U":
+                                case "A":
+                                case "L":
+                                    if ((Character.isLetterOrDigit(value.charAt(digitado))
+                                            || Character.isSpaceChar(value.charAt(digitado))
+                                            || Character.isDefined(value.charAt(digitado)))) {
+                                        if (maskDigit.equals("L"))
+                                            resultado.append(value.substring(digitado, digitado + 1).toLowerCase());
+                                        else
+                                            resultado.append(value.substring(digitado, digitado + 1).toUpperCase());
+                                        digitado++;
+                                    }
+                                    break;
+                                case "?":
+                                case "*":
+                                    resultado.append(value.substring(digitado, digitado + 1));
+                                    digitado++;
+                                    break;
+                                default:
+                                    resultado.append(getMascara().substring(i, i + 1));
+                                    break;
+                            }
+                        }
+                    }
+                }
             }
-            Platform.runLater(() -> {
+//            Platform.runLater(() -> {
                 textField.setText(resultado.toString());
-                textField.positionCaret(resultado.length());
-            });
+                textField.positionCaret(posicao);
+                if (getMascara().contains("0."))
+                    textField.positionCaret(resultado.length());
+//            });
+
         });
     }
 
