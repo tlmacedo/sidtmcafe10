@@ -614,7 +614,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     .findFirst().orElse(null) != null) return true;
             return false;
         });
-//        preencherTabelaProduto();
+        preencherTabelaProduto();
     }
 
     public TabProdutoVO getProdutoVO() {
@@ -906,99 +906,65 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     }
 
     void vlrConsumidor() {
-        BigDecimal prcFabrica = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoFabrica.getText()).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal margem = ServiceFormatarDado.getBigDecimalFromTextField(txtMargem.getText()).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal prcConsumidor;
-        try {
-            if (margem.compareTo(BigDecimal.ZERO) == 0) prcConsumidor = prcFabrica;
-            else prcConsumidor = ((margem.multiply(new BigDecimal(100.0))).add(BigDecimal.ONE)).multiply(prcFabrica);
-            txtPrecoVenda.setText(prcConsumidor.setScale(2, RoundingMode.HALF_UP).toString());
-        } catch (Exception ex) {
-            if (!(ex instanceof NumberFormatException))
-                ex.printStackTrace();
-        }
+        Double prcFabrica = ServiceFormatarDado.getDoubleFromTextField(txtPrecoFabrica.getText());
+        Double margem = ServiceFormatarDado.getDoubleFromTextField(txtMargem.getText());
+        Double prcConsumidor;
+        prcConsumidor = ((prcFabrica * margem) / 100) + prcFabrica;
+        txtPrecoVenda.setText(new BigDecimal(prcConsumidor).setScale(2, RoundingMode.HALF_UP).toString());
     }
 
     void vlrMargem() {
-        BigDecimal prcFabrica = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoFabrica.getText());
-        BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
-        BigDecimal margem;
+        Double prcFabrica = ServiceFormatarDado.getDoubleFromTextField(txtPrecoFabrica.getText());
+        Double prcConsumidor = ServiceFormatarDado.getDoubleFromTextField(txtPrecoVenda.getText());
+        Double margem;
+        margem = (((prcConsumidor - prcFabrica) * 100) / prcFabrica);
         try {
-            if (prcConsumidor.compareTo(BigDecimal.ZERO) == 0 || prcFabrica.compareTo(BigDecimal.ZERO) == 0)
-                margem = BigDecimal.ZERO;
-            else
-                margem = ((prcConsumidor.subtract(prcFabrica)).divide(prcFabrica, RoundingMode.HALF_UP)).multiply(new BigDecimal(100.));
-            margem.setScale(2, RoundingMode.HALF_UP).toString();
-            txtMargem.setText(margem.setScale(2, RoundingMode.HALF_UP).toString());
+            txtMargem.setText(new BigDecimal(margem).setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
-            if (!(ex instanceof NumberFormatException))
-                ex.printStackTrace();
+            if (ex instanceof NullPointerException)
+                txtMargem.setText(BigDecimal.ZERO.setScale(2).toString());
         }
     }
 
     void vlrLucroBruto() {
-        BigDecimal prcFabrica = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoFabrica.getText());
-        BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
-        BigDecimal lucroBruto = prcConsumidor.subtract(prcFabrica);
-        try {
-            lucroBruto.setScale(2, RoundingMode.HALF_UP).toString();
-            txtLucroBruto.setText(lucroBruto.setScale(2, RoundingMode.HALF_UP).toString());
-            vlrLucroLiq();
-        } catch (Exception ex) {
-            if (!(ex instanceof NumberFormatException))
-                ex.printStackTrace();
-        }
+        Double prcFabrica = ServiceFormatarDado.getDoubleFromTextField(txtPrecoFabrica.getText());
+        Double prcConsumidor = ServiceFormatarDado.getDoubleFromTextField(txtPrecoVenda.getText());
+        Double lucroBruto;
+        lucroBruto = (prcConsumidor - prcFabrica);
+        txtLucroBruto.setText(new BigDecimal(lucroBruto).setScale(2, RoundingMode.HALF_UP).toString());
+        vlrLucroLiq();
     }
 
     void vlrLucroLiq() {
-        BigDecimal lucroBruto = ServiceFormatarDado.getBigDecimalFromTextField(txtLucroBruto.getText());
-        BigDecimal ultimoImposto = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoUltimoImpostoSefaz.getText());
-        BigDecimal ultimoFrete = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoUltimoFrete.getText());
-        BigDecimal comissaoReal = ServiceFormatarDado.getBigDecimalFromTextField(txtComissaoReal.getText());
-        BigDecimal lucroLiquido;
-        try {
-            if (lucroBruto.compareTo(BigDecimal.ZERO) == 0) lucroLiquido = BigDecimal.ZERO;
-            else lucroLiquido = lucroBruto.subtract((ultimoFrete.add(comissaoReal)).add(ultimoImposto));
-            lucroLiquido.setScale(2, RoundingMode.HALF_UP).toString();
-            txtLucroLiquido.setText(lucroLiquido.setScale(2, RoundingMode.HALF_UP).toString());
-            vlrLucratividade();
-        } catch (Exception ex) {
-            if (!(ex instanceof NumberFormatException))
-                ex.printStackTrace();
-        }
+        Double lucroBruto = ServiceFormatarDado.getDoubleFromTextField(txtLucroBruto.getText());
+        Double ultimoImposto = ServiceFormatarDado.getDoubleFromTextField(txtPrecoUltimoImpostoSefaz.getText());
+        Double ultimoFrete = ServiceFormatarDado.getDoubleFromTextField(txtPrecoUltimoFrete.getText());
+        Double comissaoReal = ServiceFormatarDado.getDoubleFromTextField(txtComissaoReal.getText());
+        Double lucroLiquido;
+        lucroLiquido = (lucroBruto - (ultimoFrete + comissaoReal + ultimoImposto));
+        txtLucroLiquido.setText(new BigDecimal(lucroLiquido).setScale(2, RoundingMode.HALF_UP).toString());
+        vlrLucratividade();
     }
 
     void vlrLucratividade() {
-        BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
-        BigDecimal lucroLiquido = ServiceFormatarDado.getBigDecimalFromTextField(txtLucroLiquido.getText());
-        BigDecimal lucratividade;
+        Double prcConsumidor = ServiceFormatarDado.getDoubleFromTextField(txtPrecoVenda.getText());
+        Double lucroLiquido = ServiceFormatarDado.getDoubleFromTextField(txtLucroLiquido.getText());
+        Double lucratividade;
+        lucratividade = ((lucroLiquido / prcConsumidor) * 100);
         try {
-            if (lucroLiquido.compareTo(BigDecimal.ZERO) == 0 || prcConsumidor.compareTo(BigDecimal.ZERO) == 0)
-                lucratividade = BigDecimal.ZERO;
-            else
-                lucratividade = (lucroLiquido.divide(prcConsumidor, RoundingMode.HALF_UP)).multiply(new BigDecimal(100.0));
-            lucratividade.setScale(2, RoundingMode.HALF_UP).toString();
-            txtLucratividade.setText(lucratividade.setScale(2, RoundingMode.HALF_UP).toString());
+            txtLucratividade.setText(new BigDecimal(lucratividade).setScale(2, RoundingMode.HALF_UP).toString());
         } catch (Exception ex) {
-            if (!(ex instanceof NumberFormatException))
-                ex.printStackTrace();
+            if (ex instanceof NullPointerException)
+                txtLucratividade.setText(BigDecimal.ZERO.setScale(2).toString());
         }
     }
 
     void vlrComissaoReal() {
-        BigDecimal prcConsumidor = ServiceFormatarDado.getBigDecimalFromTextField(txtPrecoVenda.getText());
-        BigDecimal comissaoPorc = ServiceFormatarDado.getBigDecimalFromTextField(txtComissaoPorc.getText());
-        BigDecimal comissaoReal;
-        try {
-            if (comissaoPorc.compareTo(BigDecimal.ZERO) == 0 || prcConsumidor.compareTo(BigDecimal.ZERO) == 0)
-                comissaoReal = BigDecimal.ZERO;
-            else comissaoReal = prcConsumidor.multiply((comissaoPorc.divide(new BigDecimal(100.0))));
-            comissaoReal.setScale(2, RoundingMode.HALF_UP).toString();
-            txtComissaoReal.setText(comissaoReal.setScale(2, RoundingMode.HALF_UP).toString());
-        } catch (Exception ex) {
-            if (!(ex instanceof NumberFormatException))
-                ex.printStackTrace();
-        }
+        Double prcConsumidor = ServiceFormatarDado.getDoubleFromTextField(txtPrecoVenda.getText());
+        Double comissaoPorc = ServiceFormatarDado.getDoubleFromTextField(txtComissaoPorc.getText());
+        Double comissaoReal;
+        comissaoReal = (prcConsumidor * (comissaoPorc / 100));
+        txtComissaoReal.setText(new BigDecimal(comissaoReal).setScale(2, RoundingMode.HALF_UP).toString());
     }
 
 }

@@ -119,7 +119,11 @@ public class ServiceCampoPersonalizado implements Constants {
                 if (hashMap.containsKey("type")) {
                     if ((type = hashMap.get("type")).equals(""))
                         type = "TEXTO";
-                    new ServiceFormatarDado().maskField((JFXTextField) node, len + type);
+                    if (type.contains("numero") || type.contains("moeda") || type.contains("valor") || type.contains("peso")) {
+                        new ServiceFormatarDado().maskMoedaField((JFXTextField) node, len + type);
+                    } else {
+                        new ServiceFormatarDado().maskField((JFXTextField) node, len + type);
+                    }
                 }
             }
             if (node instanceof AnchorPane) {

@@ -746,6 +746,9 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void exibirDadosEmpresa() {
+        listEnderecoVOObservableList.setAll(getEmpresaVO().getTabEnderecoVOList());
+        listEndereco.getSelectionModel().selectFirst();
+
         cboClassificacaoJuridica.getSelectionModel().select(getEmpresaVO().isIsEmpresa() ? 1 : 0);
 //        txtCNPJ.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "0cnpj") : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getCnpj(), "cpf"));
 //        txtIE.setText(getEmpresaVO().isIsEmpresa() ? ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "0ie" + getEmpresaVO().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla()) : ServiceFormatarDado.getValorFormatado(getEmpresaVO().getIe(), "ie"));
@@ -759,8 +762,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         chkIsFornecedor.setSelected(getEmpresaVO().isIsFornecedor());
         chkIsTransportadora.setSelected(getEmpresaVO().isIsTransportadora());
 
-        listEnderecoVOObservableList.setAll(getEmpresaVO().getTabEnderecoVOList());
-        listEndereco.getSelectionModel().selectFirst();
 
         listEmailHomePageVOObservableList.setAll(getEmpresaVO().getTabEmailHomePageVOList());
         listTelefoneVOObservableList.setAll(getEmpresaVO().getTabTelefoneVOList());
