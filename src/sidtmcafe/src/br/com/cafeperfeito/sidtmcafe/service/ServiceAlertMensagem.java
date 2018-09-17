@@ -497,9 +497,9 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         textField.setPromptText(getPromptText());
         if (txtPreLoader != "")
             if (txtPreLoader.contains("telefone"))
-                textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("0telefone", ""), "telefone"));
+                textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("telefone", ""), "telefone", 0));
             else if (txtPreLoader.contains("celular"))
-                textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("0celular", ""), "celular"));
+                textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("celular", ""), "celular", 0));
             else
                 textField.setText(txtPreLoader);
         formatTextField = new ServiceFormatarDado();
@@ -507,15 +507,15 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
             case "fone":
             case "telefone":
             case "celular":
-                formatTextField.maskField(textField, "telefone9");
+                formatTextField.maskField(textField, 9, "telefone", 0);
                 textField.textProperty().addListener((observable, oldValue, newValue) -> {
                     String value = newValue.replaceAll("\\D", "");
                     if (newValue.length() > 0)
-                        formatTextField.setMascara(Integer.parseInt(value.substring(0, 1)) > 7 ? "telefone9" : "telefone8");
+                        formatTextField.setMascara(0, Integer.parseInt(value.substring(0, 1)) > 7 ? "celular" : "telefone", 0);
                 });
                 break;
             default:
-                formatTextField.maskField(textField, tipMascaraField);
+                formatTextField.maskField(textField, 8, tipMascaraField, 0);
         }
     }
 

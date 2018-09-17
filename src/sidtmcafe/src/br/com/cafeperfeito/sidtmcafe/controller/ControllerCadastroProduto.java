@@ -316,6 +316,12 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
         });
 
+        produtoVOObservableList.addListener((ListChangeListener) c -> {
+            produtoVOFilteredList = new FilteredList<>(produtoVOObservableList);
+            atualizaQtdRegistroLocalizado();
+            preencherTabelaProduto();
+        });
+
         produtoVOFilteredList.addListener((ListChangeListener) c -> {
             atualizaQtdRegistroLocalizado();
             preencherTabelaProduto();

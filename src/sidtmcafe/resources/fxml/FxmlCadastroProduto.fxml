@@ -52,7 +52,7 @@
                                 <Tooltip text="descrição do produto" />
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtPeso" accessibleText="len::;type::peso3;value::0,000;seteditable::;" layoutX="610.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Peso" styleClass="a-direita" text="Peso">
+                        <JFXTextField fx:id="txtPeso" accessibleText="len::9;type::peso;decimal::3;value::0,000;seteditable::;" layoutX="610.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Peso" styleClass="a-direita" text="Peso">
                             <tooltip>
                                 <Tooltip text="peso do produto" />
                             </tooltip>
@@ -67,17 +67,17 @@
                                 <Tooltip text="situação do produto no sistema" />
                             </tooltip>
                         </JFXComboBox>
-                        <JFXTextField fx:id="txtPrecoFabrica" accessibleText="len::;type::moeda2;value::0,00;seteditable::;" layoutX="10.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Preço Fab. (R$)" styleClass="a-direita" text="Preço fab. (R$)">
+                        <JFXTextField fx:id="txtPrecoFabrica" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="10.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Preço Fab. (R$)" styleClass="a-direita" text="Preço fab. (R$)">
                             <tooltip>
                                 <Tooltip text="preço de fabrica do produto" />
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtMargem" accessibleText="len::;type::moeda2;value::0,00;seteditable::;" layoutX="110.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Margem (%)" styleClass="a-direita" text="Margem (%)">
+                        <JFXTextField fx:id="txtMargem" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="110.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Margem (%)" styleClass="a-direita" text="Margem (%)">
                             <tooltip>
                                 <Tooltip text="margem do produto" />
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtPrecoVenda" accessibleText="len::;type::moeda2;value::0,00;seteditable::;" layoutX="210.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Preço Cons. (R$)" styleClass="a-direita" text="Preço cons. (R$)">
+                        <JFXTextField fx:id="txtPrecoVenda" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="210.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Preço Cons. (R$)" styleClass="a-direita" text="Preço cons. (R$)">
                             <tooltip>
                                 <Tooltip text="preço de consumidor do produto" />
                             </tooltip>
@@ -87,37 +87,37 @@
                                 <Tooltip text="quantidade de varejo no atacado" />
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtComissaoPorc" accessibleText="len::;type::moeda2;value::0,00;seteditable::;" layoutX="360.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Comissão (%)" styleClass="a-direita" text="Comissão (%)">
+                        <JFXTextField fx:id="txtComissaoPorc" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="360.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Comissão (%)" styleClass="a-direita" text="Comissão (%)">
                             <tooltip>
                                 <Tooltip text="comissão do produto" />
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtLucroBruto" accessibleText="len::;type::moeda2;value::0,00;seteditable::false;" layoutX="460.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Lucro Bruto (R$)" styleClass="a-direita" text="Lucro bruto (R$)">
+                        <JFXTextField fx:id="txtLucroBruto" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::false;" layoutX="460.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Lucro Bruto (R$)" styleClass="a-direita" text="Lucro bruto (R$)">
                             <tooltip>
                                 <Tooltip text="lucro bruto do produto" />
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtPrecoUltimoImpostoSefaz" accessibleText="len::;type::moeda2;value::0,00;seteditable::;" layoutX="560.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Útimo Imposto (R$)" styleClass="a-direita" text="Útimo Imposto (R$)">
+                        <JFXTextField fx:id="txtPrecoUltimoImpostoSefaz" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="560.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Útimo Imposto (R$)" styleClass="a-direita" text="Útimo Imposto (R$)">
                             <tooltip>
                                 <Tooltip text="Último frete do produto" />
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtPrecoUltimoFrete" accessibleText="len::;type::moeda2;value::0,00;seteditable::;" layoutX="660.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Útimo Frete (R$)" styleClass="a-direita" text="Útimo frete (R$)">
+                        <JFXTextField fx:id="txtPrecoUltimoFrete" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="660.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Útimo Frete (R$)" styleClass="a-direita" text="Útimo frete (R$)">
                             <tooltip>
                                 <Tooltip text="Último frete do produto" />
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtComissaoReal" accessibleText="len::;type::moeda2;value::0,00;seteditable::false;" layoutX="760.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Comissão (R$)" styleClass="a-direita" text="Comissão (R$)">
+                        <JFXTextField fx:id="txtComissaoReal" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::false;" layoutX="760.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Comissão (R$)" styleClass="a-direita" text="Comissão (R$)">
                             <tooltip>
                                 <Tooltip text="valor R$ comissão do produto" />
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtLucroLiquido" accessibleText="len::;type::moeda2;value::0,00;seteditable::false;" layoutX="860.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Lucro Líquido (R$)" styleClass="a-direita" text="Lucro líquido (R$)">
+                        <JFXTextField fx:id="txtLucroLiquido" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::false;" layoutX="860.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Lucro Líquido (R$)" styleClass="a-direita" text="Lucro líquido (R$)">
                             <tooltip>
                                 <Tooltip text="lucro líquido do produto" />
                             </tooltip>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtLucratividade" accessibleText="len::;type::moeda2;value::0,00;seteditable::false;" layoutX="960.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Lucratividade (%)" styleClass="a-direita" text="Lucratividade (%)">
+                        <JFXTextField fx:id="txtLucratividade" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::false;" layoutX="960.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Lucratividade (%)" styleClass="a-direita" text="Lucratividade (%)">
                             <tooltip>
                                 <Tooltip text="lucratividade do produto" />
                             </tooltip>

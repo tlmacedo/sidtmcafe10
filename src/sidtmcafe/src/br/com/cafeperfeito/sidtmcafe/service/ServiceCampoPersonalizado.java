@@ -110,8 +110,7 @@ public class ServiceCampoPersonalizado implements Constants {
         for (Node node : anchorPane.getChildren()) {
             node.getId();
             if (node instanceof JFXTextField && node.getAccessibleText() != null) {
-                int len = 0;
-                node.getId();
+                int len = 0, decimal = 0;
                 String type = "";
                 HashMap<String, String> hashMap = ServiceFormatarDado.getFieldFormatMap(node.getAccessibleText());
                 if (hashMap.containsKey("len"))
@@ -120,9 +119,15 @@ public class ServiceCampoPersonalizado implements Constants {
                     if ((type = hashMap.get("type")).equals(""))
                         type = "TEXTO";
                     if (type.contains("numero") || type.contains("moeda") || type.contains("valor") || type.contains("peso")) {
-                        new ServiceFormatarDado().maskMoedaField((JFXTextField) node, len + type);
+                        if (hashMap.containsKey("decimal"))
+                            decimal = hashMap.get("decimal").equals("") ? 0 : Integer.parseInt(hashMap.get("decimal"));
+                        if (type.contains("numero") && decimal == 0) {
+                            new ServiceFormatarDado().maskField((JFXTextField) node, len, type, decimal);
+                        } else {
+                            new ServiceFormatarDado().maskMoedaField((JFXTextField) node, len, type, decimal);
+                        }
                     } else {
-                        new ServiceFormatarDado().maskField((JFXTextField) node, len + type);
+                        new ServiceFormatarDado().maskField((JFXTextField) node, len, type, decimal);
                     }
                 }
             }

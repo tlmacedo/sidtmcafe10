@@ -33,20 +33,32 @@ public class ServiceFormatarDado implements Constants {
         return new BigDecimal(Double.parseDouble(value.replace(".", "").replace(",", ".")));//.replace(".", "").replace(",", "."));
     }
 
-    public static Double getDoubleFromTextField(String value){
-        if (value.equals("") || value == null) return 0.;
+    public static Double getDoubleFromTextField(String value) {
+        if (value == "" || value == null) return 0.;
         return Double.parseDouble(value.replace(".", "").replace(",", "."));
     }
 
-    public static String getValorFormatado(String strValue, String tipMascara) {
+    static String getFormato(int tamMascara) {
+        return "%0" + tamMascara + "d";
+    }
+
+    public static String getValorFormatado(String strValue, String tipMascara, int decimal) {
+        return getValorFormatado(strValue, 0, tipMascara, decimal);
+    }
+
+    public static String getValorFormatado(String strValue, int len, String tipMascara, int decimal) {
         String value = strValue.replaceAll("\\W", "");
-        String mask = gerarMascara(tipMascara);
+        String mask;
+        if (len > 0) {
+            mask = gerarMascara(len, tipMascara, decimal);
+        } else {
+            mask = gerarMascara(tipMascara, decimal);
+        }
         if (value.length() > 0)
             try {
                 if (mask.contains("#,##0")) {
-                    int decimal = Integer.parseInt(tipMascara.replaceAll("\\D", ""));
                     value = String.format(getFormato(decimal + 1), Long.parseLong(value));
-                    if (value.length() >= 12) value = value.substring(strValue.length() - 12);
+                    if (value.length() >= len) value = value.substring(0, len);
                     value = value.replaceAll("(\\d+)(\\d{" + decimal + "})", "$1.$2");
                     return new DecimalFormat(mask).format(new BigDecimal(value).setScale(decimal));
                 }
@@ -60,31 +72,62 @@ public class ServiceFormatarDado implements Constants {
         return null;
     }
 
-    static String getFormato(int tamMascara) {
-        return "%0" + tamMascara + "d";
+    public static String gerarMascara(String tipMascara, int decimal) {
+        int len = 120;
+        switch (tipMascara) {
+            case "nfecest":
+                len = 7;
+                break;
+            case "cep":
+            case "nfencm":
+            case "telefone":
+                len = 8;
+                break;
+            case "numero":
+            case "celular":
+            case "nfenumero":
+                len = 9;
+                break;
+            case "rg":
+            case "cpf":
+                len = 11;
+                break;
+            case "peso":
+                len = 12;
+                decimal = 3;
+                break;
+            case "moeda":
+            case "valor":
+                len = 12;
+                decimal = 2;
+                break;
+            case "nfedocorigem":
+                len = 12;
+                break;
+            case "ean":
+            case "barras":
+            case "barcode":
+            case "codbarra":
+            case "codbarras":
+            case "codigobarra":
+            case "codigobarras":
+                len = 13;
+                break;
+            case "cnpj":
+                len = 14;
+                break;
+            case "nfechave":
+                len = 44;
+                break;
+        }
+        return gerarMascara(len, tipMascara, decimal);
     }
 
-    public static String gerarMascara(String tipMascara) {
-        //int len = 0, decimal = 0;
-        String mask = "", strLen = "", strDec = "";
+    public static String gerarMascara(int len, String tipMascara, int decimal) {
+        String mask = "";
         if ((mask = tipMascara.replaceAll("\\d", "")).equals(""))
             mask = "TEXTO";
         if (!mask.equals("TEXTO") && !mask.equals("Texto")) mask = mask.toLowerCase();
-        if ((strLen = tipMascara.substring(0, 3).replaceAll("\\D", "")).equals(""))
-            switch (mask.toLowerCase()) {
-                case "texto":
-                case "email":
-                case "homepage":
-                    strLen = "120";
-                    break;
-                default:
-                    strLen = "0";
-                    break;
-            }
-        int len = Integer.valueOf(strLen);
-        if ((strDec = tipMascara.substring(tipMascara.length() - 1).replaceAll("\\D", "")).equals(""))
-            strDec = "0";
-        int decimal = Integer.parseInt(strDec);
         if (mask.length() >= 2 && mask.substring(0, 2).equals("ie")) {
             return getMascaraIE(mask.length() >= 4 ? mask.substring(2).toUpperCase() : "");
         }
@@ -109,7 +152,6 @@ public class ServiceFormatarDado implements Constants {
                 return String.format(getFormato(len), 0).replace("0", CARACTER_DIGITO);
             case "telefone":
             case "celular":
-                len = decimal;
                 return String.format(getFormato(len), 0).replaceAll(REGEX_FS_TELEFONE.getKey(), REGEX_FS_TELEFONE.getValue()).replace("0", CARACTER_DIGITO);
             case "ean":
             case "barcode":
@@ -162,8 +204,11 @@ public class ServiceFormatarDado implements Constants {
         return mascara;
     }
 
-    public void setMascara(String tipOrMascara) {
-        this.mascara = gerarMascara(tipOrMascara);
+    public void setMascara(int len, String tipOrMascara, int decimal) {
+        if (len > 0)
+            this.mascara = gerarMascara(len, tipOrMascara, decimal);
+        else
+            this.mascara = gerarMascara(tipOrMascara, decimal);
     }
 
     public int getPosicao() {
@@ -236,19 +281,20 @@ public class ServiceFormatarDado implements Constants {
         }
     }
 
-    public void maskMoedaField(JFXTextField textField, String tipMascara) {
+    public void maskMoedaField(JFXTextField textField, int len, String tipMascara, int decimal) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             String value = newValue;
-            if (value.equals("") || value == null)
+            if (value == "" || value == null)
                 value = "0";
-            textField.setText(getValorFormatado(value, tipMascara));
-            textField.positionCaret(textField.getText().length());
+            String vlrMoedaFormatado=getValorFormatado(value, len, tipMascara, decimal);
+            textField.setText(vlrMoedaFormatado);
+            textField.positionCaret(vlrMoedaFormatado.length());
         });
     }
 
-    public void maskField(JFXTextField textField, String tipMascara) {
+    public void maskField(JFXTextField textField, int len, String tipMascara, int decimal) {
         if (tipMascara.length() > 0)
-            setMascara(tipMascara);
+            setMascara(len, tipMascara, decimal);
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             String strValue = newValue, value = newValue, maskDigit = "";
             StringBuilder resultado = new StringBuilder();
