@@ -497,9 +497,9 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         textField.setPromptText(getPromptText());
         if (txtPreLoader != "")
             if (txtPreLoader.contains("telefone"))
-                textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("telefone", ""), "telefone", 0));
+                textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("telefone", ""), 0, "telefone", 0));
             else if (txtPreLoader.contains("celular"))
-                textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("celular", ""), "celular", 0));
+                textField.setText(ServiceFormatarDado.getValorFormatado(txtPreLoader.replace("celular", ""), 0, "celular", 0));
             else
                 textField.setText(txtPreLoader);
         formatTextField = new ServiceFormatarDado();

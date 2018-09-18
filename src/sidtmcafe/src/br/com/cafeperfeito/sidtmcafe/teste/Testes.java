@@ -249,20 +249,14 @@ public class Testes {
 //
 //
 
-        System.out.println("Ean: [7896102812060] é: [" + ServiceValidarDado.isEan13Valido("7896102812060") + "]");
-        System.out.println("Ean: [7896030896637] é: [" + ServiceValidarDado.isEan13Valido("7896030896637") + "]");
+
+
+        System.out.println("moeda2(123456): [" + new ServiceFormatarDado().getValorFormatado("1234567890123",15,"moeda", 3) + "]");
 
 
 
 
 
-
-        double num1 = 110;
-        double num2 = 10;
-        double res = num1 / num2;
-        double resto = num1 % num2;
-        System.out.println(num1 + " dividido por " + num2 + " = " + res);
-        System.out.println("O resto da divisao e: " + resto);
     }
 
 

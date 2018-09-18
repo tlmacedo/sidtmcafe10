@@ -86,9 +86,9 @@ public class FiscalCestNcmVO extends RecursiveTreeObject<FiscalCestNcmVO> {
             String espacoTmp = "", segmentoFormatado, descricaoFormatada = "", cestFormatado,
                     ncmFormatado;
             segmentoFormatado = String.format(";      %s", segmentoProperty().get());
-            if ((cestFormatado = ServiceFormatarDado.getValorFormatado(cestProperty().get().replaceAll("\\D", ""), "nfecest", 0)) == null)
+            if ((cestFormatado = ServiceFormatarDado.getValorFormatado(cestProperty().get().replaceAll("\\D", ""), 0, "nfecest", 0)) == null)
                 cestFormatado = cestProperty().get();
-            if ((ncmFormatado = ServiceFormatarDado.getValorFormatado(ncmProperty().get().replaceAll("\\D", ""), "nfencm", 0)) == null)
+            if ((ncmFormatado = ServiceFormatarDado.getValorFormatado(ncmProperty().get().replaceAll("\\D", ""), 0, "nfencm", 0)) == null)
                 ncmFormatado = ncmProperty().get();
             for (int i = 0; i < ((int) ((descricaoProperty().get().length() / 80) + 1)); i++) {
                 if (descricaoProperty().get().length() <= ((i * 80) + 80))

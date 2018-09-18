@@ -381,7 +381,7 @@
                                                             prefWidth="200.0">
                                                     <children>
                                                         <JFXTextField fx:id="txtFreteFiscalNumeroControle"
-                                                                      accessibleText="len::13;type::nfencontrole;value::;seteditable::;"
+                                                                      accessibleText="len::13;type::numero;value::;seteditable::;"
                                                                       layoutX="5.0"
                                                                       layoutY="10.0" maxHeight="-Infinity"
                                                                       maxWidth="-Infinity" minHeight="-Infinity"

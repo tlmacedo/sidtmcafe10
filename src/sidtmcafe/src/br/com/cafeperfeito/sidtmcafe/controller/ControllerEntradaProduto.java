@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.controller;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
+import br.com.cafeperfeito.sidtmcafe.model.dao.FiscalTributoSefazAmDAO;
 import br.com.cafeperfeito.sidtmcafe.model.dao.TabEmpresaDAO;
 import br.com.cafeperfeito.sidtmcafe.service.*;
 import br.com.cafeperfeito.sidtmcafe.view.ViewEntradaProduto;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-public class ControllerEntradaProduto  extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
+public class ControllerEntradaProduto extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
 
     public AnchorPane painelViewEntradaProduto;
     public TitledPane tpnDadoNfe;
@@ -95,7 +96,17 @@ public class ControllerEntradaProduto  extends ServiceVariavelSistema implements
     @Override
     public void preencherObjetos() {
         listaTarefa.add(new Pair("preencherCboLojaDestino", "preenchendo dados das lojas"));
-//        listaTarefa.add(new Pair("preencherCboSituacaoSistema", "preenchendo situaão no istema"));
+        listaTarefa.add(new Pair("preencherCboTributos", "preenchendo tributos SEFAZ-AM"));
+
+//        listaTarefas.add(new Pair("carregarTomadorServico", "carregando lista tomador serviço"));
+//        listaTarefas.add(new Pair("carregarModelo", "carregando lista modelo"));
+//        listaTarefas.add(new Pair("carregarSituacaoTributaria", "carregando lista situação tributária"));
+//        listaTarefas.add(new Pair("carregarTransportadora", "carregando lista transportadora"));
+//        listaTarefas.add(new Pair("carregarListaProduto", "carregando lista de produtos"));
+
+
+
+        //        listaTarefa.add(new Pair("preencherCboSituacaoSistema", "preenchendo situaão no istema"));
 //        listaTarefa.add(new Pair("preencherCboFiscalCestNcm", "preenchendo dados fiscais de Ncm e Cest"));
 //        listaTarefa.add(new Pair("preencherCboFiscalOrigem", "preenchendo dados fiscais de Origem"));
 //        listaTarefa.add(new Pair("preencherCboFiscalIcms", "preenchendo dados fiscal ICMS"));
@@ -105,7 +116,7 @@ public class ControllerEntradaProduto  extends ServiceVariavelSistema implements
 //
 //        listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
 //
-        new ServiceSegundoPlano().tarefaAbreCadastroProduto(getTaskCadastroProduto(), listaTarefa.size());
+        new ServiceSegundoPlano().tarefaAbreCadastroProduto(getTaskEntradaProduto(), listaTarefa.size());
     }
 
     @Override
@@ -430,7 +441,7 @@ public class ControllerEntradaProduto  extends ServiceVariavelSistema implements
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewEntradaProduto.getTituloJanela();
 
-    Task getTaskCadastroProduto() {
+    Task getTaskEntradaProduto() {
         int qtdTarefas = listaTarefa.size();
         Task<Void> voidTask = new Task<Void>() {
             @Override
@@ -446,6 +457,9 @@ public class ControllerEntradaProduto  extends ServiceVariavelSistema implements
 //                            break;
                         case "preencherCboLojaDestino":
                             preencherCboLojaDestino();
+                            break;
+                        case "preencherCboTributos":
+                            preencherCboTributos();
                             break;
 //                        case "preencherCboSituacaoSistema":
 //                            preencherCboSituacaoSistema();
@@ -544,5 +558,38 @@ public class ControllerEntradaProduto  extends ServiceVariavelSistema implements
     public void preencherCboLojaDestino() {
         cboLojaDestino.getItems().setAll(new ArrayList<>(new TabEmpresaDAO().getTabEmpresaVOList(true)));
     }
+
+    void preencherCboTributos() {
+        cboFiscalTributo.getItems().setAll(new ArrayList<>(new FiscalTributoSefazAmDAO().getFiscalTributoSefazAmVOList()));
+        cboFreteFiscalTributo.getItems().setAll(new ArrayList<>(new FiscalTributoSefazAmDAO().getFiscalTributoSefazAmVOList()));
+    }
+
+//    public void carregarTomadorServico() {
+//        cboFreteTomadorServico.getItems().clear();
+//        cboFreteTomadorServico.getItems().setAll(new SisFreteTomadorDAO().getSisFreteTomadorVOList());
+//        //cboFreteTomadorServico.getSelectionModel().select(0);
+//    }
+//
+//    public void carregarModelo() {
+//        cboFreteModeloCte.getItems().clear();
+//        cboFreteModeloCte.getItems().setAll(new SisFiscalModelonfeCteDAO().getSisFiscalModeloNfeCteVOList());
+//        //cboFreteModeloCte.getSelectionModel().select(0);
+//    }
+//
+//    public void carregarSituacaoTributaria() {
+//        cboFreteSistuacaoTributaria.getItems().clear();
+//        cboFreteSistuacaoTributaria.getItems().setAll(new SisFreteSituacaoTributariaDAO().getSisFreteSituacaoTributariaVOList());
+//        //cboFreteSistuacaoTributaria.getSelectionModel().select(0);
+//    }
+//
+//    public void carregarTransportadora() {
+//        cboFreteTransportadora.getItems().clear();
+//        cboFreteTransportadora.getItems().setAll(new TabEmpresaDAO().getEmpresaVOList());
+//        //cboFreteTransportadora.getSelectionModel().select(0);
+//    }
+//
+//    public void carregarListaProduto() {
+//        produtoVOObservableList = FXCollections.observableArrayList(new TabProdutoDAO().getProdutoVOList());
+//    }
 
 }

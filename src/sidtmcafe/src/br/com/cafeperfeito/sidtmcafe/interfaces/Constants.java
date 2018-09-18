@@ -29,8 +29,10 @@ public interface Constants {
     String REGEX_MASK_MOEDA_NUMERO = "#,##0";
     String REGEX_IMAGENS_EXTENSAO = "\\.(jpg|jpeg|png|gif)";
     String REGEX_CNPJ_CPF = "(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})|(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})";
-    String REGEX_EMAIL = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}";
-    String REGEX_HOME_PAGE = "[A-Z0-9._%+-]+[A-Z0-9.-]+\\.[A-Z]{2,6}";
+    //String REGEX_EMAIL = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}";
+    String REGEX_EMAIL = "([\\w\\-]+\\.)*[\\w\\- ]+@([\\w\\- ]+\\.)+([\\w\\-]{2,3})";
+    //String REGEX_HOME_PAGE = "[A-Z0-9._%+-]+[A-Z0-9.-]+\\.[A-Z]{2,6}";
+    String REGEX_HOME_PAGE = "((http)|(https)|(ftp)):\\/\\/([\\- \\w]+\\.)+\\w{2,3}(\\/ [%\\-\\w]+(\\.\\w{2,})?)*";
     String REGEX_DDD = "(.(\\d{2}.))";
     String REGEX_TELEFONE_DDD = "(.(\\d{2}.))?\\s9?\\d{4}-\\d{4}";
     String REGEX_TELEFONE = "\\d{4}-\\d{4}";
