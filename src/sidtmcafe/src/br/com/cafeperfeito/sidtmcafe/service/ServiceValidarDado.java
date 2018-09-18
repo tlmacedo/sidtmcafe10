@@ -77,30 +77,17 @@ public class ServiceValidarDado implements Constants {
     }
 
     public static boolean isEan13Valido(final String value) {
-        Integer[] digitoDV = {0, 0};
-        digitoDV[0] = Integer.valueOf(value.substring(12));
-        String base = value.substring(0, 12);
-        int sum = 0;
-        for (int i = 0; i < 12; ++i) {
-            int val = charToInt(base.charAt(i));
-            if ((i + 1) % 2 == 0)
-                sum += val * 3;
-            else
-                sum += val * 1;
-        }
-        digitoDV[1] = (10 - (sum % 10));
-
-        if (!digitoDV[0].equals(digitoDV[1])) {
-            ServiceAlertMensagem alertMensagem = new ServiceAlertMensagem();
-            alertMensagem.setCabecalho("Dados inválidos");
-            alertMensagem.setStrIco("ic_msg_alerta_triangulo_white_24dp.png");
-            alertMensagem.setPromptText(String.format("%s, o código de barras informado: [%s], é inválido!",
-                    USUARIO_LOGADO_APELIDO,
-                    value));
-            alertMensagem.getRetornoAlert_OK();
+        if (!value.matches("\\d{13}")) {
             return false;
         }
-        return true;
+        int[] numeros = value.chars().map(Character::getNumericValue).toArray();
+        int somaPares = numeros[1] + numeros[3] + numeros[5] + numeros[7] + numeros[9] + numeros[11];
+        int somaImpares = numeros[0] + numeros[2] + numeros[4] + numeros[6] + numeros[8] + numeros[10];
+        int resultado = somaImpares + somaPares * 3;
+        int digitoVerificador = 10 - resultado % 10;
+        if (digitoVerificador > 9)
+            digitoVerificador = 0;
+        return digitoVerificador == numeros[12];
     }
 
     static int charToInt(char c) {

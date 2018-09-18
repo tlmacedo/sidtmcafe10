@@ -34,7 +34,7 @@ public interface Constants {
     String REGEX_DDD = "(.(\\d{2}.))";
     String REGEX_TELEFONE_DDD = "(.(\\d{2}.))?\\s9?\\d{4}-\\d{4}";
     String REGEX_TELEFONE = "\\d{4}-\\d{4}";
-    String REGEX_PONTUACAO = "[!\"$%&'()*+,-./:;_`{|}]";
+    String REGEX_PONTUACAO = "[ !\"$%&'()*+,-./:;_`{|}]";
     Pair<String, String> REGEX_FS_CNPJ = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
     Pair<String, String> REGEX_FS_CPF = new Pair<String, String>("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
     Pair<String, String> REGEX_FS_CEP = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{3})", "$1.$2-$3");
@@ -150,6 +150,8 @@ public interface Constants {
 //    String FXML_CADASTRO_EMPRESA = PATH_FXML + "teste.fxml";
 
     String FXML_CADASTRO_PRODUTO = PATH_FXML + "FxmlCadastroProduto.fxml";
+
+    String FXML_ENTRADA_PRODUTO = PATH_FXML + "FxmlEntradaProduto.fxml";
 
 
     /*

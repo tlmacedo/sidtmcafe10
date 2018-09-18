@@ -25,21 +25,23 @@ public class ServiceCampoPersonalizado implements Constants {
 
     public static void fieldClear(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
-            if (node.getAccessibleText() == null)
-                continue;
             String vlrInicial = "";
-            HashMap<String, String> hashMap = ServiceFormatarDado.getFieldFormatMap(node.getAccessibleText());
-            if (hashMap.containsKey("value")) {
-                if ((vlrInicial = hashMap.get("value")) == null)
-                    vlrInicial = "";
-                if (node instanceof Label)
-                    ((Label) node).setText(vlrInicial);
+//            if (node.getAccessibleText() == null)
+//                continue;
+            if (node.getAccessibleText() != null) {
+                HashMap<String, String> hashMap = ServiceFormatarDado.getFieldFormatMap(node.getAccessibleText());
+                if (hashMap.containsKey("value")) {
+                    if ((vlrInicial = hashMap.get("value")) == null)
+                        vlrInicial = "";
+                    if (node instanceof Label)
+                        ((Label) node).setText(vlrInicial);
+                }
             }
             if (node instanceof JFXTextField)
                 ((JFXTextField) node).setText(vlrInicial);
             else if (node instanceof JFXCheckBox)
                 ((JFXCheckBox) node).setSelected(vlrInicial.equals("true")
-                        || vlrInicial.equals("true"));
+                        || vlrInicial.equals("verdadeiro"));
             else if (node instanceof JFXComboBox)
                 ((JFXComboBox) node).getSelectionModel().select(vlrInicial.equals("") ? -1 : Integer.parseInt(vlrInicial));
             else if (node instanceof ImageView)

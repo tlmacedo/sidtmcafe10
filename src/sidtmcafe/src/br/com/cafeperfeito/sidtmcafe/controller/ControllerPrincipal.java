@@ -9,6 +9,7 @@ import br.com.cafeperfeito.sidtmcafe.service.ServiceComandoTecladoMouse;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema;
 import br.com.cafeperfeito.sidtmcafe.view.ViewCadastroEmpresa;
 import br.com.cafeperfeito.sidtmcafe.view.ViewCadastroProduto;
+import br.com.cafeperfeito.sidtmcafe.view.ViewEntradaProduto;
 import br.com.cafeperfeito.sidtmcafe.view.ViewPrincipal;
 import com.jfoenix.controls.JFXToolbar;
 import com.jfoenix.controls.JFXTreeView;
@@ -206,6 +207,7 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
                     break;
                 case "entradaproduto":
                     System.out.println("abre entradaproduto");
+                    tab = new ViewEntradaProduto().openTabEntradaProduto(item.getTituloTab());
                     break;
             }
             if (tab != null) {

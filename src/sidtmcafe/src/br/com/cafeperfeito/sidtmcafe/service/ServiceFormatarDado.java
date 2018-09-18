@@ -111,6 +111,7 @@ public class ServiceFormatarDado implements Constants {
             case "codbarras":
             case "codigobarra":
             case "codigobarras":
+            case "nfencontrole":
                 len = 13;
                 break;
             case "cnpj":

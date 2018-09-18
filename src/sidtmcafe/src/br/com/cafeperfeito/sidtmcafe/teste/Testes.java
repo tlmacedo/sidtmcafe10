@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.teste;
 
 import br.com.cafeperfeito.sidtmcafe.service.Cryptografica;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceValidarDado;
 
 import java.util.Locale;
 
@@ -247,9 +248,21 @@ public class Testes {
 //
 //
 //
-        System.out.println("6moeda2(123456): [" + new ServiceFormatarDado().getValorFormatado("123456", 3,"moeda", 2) + "]");
+
+        System.out.println("Ean: [7896102812060] é: [" + ServiceValidarDado.isEan13Valido("7896102812060") + "]");
+        System.out.println("Ean: [7896030896637] é: [" + ServiceValidarDado.isEan13Valido("7896030896637") + "]");
 
 
+
+
+
+
+        double num1 = 110;
+        double num2 = 10;
+        double res = num1 / num2;
+        double resto = num1 % num2;
+        System.out.println(num1 + " dividido por " + num2 + " = " + res);
+        System.out.println("O resto da divisao e: " + resto);
     }
 
 

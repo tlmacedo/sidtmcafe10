@@ -216,8 +216,9 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                                             new TabProdutoDAO().getTabProdutoVO(getProdutoVO().getId()));
                                     break;
                             }
-                            produtoVOFilteredList = new FilteredList<>(produtoVOObservableList);
+//                            produtoVOFilteredList = (FilteredList<TabProdutoVO>) produtoVOObservableList;
                         }
+                        pesquisaProduto();
                         break;
                     case F3:
                         if (!getStatusBarTecla().contains(event.getCode().toString()))
@@ -316,11 +317,11 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
         });
 
-        produtoVOObservableList.addListener((ListChangeListener) c -> {
-            produtoVOFilteredList = new FilteredList<>(produtoVOObservableList);
-            atualizaQtdRegistroLocalizado();
-            preencherTabelaProduto();
-        });
+//        produtoVOObservableList.addListener((ListChangeListener<TabProdutoVO>) c -> {
+//            produtoVOFilteredList = new FilteredList<>(produtoVOObservableList);
+//            preencherTabelaProduto();
+//            atualizaQtdRegistroLocalizado();
+//        });
 
         produtoVOFilteredList.addListener((ListChangeListener) c -> {
             atualizaQtdRegistroLocalizado();
