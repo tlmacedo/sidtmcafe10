@@ -42,6 +42,6 @@ public class FiscalFreteTomadorServicoVO extends RecursiveTreeObject<FiscalFrete
 
     @Override
     public String toString() {
-        return String.format("%s - %s", idProperty().get(), descricaoProperty().get());
+        return String.format("%s", descricaoProperty().get().toUpperCase());
     }
 }

@@ -2,10 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.controller;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
-import br.com.cafeperfeito.sidtmcafe.model.dao.FiscalFreteTomadorServicoDAO;
-import br.com.cafeperfeito.sidtmcafe.model.dao.FiscalModeloNfeCteDAO;
-import br.com.cafeperfeito.sidtmcafe.model.dao.FiscalTributoSefazAmDAO;
-import br.com.cafeperfeito.sidtmcafe.model.dao.TabEmpresaDAO;
+import br.com.cafeperfeito.sidtmcafe.model.dao.*;
 import br.com.cafeperfeito.sidtmcafe.service.*;
 import br.com.cafeperfeito.sidtmcafe.view.ViewEntradaProduto;
 import com.jfoenix.controls.JFXComboBox;
@@ -101,7 +98,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         listaTarefa.add(new Pair("preencherCboTributos", "preenchendo dados tributos SEFAZ-AM"));
         listaTarefa.add(new Pair("preencherCboTomadorServico", "carregando tomador serviço"));
         listaTarefa.add(new Pair("preencherCboModeloNfeCte", "carregando modelo Nfe Cte"));
-//        listaTarefas.add(new Pair("carregarSituacaoTributaria", "carregando lista situação tributária"));
+        listaTarefa.add(new Pair("preencherCboFreteSituacaoTributaria", "carregando situação tributaria de frete"));
 //        listaTarefas.add(new Pair("carregarTransportadora", "carregando lista transportadora"));
 //        listaTarefas.add(new Pair("carregarListaProduto", "carregando lista de produtos"));
 
@@ -467,6 +464,9 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                         case "preencherCboModeloNfeCte":
                             preencherCboModeloNfeCte();
                             break;
+                        case "preencherCboFreteSituacaoTributaria":
+                            preencherCboFreteSituacaoTributaria();
+                            break;
 //                        case "preencherCboSituacaoSistema":
 //                            preencherCboSituacaoSistema();
 //                            break;
@@ -578,12 +578,10 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         cboFreteModeloCte.getItems().setAll(new ArrayList(new FiscalModeloNfeCteDAO().getFiscalModeloNfeCteVOList()));
     }
 
-//    public void carregarModelo() {
-//        cboFreteModeloCte.getItems().clear();
-//        cboFreteModeloCte.getItems().setAll(new SisFiscalModelonfeCteDAO().getSisFiscalModeloNfeCteVOList());
-//        //cboFreteModeloCte.getSelectionModel().select(0);
-//    }
-//
+    void preencherCboFreteSituacaoTributaria() {
+        cboFreteSistuacaoTributaria.getItems().setAll(new ArrayList(new FiscalFreteSituacaoTributariaDAO().getFiscalFreteSituacaoTributariaVOList()));
+    }
+
 //    public void carregarSituacaoTributaria() {
 //        cboFreteSistuacaoTributaria.getItems().clear();
 //        cboFreteSistuacaoTributaria.getItems().setAll(new SisFreteSituacaoTributariaDAO().getSisFreteSituacaoTributariaVOList());

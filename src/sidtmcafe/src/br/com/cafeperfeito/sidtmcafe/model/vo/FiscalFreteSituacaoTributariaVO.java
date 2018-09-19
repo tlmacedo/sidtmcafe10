@@ -2,28 +2,26 @@ package br.com.cafeperfeito.sidtmcafe.model.vo;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class FiscalTributoSefazAmVO extends RecursiveTreeObject<FiscalTributoSefazAmVO> {
+public class FiscalFreteSituacaoTributariaVO extends RecursiveTreeObject<FiscalFreteSituacaoTributariaVO> {
 
-    IntegerProperty id;
-    StringProperty descricao;
+    StringProperty id, descricao;
 
-    public FiscalTributoSefazAmVO() {
+    public FiscalFreteSituacaoTributariaVO() {
     }
 
-    public int getId() {
+    public String getId() {
         return idProperty().get();
     }
 
-    public IntegerProperty idProperty() {
-        if (id == null) id = new SimpleIntegerProperty(0);
+    public StringProperty idProperty() {
+        if (id == null) id = new SimpleStringProperty("");
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         idProperty().set(id);
     }
 
@@ -42,6 +40,6 @@ public class FiscalTributoSefazAmVO extends RecursiveTreeObject<FiscalTributoSef
 
     @Override
     public String toString() {
-        return String.format("[%s]  %s", idProperty().get(), descricaoProperty().get().toUpperCase());
+        return String.format("%s - %s", idProperty().get(), descricaoProperty().get().toUpperCase());
     }
 }
