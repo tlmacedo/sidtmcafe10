@@ -53,6 +53,7 @@ public class ServiceFormatarDado implements Constants {
         if (value.length() > 0)
             try {
                 if (mask.contains("#,##0")) {
+                    if (len == 0) len = 12;
                     Locale.setDefault(LOCALE_MY);
                     value = String.format(getFormato(decimal + 1), Long.parseLong(value));
                     if (value.length() >= len) value = value.substring(0, len);

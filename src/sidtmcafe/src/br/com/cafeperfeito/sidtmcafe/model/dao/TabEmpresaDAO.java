@@ -32,13 +32,9 @@ public class TabEmpresaDAO extends ServiceBuscaBancoDados implements Constants {
         return tabEmpresaVO;
     }
 
-    public List<TabEmpresaVO> getTabEmpresaVOList(boolean isLoja) {
+    public List<TabEmpresaVO> getTabEmpresaVOList() {
         tabEmpresaVOList = new ArrayList<>();
         String comandoSql = "SELECT * FROM tabEmpresa ";
-        if (isLoja) {
-            addNewParametro(new Pair<>("boolean", "true"));
-            comandoSql += "WHERE isLoja = ? ";
-        }
         getResultSet(comandoSql);
         if (tabEmpresaVOList != null)
             for (TabEmpresaVO empresa : tabEmpresaVOList)

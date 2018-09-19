@@ -3,18 +3,23 @@ package br.com.cafeperfeito.sidtmcafe.controller;
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
 import br.com.cafeperfeito.sidtmcafe.model.dao.*;
+import br.com.cafeperfeito.sidtmcafe.model.model.TabModel;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
 import br.com.cafeperfeito.sidtmcafe.service.*;
 import br.com.cafeperfeito.sidtmcafe.view.ViewEntradaProduto;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -76,7 +81,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     public TitledPane tpnItensTotaisNfe;
     public TitledPane tpnCadastroProduto;
     public JFXTextField txtPesquisaProduto;
-    public TreeTableView ttvProduto;
+    public TreeTableView<TabProdutoVO> ttvProduto;
     public Label lblRegistrosLocalizados;
     public TitledPane tpnItensNfe;
     public TreeTableView ttvItensNfe;
@@ -94,13 +99,13 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 
     @Override
     public void preencherObjetos() {
-        listaTarefa.add(new Pair("preencherCboLojaDestino", "preenchendo dados das lojas"));
         listaTarefa.add(new Pair("preencherCboTributos", "preenchendo dados tributos SEFAZ-AM"));
         listaTarefa.add(new Pair("preencherCboTomadorServico", "carregando tomador serviço"));
         listaTarefa.add(new Pair("preencherCboModeloNfeCte", "carregando modelo Nfe Cte"));
         listaTarefa.add(new Pair("preencherCboFreteSituacaoTributaria", "carregando situação tributaria de frete"));
-//        listaTarefas.add(new Pair("carregarTransportadora", "carregando lista transportadora"));
-//        listaTarefas.add(new Pair("carregarListaProduto", "carregando lista de produtos"));
+        listaTarefa.add(new Pair("preencherCbosEmpresas", "carregando dados de empresas"));
+        listaTarefa.add(new Pair("carregarListaProduto", "carregando lista de produtos"));
+        listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
 
 
         //        listaTarefa.add(new Pair("preencherCboSituacaoSistema", "preenchendo situaão no istema"));
@@ -109,9 +114,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //        listaTarefa.add(new Pair("preencherCboFiscalIcms", "preenchendo dados fiscal ICMS"));
 //        listaTarefa.add(new Pair("preencherCboFiscalPis", "preenchendo dados fiscal PIS"));
 //        listaTarefa.add(new Pair("preencherCboFiscalCofins", "preenchendo dados fiscal COFINS"));
-//        listaTarefa.add(new Pair("carregarListaProduto", "carregando lista de produtos"));
 //
-//        listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
 //
         new ServiceSegundoPlano().tarefaAbreCadastroProduto(getTaskEntradaProduto(), listaTarefa.size());
     }
@@ -290,15 +293,15 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 
         ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.addEventHandler(KeyEvent.KEY_PRESSED, eventHandlerEntradaProduto);
 
-//        txtPesquisaProduto.textProperty().addListener((observable, oldValue, newValue) -> {
-//            pesquisaProduto();
-//        });
-//
-//        txtPesquisaProduto.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-//            if (event.getCode() != KeyCode.ENTER) return;
-//            ttvProduto.requestFocus();
-//            ttvProduto.getSelectionModel().selectFirst();
-//        });
+        txtPesquisaProduto.textProperty().addListener((observable, oldValue, newValue) -> {
+            pesquisaProduto();
+        });
+
+        txtPesquisaProduto.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() != KeyCode.ENTER) return;
+            ttvProduto.requestFocus();
+            ttvProduto.getSelectionModel().selectFirst();
+        });
 //
 //        cboFiscalCestNcm.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 //            if (!cboFiscalCestNcm.isFocused()) return;
@@ -433,8 +436,9 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 
     EventHandler<KeyEvent> eventHandlerEntradaProduto;
     Pattern p;
+    ObservableList<TabEmpresaVO> empresaVOObservableList;
+    ObservableList<TabProdutoVO> produtoVOObservableList;
     List<Pair> listaTarefa = new ArrayList<>();
-    ServiceFormatarDado formatPeso;
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewEntradaProduto.getTituloJanela();
 
@@ -449,11 +453,11 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                     Thread.sleep(200);
                     updateMessage(tarefaAtual.getValue().toString());
                     switch (tarefaAtual.getKey().toString()) {
-//                        case "criarTabelaProduto":
-//                            TabModel.tabelaProduto();
-//                            break;
-                        case "preencherCboLojaDestino":
-                            preencherCboLojaDestino();
+                        case "criarTabelaProduto":
+                            TabModel.tabelaProduto();
+                            break;
+                        case "preencherCbosEmpresas":
+                            preencherCbosEmpresas();
                             break;
                         case "preencherCboTributos":
                             preencherCboTributos();
@@ -485,12 +489,12 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //                        case "preencherCboFiscalCofins":
 //                            preencherCboFiscalCofins();
 //                            break;
-//                        case "carregarListaProduto":
-//                            carregarListaProduto();
-//                            break;
-//                        case "preencherTabelaProduto":
-//                            preencherTabelaProduto();
-//                            break;
+                        case "carregarListaProduto":
+                            carregarListaProduto();
+                            break;
+                        case "preencherTabelaProduto":
+                            preencherTabelaProduto();
+                            break;
                     }
                 }
                 updateProgress(qtdTarefas, qtdTarefas);
@@ -560,9 +564,43 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         ControllerPrincipal.ctrlPrincipal.atualizarStatusBarTeclas(getStatusBarTecla());
     }
 
+    void preencherTabelaProduto() {
+        if (produtoVOObservableList == null) {
+            carregarListaProduto();
+            pesquisaProduto();
+        }
+        final TreeItem<TabProdutoVO> root = new RecursiveTreeItem<TabProdutoVO>(produtoVOObservableList, RecursiveTreeObject::getChildren);
+        ttvProduto.getColumns().setAll(TabModel.getColunaIdProduto(), TabModel.getColunaCodigo(),
+                TabModel.getColunaDescricao(), TabModel.getColunaUndCom(), TabModel.getColunaVarejo(),
+                TabModel.getColunaPrecoFabrica(), TabModel.getColunaPrecoVenda(),
+                TabModel.getColunaSituacaoSistema(), TabModel.getColunaQtdEstoque());
+        ttvProduto.setShowRoot(false);
+        ttvProduto.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        ttvProduto.setRoot(root);
+    }
 
-    void preencherCboLojaDestino() {
-        cboLojaDestino.getItems().setAll(new ArrayList<>(new TabEmpresaDAO().getTabEmpresaVOList(true)));
+    @SuppressWarnings("Duplicates")
+    void pesquisaProduto() {
+        String busca = txtPesquisaProduto.getText().toLowerCase().trim();
+
+        produtoVOObservableList.filtered(produto -> {
+            if (produto.getCodigo().toLowerCase().contains(busca)) return true;
+            if (produto.getDescricao().toLowerCase().contains(busca)) return true;
+            if (produto.getNcm().toLowerCase().contains(busca)) return true;
+            if (produto.getCest().toLowerCase().contains(busca)) return true;
+            if (produto.getCodBarraVOList().stream()
+                    .filter(codBarra -> codBarra.getCodBarra().toLowerCase().contains(busca))
+                    .findFirst().orElse(null) != null) return true;
+            return false;
+        });
+        preencherTabelaProduto();
+    }
+
+    void preencherCbosEmpresas() {
+        empresaVOObservableList = FXCollections.observableArrayList(new TabEmpresaDAO().getTabEmpresaVOList());
+        cboLojaDestino.getItems().setAll(new ArrayList<>(empresaVOObservableList.filtered(loja -> loja.isIsLoja())));
+        cboFornecedor.getItems().setAll(new ArrayList(empresaVOObservableList.filtered(fornecedor -> fornecedor.isIsFornecedor())));
+        cboFreteTransportadora.getItems().setAll(new ArrayList(empresaVOObservableList.filtered(transportadora -> transportadora.isIsTransportadora())));
     }
 
     void preencherCboTributos() {
@@ -582,20 +620,13 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         cboFreteSistuacaoTributaria.getItems().setAll(new ArrayList(new FiscalFreteSituacaoTributariaDAO().getFiscalFreteSituacaoTributariaVOList()));
     }
 
-//    public void carregarSituacaoTributaria() {
-//        cboFreteSistuacaoTributaria.getItems().clear();
-//        cboFreteSistuacaoTributaria.getItems().setAll(new SisFreteSituacaoTributariaDAO().getSisFreteSituacaoTributariaVOList());
-//        //cboFreteSistuacaoTributaria.getSelectionModel().select(0);
-//    }
-//
-//    public void carregarTransportadora() {
-//        cboFreteTransportadora.getItems().clear();
-//        cboFreteTransportadora.getItems().setAll(new TabEmpresaDAO().getEmpresaVOList());
-//        //cboFreteTransportadora.getSelectionModel().select(0);
-//    }
-//
+    void carregarListaProduto() {
+        produtoVOObservableList = FXCollections.observableArrayList(new TabProdutoDAO().getTabProdutoVOList());
+    }
+
 //    public void carregarListaProduto() {
 //        produtoVOObservableList = FXCollections.observableArrayList(new TabProdutoDAO().getProdutoVOList());
 //    }
+
 
 }

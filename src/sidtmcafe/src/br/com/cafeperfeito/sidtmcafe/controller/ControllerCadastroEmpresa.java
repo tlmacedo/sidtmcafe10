@@ -615,7 +615,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
     void carregarListaEmpresa() {
         empresaVOFilteredList = new FilteredList<>(
-                empresaVOObservableList = FXCollections.observableArrayList(new TabEmpresaDAO().getTabEmpresaVOList(false))
+                empresaVOObservableList = FXCollections.observableArrayList(new TabEmpresaDAO().getTabEmpresaVOList())
         );
     }
 
