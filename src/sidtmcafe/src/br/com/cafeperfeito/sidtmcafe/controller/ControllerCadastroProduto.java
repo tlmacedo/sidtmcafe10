@@ -559,31 +559,31 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         ControllerPrincipal.ctrlPrincipal.atualizarStatusBarTeclas(getStatusBarTecla());
     }
 
-    public void preencherCboUnidadeComercial() {
+    void preencherCboUnidadeComercial() {
         cboUnidadeComercial.getItems().setAll(new ArrayList<>(new SisUnidadeComercialDAO().getSisUnidadeComercialVOList()));
     }
 
-    public void preencherCboSituacaoSistema() {
+    void preencherCboSituacaoSistema() {
         cboSituacaoSistema.getItems().setAll(new ArrayList<>(new SisSituacaoSistemaDAO().getSisSituacaoSistemaVOList()));
     }
 
-    public void preencherCboFiscalCestNcm() {
+    void preencherCboFiscalCestNcm() {
         cboFiscalCestNcm.getItems().setAll(new ArrayList<>(new FiscalCestNcmDAO().getFiscalCestNcmVOList("")));
     }
 
-    public void preencherCboFiscalOrigem() {
+    void preencherCboFiscalOrigem() {
         cboFiscalOrigem.getItems().setAll(new ArrayList<>(new FiscalCstOrigemDAO().getFiscalCstOrigemVOList()));
     }
 
-    public void preencherCboFiscalIcms() {
+    void preencherCboFiscalIcms() {
         cboFiscalIcms.getItems().setAll(new ArrayList<>(new FiscalIcmsDAO().getFiscalIcmsVOList()));
     }
 
-    public void preencherCboFiscalPis() {
+    void preencherCboFiscalPis() {
         cboFiscalPis.getItems().setAll(new ArrayList<>(new FiscalPisCofinsDAO().getFiscalPisCofinsVOList()));
     }
 
-    public void preencherCboFiscalCofins() {
+    void preencherCboFiscalCofins() {
         cboFiscalCofins.getItems().setAll(new ArrayList<>(new FiscalPisCofinsDAO().getFiscalPisCofinsVOList()));
     }
 

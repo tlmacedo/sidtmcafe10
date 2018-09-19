@@ -3,14 +3,15 @@ package br.com.cafeperfeito.sidtmcafe.model.vo;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class SisFrete_TomadorServicoVO extends RecursiveTreeObject<SisFrete_TomadorServicoVO> {
+public class FiscalModeloNfeCteVO extends RecursiveTreeObject<FiscalModeloNfeCteVO> {
 
     IntegerProperty id;
     StringProperty descricao;
 
-    public SisFrete_TomadorServicoVO() {
+    public FiscalModeloNfeCteVO() {
     }
 
     public int getId() {
@@ -18,7 +19,7 @@ public class SisFrete_TomadorServicoVO extends RecursiveTreeObject<SisFrete_Toma
     }
 
     public IntegerProperty idProperty() {
-        if (id==null)id=new SimpleIntegerProperty(0);
+        if (id == null) id = new SimpleIntegerProperty(0);
         return id;
     }
 
@@ -27,14 +28,20 @@ public class SisFrete_TomadorServicoVO extends RecursiveTreeObject<SisFrete_Toma
     }
 
     public String getDescricao() {
-        return descricao.get();
+        return descricaoProperty().get();
     }
 
     public StringProperty descricaoProperty() {
+        if (descricao == null) descricao = new SimpleStringProperty("");
         return descricao;
     }
 
     public void setDescricao(String descricao) {
-        this.descricao.set(descricao);
+        descricaoProperty().set(descricao);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s", descricaoProperty().get());
     }
 }
