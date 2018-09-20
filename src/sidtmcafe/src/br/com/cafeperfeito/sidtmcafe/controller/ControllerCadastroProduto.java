@@ -111,6 +111,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         listaTarefa.add(new Pair("preencherCboFiscalPis", "preenchendo dados fiscal PIS"));
         listaTarefa.add(new Pair("preencherCboFiscalCofins", "preenchendo dados fiscal COFINS"));
         listaTarefa.add(new Pair("carregarListaProduto", "carregando lista de produtos"));
+        listaTarefa.add(new Pair("vinculandoObjetosTabela", "vinculando objetos a tableMoel"));
 
         listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
 
@@ -216,9 +217,8 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                                             new TabProdutoDAO().getTabProdutoVO(getProdutoVO().getId()));
                                     break;
                             }
-//                            produtoVOFilteredList = (FilteredList<TabProdutoVO>) produtoVOObservableList;
                         }
-                        pesquisaProduto();
+                        TabModel.pesquisaProduto(txtPesquisaProduto.getText());
                         break;
                     case F3:
                         if (!getStatusBarTecla().contains(event.getCode().toString()))
@@ -292,7 +292,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.addEventHandler(KeyEvent.KEY_PRESSED, eventHandlerCadastroProduto);
 
         txtPesquisaProduto.textProperty().addListener((observable, oldValue, newValue) -> {
-            pesquisaProduto();
+            TabModel.pesquisaProduto(newValue);
         });
 
         txtPesquisaProduto.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
@@ -325,7 +325,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
         produtoVOFilteredList.addListener((ListChangeListener) c -> {
             atualizaQtdRegistroLocalizado();
-            preencherTabelaProduto();
+            TabModel.preencherTabelaProduto();
         });
 
         txtFiscalNcm.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -428,7 +428,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         Platform.runLater(() -> ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7)));
     }
 
-    ObservableList<TabProdutoVO> produtoVOObservableList;
+    ObservableList<TabProdutoVO> produtoVOObservableList = FXCollections.observableArrayList();
     FilteredList<TabProdutoVO> produtoVOFilteredList;
     TabProdutoVO produtoVO = new TabProdutoVO();
 
@@ -460,6 +460,11 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     Thread.sleep(200);
                     updateMessage(tarefaAtual.getValue().toString());
                     switch (tarefaAtual.getKey().toString()) {
+                        case "vinculandoObjetosTabela":
+                            TabModel.setTtvProduto(ttvProduto);
+                            TabModel.setProdutoVOObservableList(produtoVOObservableList);
+                            TabModel.setProdutoVOFilteredList(produtoVOFilteredList);
+                            break;
                         case "criarTabelaProduto":
                             TabModel.tabelaProduto();
                             break;
@@ -488,7 +493,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                             carregarListaProduto();
                             break;
                         case "preencherTabelaProduto":
-                            preencherTabelaProduto();
+                            TabModel.preencherTabelaProduto();
                             break;
                     }
                 }
@@ -593,36 +598,36 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         );
     }
 
-    void preencherTabelaProduto() {
-        if (produtoVOFilteredList == null) {
-            carregarListaProduto();
-            pesquisaProduto();
-        }
-        final TreeItem<TabProdutoVO> root = new RecursiveTreeItem<TabProdutoVO>(produtoVOFilteredList, RecursiveTreeObject::getChildren);
-        ttvProduto.getColumns().setAll(TabModel.getColunaIdProduto(), TabModel.getColunaCodigo(),
-                TabModel.getColunaDescricao(), TabModel.getColunaUndCom(), TabModel.getColunaVarejo(),
-                TabModel.getColunaPrecoFabrica(), TabModel.getColunaPrecoVenda(),
-                TabModel.getColunaSituacaoSistema(), TabModel.getColunaQtdEstoque());
-        ttvProduto.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        ttvProduto.setRoot(root);
-        ttvProduto.setShowRoot(false);
-    }
-
-    void pesquisaProduto() {
-        String busca = txtPesquisaProduto.getText().toLowerCase().trim();
-
-        produtoVOFilteredList.setPredicate(produto -> {
-            if (produto.getCodigo().toLowerCase().contains(busca)) return true;
-            if (produto.getDescricao().toLowerCase().contains(busca)) return true;
-            if (produto.getNcm().toLowerCase().contains(busca)) return true;
-            if (produto.getCest().toLowerCase().contains(busca)) return true;
-            if (produto.getCodBarraVOList().stream()
-                    .filter(codBarra -> codBarra.getCodBarra().toLowerCase().contains(busca))
-                    .findFirst().orElse(null) != null) return true;
-            return false;
-        });
-        preencherTabelaProduto();
-    }
+//    void preencherTabelaProduto() {
+//        if (produtoVOFilteredList == null) {
+//            carregarListaProduto();
+//            pesquisaProduto();
+//        }
+//        final TreeItem<TabProdutoVO> root = new RecursiveTreeItem<TabProdutoVO>(produtoVOFilteredList, RecursiveTreeObject::getChildren);
+//        ttvProduto.getColumns().setAll(TabModel.getColunaIdProduto(), TabModel.getColunaCodigo(),
+//                TabModel.getColunaDescricao(), TabModel.getColunaUndCom(), TabModel.getColunaVarejo(),
+//                TabModel.getColunaPrecoFabrica(), TabModel.getColunaPrecoVenda(),
+//                TabModel.getColunaSituacaoSistema(), TabModel.getColunaQtdEstoque());
+//        ttvProduto.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+//        ttvProduto.setRoot(root);
+//        ttvProduto.setShowRoot(false);
+//    }
+//
+//    void pesquisaProduto() {
+//        String busca = txtPesquisaProduto.getText().toLowerCase().trim();
+//
+//        produtoVOFilteredList.setPredicate(produto -> {
+//            if (produto.getCodigo().toLowerCase().contains(busca)) return true;
+//            if (produto.getDescricao().toLowerCase().contains(busca)) return true;
+//            if (produto.getNcm().toLowerCase().contains(busca)) return true;
+//            if (produto.getCest().toLowerCase().contains(busca)) return true;
+//            if (produto.getCodBarraVOList().stream()
+//                    .filter(codBarra -> codBarra.getCodBarra().toLowerCase().contains(busca))
+//                    .findFirst().orElse(null) != null) return true;
+//            return false;
+//        });
+//        preencherTabelaProduto();
+//    }
 
     public TabProdutoVO getProdutoVO() {
         return produtoVO;

@@ -206,7 +206,6 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
                     tab = new ViewCadastroProduto().openTabCadastroProduto(item.getTituloTab());
                     break;
                 case "entradaproduto":
-                    System.out.println("abre entradaproduto");
                     tab = new ViewEntradaProduto().openTabEntradaProduto(item.getTituloTab());
                     break;
             }

@@ -95,7 +95,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 
     @Override
     public void criarObjetos() {
-        listaTarefa.add(new Pair<>("criarTabelaProduto", "criando tabela de produto"));
+        listaTarefa.add(new Pair("criarTabelaProduto", "criando tabela de produto"));
     }
 
     @Override
@@ -106,6 +106,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         listaTarefa.add(new Pair("preencherCboFreteSituacaoTributaria", "carregando situação tributaria de frete"));
         listaTarefa.add(new Pair("preencherCbosEmpresas", "carregando dados de empresas"));
         listaTarefa.add(new Pair("carregarListaProduto", "carregando lista de produtos"));
+        listaTarefa.add(new Pair("vinculandoObjetosTabela", "vinculando objetos a tableMoel"));
         listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
 
 
@@ -180,12 +181,12 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //            if (newValue && statusFormulario.toLowerCase().equals("pesquisa") && ttvProduto.getSelectionModel().getSelectedItem() != null)
 //                setProdutoVO(ttvProduto.getSelectionModel().getSelectedItem().getValue());
 //        });
-//
-//        ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue.intValue() < 0 || newValue.intValue() == oldValue.intValue()) return;
-//            if (ControllerPrincipal.ctrlPrincipal.getTabSelecionada().equals(tituloTab))
-//                ControllerPrincipal.ctrlPrincipal.atualizarStatusBarTeclas(getStatusBarTecla());
-//        });
+
+        ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.intValue() < 0 || newValue.intValue() == oldValue.intValue()) return;
+            if (ControllerPrincipal.ctrlPrincipal.getTabSelecionada().equals(tituloTab))
+                ControllerPrincipal.ctrlPrincipal.atualizarStatusBarTeclas(getStatusBarTecla());
+        });
 
         eventHandlerEntradaProduto = new EventHandler<KeyEvent>() {
             @Override
@@ -295,7 +296,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.addEventHandler(KeyEvent.KEY_PRESSED, eventHandlerEntradaProduto);
 
         txtPesquisaProduto.textProperty().addListener((observable, oldValue, newValue) -> {
-            //pesquisaProduto();
+            TabModel.pesquisaProduto(newValue.toLowerCase().trim());
         });
 
         txtPesquisaProduto.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
@@ -326,12 +327,12 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 ////            preencherTabelaProduto();
 ////            atualizaQtdRegistroLocalizado();
 ////        });
-//
-//        produtoVOFilteredList.addListener((ListChangeListener) c -> {
-//            atualizaQtdRegistroLocalizado();
-//            preencherTabelaProduto();
-//        });
-//
+
+        produtoVOFilteredList.addListener((ListChangeListener) c -> {
+            atualizaQtdRegistroLocalizado();
+            TabModel.preencherTabelaProduto();
+        });
+
 //        txtFiscalNcm.textProperty().addListener((observable, oldValue, newValue) -> {
 //            if (!txtFiscalNcm.isFocused()) return;
 //            if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
@@ -439,7 +440,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     EventHandler<KeyEvent> eventHandlerEntradaProduto;
     Pattern p;
     ObservableList<TabEmpresaVO> empresaVOObservableList;
-    ObservableList<TabProdutoVO> produtoVOObservableList;
+    ObservableList<TabProdutoVO> produtoVOObservableList = FXCollections.observableArrayList();
     FilteredList<TabProdutoVO> produtoVOFilteredList;
     List<Pair> listaTarefa = new ArrayList<>();
     ServiceAlertMensagem alertMensagem;
@@ -456,10 +457,13 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                     Thread.sleep(200);
                     updateMessage(tarefaAtual.getValue().toString());
                     switch (tarefaAtual.getKey().toString()) {
+                        case "vinculandoObjetosTabela":
+                            TabModel.setTtvProduto(ttvProduto);
+                            TabModel.setProdutoVOObservableList(produtoVOObservableList);
+                            TabModel.setProdutoVOFilteredList(produtoVOFilteredList);
+                            break;
                         case "criarTabelaProduto":
                             TabModel.tabelaProduto();
-                            TabModel.produtoVOObservableList = produtoVOObservableList;
-                            TabModel.produtoVOFilteredList = produtoVOFilteredList;
                             break;
                         case "preencherCbosEmpresas":
                             preencherCbosEmpresas();
@@ -528,9 +532,9 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     }
 
     void atualizaQtdRegistroLocalizado() {
-//        int qtd = produtoVOFilteredList.size();
-//        lblRegistrosLocalizados.setText(String.format("[%s] %d registro%s localizado%s.", getStatusFormulario(), qtd,
-//                qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));
+        int qtd = produtoVOFilteredList.size();
+        lblRegistrosLocalizados.setText(String.format("[%s] %d registro%s localizado%s.", getStatusFormulario(), qtd,
+                qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));
     }
 
     public String getStatusBarTecla() {
@@ -568,37 +572,6 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         }
         ControllerPrincipal.ctrlPrincipal.atualizarStatusBarTeclas(getStatusBarTecla());
     }
-
-//    void preencherTabelaProduto() {
-//        if (produtoVOFilteredList == null) {
-//            carregarListaProduto();
-//            pesquisaProduto();
-//        }
-//        final TreeItem<TabProdutoVO> root = new RecursiveTreeItem<TabProdutoVO>(produtoVOFilteredList, RecursiveTreeObject::getChildren);
-//        ttvProduto.getColumns().setAll(TabModel.getColunaIdProduto(), TabModel.getColunaCodigo(),
-//                TabModel.getColunaDescricao(), TabModel.getColunaUndCom(), TabModel.getColunaVarejo(),
-//                TabModel.getColunaPrecoFabrica(), TabModel.getColunaPrecoVenda(),
-//                TabModel.getColunaSituacaoSistema(), TabModel.getColunaQtdEstoque());
-//        ttvProduto.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-//        ttvProduto.setRoot(root);
-//        ttvProduto.setShowRoot(false);
-//    }
-//
-//    void pesquisaProduto() {
-//        String busca = txtPesquisaProduto.getText().toLowerCase().trim();
-//
-//        produtoVOFilteredList.setPredicate(produto -> {
-//            if (produto.getCodigo().toLowerCase().contains(busca)) return true;
-//            if (produto.getDescricao().toLowerCase().contains(busca)) return true;
-//            if (produto.getNcm().toLowerCase().contains(busca)) return true;
-//            if (produto.getCest().toLowerCase().contains(busca)) return true;
-//            if (produto.getCodBarraVOList().stream()
-//                    .filter(codBarra -> codBarra.getCodBarra().toLowerCase().contains(busca))
-//                    .findFirst().orElse(null) != null) return true;
-//            return false;
-//        });
-//        preencherTabelaProduto();
-//    }
 
     void preencherCbosEmpresas() {
         empresaVOObservableList = FXCollections.observableArrayList(new TabEmpresaDAO().getTabEmpresaVOList());

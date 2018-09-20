@@ -18,9 +18,35 @@ import javafx.scene.layout.VBox;
 
 public class TabModel {
 
-    public static TreeTableView<TabProdutoVO> ttvProduto;
-    public static ObservableList<TabProdutoVO> produtoVOObservableList;
-    public static FilteredList<TabProdutoVO> produtoVOFilteredList;
+    static TreeTableView<TabProdutoVO> ttvProduto;
+    static Label lblRegistrosLocalizados;
+    public static String statusFormulario;
+    static ObservableList<TabProdutoVO> produtoVOObservableList;
+    static FilteredList<TabProdutoVO> produtoVOFilteredList;
+
+    public static TreeTableView<TabProdutoVO> getTtvProduto() {
+        return ttvProduto;
+    }
+
+    public static void setTtvProduto(TreeTableView<TabProdutoVO> ttvProduto) {
+        TabModel.ttvProduto = ttvProduto;
+    }
+
+    public static ObservableList<TabProdutoVO> getProdutoVOObservableList() {
+        return produtoVOObservableList;
+    }
+
+    public static void setProdutoVOObservableList(ObservableList<TabProdutoVO> produtoVOObservableList) {
+        TabModel.produtoVOObservableList = produtoVOObservableList;
+    }
+
+    public static FilteredList<TabProdutoVO> getProdutoVOFilteredList() {
+        return produtoVOFilteredList;
+    }
+
+    public static void setProdutoVOFilteredList(FilteredList<TabProdutoVO> produtoVOFilteredList) {
+        TabModel.produtoVOFilteredList = produtoVOFilteredList;
+    }
 
     static TreeTableColumn<TabProdutoVO, Integer> colunaIdProduto;
     static TreeTableColumn<TabProdutoVO, String> colunaCodigo;
@@ -84,7 +110,6 @@ public class TabModel {
     public static TreeTableColumn<TabProdutoVO, Integer> getColunaVarejo() {
         return colunaVarejo;
     }
-
 
     public static TreeTableColumn<TabEmpresaVO, Integer> getColunaIdEmpresa() {
         return colunaIdEmpresa;
@@ -381,17 +406,12 @@ public class TabModel {
             colunaIsTransportadora.setCellValueFactory(param -> param.getValue().getValue().isTransportadoraProperty());
 
 
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     public static void preencherTabelaProduto() {
-//        if (produtoVOFilteredList == null) {
-//            carregarListaProduto();
-//            pesquisaProduto();
-//        }
         final TreeItem<TabProdutoVO> root = new RecursiveTreeItem<TabProdutoVO>(produtoVOFilteredList, RecursiveTreeObject::getChildren);
         ttvProduto.getColumns().setAll(TabModel.getColunaIdProduto(), TabModel.getColunaCodigo(),
                 TabModel.getColunaDescricao(), TabModel.getColunaUndCom(), TabModel.getColunaVarejo(),
@@ -402,9 +422,7 @@ public class TabModel {
         ttvProduto.setShowRoot(false);
     }
 
-    public static void pesquisaProduto(String text) {
-        String busca = text.toLowerCase().trim();
-
+    public static void pesquisaProduto(String busca) {
         produtoVOFilteredList.setPredicate(produto -> {
             if (produto.getCodigo().toLowerCase().contains(busca)) return true;
             if (produto.getDescricao().toLowerCase().contains(busca)) return true;
@@ -415,7 +433,6 @@ public class TabModel {
                     .findFirst().orElse(null) != null) return true;
             return false;
         });
-        preencherTabelaProduto();
     }
 
 }
