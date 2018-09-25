@@ -1,6 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.interfaces;
 
-import br.com.cafeperfeito.sidtmcafe.service.Cryptografica;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceCryptografia;
 import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.paint.*;
@@ -21,9 +21,18 @@ public interface Constants {
     /*
      * Cryptografia no Sistema
      */
-    static String CRYPT_PALAVRA_CHAVE = "CafePerfeito.Com";
-    static String CRYPT_INITVECTOR = "RandomInitVector";
+    String CRYPT_PALAVRA_CHAVE = "CafePerfeito.Com";
+    String CRYPT_INITVECTOR = "RandomInitVector";
 
+    /*
+     * NF-e
+     */
+
+    int PORTA = 443;
+    String CACERT = "/Volumes/150GB-Development/Java/Intellij/sidtmcafe10/src/sidtmcafe/resources/certificado/cacert";
+    String NFE_CODIGO_ESTADO = "13";
+    String NFE_CACERT = "/Volumes/150GB-Development/Java/Intellij/sidtmcafe10/src/sidtmcafe/resources/certificado/";
+    String CERTIFICADO_A3_SENHA = ServiceCryptografia.decrypt("JZ4WgTIDJiviuZ7agiW2/A==");
 
     //String REGEX_MASK_MOEDA_NUMERO = "#,###,###,###,###,###,##0";
     String REGEX_MASK_MOEDA_NUMERO = "#,##0";
@@ -58,12 +67,12 @@ public interface Constants {
      * Constantes para conexão com banco de dados MySql
      */
     String BD_DRIVER = "com.mysql.cj.jdbc.Driver";
-    String BD_DATABASE = Cryptografica.decrypt("0+PeSCliRZ0xWuIPgPR44Q==");
+    String BD_DATABASE = ServiceCryptografia.decrypt("0+PeSCliRZ0xWuIPgPR44Q==");
     String BD_HOST = "127.0.0.1";
     String BD_DRIVER_CONN = "jdbc:mysql://";
     String BD_PORTA = ":3306/";
-    String BD_USER = Cryptografica.decrypt("rE58q+UsGH2Y1nsOECjpqw==");
-    String BD_PASS = Cryptografica.decrypt("jcdiZEm9zbyuL0now2zfMA==");
+    String BD_USER = ServiceCryptografia.decrypt("rE58q+UsGH2Y1nsOECjpqw==");
+    String BD_PASS = ServiceCryptografia.decrypt("jcdiZEm9zbyuL0now2zfMA==");
     String BD_URL = BD_DRIVER_CONN + BD_HOST + BD_PORTA + BD_DATABASE + "?useSSL=false";//"?useTimezone=true&serverTimezone=UTC&useSSL=true";
     String BD_DATABASE_STB = BD_HOST + BD_PORTA + BD_DATABASE;
 

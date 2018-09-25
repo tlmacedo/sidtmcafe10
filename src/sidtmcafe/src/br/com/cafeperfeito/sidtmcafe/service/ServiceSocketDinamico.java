@@ -27,13 +27,13 @@ import org.apache.commons.httpclient.ConnectTimeoutException;
 import org.apache.commons.httpclient.params.HttpConnectionParams;
 import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
 
-public class SocketFactoryDinamico implements ProtocolSocketFactory {
+public class ServiceSocketDinamico implements ProtocolSocketFactory {
     private SSLContext ssl = null;
     private X509Certificate certificate;
     private PrivateKey privateKey;
     private String fileCacerts;
 
-    public SocketFactoryDinamico(X509Certificate certificate,
+    public ServiceSocketDinamico(X509Certificate certificate,
                                  PrivateKey privateKey) {
         this.certificate = certificate;
         this.privateKey = privateKey;

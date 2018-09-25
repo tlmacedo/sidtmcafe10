@@ -1,59 +1,54 @@
 package br.com.cafeperfeito.sidtmcafe.teste;
 
-import br.com.cafeperfeito.sidtmcafe.service.Cryptografica;
+import br.com.cafeperfeito.sidtmcafe.service.ServiceCryptografia;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceValidarDado;
-
-import java.util.Locale;
-
-import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.LOCALE_MY;
 
 public class Testes {
 
     public static void main(String... args) throws Exception {
 
-//        String senhaSimples = "cafeperfeito";
-//        System.out.println("senhaSimples: [" + senhaSimples + "]");
-//
-//
-//        String encryptValue = Cryptografica.encrypt(senhaSimples);
+        String senhaSimples = "cafeperfeito";
+        System.out.println("senhaSimples: [" + senhaSimples + "]");
+
+
+//        String encryptValue = ServiceCryptografia.encrypt(senhaSimples);
 //        System.out.println("encryptValue: [" + encryptValue + "]");
-//        String decryptValue = Cryptografica.decrypt(encryptValue);
+//        String decryptValue = ServiceCryptografia.decrypt(encryptValue);
 //        System.out.println("decryptValue: [" + decryptValue + "]");
+//
+//        System.out.println(ServiceCryptografia.decrypt(key, initVector,
+//                ServiceCryptografia.encrypt(key, initVector, "Hello World")));
 
-//        System.out.println(Cryptografica.decrypt(key, initVector,
-//                Cryptografica.encrypt(key, initVector, "Hello World")));
-
-//        String originalString = "Tlm487901";
-//        System.out.println("Original String to encrypt - " + originalString);
-//        String encryptedString = Cryptografica.encrypt(originalString);
-//        System.out.println("Encrypted String - " + encryptedString);
-//        String decryptedString = Cryptografica.decrypt(encryptedString);
-//        System.out.println("After decryption - " + decryptedString);
+        String originalString = "4879";
+        System.out.println("Original String to encrypt - " + originalString);
+        String encryptedString = ServiceCryptografia.encrypt(originalString);
+        System.out.println("Encrypted String - " + encryptedString);
+        String decryptedString = ServiceCryptografia.decrypt(encryptedString);
+        System.out.println("After decryption - " + decryptedString);
 
         //String key = "DB99A2A8EB6904F492E9DF0595ED683C";
         //String password = "Admin";
 
-//        String salt ="cafeperfeito.com";// Cryptografica.gerarSenhaSalt();
+//        String salt ="cafeperfeito.com";// ServiceCryptografia.gerarSenhaSalt();
 //        Scanner scan = new Scanner(System.in);
 ////        System.out.println("Please Enter Key:");
 //        //key = key;//scanner.next();
 //        System.out.println("Please Enter Plain Text Password:");
 //        String senha = scan.next();
-//        String encrypt = Cryptografica.encrypt(senha,salt);
+//        String encrypt = ServiceCryptografia.encrypt(senha,salt);
 //        System.out.println("SenhaEncrypt: " + encrypt);
-//        String decrypt = Cryptografica.decrypt(encrypt,salt);
+//        String decrypt = ServiceCryptografia.decrypt(encrypt,salt);
 //        System.out.println("SenhaDecrypt: " + decrypt);
 //
 //
 //
 //        String key;
-//        KeyGenerator keyGen = KeyGenerator.getInstance(Cryptografica.AES);
+//        KeyGenerator keyGen = KeyGenerator.getInstance(ServiceCryptografia.AES);
 //        keyGen.init(128);
 //        SecretKey sk = keyGen.generateKey();
-//        key = Cryptografica.byteArrayToHexString(sk.getEncoded());
+//        key = ServiceCryptografia.byteArrayToHexString(sk.getEncoded());
 //        System.out.println("key:" + key);
-//        key = Cryptografica.gerarSenhaSalt();
+//        key = ServiceCryptografia.gerarSenhaSalt();
 //        System.out.println("key:" + key);
 //        Scanner scanner = new Scanner(System.in);
 ////        System.out.println("Please Enter Key:");
@@ -62,11 +57,11 @@ public class Testes {
 //        String password = scanner.next();
 //
 //        byte[] bytekey = hexStringToByteArray(key);
-//        SecretKeySpec sks = new SecretKeySpec(bytekey, Cryptografica.AES);
-//        Cipher cipher = Cipher.getInstance(Cryptografica.AES);
+//        SecretKeySpec sks = new SecretKeySpec(bytekey, ServiceCryptografia.AES);
+//        Cipher cipher = Cipher.getInstance(ServiceCryptografia.AES);
 //        cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
 //        byte[] encrypted = cipher.doFinal(password.getBytes());
-//        String encryptedpwd = Cryptografica.byteArrayToHexString(encrypted);
+//        String encryptedpwd = ServiceCryptografia.byteArrayToHexString(encrypted);
 //        System.out.println("****************  Encrypted Password  ****************");
 //        System.out.println(encryptedpwd);
 //        System.out.println("****************  Encrypted Password  ****************");
@@ -76,8 +71,8 @@ public class Testes {
 //        password = encryptedpwd;
 //
 //        bytekey = hexStringToByteArray(tempkey);
-//        sks = new SecretKeySpec(bytekey, Cryptografica.AES);
-//        cipher = Cipher.getInstance(Cryptografica.AES);
+//        sks = new SecretKeySpec(bytekey, ServiceCryptografia.AES);
+//        cipher = Cipher.getInstance(ServiceCryptografia.AES);
 //        cipher.init(Cipher.DECRYPT_MODE, sks);
 //        byte[] decrypted = cipher.doFinal(hexStringToByteArray(password));
 //        String OriginalPassword = new String(decrypted);
@@ -251,7 +246,7 @@ public class Testes {
 
 
 
-        System.out.println("moeda2(123456): [" + new ServiceFormatarDado().getValorFormatado("1234567890123",15,"moeda", 3) + "]");
+        //System.out.println("moeda2(123456): [" + new ServiceFormatarDado().getValorFormatado("1234567890123",15,"moeda", 3) + "]");
 
 
 

@@ -26,8 +26,6 @@ import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
 import br.com.cafeperfeito.sidtmcafe.model.dao.TabColaboradorDAO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabColaboradorVO;
-import br.com.cafeperfeito.sidtmcafe.service.Cryptografica;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceTremeView;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceVariavelSistema;
 import br.com.cafeperfeito.sidtmcafe.view.ViewLogin;
 import br.com.cafeperfeito.sidtmcafe.view.ViewPrincipal;
@@ -120,7 +118,7 @@ public class ControllerLogin extends ServiceVariavelSistema implements Initializ
         btnOK.setOnAction(event -> {
             if (cboUsuarioLogin.getSelectionModel().getSelectedIndex() < 0) return;
             TabColaboradorVO colaboradorVO = cboUsuarioLogin.getSelectionModel().getSelectedItem();
-//            if (!Cryptografica.encrypt(pswUsuarioSenha.getText()).equals(colaboradorVO.getSenha())) {
+//            if (!ServiceCryptografia.encrypt(pswUsuarioSenha.getText()).equals(colaboradorVO.getSenha())) {
 //                new Thread(() -> new ServiceTremeView().setStage(ViewLogin.getStage())).start();
 //                return;
 //            }

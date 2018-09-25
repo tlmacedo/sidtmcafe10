@@ -8,7 +8,7 @@ import java.util.Base64;
 import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.CRYPT_INITVECTOR;
 import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.CRYPT_PALAVRA_CHAVE;
 
-public class Cryptografica {
+public class ServiceCryptografia {
 
     public static String encrypt(String senhaSimples) {
         try {
