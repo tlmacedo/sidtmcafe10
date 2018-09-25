@@ -7,22 +7,28 @@ import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 
 public class TabModel {
 
     static TreeTableView<TabProdutoVO> ttvProduto;
     static Label lblRegistrosLocalizados;
-    public static String statusFormulario;
     static ObservableList<TabProdutoVO> produtoVOObservableList;
     static FilteredList<TabProdutoVO> produtoVOFilteredList;
+
+    public TabModel() {
+    }
 
     public static TreeTableView<TabProdutoVO> getTtvProduto() {
         return ttvProduto;
@@ -30,6 +36,14 @@ public class TabModel {
 
     public static void setTtvProduto(TreeTableView<TabProdutoVO> ttvProduto) {
         TabModel.ttvProduto = ttvProduto;
+    }
+
+    public static Label getLblRegistrosLocalizados() {
+        return lblRegistrosLocalizados;
+    }
+
+    public static void setLblRegistrosLocalizados(Label lblRegistrosLocalizados) {
+        TabModel.lblRegistrosLocalizados = lblRegistrosLocalizados;
     }
 
     public static ObservableList<TabProdutoVO> getProdutoVOObservableList() {
@@ -235,20 +249,44 @@ public class TabModel {
             colunaQtdEstoque = new TreeTableColumn<TabProdutoVO, Integer>();
             colunaQtdEstoque.setGraphic(lblEstoque);
             colunaQtdEstoque.setPrefWidth(65);
-//            colunaQtdEstoque.setStyle("-fx-alignment: center-right;");
-//            colunaQtdEstoque.setCellValueFactory(new SimpleIntegerProperty(0));
+            colunaQtdEstoque.setStyle("-fx-alignment: center-right;");
+            //colunaQtdEstoque.setCellValueFactory(FXCollections.observableArrayList(new SimpleIntegerProperty(0)));
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-//        TreeTableView<TabProdutoVO> ttvProduto = null;
-//        ttvProduto.getColumns().setAll(getColunaIdProduto(), getColunaCodigo(),
-//                getColunaDescricao(), getColunaUndCom(), getColunaVarejo(),
-//                getColunaPrecoFabrica(), getColunaPrecoVenda(),
-//                getColunaSituacaoSistema(), getColunaQtdEstoque());
-//        ttvProduto.setShowRoot(false);
-//        ttvProduto.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-//        return ttvProduto;
+    }
+
+    public static void escutaListaProduto(){
+        ttvProduto.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode()== KeyCode.ENTER)
+                    event.consume();
+            }
+        });
+        produtoVOFilteredList.addListener((ListChangeListener<TabProdutoVO>) c -> {
+            int qtd = produtoVOFilteredList.size();
+            lblRegistrosLocalizados.setText(String.format("%d registro%s localizado%s.", qtd,
+                    qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));
+            preencherTabelaProduto();
+        });
+    }
+
+    public static void escutaListaEmpresa(){
+        ttvProduto.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode()== KeyCode.ENTER)
+                    event.consume();
+            }
+        });
+        produtoVOFilteredList.addListener((ListChangeListener<TabProdutoVO>) c -> {
+            int qtd = produtoVOFilteredList.size();
+            lblRegistrosLocalizados.setText(String.format("%d registro%s localizado%s.", qtd,
+                    qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));
+            preencherTabelaProduto();
+        });
     }
 
     public static void tabelaEmpresa() {

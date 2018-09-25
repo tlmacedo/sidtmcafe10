@@ -251,11 +251,11 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //                        if (getStatusFormulario().toLowerCase().equals("pesquisa") || !(event.isShiftDown())) break;
 //                        keyShiftF6();
 //                        break;
-//                    case F7:
-//                        if (!getStatusBarTecla().contains(event.getCode().toString()))
-//                            return;
-//                        txtPesquisaProduto.requestFocus();
-//                        break;
+                    case F7:
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
+                        txtPesquisaProduto.requestFocus();
+                        break;
 //                    case F8:
 //                        if (!getStatusBarTecla().contains(event.getCode().toString()))
 //                            return;
@@ -296,7 +296,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.addEventHandler(KeyEvent.KEY_PRESSED, eventHandlerEntradaProduto);
 
         txtPesquisaProduto.textProperty().addListener((observable, oldValue, newValue) -> {
-            TabModel.pesquisaProduto(newValue.toLowerCase().trim());
+            modelProduto.pesquisaProduto(newValue.toLowerCase().trim());
         });
 
         txtPesquisaProduto.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
@@ -327,11 +327,11 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 ////            preencherTabelaProduto();
 ////            atualizaQtdRegistroLocalizado();
 ////        });
-
-        produtoVOFilteredList.addListener((ListChangeListener) c -> {
-            atualizaQtdRegistroLocalizado();
-            TabModel.preencherTabelaProduto();
-        });
+//
+//        produtoVOFilteredList.addListener((ListChangeListener) c -> {
+//            atualizaQtdRegistroLocalizado();
+//            modelProduto.preencherTabelaProduto();
+//        });
 
 //        txtFiscalNcm.textProperty().addListener((observable, oldValue, newValue) -> {
 //            if (!txtFiscalNcm.isFocused()) return;
@@ -439,6 +439,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 
     EventHandler<KeyEvent> eventHandlerEntradaProduto;
     Pattern p;
+    TabModel modelProduto;
     ObservableList<TabEmpresaVO> empresaVOObservableList;
     ObservableList<TabProdutoVO> produtoVOObservableList = FXCollections.observableArrayList();
     FilteredList<TabProdutoVO> produtoVOFilteredList;
@@ -458,12 +459,15 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                     updateMessage(tarefaAtual.getValue().toString());
                     switch (tarefaAtual.getKey().toString()) {
                         case "vinculandoObjetosTabela":
-                            TabModel.setTtvProduto(ttvProduto);
-                            TabModel.setProdutoVOObservableList(produtoVOObservableList);
-                            TabModel.setProdutoVOFilteredList(produtoVOFilteredList);
+                            modelProduto = new TabModel();
+                            modelProduto.setLblRegistrosLocalizados(lblRegistrosLocalizados);
+                            modelProduto.setTtvProduto(ttvProduto);
+                            modelProduto.setProdutoVOObservableList(produtoVOObservableList);
+                            modelProduto.setProdutoVOFilteredList(produtoVOFilteredList);
+                            modelProduto.escutaListaProduto();
                             break;
                         case "criarTabelaProduto":
-                            TabModel.tabelaProduto();
+                            modelProduto.tabelaProduto();
                             break;
                         case "preencherCbosEmpresas":
                             preencherCbosEmpresas();
@@ -502,7 +506,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                             carregarListaProduto();
                             break;
                         case "preencherTabelaProduto":
-                            TabModel.preencherTabelaProduto();
+                            modelProduto.preencherTabelaProduto();
                             break;
                     }
                 }
@@ -528,13 +532,6 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     public void setStatusFormulario(String statusFormulario) {
         this.statusFormulario = statusFormulario;
         setStatusBarTecla(statusFormulario);
-        atualizaQtdRegistroLocalizado();
-    }
-
-    void atualizaQtdRegistroLocalizado() {
-        int qtd = produtoVOFilteredList.size();
-        lblRegistrosLocalizados.setText(String.format("[%s] %d registro%s localizado%s.", getStatusFormulario(), qtd,
-                qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));
     }
 
     public String getStatusBarTecla() {

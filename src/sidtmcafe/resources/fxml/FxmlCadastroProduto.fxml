@@ -38,11 +38,18 @@
                                 <Tooltip text="tabela com lista de produto"/>
                             </tooltip>
                         </TreeTableView>
+                        <Label fx:id="lblStatus"
+                               accessibleText="len::;type::;value::[] registro(s) localizado(s).;seteditable::;"
+                               layoutX="380.0" layoutY="20.0" styleClass="lbl-informacoes" text="[Status]">
+                            <tooltip>
+                                <Tooltip text="informações de status"/>
+                            </tooltip>
+                        </Label>
                         <Label fx:id="lblRegistrosLocalizados"
                                accessibleText="len::;type::;value::[] registro(s) localizado(s).;seteditable::;"
-                               layoutX="380.0" layoutY="20.0" styleClass="lbl-informacoes" text="Registros localizados">
+                               layoutX="440.0" layoutY="20.0" styleClass="lbl-informacoes" text="Registros localizados">
                             <tooltip>
-                                <Tooltip text="informações de status e quantidade de registros localizados"/>
+                                <Tooltip text="Quantidade de registros localizados"/>
                             </tooltip>
                         </Label>
                     </children>

@@ -57,6 +57,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     public TitledPane tpnCadastroProduto;
     public JFXTextField txtPesquisaProduto;
     public TreeTableView<TabProdutoVO> ttvProduto;
+    public Label lblStatus;
     public Label lblRegistrosLocalizados;
     public TitledPane tpnDadoCadastral;
     public JFXTextField txtCodigo;
@@ -217,8 +218,9 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                                             new TabProdutoDAO().getTabProdutoVO(getProdutoVO().getId()));
                                     break;
                             }
+                            TabModel.setProdutoVOFilteredList(produtoVOFilteredList = new FilteredList<>(produtoVOObservableList));
+                            TabModel.pesquisaProduto(txtPesquisaProduto.getText());
                         }
-                        TabModel.pesquisaProduto(txtPesquisaProduto.getText());
                         break;
                     case F3:
                         if (!getStatusBarTecla().contains(event.getCode().toString()))
@@ -292,7 +294,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.addEventHandler(KeyEvent.KEY_PRESSED, eventHandlerCadastroProduto);
 
         txtPesquisaProduto.textProperty().addListener((observable, oldValue, newValue) -> {
-            TabModel.pesquisaProduto(newValue);
+            TabModel.pesquisaProduto(newValue.toLowerCase().trim());
         });
 
         txtPesquisaProduto.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
@@ -323,10 +325,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 //            atualizaQtdRegistroLocalizado();
 //        });
 
-        produtoVOFilteredList.addListener((ListChangeListener) c -> {
-            atualizaQtdRegistroLocalizado();
-            TabModel.preencherTabelaProduto();
-        });
+//        produtoVOFilteredList.addListener((ListChangeListener) c -> {
+//            atualizaQtdRegistroLocalizado();
+//            TabModel.preencherTabelaProduto();
+//        });
 
         txtFiscalNcm.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!txtFiscalNcm.isFocused()) return;
@@ -461,9 +463,11 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     updateMessage(tarefaAtual.getValue().toString());
                     switch (tarefaAtual.getKey().toString()) {
                         case "vinculandoObjetosTabela":
+                            TabModel.setLblRegistrosLocalizados(lblRegistrosLocalizados);
                             TabModel.setTtvProduto(ttvProduto);
                             TabModel.setProdutoVOObservableList(produtoVOObservableList);
                             TabModel.setProdutoVOFilteredList(produtoVOFilteredList);
+                            TabModel.escutaListaProduto();
                             break;
                         case "criarTabelaProduto":
                             TabModel.tabelaProduto();
@@ -519,13 +523,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     public void setStatusFormulario(String statusFormulario) {
         this.statusFormulario = statusFormulario;
         setStatusBarTecla(statusFormulario);
-        atualizaQtdRegistroLocalizado();
-    }
-
-    void atualizaQtdRegistroLocalizado() {
-        int qtd = produtoVOFilteredList.size();
-        lblRegistrosLocalizados.setText(String.format("[%s] %d registro%s localizado%s.", getStatusFormulario(), qtd,
-                qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));
+        lblStatus.setText(String.format("[%s]", getStatusFormulario()));
     }
 
     public String getStatusBarTecla() {
