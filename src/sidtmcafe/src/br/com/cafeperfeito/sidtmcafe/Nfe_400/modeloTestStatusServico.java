@@ -1,8 +1,8 @@
 package br.com.cafeperfeito.sidtmcafe.Nfe_400;
 
 import br.com.cafeperfeito.sidtmcafe.service.ServiceSocketDinamico;
-import br.inf.portalfiscal.nfe_400.xsdPL_009.consStatServ_v400.TConsStatServ;
-import br.inf.portalfiscal.www.nfe_400.wsdl.nfeStatusServico4.NfeStatusServico4Stub;
+import br.inf.portalfiscal.xsd.nfe.consStatServ.TConsStatServ;
+import br.inf.portalfiscal.wsdl.nfe.hom.NfeStatusServico4.NfeStatusServico4Stub;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.util.AXIOMUtil;
 
@@ -180,7 +180,7 @@ public class modeloTestStatusServico {
 
             case STATUS:
                 context = JAXBContext.newInstance(TConsStatServ.class);
-                element = new br.inf.portalfiscal.nfe_400.xsdPL_009.consStatServ_v400.ObjectFactory().createConsStatServ((TConsStatServ) obj);
+                element = new br.inf.portalfiscal.xsd.nfe.consStatServ.ObjectFactory().createConsStatServ((TConsStatServ) obj);
                 break;
 
 //            case ENVIO_NFE:

@@ -3,28 +3,25 @@ package br.com.cafeperfeito.sidtmcafe.teste;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceCryptografia;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.*;
+
 public class Testes {
 
     public static void main(String... args) throws Exception {
 
-        String senhaSimples = "cafeperfeito";
-        System.out.println("senhaSimples: [" + senhaSimples + "]");
-
-
-//        String encryptValue = ServiceCryptografia.encrypt(senhaSimples);
-//        System.out.println("encryptValue: [" + encryptValue + "]");
-//        String decryptValue = ServiceCryptografia.decrypt(encryptValue);
-//        System.out.println("decryptValue: [" + decryptValue + "]");
+//        String senhaSimples = "cafeperfeito";
+//        System.out.println("senhaSimples: [" + senhaSimples + "]");
 //
-//        System.out.println(ServiceCryptografia.decrypt(key, initVector,
-//                ServiceCryptografia.encrypt(key, initVector, "Hello World")));
-
-        String originalString = "4879";
-        System.out.println("Original String to encrypt - " + originalString);
-        String encryptedString = ServiceCryptografia.encrypt(originalString);
-        System.out.println("Encrypted String - " + encryptedString);
-        String decryptedString = ServiceCryptografia.decrypt(encryptedString);
-        System.out.println("After decryption - " + decryptedString);
+//        String originalString = "4879";
+//        System.out.println("Original String to encrypt - " + originalString);
+//        String encryptedString = ServiceCryptografia.encrypt(originalString);
+//        System.out.println("Encrypted String - " + encryptedString);
+//        String decryptedString = ServiceCryptografia.decrypt(encryptedString);
+//        System.out.println("After decryption - " + decryptedString);
 
         //String key = "DB99A2A8EB6904F492E9DF0595ED683C";
         //String password = "Admin";
@@ -247,8 +244,17 @@ public class Testes {
 
 
         //System.out.println("moeda2(123456): [" + new ServiceFormatarDado().getValorFormatado("1234567890123",15,"moeda", 3) + "]");
+        System.out.println(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(new Date()));
+        String date = "2017-03-08T12:30:54";
+        LocalDateTime localDateTime1 = LocalDateTime.parse(date);
+        System.out.println("origional date as string: " + date);
+        System.out.println("generated LocalDateTime: " + localDateTime1);
 
-
+        String dhEmi = "2018-09-03T12:01:12-03:00";//.replace("T", " ");//"YYYY-MM-ddTHH:mm:ssGTM"
+        //System.out.println("localDateTime: [" + SDF.parse(dhEmi) + "]");
+        LocalDateTime localDateTime = LocalDateTime.parse(dhEmi, DTF_NFE_TO_LOCAL_DATE);
+        System.out.println("localDateTime: [" + localDateTime + "]");
+        System.out.println("toLocalDate: [" + localDateTime.toLocalDate() + "]");
 
 
 

@@ -11,8 +11,6 @@ import br.com.cafeperfeito.sidtmcafe.view.ViewCadastroProduto;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.RecursiveTreeItem;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -403,7 +401,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             if (imgCirculo.isDisabled()) return;
             Dragboard board = event.getDragboard();
             if (board.hasFiles())
-                if (Pattern.compile(REGEX_IMAGENS_EXTENSAO).matcher(board.getFiles().get(0).toPath().toString()).find())
+                if (Pattern.compile(REGEX_EXTENSAO_IMAGENS).matcher(board.getFiles().get(0).toPath().toString()).find())
                     event.acceptTransferModes(TransferMode.ANY);
         });
 

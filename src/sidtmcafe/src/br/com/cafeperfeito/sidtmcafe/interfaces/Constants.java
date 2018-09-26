@@ -36,7 +36,8 @@ public interface Constants {
 
     //String REGEX_MASK_MOEDA_NUMERO = "#,###,###,###,###,###,##0";
     String REGEX_MASK_MOEDA_NUMERO = "#,##0";
-    String REGEX_IMAGENS_EXTENSAO = "\\.(jpg|jpeg|png|gif)";
+    String REGEX_EXTENSAO_NFE = "\\.(xml|wsdl)";
+    String REGEX_EXTENSAO_IMAGENS = "\\.(jpg|jpeg|png|gif)";
     String REGEX_CNPJ_CPF = "(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})|(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})";
     //String REGEX_EMAIL = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}";
     String REGEX_EMAIL = "([\\w\\-]+\\.)*[\\w\\- ]+@([\\w\\- ]+\\.)+([\\w\\-]{2,3})";
@@ -178,6 +179,7 @@ public interface Constants {
     DateTimeFormatter DTF_DATA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     DateTimeFormatter DTF_HORA = DateTimeFormatter.ofPattern("HH:mm:ss");
     DateTimeFormatter DTF_DATAHORA = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    DateTimeFormatter DTF_NFE_TO_LOCAL_DATE = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
     DateTimeFormatter DTF_DATAHORAFUSO = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm:ssXXX");
     DateTimeFormatter DTF_MYSQL_DATA = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter DTF_MYSQL_DATAHORA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

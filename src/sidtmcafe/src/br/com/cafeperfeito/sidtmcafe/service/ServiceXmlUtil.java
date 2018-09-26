@@ -1,8 +1,9 @@
 package br.com.cafeperfeito.sidtmcafe.service;
 
-import br.inf.portalfiscal.cte.PL_CTE_300_NT2018_002.cte_v300.TCTe;
-import br.inf.portalfiscal.cte.PL_CTE_300_NT2018_002.procCTe_v300.CteProc;
-import br.inf.portalfiscal.nfe_400.xsdPL_009.consStatServ_v400.TConsStatServ;
+import br.inf.portalfiscal.xsd.cte.cte.TCTe;
+import br.inf.portalfiscal.xsd.cte.procCTe.CteProc;
+import br.inf.portalfiscal.xsd.nfe.consStatServ.TConsStatServ;
+import br.inf.portalfiscal.xsd.nfe.procNFe.TNfeProc;
 
 import javax.xml.bind.*;
 import javax.xml.transform.stream.StreamSource;
@@ -27,11 +28,11 @@ public class ServiceXmlUtil {
     private static final String CTE = "TCTe";
     private static final String CTEPROC = "CteProc";
 
-    public static String leXml(String arquivo) {
+    public static String leXml(FileInputStream arquivo) {
         StringBuilder xml = new StringBuilder();
         BufferedReader in;
         try {
-            in = new BufferedReader(new InputStreamReader(new FileInputStream(arquivo), "UTF-8"));
+            in = new BufferedReader(new InputStreamReader(arquivo, "UTF-8"));
             String linha;
 
             while ((linha = in.readLine()) != null) {
@@ -62,13 +63,17 @@ public class ServiceXmlUtil {
 
             case STATUS:
                 context = JAXBContext.newInstance(TConsStatServ.class);
-                element = new br.inf.portalfiscal.nfe_400.xsdPL_009.consStatServ_v400.ObjectFactory().createConsStatServ((TConsStatServ) obj);
+                element = new br.inf.portalfiscal.xsd.nfe.consStatServ.ObjectFactory().createConsStatServ((TConsStatServ) obj);
                 break;
 
+            case NFEPROC:
+                context = JAXBContext.newInstance(TNfeProc.class);
+                element = new br.inf.portalfiscal.xsd.nfe.procNFe.ObjectFactory().createNfeProc((TNfeProc) obj);
+                break;
 
             case CTEPROC:
                 context = JAXBContext.newInstance(CteProc.class);
-                element = new br.inf.portalfiscal.cte.PL_CTE_300_NT2018_002.cte_v300.ObjectFactory().createCTe((TCTe) obj);
+                element = new br.inf.portalfiscal.xsd.cte.cte.ObjectFactory().createCTe((TCTe) obj);
                 break;
 
 
@@ -128,11 +133,6 @@ public class ServiceXmlUtil {
 //                        break;
 //                }
 //
-//                break;
-//
-//            case NFEPROC:
-//                context = JAXBContext.newInstance(TNfeProc.class);
-//                element = XsdUtil.enviNfe.createTNfeProc((TNfeProc) obj);
 //                break;
 //
 //            case TPROCINUT:

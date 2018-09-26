@@ -8,25 +8,33 @@ import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
 import br.com.cafeperfeito.sidtmcafe.service.*;
 import br.com.cafeperfeito.sidtmcafe.view.ViewEntradaProduto;
+import br.inf.portalfiscal.xsd.cte.procCTe.CteProc;
+import br.inf.portalfiscal.xsd.nfe.procNFe.TNfeProc;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.RecursiveTreeItem;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
+import javafx.scene.control.TreeTableView;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
 
+import javax.xml.bind.JAXBException;
+import java.io.FileInputStream;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -34,6 +42,7 @@ import java.util.regex.Pattern;
 
 public class ControllerEntradaProduto extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
 
+    String pathUltimoArquivoNfeCte;
     public AnchorPane painelViewEntradaProduto;
     public TitledPane tpnDadoNfe;
     public TitledPane tpnDetalheNfe;
@@ -406,7 +415,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //            if (imgCirculo.isDisabled()) return;
 //            Dragboard board = event.getDragboard();
 //            if (board.hasFiles())
-//                if (Pattern.compile(REGEX_IMAGENS_EXTENSAO).matcher(board.getFiles().get(0).toPath().toString()).find())
+//                if (Pattern.compile(REGEX_EXTENSAO_IMAGENS).matcher(board.getFiles().get(0).toPath().toString()).find())
 //                    event.acceptTransferModes(TransferMode.ANY);
 //        });
 //
@@ -419,6 +428,38 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //                e.printStackTrace();
 //            }
 //        });
+        txtChaveNfe.setOnDragOver(event -> {
+            if (txtChaveNfe.isDisable()) return;
+            Dragboard board = event.getDragboard();
+            if (board.hasFiles())
+                if (Pattern.compile(REGEX_EXTENSAO_NFE).matcher(board.getFiles().get(0).toPath().toString()).find())
+                    event.acceptTransferModes(TransferMode.ANY);
+        });
+        txtChaveNfe.setOnDragDropped(event -> {
+            if (txtChaveNfe.isDisable()) return;
+            try {
+                Dragboard board = event.getDragboard();
+                preencheNFeEntradaProduto(new FileInputStream(board.getFiles().get(0)));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+        txtFreteChaveCte.setOnDragOver(event -> {
+            if (txtFreteChaveCte.isDisable()) return;
+            Dragboard board = event.getDragboard();
+            if (board.hasFiles())
+                if (Pattern.compile(REGEX_EXTENSAO_NFE).matcher(board.getFiles().get(0).toPath().toString()).find())
+                    event.acceptTransferModes(TransferMode.ANY);
+        });
+        txtFreteChaveCte.setOnDragDropped(event -> {
+            if (txtFreteChaveCte.isDisable()) return;
+            try {
+                Dragboard board = event.getDragboard();
+                preencheCTeEntradaProduto(new FileInputStream(board.getFiles().get(0)));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -602,5 +643,49 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //        produtoVOObservableList = FXCollections.observableArrayList(new TabProdutoDAO().getProdutoVOList());
 //    }
 
+    void preencheNFeEntradaProduto(FileInputStream arquivo) throws JAXBException {
+        TNfeProc tNfeProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), TNfeProc.class);
+        try {
+            txtChaveNfe.setText(tNfeProc.getNFe().getInfNFe().getId().replaceAll("\\D", ""));
+        } catch (Exception ex) {
+            alertMensagem = new ServiceAlertMensagem();
+            alertMensagem.setStrIco("ic_xml_24dp.png");
+            alertMensagem.setCabecalho(String.format("Arquivo inválido"));
+            alertMensagem.setPromptText(String.format("%s, arquivo NF-e inválido!", USUARIO_LOGADO_APELIDO));
+            alertMensagem.getRetornoAlert_OK();
+            txtChaveNfe.requestFocus();
+            return;
+        }
+        txtNumeroNfe.setText(tNfeProc.getNFe().getInfNFe().getIde().getNNF());
+        txtNumeroSerie.setText(tNfeProc.getNFe().getInfNFe().getIde().getSerie());
+        dtpEmissaoNfe.setValue(LocalDateTime.parse(tNfeProc.getNFe().getInfNFe().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE).toLocalDate());
+        dtpEntradaNfe.setValue(LocalDate.now());
+
+    }
+
+    void preencheCTeEntradaProduto(FileInputStream arquivo) throws JAXBException {
+        CteProc cteProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), CteProc.class);
+        try {
+            txtFreteChaveCte.setText(cteProc.getCTe().getInfCte().getId().replaceAll("\\D", ""));
+        } catch (Exception ex) {
+            alertMensagem = new ServiceAlertMensagem();
+            alertMensagem.setStrIco("ic_xml_24dp.png");
+            alertMensagem.setCabecalho(String.format("Arquivo inválido"));
+            alertMensagem.setPromptText(String.format("%s, arquivo CT-e inválido!", USUARIO_LOGADO_APELIDO));
+            alertMensagem.getRetornoAlert_OK();
+            txtChaveNfe.requestFocus();
+            return;
+        }
+        txtFreteNumeroCte.setText(cteProc.getCTe().getInfCte().getIde().getNCT());
+        txtFreteSerieCte.setText(cteProc.getCTe().getInfCte().getIde().getSerie());
+        dtpFreteEmissao.setValue(LocalDateTime.parse(cteProc.getCTe().getInfCte().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE).toLocalDate());
+        String chaveNFe;
+        if ((chaveNFe = cteProc.getCTe().getInfCte().getInfCTeNorm().getInfDoc().getInfNFe().get(0).getChave())!=null){
+            txtChaveNfe.setText(chaveNFe);
+
+        }
+
+
+    }
 
 }
