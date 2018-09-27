@@ -74,7 +74,6 @@ public class ServiceBuscaBancoDados {
                         stmt.setBoolean(i + 1, listParametro.get(i).getValue().equals("true"));
                         break;
                     case "date":
-                        System.out.println("date: [" + Date.valueOf(listParametro.get(i).getValue()) + "]");
                         stmt.setDate(i + 1, Date.valueOf(listParametro.get(i).getValue()));
                         break;
                     case "blob0":

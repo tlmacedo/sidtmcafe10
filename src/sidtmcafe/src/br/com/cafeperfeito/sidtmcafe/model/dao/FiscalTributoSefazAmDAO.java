@@ -25,7 +25,7 @@ public class FiscalTributoSefazAmDAO extends ServiceBuscaBancoDados {
     }
 
     void getResultSet(String sql) {
-        getResultadosBandoDados(sql + "ORDER BY id ");
+        getResultadosBandoDados(sql + "ORDER BY descricao ");
         try {
             while (rs.next()) {
                 fiscalTributoSefazAmVO = new FiscalTributoSefazAmVO();

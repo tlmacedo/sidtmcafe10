@@ -40,17 +40,17 @@
                                                 <Tooltip text="série da nfe de entrada" />
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXComboBox fx:id="cboFornecedor" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="670.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="420.0" promptText="Fornecedor">
+                                        <JFXComboBox fx:id="cboFornecedor" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="670.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="450.0" promptText="Fornecedor">
                                             <tooltip>
                                                 <Tooltip text="fornecedor emissor da nfe de entrada" />
                                             </tooltip>
                                         </JFXComboBox>
-                                        <DatePicker fx:id="dtpEmissaoNfe" accessibleText="len::;type::;value::;seteditable::;" layoutX="1100.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="105.0" promptText="Data emissão">
+                                        <DatePicker fx:id="dtpEmissaoNfe" accessibleText="len::;type::;value::;seteditable::;" layoutX="1130.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Data emissão">
                                             <tooltip>
                                                 <Tooltip text="data de emissão da nfe de entrada" />
                                             </tooltip>
                                         </DatePicker>
-                                        <DatePicker fx:id="dtpEntradaNfe" accessibleText="len::;type::;value::;seteditable::;" layoutX="1215.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="105.0" promptText="Data entrada">
+                                        <DatePicker fx:id="dtpEntradaNfe" accessibleText="len::;type::;value::;seteditable::;" layoutX="1230.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Data entrada">
                                             <tooltip>
                                                 <Tooltip text="data de entrada da nfe de entrada" />
                                             </tooltip>
@@ -69,11 +69,16 @@
                                                                 <Tooltip text="número do documento de origem do imposto da nfe de entrada" />
                                                             </tooltip>
                                                         </JFXTextField>
-                                                        <JFXComboBox fx:id="cboFiscalTributo" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="195.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="465.0" promptText="Descrição do tributo">
+                                                        <JFXComboBox fx:id="cboFiscalTributo" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="195.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="415.0" promptText="Descrição do tributo">
                                                             <tooltip>
                                                                 <Tooltip text="fornecedor emissor da nfe de entrada" />
                                                             </tooltip>
                                                         </JFXComboBox>
+                                                        <JFXTextField fx:id="txtFiscalVlrNFe" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="620.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Vlr. Nf-e: R$" styleClass="a-direita">
+                                                            <tooltip>
+                                                                <Tooltip text="valor bruto do tributo da nfe de entrada" />
+                                                            </tooltip>
+                                                        </JFXTextField>
                                                         <JFXTextField fx:id="txtFiscalVlrTributo" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="720.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Vlr. tributo: R$" styleClass="a-direita">
                                                             <tooltip>
                                                                 <Tooltip text="valor bruto do tributo da nfe de entrada" />
@@ -121,67 +126,67 @@
                                                 <Tooltip text="chave da cte da nfe de entrada" />
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXComboBox fx:id="cboFreteTomadorServico" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="295.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="100.0" promptText="Tomador serviço">
+                                        <JFXComboBox fx:id="cboFreteTomadorServico" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="295.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="200.0" promptText="Tomador serviço">
                                             <tooltip>
                                                 <Tooltip text="tomador do serviço do frete da nfe de entrada" />
                                             </tooltip>
                                         </JFXComboBox>
-                                        <JFXTextField fx:id="txtFreteNumeroCte" accessibleText="len::9;type::nfenumero;value::;seteditable::;" layoutX="405.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="75.0" promptText="Número Cte" styleClass="a-direita">
+                                        <JFXTextField fx:id="txtFreteNumeroCte" accessibleText="len::9;type::nfenumero;value::;seteditable::;" layoutX="505.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="75.0" promptText="Número Cte" styleClass="a-direita">
                                             <tooltip>
                                                 <Tooltip text="número do cte da nfe de entrada" />
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtFreteSerieCte" accessibleText="len::3;type::numero;value::;seteditable::;" layoutX="490.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="60.0" promptText="Número Série" styleClass="a-direita">
+                                        <JFXTextField fx:id="txtFreteSerieCte" accessibleText="len::3;type::numero;value::;seteditable::;" layoutX="590.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="60.0" promptText="Número Série" styleClass="a-direita">
                                             <tooltip>
                                                 <Tooltip text="série do cte da nfe de entrada" />
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXComboBox fx:id="cboFreteModeloCte" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="560.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="60.0" promptText="Modelo">
+                                        <JFXComboBox fx:id="cboFreteModeloCte" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="660.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="60.0" promptText="Modelo">
                                             <tooltip>
                                                 <Tooltip text="modelo cte da nfe de entrada" />
                                             </tooltip>
                                         </JFXComboBox>
-                                        <JFXComboBox fx:id="cboFreteSistuacaoTributaria" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="630.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="195.0" promptText="Situação tributária">
+                                        <JFXComboBox fx:id="cboFreteSistuacaoTributaria" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="730.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="245.0" promptText="Situação tributária">
                                             <tooltip>
                                                 <Tooltip text="situação tributária do cte da nfe de entrada" />
                                             </tooltip>
                                         </JFXComboBox>
-                                        <JFXComboBox fx:id="cboFreteTransportadora" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="835.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="370.0" promptText="Transportadora">
+                                        <JFXComboBox fx:id="cboFreteTransportadora" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="990.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="325.0" promptText="Transportadora">
                                             <tooltip>
                                                 <Tooltip text="transportadora da nfe de entrada" />
                                             </tooltip>
                                         </JFXComboBox>
-                                        <DatePicker fx:id="dtpFreteEmissao" accessibleText="len::;type::;value::;seteditable::;" editable="false" layoutX="1215.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="105.0" promptText="Data emissão">
+                                        <DatePicker fx:id="dtpFreteEmissao" accessibleText="len::;type::;value::;seteditable::;" editable="false" layoutX="5.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Data emissão">
                                             <tooltip>
                                                 <Tooltip text="data de emissão do cte da nfe de entrada" />
                                             </tooltip>
                                         </DatePicker>
-                                        <JFXTextField fx:id="txtFreteVlrNfe" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="5.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Total nf-e: R$" styleClass="a-direita">
+                                        <JFXTextField fx:id="txtFreteVlrCte" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="105.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Total ct-e: R$" styleClass="a-direita">
                                             <tooltip>
                                                 <Tooltip text="valor total da nfe de entrada" />
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtFreteQtdVolume" accessibleText="len::3;type::numero;value::0,00;seteditable::;" layoutX="105.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Qtd. volumes:" styleClass="a-direita">
+                                        <JFXTextField fx:id="txtFreteQtdVolume" accessibleText="len::3;type::numero;value::0,00;seteditable::;" layoutX="205.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Qtd. volumes:" styleClass="a-direita">
                                             <tooltip>
                                                 <Tooltip text="quantidade de volumes do cte da nfe de entrada" />
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtFretePesoBruto" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="205.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Peso bruto: kg" styleClass="a-direita">
+                                        <JFXTextField fx:id="txtFretePesoBruto" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="305.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Peso bruto: kg" styleClass="a-direita">
                                             <tooltip>
                                                 <Tooltip text="peso bruto do cte da nfe de entrada" />
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtFreteVlrBruto" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="305.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Frete bruto: R$" styleClass="a-direita">
+                                        <JFXTextField fx:id="txtFreteVlrBruto" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="405.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Frete bruto: R$" styleClass="a-direita">
                                             <tooltip>
                                                 <Tooltip text="valor bruto do frete do cte da nfe de entrada" />
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtFreteVlrImposto" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="405.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Imposto frete: R$" styleClass="a-direita">
+                                        <JFXTextField fx:id="txtFreteVlrImposto" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="505.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Imposto frete: R$" styleClass="a-direita">
                                             <tooltip>
                                                 <Tooltip text="valor imposto sobre frete da nfe de entrada" />
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXTextField fx:id="txtFreteVlrLiquido" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="505.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Frete líquido: R$" styleClass="a-direita">
+                                        <JFXTextField fx:id="txtFreteVlrLiquido" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="605.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Frete líquido: R$" styleClass="a-direita">
                                             <tooltip>
                                                 <Tooltip text="valor líquido do frete da nfe de entrada" />
                                             </tooltip>
@@ -200,11 +205,16 @@
                                                                 <Tooltip text="número do documento de origem do imposto do cte de entrada" />
                                                             </tooltip>
                                                         </JFXTextField>
-                                                        <JFXComboBox fx:id="cboFreteFiscalTributo" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="195.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="465.0" promptText="Descrição do tributo">
+                                                        <JFXComboBox fx:id="cboFreteFiscalTributo" accessibleText="len::;type::;value::;seteditable::;" labelFloat="true" layoutX="195.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="415.0" promptText="Descrição do tributo">
                                                             <tooltip>
                                                                 <Tooltip text="fornecedor emissor do cte de entrada" />
                                                             </tooltip>
                                                         </JFXComboBox>
+                                                        <JFXTextField fx:id="txtFreteFiscalVlrNFe" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="620.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Vlr. Nf-e: R$" styleClass="a-direita">
+                                                            <tooltip>
+                                                                <Tooltip text="valor bruto do tributo da nfe de entrada" />
+                                                            </tooltip>
+                                                        </JFXTextField>
                                                         <JFXTextField fx:id="txtFreteFiscalVlrTributo" accessibleText="len::12;type::moeda;decimal::2;value::0,00;seteditable::;" layoutX="720.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="Vlr. tributo: R$" styleClass="a-direita">
                                                             <tooltip>
                                                                 <Tooltip text="valor bruto do tributo da nfe de entrada" />

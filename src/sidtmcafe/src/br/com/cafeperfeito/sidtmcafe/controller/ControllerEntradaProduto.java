@@ -4,15 +4,17 @@ import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
 import br.com.cafeperfeito.sidtmcafe.model.dao.*;
 import br.com.cafeperfeito.sidtmcafe.model.model.TabModel;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.*;
 import br.com.cafeperfeito.sidtmcafe.service.*;
 import br.com.cafeperfeito.sidtmcafe.view.ViewEntradaProduto;
 import br.inf.portalfiscal.xsd.cte.procCTe.CteProc;
+import br.inf.portalfiscal.xsd.cte.procCTe.TCTe;
 import br.inf.portalfiscal.xsd.nfe.procNFe.TNfeProc;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -32,6 +34,8 @@ import javafx.util.Pair;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileInputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,21 +46,23 @@ import java.util.regex.Pattern;
 
 public class ControllerEntradaProduto extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
 
+    public JFXTextField txtFreteFiscalVlrNFe;
+    public JFXTextField txtFiscalVlrNFe;
     String pathUltimoArquivoNfeCte;
     public AnchorPane painelViewEntradaProduto;
     public TitledPane tpnDadoNfe;
     public TitledPane tpnDetalheNfe;
-    public JFXComboBox cboLojaDestino;
+    public JFXComboBox<TabEmpresaVO> cboLojaDestino;
     public JFXTextField txtChaveNfe;
     public JFXTextField txtNumeroNfe;
     public JFXTextField txtNumeroSerie;
-    public JFXComboBox cboFornecedor;
+    public JFXComboBox<TabEmpresaVO> cboFornecedor;
     public DatePicker dtpEmissaoNfe;
     public DatePicker dtpEntradaNfe;
     public TitledPane tpnImpostoNfe;
     public JFXTextField txtFiscalNumeroControle;
     public JFXTextField txtFiscalDocumentoOrigem;
-    public JFXComboBox cboFiscalTributo;
+    public JFXComboBox<FiscalTributoSefazAmVO> cboFiscalTributo;
     public JFXTextField txtFiscalVlrTributo;
     public JFXTextField txtFiscalVlrMulta;
     public JFXTextField txtFiscalVlrJuros;
@@ -65,14 +71,14 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     public JFXTextField txtFiscalVlrPercentualTributo;
     public TitledPane tpnDetalheFrete;
     public JFXTextField txtFreteChaveCte;
-    public JFXComboBox cboFreteTomadorServico;
+    public JFXComboBox<FiscalFreteTomadorServicoVO> cboFreteTomadorServico;
     public JFXTextField txtFreteNumeroCte;
     public JFXTextField txtFreteSerieCte;
-    public JFXComboBox cboFreteModeloCte;
-    public JFXComboBox cboFreteSistuacaoTributaria;
-    public JFXComboBox cboFreteTransportadora;
+    public JFXComboBox<FiscalModeloNfeCteVO> cboFreteModeloCte;
+    public JFXComboBox<FiscalFreteSituacaoTributariaVO> cboFreteSistuacaoTributaria;
+    public JFXComboBox<TabEmpresaVO> cboFreteTransportadora;
     public DatePicker dtpFreteEmissao;
-    public JFXTextField txtFreteVlrNfe;
+    public JFXTextField txtFreteVlrCte;
     public JFXTextField txtFreteQtdVolume;
     public JFXTextField txtFretePesoBruto;
     public JFXTextField txtFreteVlrBruto;
@@ -81,7 +87,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     public TitledPane tpnFreteImposto;
     public JFXTextField txtFreteFiscalNumeroControle;
     public JFXTextField txtFreteFiscalImpostoDocumentoOrigem;
-    public JFXComboBox cboFreteFiscalTributo;
+    public JFXComboBox<FiscalTributoSefazAmVO> cboFreteFiscalTributo;
     public JFXTextField txtFreteFiscalVlrTributo;
     public JFXTextField txtFreteFiscalVlrMulta;
     public JFXTextField txtFreteFiscalVlrJuros;
@@ -353,17 +359,133 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //                        .stream().collect(Collectors.toCollection(FXCollections::observableArrayList)));
 //            });
 //        });
-//
-//        txtPrecoFabrica.textProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
-//                if (!txtPrecoFabrica.isFocused()) return;
-//                vlrConsumidor();
-//                vlrLucroBruto();
-//            }
-//        });
-//
+
+        txtFiscalVlrTributo.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                if (!txtFiscalVlrTributo.isFocused()) return;
+                vlrFiscalVlrTotalTributo();
+            }
+        });
+
+        txtFiscalVlrMulta.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                if (!txtFiscalVlrMulta.isFocused()) return;
+                vlrFiscalVlrTotalTributo();
+            }
+        });
+
+        txtFiscalVlrJuros.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                if (!txtFiscalVlrJuros.isFocused()) return;
+                vlrFiscalVlrTotalTributo();
+            }
+        });
+
+        txtFiscalVlrTaxa.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                if (!txtFiscalVlrTaxa.isFocused()) return;
+                vlrFiscalVlrTotalTributo();
+            }
+        });
+
+        txtFiscalVlrTotalTributo.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                //if (!txtFiscalVlrTotalTributo.isFocused()) return;
+                vlrFiscalVlrPercentualTributo();
+            }
+        });
+
+        txtFiscalVlrNFe.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                //if (!txtFiscalVlrTotalTributo.isFocused()) return;
+                vlrFiscalVlrPercentualTributo();
+            }
+        });
+
+        txtFreteVlrBruto.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                if (!txtFreteVlrBruto.isFocused()) return;
+                vlrFreteLiquido();
+            }
+        });
+
+        txtFreteVlrImposto.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa"))return;
+                if (!txtFreteVlrImposto.isFocused()) return;
+                vlrFreteLiquido();
+            }
+        });
+
+        txtFreteFiscalVlrTributo.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                if (!txtFreteFiscalVlrTributo.isFocused()) return;
+                vlrFreteFiscalVlrTotalTributo();
+            }
+        });
+
+        txtFreteFiscalVlrMulta.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                if (!txtFreteFiscalVlrMulta.isFocused()) return;
+                vlrFreteFiscalVlrTotalTributo();
+            }
+        });
+
+        txtFreteFiscalVlrJuros.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                if (!txtFreteFiscalVlrJuros.isFocused()) return;
+                vlrFreteFiscalVlrTotalTributo();
+            }
+        });
+
+        txtFreteFiscalVlrTaxa.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                if (!txtFreteFiscalVlrTaxa.isFocused()) return;
+                vlrFreteFiscalVlrTotalTributo();
+            }
+        });
+
+        txtFreteFiscalVlrTotalTributo.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                //if (!txtFreteFiscalVlrTotalTributo.isFocused()) return;
+                vlrFreteFiscalVlrPercentualTributo();
+            }
+        });
+
+        txtFreteVlrCte.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
+                //if (!txtFiscalVlrTotalTributo.isFocused()) return;
+                vlrFreteFiscalVlrPercentualTributo();
+            }
+        });
+
 //        txtMargem.textProperty().addListener(new ChangeListener<String>() {
 //            @Override
 //            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -410,24 +532,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //                vlrLucroBruto();
 //            }
 //        });
-//
-//        imgCirculo.setOnDragOver(event -> {
-//            if (imgCirculo.isDisabled()) return;
-//            Dragboard board = event.getDragboard();
-//            if (board.hasFiles())
-//                if (Pattern.compile(REGEX_EXTENSAO_IMAGENS).matcher(board.getFiles().get(0).toPath().toString()).find())
-//                    event.acceptTransferModes(TransferMode.ANY);
-//        });
-//
-//        imgCirculo.setOnDragDropped(event -> {
-//            if (imgCirculo.isDisabled()) return;
-//            try {
-//                Dragboard board = event.getDragboard();
-//                addImageProduto(new Image(new FileInputStream(board.getFiles().get(0))));
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//        });
+
         txtChaveNfe.setOnDragOver(event -> {
             if (txtChaveNfe.isDisable()) return;
             Dragboard board = event.getDragboard();
@@ -600,9 +705,8 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //                statusBarTecla = STATUS_BAR_TECLA_EDITAR;
                 break;
             case "pesquisa":
+                ServiceCampoPersonalizado.fieldDisable(painelViewEntradaProduto, true);
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoNfe.getContent(), false);
-                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroProduto.getContent(), false);
-                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnItensNfe.getContent(), true);
                 ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnDadoNfe.getContent());
                 cboLojaDestino.requestFocus();
                 statusBarTecla = STATUS_BAR_TECLA_PESQUISA;
@@ -656,6 +760,15 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
             txtChaveNfe.requestFocus();
             return;
         }
+        cboLojaDestino.getSelectionModel().select(cboLojaDestino.getItems().stream()
+                .filter(lojaDestino -> lojaDestino.getCnpj().equals(tNfeProc.getNFe().getInfNFe().getDest().getCNPJ()))
+                .findFirst().orElse(null));
+        cboFornecedor.getSelectionModel().select(cboFornecedor.getItems().stream()
+                .filter(fornecedor -> fornecedor.getCnpj().equals(tNfeProc.getNFe().getInfNFe().getEmit().getCNPJ()))
+                .findFirst().orElse(null));
+        cboFreteTransportadora.getSelectionModel().select(cboFreteTransportadora.getItems().stream()
+                .filter(transportadora -> transportadora.getCnpj().equals(tNfeProc.getNFe().getInfNFe().getTransp().getTransporta().getCNPJ()))
+                .findFirst().orElse(null));
         txtNumeroNfe.setText(tNfeProc.getNFe().getInfNFe().getIde().getNNF());
         txtNumeroSerie.setText(tNfeProc.getNFe().getInfNFe().getIde().getSerie());
         dtpEmissaoNfe.setValue(LocalDateTime.parse(tNfeProc.getNFe().getInfNFe().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE).toLocalDate());
@@ -673,19 +786,104 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
             alertMensagem.setCabecalho(String.format("Arquivo inválido"));
             alertMensagem.setPromptText(String.format("%s, arquivo CT-e inválido!", USUARIO_LOGADO_APELIDO));
             alertMensagem.getRetornoAlert_OK();
-            txtChaveNfe.requestFocus();
+            txtFreteChaveCte.requestFocus();
             return;
         }
+        cboFreteTomadorServico.getSelectionModel().select(cboFreteTomadorServico.getItems().stream()
+                .filter(tomadorServico -> tomadorServico.getId() == Integer.parseInt(cteProc.getCTe().getInfCte().getIde().getToma3().getToma()))
+                .findFirst().orElse(null));
         txtFreteNumeroCte.setText(cteProc.getCTe().getInfCte().getIde().getNCT());
         txtFreteSerieCte.setText(cteProc.getCTe().getInfCte().getIde().getSerie());
+        cboFreteModeloCte.getSelectionModel().select(cboFreteModeloCte.getItems().stream()
+                .filter(modeloCTe -> modeloCTe.getDescricao().equals(cteProc.getCTe().getInfCte().getIde().getMod()))
+                .findFirst().orElse(null));
+        cboFreteSistuacaoTributaria.getSelectionModel().select(cboFreteSistuacaoTributaria.getItems().stream()
+                .filter(sitTributaria -> sitTributaria.getId().equals(cteProc.getCTe().getInfCte().getImp().getICMS().getICMS00().getCST()))
+                .findFirst().orElse(null));
+        cboFreteTransportadora.getSelectionModel().select(cboFreteTransportadora.getItems().stream()
+                .filter(transportadora -> transportadora.getCnpj().equals(cteProc.getCTe().getInfCte().getEmit().getCNPJ()))
+                .findFirst().orElse(null));
         dtpFreteEmissao.setValue(LocalDateTime.parse(cteProc.getCTe().getInfCte().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE).toLocalDate());
+        txtFreteVlrCte.setText(cteProc.getCTe().getInfCte().getImp().getICMS().getICMS00().getVBC());
+        txtFretePesoBruto.setText(new BigDecimal(Double.parseDouble(cteProc.getCTe().getInfCte().getInfCTeNorm().getInfCarga().getInfQ().get(0).getQCarga())).setScale(2).toString());
+        List<TCTe.InfCte.InfCTeNorm.InfCarga.InfQ> list = cteProc.getCTe().getInfCte().getInfCTeNorm().getInfCarga().getInfQ();
+        for (int i = 0; i < list.size(); i++)
+            if (list.get(i).getTpMed().toLowerCase().equals("volume"))
+                txtFreteQtdVolume.setText(new BigDecimal(Double.parseDouble(cteProc.getCTe().getInfCte().getInfCTeNorm().getInfCarga().getInfQ().get(i).getQCarga())).setScale(0).toString());
+        List<TCTe.InfCte.VPrest.Comp> list1 = cteProc.getCTe().getInfCte().getVPrest().getComp();
+        Double vlr = 0., vlrB = 0., vlrI = 0., vlrT = 0.;
+        for (int i = 0; i < list1.size(); i++) {
+            vlr = Double.parseDouble(cteProc.getCTe().getInfCte().getVPrest().getComp().get(i).getVComp());
+            vlrT += vlr;
+            if (list1.get(i).getXNome().toLowerCase().equals("frete peso")) {
+                vlrB = vlr;
+                continue;
+            }
+            vlrI += vlr;
+        }
+        txtFreteVlrBruto.setText(new BigDecimal(vlrB).setScale(2).toString());
+        txtFreteVlrImposto.setText(new BigDecimal(vlrI).setScale(2, RoundingMode.HALF_UP).toString());
+        txtFreteVlrLiquido.setText(new BigDecimal(vlrT).setScale(2, RoundingMode.HALF_UP).toString());
+
         String chaveNFe;
-        if ((chaveNFe = cteProc.getCTe().getInfCte().getInfCTeNorm().getInfDoc().getInfNFe().get(0).getChave())!=null){
+        if ((chaveNFe = cteProc.getCTe().getInfCte().getInfCTeNorm().getInfDoc().getInfNFe().get(0).getChave()) != null) {
             txtChaveNfe.setText(chaveNFe);
 
         }
 
 
     }
+
+
+    void vlrFiscalVlrTotalTributo() {
+        Double vlrTributo = ServiceFormatarDado.getDoubleFromTextField(txtFiscalVlrTributo.getText());
+        Double vlrMulta = ServiceFormatarDado.getDoubleFromTextField(txtFiscalVlrMulta.getText());
+        Double vlrJuros = ServiceFormatarDado.getDoubleFromTextField(txtFiscalVlrJuros.getText());
+        Double vlrTaxa = ServiceFormatarDado.getDoubleFromTextField(txtFiscalVlrTaxa.getText());
+        Double vlrTotalTributo;
+        vlrTotalTributo = vlrTributo + vlrMulta + vlrJuros + vlrTaxa;
+        txtFiscalVlrTotalTributo.setText(new BigDecimal(vlrTotalTributo).setScale(2, RoundingMode.HALF_UP).toString());
+    }
+
+    void vlrFreteFiscalVlrTotalTributo() {
+        Double vlrFreteTotalTributo;
+        Double vlrFreteTributo = ServiceFormatarDado.getDoubleFromTextField(txtFreteFiscalVlrTributo.getText());
+        Double vlrFreteMulta = ServiceFormatarDado.getDoubleFromTextField(txtFreteFiscalVlrMulta.getText());
+        Double vlrFreteJuros = ServiceFormatarDado.getDoubleFromTextField(txtFreteFiscalVlrJuros.getText());
+        Double vlrFreteTaxa = ServiceFormatarDado.getDoubleFromTextField(txtFreteFiscalVlrTaxa.getText());
+        vlrFreteTotalTributo = vlrFreteTributo + vlrFreteMulta + vlrFreteJuros + vlrFreteTaxa;
+        txtFreteFiscalVlrTotalTributo.setText(new BigDecimal(vlrFreteTotalTributo).setScale(2, RoundingMode.HALF_UP).toString());
+    }
+
+    void vlrFiscalVlrPercentualTributo() {
+        Double vlrTotalNfe = ServiceFormatarDado.getDoubleFromTextField(txtFiscalVlrNFe.getText());
+        Double vlrTotalTributo = ServiceFormatarDado.getDoubleFromTextField(txtFiscalVlrTotalTributo.getText());
+        Double vlrPercTributo;
+        if (vlrTotalNfe == 0.)
+            vlrPercTributo = 0.;
+        else
+            vlrPercTributo = (vlrTotalTributo * 100) / vlrTotalNfe;
+        txtFiscalVlrPercentualTributo.setText(new BigDecimal(vlrPercTributo).setScale(2, RoundingMode.HALF_UP).toString());
+    }
+
+    void vlrFreteFiscalVlrPercentualTributo() {
+        Double vlrFretePercTributo;
+        Double vlrTotalCte = ServiceFormatarDado.getDoubleFromTextField(txtFreteVlrCte.getText());
+        Double vlrFreteTotalTributo = ServiceFormatarDado.getDoubleFromTextField(txtFreteFiscalVlrTotalTributo.getText());
+        if (vlrTotalCte == 0.)
+            vlrFretePercTributo = 0.;
+        else
+            vlrFretePercTributo = (vlrFreteTotalTributo * 100) / vlrTotalCte;
+        txtFreteFiscalVlrPercentualTributo.setText(new BigDecimal(vlrFretePercTributo).setScale(2, RoundingMode.HALF_UP).toString());
+    }
+
+    void vlrFreteLiquido() {
+        Double vlrFreteBruto = ServiceFormatarDado.getDoubleFromTextField(txtFreteVlrBruto.getText());
+        Double vlrFreteImposto = ServiceFormatarDado.getDoubleFromTextField(txtFreteVlrImposto.getText());
+        Double vlrFreteLiquido;
+        vlrFreteLiquido = vlrFreteBruto + vlrFreteImposto;
+        txtFreteVlrLiquido.setText(new BigDecimal(vlrFreteLiquido).setScale(2, RoundingMode.HALF_UP).toString());
+    }
+
 
 }
