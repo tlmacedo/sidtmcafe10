@@ -82,6 +82,9 @@ public class ServiceBuscaBancoDados {
                     case "blob1":
                         stmt.setBlob(i + 1, image[1]);
                         break;
+                    case "timestamp":
+                        stmt.setTimestamp(i + 1, Timestamp.valueOf(listParametro.get(i).getValue()));
+                        break;
                 }
             }
         } catch (SQLException e) {

@@ -31,9 +31,13 @@ import javafx.util.Pair;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -192,6 +196,12 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //            if (newValue && statusFormulario.toLowerCase().equals("pesquisa") && ttvProduto.getSelectionModel().getSelectedItem() != null)
 //                setProdutoVO(ttvProduto.getSelectionModel().getSelectedItem().getValue());
 //        });
+        ttvProduto.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+
+            }
+        });
 
         ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.intValue() < 0 || newValue.intValue() == oldValue.intValue()) return;
@@ -540,7 +550,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
             if (txtChaveNfe.isDisable()) return;
             try {
                 Dragboard board = event.getDragboard();
-                validaXmlNfeCte(true, new FileInputStream(fileArquivoNfeCte = board.getFiles().get(0)));
+                validaXmlNfeCte(true, new FileInputStream(fileArquivoNfeCte = new File(String.valueOf(board.getFiles().get(0)))));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -556,7 +566,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
             if (txtFreteChaveCte.isDisable()) return;
             try {
                 Dragboard board = event.getDragboard();
-                validaXmlNfeCte(false, new FileInputStream(fileArquivoNfeCte = board.getFiles().get(0)));
+                validaXmlNfeCte(false, new FileInputStream(fileArquivoNfeCte = new File(String.valueOf(board.getFiles().get(0)))));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -703,8 +713,8 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //                statusBarTecla = STATUS_BAR_TECLA_EDITAR;
                 break;
             case "pesquisa":
-                ServiceCampoPersonalizado.fieldDisable(painelViewEntradaProduto, true);
-                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoNfe.getContent(), false);
+//                ServiceCampoPersonalizado.fieldDisable(painelViewEntradaProduto, true);
+//                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoNfe.getContent(), false);
                 ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnDadoNfe.getContent());
                 cboLojaDestino.requestFocus();
                 statusBarTecla = STATUS_BAR_TECLA_PESQUISA;
@@ -747,8 +757,13 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         alertMensagem.setPromptText(String.format("%s, deseja guardar arquivo %s no repositorio do sistema?",
                 USUARIO_LOGADO_APELIDO, isNfe ? "Nf-e" : "Ct-e"));
         if (alertMensagem.getRetornoAlert_YES_NO().get() == ButtonType.NO) return;
-        File file = new File(String.valueOf(arquivo));
-        System.out.println("Move arquivo: [" + file.getName().toString() + "]");
+        try {
+            Files.copy(fileArquivoNfeCte.toPath(),
+                    Paths.get(PATH_DIR_XML_NFE_CTE + (isNfe ? "nfe" : "cte") + "/in", fileArquivoNfeCte.getName()),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     boolean validaXmlNfeCte(boolean isNfe, FileInputStream arquivo) {
@@ -759,6 +774,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 tNfeProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), TNfeProc.class);
                 txtChaveNfe.setText(tNfeProc.getNFe().getInfNFe().getId().replaceAll("\\D", ""));
                 msgConfirmaGuardarArquivoRepositorio(isNfe, arquivo);
+                exibirDadosXmlNfe();
             } else {
                 cteProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), CteProc.class);
                 txtFreteChaveCte.setText(cteProc.getCTe().getInfCte().getId().replaceAll("\\D", ""));
@@ -837,7 +853,6 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 
 
     }
-
 
     void vlrFiscalVlrTotalTributo() {
         Double vlrTributo = ServiceFormatarDado.getDoubleFromTextField(txtFiscalVlrTributo.getText());

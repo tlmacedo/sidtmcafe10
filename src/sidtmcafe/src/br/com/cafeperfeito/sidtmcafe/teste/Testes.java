@@ -5,6 +5,9 @@ import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -244,7 +247,6 @@ public class Testes {
 //
 
 
-
 //        //System.out.println("moeda2(123456): [" + new ServiceFormatarDado().getValorFormatado("1234567890123",15,"moeda", 3) + "]");
 //        System.out.println(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(new Date()));
 //        String date = "2017-03-08T12:30:54";
@@ -259,18 +261,27 @@ public class Testes {
 //        System.out.println("toLocalDate: [" + localDateTime.toLocalDate() + "]");
 
 
+// Arquivo a ser movido
+        File arquivo = new File("/Users/thiagomacedo/Desktop/35180906186733000220570010005423021009457382-cte.xml");
 
+        if (!arquivo.exists()) {
+            System.out.println("Arquivo não encontrado");
+        } else {
 
-        String location = "some.relative.path.txt";
-        File file = new File(location);
-        FileOutputStream f = new FileOutputStream(file);
-//        String question = "<h3>"+header+"</h3>";
-//        String finalSource = HTMLWrapper.HTML_START+question +htmlContent;
-//        f.write(finalSource.getBytes());
-//        f.flush();
-//        f.close();
-        System.out.println("The report is now available at"+file.getAbsolutePath());
+            // Diretorio de destino
+            File diretorioDestino = new File(PATH_DIR_XML_NFE_CTE + "cte/in/");
 
+            String fileName = arquivo.getName();
+            Files.move(arquivo.toPath(), Paths.get(PATH_CLASS_XML_NFE_CTE + "cte/in", fileName), StandardCopyOption.REPLACE_EXISTING);
+
+//            // Move o arquivo para o novo diretorio
+//            boolean sucesso = arquivo.renameTo(new File(diretorioDestino, arquivo.getName()));
+//            if (sucesso)
+//                System.out.println("Arquivo movido para '" + diretorioDestino.getAbsolutePath() + "'");
+//            else
+//                System.out.println("Erro ao mover arquivo '" + arquivo.getAbsolutePath() + "' para '"
+//                        + diretorioDestino.getAbsolutePath() + "'");
+        }
     }
 
 
