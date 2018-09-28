@@ -19,17 +19,17 @@ public class ServiceSegundoPlano implements Constants {
 
     int qtdTarefas = 1;
 
-    public void tarefaAbreCadastroEmpresa(Task voidTask, int qtdTarefas) {
+    public void tarefaAbreCadastro(Task voidTask, int qtdTarefas) {
         new ServiceAlertMensagem("Aguarde carregando dados do sistema...", "",
                 "ic_aguarde_sentado_orange_32dp.png")
                 .getProgressBar(voidTask, true, false, qtdTarefas);
     }
 
-    public void tarefaAbreCadastroProduto(Task voidTask, int qtdTarefas) {
-        new ServiceAlertMensagem("Aguarde carregando dados do sistema...", "",
-                "ic_aguarde_sentado_orange_32dp.png")
-                .getProgressBar(voidTask, true, false, qtdTarefas);
-    }
+//    public void tarefaAbreCadastroProduto(Task voidTask, int qtdTarefas) {
+//        new ServiceAlertMensagem("Aguarde carregando dados do sistema...", "",
+//                "ic_aguarde_sentado_orange_32dp.png")
+//                .getProgressBar(voidTask, true, false, qtdTarefas);
+//    }
 
 
 }

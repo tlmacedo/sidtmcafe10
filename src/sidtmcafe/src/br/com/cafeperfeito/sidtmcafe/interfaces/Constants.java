@@ -14,9 +14,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public interface Constants {
-    String COPYRIGHT = "Café Perfeito " + "\u00a9 " + LocalDate.now().getYear();
-    String LOJA_ID = "1";
-    int DDD_SISTEMA = 92;
+
+    /*
+     * Costants de referencia para o sistema
+     */
+    String SIS_COPYRIGHT = "Café Perfeito " + "\u00a9 " + LocalDate.now().getYear();
+    String SIS_TEMA = "orange";
+    String SIS_LOJA_ID = "1";
+    int SIS_DDD = 92;
+    int SIS_PORTA = 443;
+    Image SIS_PRODUTO_IMG_DEFAULT = null;
+    int SIS_PRODUTO_IMAGE_WIDTH = 250;
+    int SIS_PRODUTO_IMAGE_HEIGHT = 250;
+    String SIS_DOWNLOAD_IMAGE_TYPE = ".png";
+    String SIS_TOKEN_EXTENSAO = "cfg";
+    String SIS_CSS_STYLE_SHEETS = "/style/min/sidtm.min.css";
+    String SIS_PATH_DIR_IMAGE_DOWNLOAD = "/volumes/macOS/Usuários/thiagomacedo/Imagens/";
+
 
     /*
      * Cryptografia no Sistema
@@ -24,45 +38,17 @@ public interface Constants {
     String CRYPT_PALAVRA_CHAVE = "CafePerfeito.Com";
     String CRYPT_INITVECTOR = "RandomInitVector";
 
+
     /*
-     * NF-e
+     * Mascaras para formatação dos campos nos formularios
      */
+    String MASK_CARACTER_DIGITO = "#";
+    String MASK_CARACTER_UPPER = "U";
+    String MASK_CARACTER_LOWER = "L";
+    String MASK_CARACTER_DIGITO_TEXT = "A";
+    String MASK_CARACTER_INTERROGACAO = "?";
+    String MASK_CARACTER_ASTERISCO = "*";
 
-    int PORTA = 443;
-    String CACERT = "/Volumes/150GB-Development/Java/Intellij/sidtmcafe10/src/sidtmcafe/resources/certificado/cacert";
-    String NFE_CODIGO_ESTADO = "13";
-    String NFE_CACERT = "/Volumes/150GB-Development/Java/Intellij/sidtmcafe10/src/sidtmcafe/resources/certificado/";
-    String CERTIFICADO_A3_SENHA = ServiceCryptografia.decrypt("JZ4WgTIDJiviuZ7agiW2/A==");
-
-    //String REGEX_MASK_MOEDA_NUMERO = "#,###,###,###,###,###,##0";
-    String REGEX_MASK_MOEDA_NUMERO = "#,##0";
-    String REGEX_EXTENSAO_NFE = "\\.(xml|wsdl)";
-    String REGEX_EXTENSAO_IMAGENS = "\\.(jpg|jpeg|png|gif)";
-    String REGEX_CNPJ_CPF = "(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})|(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})";
-    //String REGEX_EMAIL = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}";
-    String REGEX_EMAIL = "([\\w\\-]+\\.)*[\\w\\- ]+@([\\w\\- ]+\\.)+([\\w\\-]{2,3})";
-    //String REGEX_HOME_PAGE = "[A-Z0-9._%+-]+[A-Z0-9.-]+\\.[A-Z]{2,6}";
-    String REGEX_HOME_PAGE = "((http)|(https)|(ftp)):\\/\\/([\\- \\w]+\\.)+\\w{2,3}(\\/ [%\\-\\w]+(\\.\\w{2,})?)*";
-    String REGEX_DDD = "(.(\\d{2}.))";
-    String REGEX_TELEFONE_DDD = "(.(\\d{2}.))?\\s9?\\d{4}-\\d{4}";
-    String REGEX_TELEFONE = "\\d{4}-\\d{4}";
-    String REGEX_PONTUACAO = "[ !\"$%&'()*+,-./:;_`{|}]";
-    Pair<String, String> REGEX_FS_CNPJ = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
-    Pair<String, String> REGEX_FS_CPF = new Pair<String, String>("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
-    Pair<String, String> REGEX_FS_CEP = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{3})", "$1.$2-$3");
-    Pair<String, String> REGEX_FS_TELEFONE = new Pair<String, String>("(\\d{1})?(\\d{4})(\\d{4})", "$1 $2-$3");
-    Pair<String, String> REGEX_FS_NCM = new Pair<String, String>("(\\d{4})(\\d{0,2})(\\d{0,2})", "$1.$2.$3");
-    Pair<String, String> REGEX_FS_CEST = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{2})", "$1.$2.$3");
-    Pair<String, String> REGEX_FS_NFE_CHAVE = new Pair<String, String>("(\\d{4}+)(\\d{4}?)", "$1 $2 ");
-    Pair<String, String> REGEX_FS_NFE_NUMERO = new Pair<String, String>("(\\d{3})?(\\d{3})", "$1.$2");
-    Pair<String, String> REGEX_FS_NFE_DOC_ORIGEM = new Pair<String, String>("(\\d{11})(\\d{1})", "$1-$2");
-
-    String CARACTER_DIGITO = "#";
-    String CARACTER_UPPER = "U";
-    String CARACTER_LOWER = "L";
-    String CARACTER_DIGITO_TEXT = "A";
-    String CARACTER_INTERROGACAO = "?";
-    String CARACTER_ASTERISCO = "*";
 
     /*
      * Constantes para conexão com banco de dados MySql
@@ -77,30 +63,57 @@ public interface Constants {
     String BD_URL = BD_DRIVER_CONN + BD_HOST + BD_PORTA + BD_DATABASE + "?useSSL=false";//"?useTimezone=true&serverTimezone=UTC&useSSL=true";
     String BD_DATABASE_STB = BD_HOST + BD_PORTA + BD_DATABASE;
 
-    /*
-     *Constants para estilos do sistema
-     *///macOS⁩ ▸ ⁨Usuários⁩ ▸ ⁨thiagomacedo⁩ ▸ ⁨Imagens⁩
-//    Image IMG_DEFAULT_PRODUTO = new Image("image/default/
-    /*
-                            <RadialGradient centerX="0.5056179775280899" centerY="0.5" cycleMethod="REFLECT" radius="0.7738095238095238">
-                           <stops>
-                              <Stop color="#ff6600" />
-                              <Stop color="#ff6600cc" offset="0.10738396886772511" />
-                              <Stop color="#ff6600cc" offset="0.19250040407305635" />
-                              <Stop color="#ff6600cc" offset="0.2545535925202969" />
-                              <Stop color="#ff6600cc" offset="0.38875557931643273" />
-                              <Stop color="#ff6600cb" offset="0.5721052827889741" />
-                              <Stop color="WHITE" offset="1.0" />
-                           </stops>
-                        </RadialGradient>
 
-<RadialGradient centerX="0.5056179775280899" centerY="0.5" cycleMethod="REFLECT" radius="1.0">
-                           <stops>
-                              <Stop color="#ff6600" />
-                              <Stop color="WHITE" offset="1.0" />
-                           </stops>
+    /*
+     * NF-e
      */
-    RadialGradient GRADIENT1 =
+    String NFE_CODIGO_ESTADO = "13";
+    String SENHA_CERTIFICADO_TOKEN_A3 = ServiceCryptografia.decrypt("JZ4WgTIDJiviuZ7agiW2/A==");
+
+
+    /*
+     * Paths para dados do sistema
+     */
+    String PATH_CLASS_IMAGE = "/image/";
+    String SIS_LOGO_240DP = PATH_CLASS_IMAGE + "ico/sis_logo_240dp.png";
+    String PATH_CLASS_ICONE = PATH_CLASS_IMAGE + "ico/" + SIS_TEMA + "/";
+    String PATH_CLASS_SPLASH_IMG = PATH_CLASS_IMAGE + "splash/";
+    String PATH_CLASS_TOKEN_LIB = "/certificado/";
+    String PATH_CLASS_ARQ_NFE_CACERT = PATH_CLASS_TOKEN_LIB + "cacert";
+    String PATH_CLASS_XML_NFE_CTE = "/xml/";
+    String PATH_CLASS_IMAGE_FAVICON = "/favicon/";
+    String PATH_CLASS_IMAGE_PAINEL = "/painel/";
+
+    String PATH_DIR = "/Volumes/150GB-Development/Java/Intellij/sidtmcafe10/src/sidtmcafe/resources/";
+    String PATH_DIR_TOKEN_LIB = PATH_DIR + "certificado/";
+    String PATH_DIR_ARQ_NFE_CACERT = PATH_DIR_TOKEN_LIB + "cacert";
+    String PATH_DIR_XML_NFE_CTE = PATH_DIR + "/xml/";
+    String PATH_DIR_IMAGE_FAVICON = PATH_DIR + "/favicon/";
+    String PATH_DIR_IMAGE_PAINEL = PATH_DIR + "/painel/";
+
+
+    /*
+     *FXML do sistema
+     */
+    String PATH_FXML = "/fxml/";
+    String FXML_LOGIN = PATH_FXML + "FxmlLogin.fxml";
+    String FXML_LOGIN_TITLE = "Login";
+    String FXML_LOGIN_ICON = PATH_CLASS_ICONE + "ic_cadeado_senha_24dp.png";
+
+    String FXML_PRINCIPAL = PATH_FXML + "FxmlPrincipal.fxml";
+    String FXML_PRINCIPAL_TITLE = "Café Perfeito";
+    String FXML_PRINCIPAL_ICON_ATIVO = PATH_CLASS_ICONE + "ic_principal_ativo_24dp.png";
+    String FXML_PRINCIPAL_ICON_DESATIVO = PATH_CLASS_ICONE + "ic_principal_desativo_24dp.png";
+
+    String FXML_CADASTRO_EMPRESA = PATH_FXML + "FxmlCadastroEmpresa.fxml";
+    String FXML_CADASTRO_PRODUTO = PATH_FXML + "FxmlCadastroProduto.fxml";
+    String FXML_ENTRADA_PRODUTO = PATH_FXML + "FxmlEntradaProduto.fxml";
+
+
+    /*
+     * Personalização do sistema
+     */
+    RadialGradient FUNDO_RADIAL_GRADIENT =
             new RadialGradient(0,
                     0,
                     0.5056179775280899,
@@ -110,60 +123,18 @@ public interface Constants {
                     new Stop(0.0, Color.color(1.0f, 0.4f, 0.0f, 1.0)),
                     new Stop(1.0, Color.color(1.0f, 1.0f, 1.0f, 1.0))
             );
-    Image IMG_DEFAULT_PRODUTO = null;
-    int IMG_PRODUTO_IMAGE_WIDTH = 250;
-    int IMG_PRODUTO_IMAGE_HEIGHT = 250;
-    String TYPE_IMAGE_DOWNLOAD = ".png";
-    String PATH_IMAGE_DOWNLOAD = System.getProperty("user.home") + "/Pictures/";
-    //String PATH_IMAGE_DOWNLOAD = "/volumes/macOS/Usuários/thiagomacedo/Imagens/";
-    String STYLE_SHEETS = "/style/min/sidtm.min.css";
-    String PATH_IMAGE = "/image/";
-    String PATH_FAVICON = PATH_IMAGE + "favicon/";
-    String PATH_PAINEL = PATH_IMAGE + "painel/";
-    String PATH_IC_MENU = PATH_IMAGE + "ico/menu/";
-    String PATH_IMG_SPLASH = PATH_IMAGE + "ico/splash/";
-
-    String PATH_IC_BLACK = "ico/black/";
-    String PATH_IC_ORANGE = "ico/orange/";
-    String PATH_IC_WHITE = "ico/white/";
-    String PATH_ICONE = PATH_IMAGE + PATH_IC_ORANGE;
-
-    String[] IMAGE_SPLASH = {
-            PATH_IMG_SPLASH + "img_splash_coffe_0.gif",
-            PATH_IMG_SPLASH + "img_splash_coffe_1.gif",
-            PATH_IMG_SPLASH + "img_splash_coffe_2.gif",
-            PATH_IMG_SPLASH + "img_splash_coffe_3.gif",
-            PATH_IMG_SPLASH + "img_splash_coffe_4.gif",
-            PATH_IMG_SPLASH + "img_splash_coffe_5.gif",
-            PATH_IMG_SPLASH + "img_splash_coffe_6.gif",
-            PATH_IMG_SPLASH + "img_splash_coffe_7.gif",
-            PATH_IMG_SPLASH + "img_splash_coffe_8.gif",
-            PATH_IMG_SPLASH + "img_splash_coffe_9.gif",
-            PATH_IMG_SPLASH + "img_splash_coffe_10.gif"};
-    String IC_CAFE_PERFEITO_240DP = PATH_IMAGE + "ico/ic_cafe_perfeito_240dp.png";
-    String PATH_TOKEN_LIB = "/certificado";
-    String EXTENSAO_ARQUIVO_TOKEN = "cfg";
-
-    /*
-     *FXML do sistema
-     */
-    String PATH_FXML = "/fxml/";
-    String FXML_LOGIN = PATH_FXML + "FxmlLogin.fxml";
-    String FXML_LOGIN_TITLE = "Login";
-    String FXML_LOGIN_ICON = PATH_ICONE + "ic_cadeado_senha_24dp.png";
-
-    String FXML_PRINCIPAL = PATH_FXML + "FxmlPrincipal.fxml";
-    String FXML_PRINCIPAL_TITLE = "Café Perfeito";
-
-    String FXML_PRINCIPAL_ICON_ATIVO = PATH_ICONE + "ic_principal_ativo_24dp.png";
-    String FXML_PRINCIPAL_ICON_DESATIVO = PATH_ICONE + "ic_principal_desativo_24dp.png";
-
-    String FXML_CADASTRO_EMPRESA = PATH_FXML + "FxmlCadastroEmpresa.fxml";
-//    String FXML_CADASTRO_EMPRESA = PATH_FXML + "teste.fxml";
-
-    String FXML_CADASTRO_PRODUTO = PATH_FXML + "FxmlCadastroProduto.fxml";
-
-    String FXML_ENTRADA_PRODUTO = PATH_FXML + "FxmlEntradaProduto.fxml";
+    String[] SPLASH_IMAGENS = {
+            PATH_CLASS_SPLASH_IMG + "img_splash_coffe_0.gif",
+            PATH_CLASS_SPLASH_IMG + "img_splash_coffe_1.gif",
+            PATH_CLASS_SPLASH_IMG + "img_splash_coffe_2.gif",
+            PATH_CLASS_SPLASH_IMG + "img_splash_coffe_3.gif",
+            PATH_CLASS_SPLASH_IMG + "img_splash_coffe_4.gif",
+            PATH_CLASS_SPLASH_IMG + "img_splash_coffe_5.gif",
+            PATH_CLASS_SPLASH_IMG + "img_splash_coffe_6.gif",
+            PATH_CLASS_SPLASH_IMG + "img_splash_coffe_7.gif",
+            PATH_CLASS_SPLASH_IMG + "img_splash_coffe_8.gif",
+            PATH_CLASS_SPLASH_IMG + "img_splash_coffe_9.gif",
+            PATH_CLASS_SPLASH_IMG + "img_splash_coffe_10.gif"};
 
 
     /*
@@ -239,5 +210,25 @@ public interface Constants {
     String WS_PORTABILIDADE_CELULAR_URL = String.format("http://consultas.portabilidadecelular.com/painel/consulta_numero.php?%s&%s&search_number=",
             WS_PORTABILIDADE_CELULAR_USER, WS_PORTABILIDADE_CELULAR_PASS);
 
+
+    String REGEX_MASK_MOEDA_NUMERO = "#,##0";
+    String REGEX_EXTENSAO_NFE = "\\.(xml|wsdl)";
+    String REGEX_EXTENSAO_IMAGENS = "\\.(jpg|jpeg|png|gif)";
+    String REGEX_CNPJ_CPF = "(\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})|(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})";
+    String REGEX_EMAIL = "([\\w\\-]+\\.)*[\\w\\- ]+@([\\w\\- ]+\\.)+([\\w\\-]{2,3})";
+    String REGEX_HOME_PAGE = "((http)|(https)|(ftp)):\\/\\/([\\- \\w]+\\.)+\\w{2,3}(\\/ [%\\-\\w]+(\\.\\w{2,})?)*";
+    String REGEX_DDD = "(.(\\d{2}.))";
+    String REGEX_TELEFONE_DDD = "(.(\\d{2}.))?\\s9?\\d{4}-\\d{4}";
+    String REGEX_TELEFONE = "\\d{4}-\\d{4}";
+    String REGEX_PONTUACAO = "[ !\"$%&'()*+,-./:;_`{|}]";
+    Pair<String, String> REGEX_FS_CNPJ = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
+    Pair<String, String> REGEX_FS_CPF = new Pair<String, String>("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
+    Pair<String, String> REGEX_FS_CEP = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{3})", "$1.$2-$3");
+    Pair<String, String> REGEX_FS_TELEFONE = new Pair<String, String>("(\\d{1})?(\\d{4})(\\d{4})", "$1 $2-$3");
+    Pair<String, String> REGEX_FS_NCM = new Pair<String, String>("(\\d{4})(\\d{0,2})(\\d{0,2})", "$1.$2.$3");
+    Pair<String, String> REGEX_FS_CEST = new Pair<String, String>("(\\d{2})(\\d{3})(\\d{2})", "$1.$2.$3");
+    Pair<String, String> REGEX_FS_NFE_CHAVE = new Pair<String, String>("(\\d{4}+)(\\d{4}?)", "$1 $2 ");
+    Pair<String, String> REGEX_FS_NFE_NUMERO = new Pair<String, String>("(\\d{3})?(\\d{3})", "$1.$2");
+    Pair<String, String> REGEX_FS_NFE_DOC_ORIGEM = new Pair<String, String>("(\\d{11})(\\d{1})", "$1-$2");
 
 }

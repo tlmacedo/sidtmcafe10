@@ -47,7 +47,7 @@ public class ServiceCampoPersonalizado implements Constants {
             else if (node instanceof ImageView)
                 ((ImageView) node).setImage(null);
             else if (node instanceof Circle)
-                ((Circle) node).setFill(GRADIENT1);
+                ((Circle) node).setFill(FUNDO_RADIAL_GRADIENT);
             else if (node instanceof JFXListView)
                 ((JFXListView) node).getItems().clear();
             else if (node instanceof AnchorPane)

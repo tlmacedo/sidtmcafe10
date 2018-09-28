@@ -46,7 +46,7 @@ public class WsEanCosmosDAO extends ServiceBuscaWebService implements Constants 
         Image imageTmp[] = new Image[2];
         if (produto.getImgProduto() != null)
             produto.setImgProdutoBack(produto.getImgProduto());
-        imageTmp[0] = IMG_DEFAULT_PRODUTO;
+        imageTmp[0] = SIS_PRODUTO_IMG_DEFAULT;
         imageTmp[1] = new ServiceEan13(busca).createBarcodePNG();
         if (!retorno.equals("")) {
             HashMap hashMap = ServiceFormatarDado.getFieldFormatMap(retorno);
@@ -58,7 +58,7 @@ public class WsEanCosmosDAO extends ServiceBuscaWebService implements Constants 
                 produto.setCest(hashMap.get("cest").toString());
             if (hashMap.containsKey("imgProduto"))
                 if ((imageTmp[0] = ServiceImage.getImagemFromUrl(hashMap.get("imgProduto").toString())) == null)
-                    imageTmp[0] = IMG_DEFAULT_PRODUTO;
+                    imageTmp[0] = SIS_PRODUTO_IMG_DEFAULT;
         } else {
             retorno = "";
         }

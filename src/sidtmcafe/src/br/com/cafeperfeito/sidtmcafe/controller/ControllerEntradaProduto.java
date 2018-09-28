@@ -21,10 +21,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.control.*;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -32,13 +29,12 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
 
-import javax.xml.bind.JAXBException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -46,9 +42,9 @@ import java.util.regex.Pattern;
 
 public class ControllerEntradaProduto extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
 
+    File fileArquivoNfeCte;
     public JFXTextField txtFreteFiscalVlrNFe;
     public JFXTextField txtFiscalVlrNFe;
-    String pathUltimoArquivoNfeCte;
     public AnchorPane painelViewEntradaProduto;
     public TitledPane tpnDadoNfe;
     public TitledPane tpnDetalheNfe;
@@ -133,7 +129,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //        listaTarefa.add(new Pair("preencherCboFiscalCofins", "preenchendo dados fiscal COFINS"));
 //
 //
-        new ServiceSegundoPlano().tarefaAbreCadastroProduto(getTaskEntradaProduto(), listaTarefa.size());
+        new ServiceSegundoPlano().tarefaAbreCadastro(getTaskEntradaProduto(), listaTarefa.size());
     }
 
     @Override
@@ -544,7 +540,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
             if (txtChaveNfe.isDisable()) return;
             try {
                 Dragboard board = event.getDragboard();
-                preencheNFeEntradaProduto(new FileInputStream(board.getFiles().get(0)));
+                validaXmlNfeCte(true, new FileInputStream(fileArquivoNfeCte = board.getFiles().get(0)));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -560,7 +556,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
             if (txtFreteChaveCte.isDisable()) return;
             try {
                 Dragboard board = event.getDragboard();
-                preencheCTeEntradaProduto(new FileInputStream(board.getFiles().get(0)));
+                validaXmlNfeCte(false, new FileInputStream(fileArquivoNfeCte = board.getFiles().get(0)));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -579,11 +575,13 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         Platform.runLater(() -> ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7)));
     }
 
-    static String STATUS_BAR_TECLA_PESQUISA = "[F1-Novo]  [F4-Editar]  [F7-Pesquisar]  [F12-Sair]  ";
+    static String STATUS_BAR_TECLA_PESQUISA = "[F1-Novo]  [F2-Incluir Itens]  [F4-Editar]  [F7-Pesquisar]  [F12-Sair]  ";
+    static String STATUS_BAR_TECLA_INCLUIR = "[F1-Novo]  [F2-Finalizar NFe]  [F3-Cancelar inclusão]  ";
     static String STATUS_BAR_TECLA_EDITAR = "[F3-Cancelar edição]  [F5-Atualizar]  ";
-    static String STATUS_BAR_TECLA_INCLUIR = "[F2-Incluir]  [F3-Cancelar inclusão]  ";
 
     EventHandler<KeyEvent> eventHandlerEntradaProduto;
+    TNfeProc tNfeProc;
+    CteProc cteProc;
     Pattern p;
     TabModel modelProduto;
     ObservableList<TabEmpresaVO> empresaVOObservableList;
@@ -743,23 +741,42 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         produtoVOFilteredList = new FilteredList<>(produtoVOObservableList = FXCollections.observableArrayList(new TabProdutoDAO().getTabProdutoVOList()));
     }
 
-//    public void carregarListaProduto() {
-//        produtoVOObservableList = FXCollections.observableArrayList(new TabProdutoDAO().getProdutoVOList());
-//    }
+    void msgConfirmaGuardarArquivoRepositorio(boolean isNfe, FileInputStream arquivo) {
+        alertMensagem.setStrIco("ic_repositorio_git_24dp.png");
+        alertMensagem.setCabecalho(String.format("Repositorio"));
+        alertMensagem.setPromptText(String.format("%s, deseja guardar arquivo %s no repositorio do sistema?",
+                USUARIO_LOGADO_APELIDO, isNfe ? "Nf-e" : "Ct-e"));
+        if (alertMensagem.getRetornoAlert_YES_NO().get() == ButtonType.NO) return;
+        File file = new File(String.valueOf(arquivo));
+        System.out.println("Move arquivo: [" + file.getName().toString() + "]");
+    }
 
-    void preencheNFeEntradaProduto(FileInputStream arquivo) throws JAXBException {
-        TNfeProc tNfeProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), TNfeProc.class);
+    boolean validaXmlNfeCte(boolean isNfe, FileInputStream arquivo) {
+        alertMensagem = new ServiceAlertMensagem();
+        if (!fileArquivoNfeCte.exists()) return false;
         try {
-            txtChaveNfe.setText(tNfeProc.getNFe().getInfNFe().getId().replaceAll("\\D", ""));
+            if (isNfe) {
+                tNfeProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), TNfeProc.class);
+                txtChaveNfe.setText(tNfeProc.getNFe().getInfNFe().getId().replaceAll("\\D", ""));
+                msgConfirmaGuardarArquivoRepositorio(isNfe, arquivo);
+            } else {
+                cteProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), CteProc.class);
+                txtFreteChaveCte.setText(cteProc.getCTe().getInfCte().getId().replaceAll("\\D", ""));
+                msgConfirmaGuardarArquivoRepositorio(isNfe, arquivo);
+                exibirDadosXmlCte();
+            }
         } catch (Exception ex) {
-            alertMensagem = new ServiceAlertMensagem();
             alertMensagem.setStrIco("ic_xml_24dp.png");
             alertMensagem.setCabecalho(String.format("Arquivo inválido"));
-            alertMensagem.setPromptText(String.format("%s, arquivo NF-e inválido!", USUARIO_LOGADO_APELIDO));
+            alertMensagem.setPromptText(String.format("%s, arquivo %s inválido!", USUARIO_LOGADO_APELIDO, isNfe ? "Nf-e" : "Ct-e"));
             alertMensagem.getRetornoAlert_OK();
-            txtChaveNfe.requestFocus();
-            return;
+            txtFreteChaveCte.requestFocus();
+            return false;
         }
+        return true;
+    }
+
+    void exibirDadosXmlNfe() {
         cboLojaDestino.getSelectionModel().select(cboLojaDestino.getItems().stream()
                 .filter(lojaDestino -> lojaDestino.getCnpj().equals(tNfeProc.getNFe().getInfNFe().getDest().getCNPJ()))
                 .findFirst().orElse(null));
@@ -771,24 +788,11 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 .findFirst().orElse(null));
         txtNumeroNfe.setText(tNfeProc.getNFe().getInfNFe().getIde().getNNF());
         txtNumeroSerie.setText(tNfeProc.getNFe().getInfNFe().getIde().getSerie());
-        dtpEmissaoNfe.setValue(LocalDateTime.parse(tNfeProc.getNFe().getInfNFe().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE).toLocalDate());
+        dtpEmissaoNfe.setValue(LocalDate.parse(tNfeProc.getNFe().getInfNFe().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE));
         dtpEntradaNfe.setValue(LocalDate.now());
-
     }
 
-    void preencheCTeEntradaProduto(FileInputStream arquivo) throws JAXBException {
-        CteProc cteProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), CteProc.class);
-        try {
-            txtFreteChaveCte.setText(cteProc.getCTe().getInfCte().getId().replaceAll("\\D", ""));
-        } catch (Exception ex) {
-            alertMensagem = new ServiceAlertMensagem();
-            alertMensagem.setStrIco("ic_xml_24dp.png");
-            alertMensagem.setCabecalho(String.format("Arquivo inválido"));
-            alertMensagem.setPromptText(String.format("%s, arquivo CT-e inválido!", USUARIO_LOGADO_APELIDO));
-            alertMensagem.getRetornoAlert_OK();
-            txtFreteChaveCte.requestFocus();
-            return;
-        }
+    void exibirDadosXmlCte() {
         cboFreteTomadorServico.getSelectionModel().select(cboFreteTomadorServico.getItems().stream()
                 .filter(tomadorServico -> tomadorServico.getId() == Integer.parseInt(cteProc.getCTe().getInfCte().getIde().getToma3().getToma()))
                 .findFirst().orElse(null));
@@ -803,7 +807,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         cboFreteTransportadora.getSelectionModel().select(cboFreteTransportadora.getItems().stream()
                 .filter(transportadora -> transportadora.getCnpj().equals(cteProc.getCTe().getInfCte().getEmit().getCNPJ()))
                 .findFirst().orElse(null));
-        dtpFreteEmissao.setValue(LocalDateTime.parse(cteProc.getCTe().getInfCte().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE).toLocalDate());
+        dtpFreteEmissao.setValue(LocalDate.parse(cteProc.getCTe().getInfCte().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE));
         txtFreteVlrCte.setText(cteProc.getCTe().getInfCte().getImp().getICMS().getICMS00().getVBC());
         txtFretePesoBruto.setText(new BigDecimal(Double.parseDouble(cteProc.getCTe().getInfCte().getInfCTeNorm().getInfCarga().getInfQ().get(0).getQCarga())).setScale(2).toString());
         List<TCTe.InfCte.InfCTeNorm.InfCarga.InfQ> list = cteProc.getCTe().getInfCte().getInfCTeNorm().getInfCarga().getInfQ();
@@ -884,6 +888,5 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         vlrFreteLiquido = vlrFreteBruto + vlrFreteImposto;
         txtFreteVlrLiquido.setText(new BigDecimal(vlrFreteLiquido).setScale(2, RoundingMode.HALF_UP).toString());
     }
-
 
 }

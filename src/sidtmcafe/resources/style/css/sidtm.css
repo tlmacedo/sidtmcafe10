@@ -6,13 +6,13 @@
 .jfx-combo-box, .combo-box {
   -fx-font-family: sans-serif;
   -fx-text-fill: #000000;
-  -fx-font-size: 12px;
+  -fx-font-size: 10px;
   -fx-font-style: normal;
   -jfx-focus-color: #FF6600;
   -jfx-unfocus-color: #000000;
   -jfx-label-float: true; }
-  .view-cadastro-empresa .jfx-combo-box, .view-cadastro-produto .jfx-combo-box, .view-cadastro-empresa .combo-box, .view-cadastro-produto .combo-box {
-    -fx-font-size: 10px; }
+  .view-login .jfx-combo-box, .view-login .combo-box {
+    -fx-font-size: 12px; }
 
 .list-view {
   -fx-background-color: -fx-box-border, -fx-control-inner-background; }
@@ -44,6 +44,16 @@
     .list-view.endereco .list-cell:odd {
       -fx-background-color: derive(-fx-control-inner-background, -12%); }
     .list-view.endereco .list-cell:filled:selected {
+      -fx-background-color: -fx-selection-bar;
+      -fx-text-fill: -fx-selection-bar-text; }
+  .list-view.produtoCodBarra .list-cell {
+    -fx-pref-height: 60;
+    -fx-background-colobr: -fx-control-inner-background;
+    -fx-text-fill: #000000;
+    -fx-padding: 0 0 0 3; }
+    .list-view.produtoCodBarra .list-cell:odd {
+      -fx-background-color: derive(-fx-control-inner-background, -12%); }
+    .list-view.produtoCodBarra .list-cell:filled:selected {
       -fx-background-color: -fx-selection-bar;
       -fx-text-fill: -fx-selection-bar-text; }
 

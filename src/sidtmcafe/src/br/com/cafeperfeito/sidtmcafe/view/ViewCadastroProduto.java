@@ -34,7 +34,7 @@ public class ViewCadastroProduto implements Constants {
 
         try {
             parent = FXMLLoader.load(getClass().getResource(FXML_CADASTRO_PRODUTO));
-            parent.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
+            parent.getStylesheets().setAll(getClass().getResource(SIS_CSS_STYLE_SHEETS).toString());
 
             setTab(new Tab(tituloJanela));
             getTab().setContent(parent);

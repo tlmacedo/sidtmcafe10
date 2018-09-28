@@ -19,7 +19,7 @@ public class SisTelefoneOperadoraVO extends RecursiveTreeObject<SisTelefoneOpera
         String[] wsDetalhe = wsDetalhes.replace(" ", "").split("-");
         this.descricao = new SimpleStringProperty(wsDetalhe[0]);
         this.tipo = new SimpleIntegerProperty(wsDetalhe[1].toLowerCase().contains("fixo") ? 0 : 1);
-        this.codigoDDD = new SimpleIntegerProperty(DDD_SISTEMA);
+        this.codigoDDD = new SimpleIntegerProperty(SIS_DDD);
         this.codigoWs = new SimpleStringProperty(codigoWs);
     }
 

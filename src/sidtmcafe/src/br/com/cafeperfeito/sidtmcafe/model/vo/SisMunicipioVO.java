@@ -95,7 +95,7 @@ public class SisMunicipioVO extends RecursiveTreeObject<SisMunicipioVO> implemen
     }
 
     public IntegerProperty dddProperty() {
-        if (ddd == null) ddd = new SimpleIntegerProperty(DDD_SISTEMA);
+        if (ddd == null) ddd = new SimpleIntegerProperty(SIS_DDD);
         return ddd;
     }
 

@@ -125,7 +125,7 @@ public class ServiceValidarDado implements Constants {
             md = pd.matcher(m.group());
             if (md.find())
                 ddd = md.group().replaceAll("\\D", "");
-            if (ddd.equals("")) ddd = String.valueOf(DDD_SISTEMA);
+            if (ddd.equals("")) ddd = String.valueOf(SIS_DDD);
 
             mt = pt.matcher(m.group());
             if (mt.find())

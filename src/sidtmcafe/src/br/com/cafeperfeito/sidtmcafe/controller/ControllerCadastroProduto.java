@@ -114,7 +114,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
         listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
 
-        new ServiceSegundoPlano().tarefaAbreCadastroProduto(getTaskCadastroProduto(), listaTarefa.size());
+        new ServiceSegundoPlano().tarefaAbreCadastro(getTaskCadastroProduto(), listaTarefa.size());
     }
 
     @Override
@@ -717,12 +717,12 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         if (getProdutoVO().getImgProduto() != null)
             getProdutoVO().setImgProdutoBack(getProdutoVO().getImgProduto());
         getProdutoVO().setImgProduto(ServiceImage.getImageResized(image,
-                IMG_PRODUTO_IMAGE_WIDTH, Constants.IMG_PRODUTO_IMAGE_HEIGHT));
+                SIS_PRODUTO_IMAGE_WIDTH, Constants.SIS_PRODUTO_IMAGE_HEIGHT));
         refreshImageProduto();
     }
 
     void refreshImageProduto() {
-        imgCirculo.setFill(GRADIENT1);
+        imgCirculo.setFill(FUNDO_RADIAL_GRADIENT);
         if (getProdutoVO().getImgProduto() == null) return;
         imgCirculo.setFill(new ImagePattern(getProdutoVO().getImgProduto()));
     }

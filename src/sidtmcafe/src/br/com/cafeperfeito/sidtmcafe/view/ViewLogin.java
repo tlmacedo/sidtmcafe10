@@ -37,7 +37,7 @@ public class ViewLogin implements Constants {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.getIcons().setAll(new Image(getClass().getResource(FXML_LOGIN_ICON).toString()));
         scene.setFill(Color.TRANSPARENT);
-        scene.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
+        scene.getStylesheets().setAll(getClass().getResource(SIS_CSS_STYLE_SHEETS).toString());
 
         new ServiceOpenView(stage, showAndWait);
 

@@ -9,8 +9,8 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.CACERT;
-import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.PORTA;
+import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.PATH_CLASS_ARQ_NFE_CACERT;
+import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.SIS_PORTA;
 
 public class NFeBuildAllCacert {
 
@@ -23,7 +23,7 @@ public class NFeBuildAllCacert {
     }
 
     private static void gerarCacert(List<String> listaEnderecos) {
-        cacert = CACERT;
+        cacert = PATH_CLASS_ARQ_NFE_CACERT;
         try {
             // Se não For informado Nenhuma LIsta, carrega a padrão
             if (listaEnderecos == null || listaEnderecos.isEmpty()) {
@@ -73,7 +73,7 @@ public class NFeBuildAllCacert {
             SSLSocketFactory factory = context.getSocketFactory();
 
             info("| Abrindo conexão com " + host + ":443...");
-            SSLSocket socket = (SSLSocket) factory.createSocket(host, PORTA);
+            SSLSocket socket = (SSLSocket) factory.createSocket(host, SIS_PORTA);
             socket.setSoTimeout(TIMEOUT_WS * 1000);
             try {
                 info("| Iniciando SSL handshake...");

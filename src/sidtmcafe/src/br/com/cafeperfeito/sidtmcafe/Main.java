@@ -16,7 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Locale.setDefault(LOCALE_MY);
 
-//        new ViewLogin().openViewLogin(false);
+        //new ViewLogin().openViewLogin(false);
 
         ServiceVariavelSistema.newServiceVariavelSistema(null);
         new ViewPrincipal().openViewPrincipal();

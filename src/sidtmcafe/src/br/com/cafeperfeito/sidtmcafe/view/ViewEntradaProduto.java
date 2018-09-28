@@ -33,7 +33,7 @@ public class ViewEntradaProduto implements Constants {
         Parent parent;
         try {
             parent = FXMLLoader.load(getClass().getResource(FXML_ENTRADA_PRODUTO));
-            parent.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
+            parent.getStylesheets().setAll(getClass().getResource(SIS_CSS_STYLE_SHEETS).toString());
 
             setTab(new Tab(tituloJanela));
             getTab().setContent(parent);

@@ -138,18 +138,18 @@ public class TabColaboradorVO {
     public String getDetalheColaborador() {
         StringBuilder detColaborador = new StringBuilder();
         Optional.ofNullable(nomeProperty().get()).ifPresent(c ->
-                detColaborador.append(String.format("usuario::%s;", nomeProperty().get()))
+                detColaborador.append(String.format("usuario: %s;", nomeProperty().get()))
         );
         Optional.ofNullable(apelidoProperty().get()).ifPresent(c ->
-                detColaborador.append(String.format("apelido::%s;", apelidoProperty().get()))
+                detColaborador.append(String.format("apelido: %s;", apelidoProperty().get()))
         );
         Optional.ofNullable(sisCargoVO).ifPresent(c ->
-                detColaborador.append(String.format("cargo::%s;", sisCargoVO.getDescricao()))
+                detColaborador.append(String.format("cargo: %s;", sisCargoVO.getDescricao()))
         );
         Optional.ofNullable(lojaVO).ifPresent(c -> {
-            detColaborador.append(String.format("loja::%s;", lojaVO.getFantasia()));
+            detColaborador.append(String.format("loja: %s;", lojaVO.getFantasia()));
             Optional.ofNullable(lojaVO.getTabEnderecoVOList().get(0)).ifPresent(c1 ->
-                    detColaborador.append(String.format("end::%s;", (String.format(" %s, %s - %s", lojaVO.getTabEnderecoVOList().get(0).getLogradouro(), lojaVO.getTabEnderecoVOList().get(0).getNumero(), lojaVO.getTabEnderecoVOList().get(0).getBairro()))))
+                    detColaborador.append(String.format("end: %s;", (String.format(" %s, %s - %s", lojaVO.getTabEnderecoVOList().get(0).getLogradouro(), lojaVO.getTabEnderecoVOList().get(0).getNumero(), lojaVO.getTabEnderecoVOList().get(0).getBairro()))))
             );
         });
         return detColaborador.toString();

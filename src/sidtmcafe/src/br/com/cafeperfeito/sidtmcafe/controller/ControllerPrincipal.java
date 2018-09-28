@@ -64,7 +64,7 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
 
     @Override
     public void preencherObjetos() {
-        lblCopyRight.setText(COPYRIGHT);
+        lblCopyRight.setText(SIS_COPYRIGHT);
         List<SisMenuPrincipalVO> sisMenuPrincipalVOList = new SisMenuPrincipalDAO().getMenuPrincipalVOList();
         TreeItem[] treeItems = new TreeItem[sisMenuPrincipalVOList.size() + 1];
         treeItems[0] = new TreeItem();
@@ -73,7 +73,7 @@ public class ControllerPrincipal extends ServiceVariavelSistema implements Initi
             if (menu.getIcoMenu() == null)
                 treeItems[i] = new TreeItem(menu);
             else
-                treeItems[i] = new TreeItem(menu, new ImageView(getClass().getResource(PATH_ICONE + menu.getIcoMenu()).toString()));
+                treeItems[i] = new TreeItem(menu, new ImageView(getClass().getResource(PATH_CLASS_ICONE + menu.getIcoMenu()).toString()));
             treeItems[i].setExpanded(true);
             treeItems[menu.getFilho_id()].getChildren().add(treeItems[i]);
         }

@@ -143,7 +143,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
 
         dialog.initStyle(StageStyle.TRANSPARENT);
         dialogPane.getScene().setFill(Color.TRANSPARENT);
-        dialogPane.getStylesheets().setAll(getClass().getResource(STYLE_SHEETS).toString());
+        dialogPane.getStylesheets().setAll(getClass().getResource(SIS_CSS_STYLE_SHEETS).toString());
 
         dialogPane.getButtonTypes().clear();
     }
@@ -156,7 +156,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
             dialog.setContentText(getPromptText());
             if (!getStrIco().equals(""))
                 try {
-                    dialog.setGraphic(new ImageView(this.getClass().getResource(PATH_ICONE + getStrIco() + (getStrIco().contains(".png") ? "" : ".png")).toString()));
+                    dialog.setGraphic(new ImageView(this.getClass().getResource(PATH_CLASS_ICONE + getStrIco() + (getStrIco().contains(".png") ? "" : ".png")).toString()));
                 } catch (Exception ex) {
 
                 }
@@ -175,9 +175,9 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         lblMensagem = new Label();
         lblMensagem.getStyleClass().add("msg");
         if (transparenteDialog) {
-            int random = (int) (Math.random() * IMAGE_SPLASH.length);
+            int random = (int) (Math.random() * SPLASH_IMAGENS.length);
             imageViewDialog = new ImageView();
-            addImagem(IMAGE_SPLASH[random]);
+            addImagem(SPLASH_IMAGENS[random]);
             vBoxDialog.getChildren().add(imageViewDialog);
             vBoxDialog.getChildren().add(lblMensagem);
         } else {
@@ -302,7 +302,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
             if (!showAndWait) {
                 closeDialog();
             } else {
-                addImagem(IC_CAFE_PERFEITO_240DP);
+                addImagem(SIS_LOGO_240DP);
                 btnOk.setDisable(false);
                 if (getResultPromptText() != null) {
                     lblMensagem.setText(getResultPromptText());

@@ -121,7 +121,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
         listaTarefa.add(new Pair("preencherTabelaEmpresa", "preenchendo tabela empresa"));
 
-        new ServiceSegundoPlano().tarefaAbreCadastroEmpresa(getTaskCadastroEmpresa(), listaTarefa.size());
+        new ServiceSegundoPlano().tarefaAbreCadastro(getTaskCadastroEmpresa(), listaTarefa.size());
 
         formatCnpj = new ServiceFormatarDado();
         formatCnpj.maskField(txtCNPJ, 0, "cnpj", 0);
@@ -362,7 +362,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
         cboEndMunicipio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) {
-                ddd = DDD_SISTEMA;
+                ddd = SIS_DDD;
                 return;
             }
             ddd = newValue.getDdd();
@@ -485,7 +485,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewCadastroEmpresa.getTituloJanela();
     Boolean isEndereco, isEmail, isHomePage, isTelefone, isEmpresa, isContato;
-    int ddd = DDD_SISTEMA;
+    int ddd = SIS_DDD;
 
     Task getTaskCadastroEmpresa() {
         int qtdTarefas = listaTarefa.size();
