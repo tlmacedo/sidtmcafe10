@@ -10,13 +10,58 @@ import java.sql.Timestamp;
 
 public class TabEntradaProdutoVO extends RecursiveTreeObject<TabEntradaProdutoVO> {
 
+    TabEmpresaVO lojaDestinoVO, fornecedorVO;
+    FiscalModeloNfeCteVO modeloNfeCteVO;
+    SisStatusNfeVO statusNfeVO;
+    TabEntradaProduto_Fiscal_NfeVO fiscal_nfeVO;
+
     Timestamp dataEmissaoNfe, dataEntradaNfe;
 
-    IntegerProperty id, lojaDestino_id, numeroNfe, serieNfe, modeloNfeCte_id, fornecedor_id, fiscal_id, frete_id;
+    IntegerProperty id, lojaDestino_id, numeroNfe, serieNfe, modeloNfeCte_id, fornecedor_id, statusNfe_id, fiscal_id, frete_id;
     StringProperty chaveNfe;
 
 
     public TabEntradaProdutoVO() {
+    }
+
+    public TabEmpresaVO getLojaDestinoVO() {
+        return lojaDestinoVO;
+    }
+
+    public void setLojaDestinoVO(TabEmpresaVO lojaDestinoVO) {
+        this.lojaDestinoVO = lojaDestinoVO;
+    }
+
+    public TabEmpresaVO getFornecedorVO() {
+        return fornecedorVO;
+    }
+
+    public void setFornecedorVO(TabEmpresaVO fornecedorVO) {
+        this.fornecedorVO = fornecedorVO;
+    }
+
+    public FiscalModeloNfeCteVO getModeloNfeCteVO() {
+        return modeloNfeCteVO;
+    }
+
+    public void setModeloNfeCteVO(FiscalModeloNfeCteVO modeloNfeCteVO) {
+        this.modeloNfeCteVO = modeloNfeCteVO;
+    }
+
+    public SisStatusNfeVO getStatusNfeVO() {
+        return statusNfeVO;
+    }
+
+    public void setStatusNfeVO(SisStatusNfeVO statusNfeVO) {
+        this.statusNfeVO = statusNfeVO;
+    }
+
+    public TabEntradaProduto_Fiscal_NfeVO getFiscal_nfeVO() {
+        return fiscal_nfeVO;
+    }
+
+    public void setFiscal_nfeVO(TabEntradaProduto_Fiscal_NfeVO fiscal_nfeVO) {
+        this.fiscal_nfeVO = fiscal_nfeVO;
     }
 
     public Timestamp getDataEmissaoNfe() {
@@ -111,6 +156,19 @@ public class TabEntradaProdutoVO extends RecursiveTreeObject<TabEntradaProdutoVO
 
     public void setFornecedor_id(int fornecedor_id) {
         fornecedor_idProperty().set(fornecedor_id);
+    }
+
+    public int getStatusNfe_id() {
+        return statusNfe_idProperty().get();
+    }
+
+    public IntegerProperty statusNfe_idProperty() {
+        if (statusNfe_id == null) statusNfe_id = new SimpleIntegerProperty(0);
+        return statusNfe_id;
+    }
+
+    public void setStatusNfe_id(int statusNfe_id) {
+        statusNfe_idProperty().set(statusNfe_id);
     }
 
     public int getFiscal_id() {

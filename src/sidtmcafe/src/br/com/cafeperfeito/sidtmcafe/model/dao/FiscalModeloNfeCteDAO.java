@@ -19,6 +19,12 @@ public class FiscalModeloNfeCteDAO extends ServiceBuscaBancoDados {
         return fiscalModeloNfeCteVO;
     }
 
+    public FiscalModeloNfeCteVO getFiscalModeloNfeCteVO(String descricao) {
+        addNewParametro(new Pair<>("String", descricao));
+        getResultSet("SELECT * FROM fiscalModeloNfeCte WHERE descricao = ? ");
+        return fiscalModeloNfeCteVO;
+    }
+
     public List<FiscalModeloNfeCteVO> getFiscalModeloNfeCteVOList() {
         fiscalModeloNfeCteVOList = new ArrayList<>();
         getResultSet("SELECT * FROM fiscalModeloNfeCte ");

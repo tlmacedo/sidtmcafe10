@@ -24,6 +24,12 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
         return tabEntradaProdutoVO;
     }
 
+    public TabEntradaProdutoVO getTabEntradaProdutoVO(String chaveNfe) {
+        addNewParametro(new Pair<>("String", chaveNfe));
+        getResultSet("SELECT * FROM tabEntradaProduto WHERE chaveNfe = ? ");
+        return tabEntradaProdutoVO;
+    }
+
     public List<TabEntradaProdutoVO> getTabEntradaProdutoVOList() {
         tabEntradaProdutoVOList = new ArrayList<>();
         getResultSet("SELECT * FROM tabEntradaProduto ");
@@ -42,9 +48,12 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
                 tabEntradaProdutoVO.setSerieNfe(rs.getInt("serieNfe"));
                 tabEntradaProdutoVO.setModeloNfeCte_id(rs.getInt("modeloNfeCte_id"));
                 tabEntradaProdutoVO.setFornecedor_id(rs.getInt("fornecedor_id"));
+                tabEntradaProdutoVO.setStatusNfe_id(rs.getInt("statusNfe_id"));
                 tabEntradaProdutoVO.setDataEmissaoNfe(rs.getTimestamp("dataEmissaoNfe"));
                 tabEntradaProdutoVO.setDataEntradaNfe(rs.getTimestamp("dataEntradaNfe"));
                 tabEntradaProdutoVO.setFiscal_id(rs.getInt("fiscal_id"));
+                tabEntradaProdutoVO.setFiscal_nfeVO(new TabEntradaProduto_Fiscal_NfeDAO()
+                        .getTabEntradaProduto_fiscal_nfeVO(tabEntradaProdutoVO.getFiscal_id()));
                 tabEntradaProdutoVO.setFrete_id(rs.getInt("frete_id"));
                 if (tabEntradaProdutoVOList != null) tabEntradaProdutoVOList.add(tabEntradaProdutoVO);
             }
@@ -142,6 +151,4 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
         addNewParametro(new Pair<>("int", String.valueOf(entradaProduto_id)));
         getDeleteBancoDados(conn, comandoSql);
     }
-
-
 }

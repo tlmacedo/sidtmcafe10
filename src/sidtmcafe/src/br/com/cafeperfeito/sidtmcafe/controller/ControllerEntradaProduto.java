@@ -38,7 +38,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -366,6 +368,15 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //            });
 //        });
 
+        txtChaveNfe.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER)
+                    if (buscaDuplicidade(txtChaveNfe.getText().replaceAll("\\D", "")))
+                        exibirDadosNfe();
+            }
+        });
+
         txtFiscalVlrTributo.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -597,6 +608,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     ObservableList<TabEmpresaVO> empresaVOObservableList;
     ObservableList<TabProdutoVO> produtoVOObservableList = FXCollections.observableArrayList();
     FilteredList<TabProdutoVO> produtoVOFilteredList;
+    TabEntradaProdutoVO entradaProdutoVO;
     List<Pair> listaTarefa = new ArrayList<>();
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewEntradaProduto.getTituloJanela();
@@ -766,15 +778,39 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         }
     }
 
-    boolean validaXmlNfeCte(boolean isNfe, FileInputStream arquivo) {
+    public TabEntradaProdutoVO getEntradaProdutoVO() {
+        return entradaProdutoVO;
+    }
+
+    public void setEntradaProdutoVO(TabEntradaProdutoVO entradaProduto) {
+//        if (entradaProduto == null)
+//            entradaProduto = new TabEntradaProdutoVO();
+        entradaProdutoVO = entradaProduto;
+        //exibirDadosProduto();
+    }
+
+    boolean buscaDuplicidade(String chavenfe) {
+        setEntradaProdutoVO(new TabEntradaProdutoDAO().getTabEntradaProdutoVO(chavenfe));
+        return (getEntradaProdutoVO() != null);
+    }
+
+    boolean buscaDuplicidade(int numeroNfe) {
+        setEntradaProdutoVO(new TabEntradaProdutoDAO().getTabEntradaProdutoVO(numeroNfe));
+        return (getEntradaProdutoVO() != null);
+    }
+
+    void validaXmlNfeCte(boolean isNfe, FileInputStream arquivo) {
         alertMensagem = new ServiceAlertMensagem();
-        if (!fileArquivoNfeCte.exists()) return false;
+        if (!fileArquivoNfeCte.exists()) return;
         try {
             if (isNfe) {
                 tNfeProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), TNfeProc.class);
-                txtChaveNfe.setText(tNfeProc.getNFe().getInfNFe().getId().replaceAll("\\D", ""));
+                String chaveNfe = tNfeProc.getNFe().getInfNFe().getId().replaceAll("\\D", "");
+                String numeroNfe = tNfeProc.getNFe().getInfNFe().getIde().getNNF();
+                if (buscaDuplicidade(chaveNfe)) return;
+                txtChaveNfe.setText(chaveNfe);
                 msgConfirmaGuardarArquivoRepositorio(isNfe, arquivo);
-                exibirDadosXmlNfe();
+                carregarDadosXmlNfe();
             } else {
                 cteProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), CteProc.class);
                 txtFreteChaveCte.setText(cteProc.getCTe().getInfCte().getId().replaceAll("\\D", ""));
@@ -782,29 +818,41 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 exibirDadosXmlCte();
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             alertMensagem.setStrIco("ic_xml_24dp.png");
             alertMensagem.setCabecalho(String.format("Arquivo inválido"));
             alertMensagem.setPromptText(String.format("%s, arquivo %s inválido!", USUARIO_LOGADO_APELIDO, isNfe ? "Nf-e" : "Ct-e"));
             alertMensagem.getRetornoAlert_OK();
             txtFreteChaveCte.requestFocus();
-            return false;
         }
-        return true;
     }
 
-    void exibirDadosXmlNfe() {
+    void carregarDadosXmlNfe() {
+        entradaProdutoVO = new TabEntradaProdutoVO();
+        entradaProdutoVO.setLojaDestino_id(new TabEmpresaDAO().getTabEmpresaVO(tNfeProc.getNFe().getInfNFe().getDest().getCNPJ()).getId());
+        entradaProdutoVO.setChaveNfe(tNfeProc.getNFe().getInfNFe().getId().replaceAll("\\D", ""));
+        entradaProdutoVO.setNumeroNfe(Integer.parseInt(tNfeProc.getNFe().getInfNFe().getIde().getNNF()));
+        entradaProdutoVO.setSerieNfe(Integer.parseInt(tNfeProc.getNFe().getInfNFe().getIde().getSerie()));
+        entradaProdutoVO.setModeloNfeCte_id(new FiscalModeloNfeCteDAO().getFiscalModeloNfeCteVO(tNfeProc.getNFe().getInfNFe().getIde().getMod()).getId());
+        entradaProdutoVO.setFornecedor_id(new TabEmpresaDAO().getTabEmpresaVO(tNfeProc.getNFe().getInfNFe().getEmit().getCNPJ()).getId());
+        entradaProdutoVO.setDataEmissaoNfe(Timestamp.valueOf(LocalDateTime.parse(tNfeProc.getNFe().getInfNFe().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE)));
+        entradaProdutoVO.setDataEntradaNfe(Timestamp.valueOf(LocalDateTime.now()));
+        exibirDadosNfe();
+    }
+
+    void exibirDadosNfe() {
         cboLojaDestino.getSelectionModel().select(cboLojaDestino.getItems().stream()
-                .filter(lojaDestino -> lojaDestino.getCnpj().equals(tNfeProc.getNFe().getInfNFe().getDest().getCNPJ()))
+                .filter(lojaDestino -> lojaDestino.getCnpj().equals(entradaProdutoVO.getLojaDestino_id()))
                 .findFirst().orElse(null));
         cboFornecedor.getSelectionModel().select(cboFornecedor.getItems().stream()
-                .filter(fornecedor -> fornecedor.getCnpj().equals(tNfeProc.getNFe().getInfNFe().getEmit().getCNPJ()))
+                .filter(fornecedor -> fornecedor.getCnpj().equals(entradaProdutoVO.getFornecedor_id()))
                 .findFirst().orElse(null));
-        cboFreteTransportadora.getSelectionModel().select(cboFreteTransportadora.getItems().stream()
-                .filter(transportadora -> transportadora.getCnpj().equals(tNfeProc.getNFe().getInfNFe().getTransp().getTransporta().getCNPJ()))
-                .findFirst().orElse(null));
-        txtNumeroNfe.setText(tNfeProc.getNFe().getInfNFe().getIde().getNNF());
-        txtNumeroSerie.setText(tNfeProc.getNFe().getInfNFe().getIde().getSerie());
-        dtpEmissaoNfe.setValue(LocalDate.parse(tNfeProc.getNFe().getInfNFe().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE));
+//        cboFreteTransportadora.getSelectionModel().select(cboFreteTransportadora.getItems().stream()
+//                .filter(transportadora -> transportadora.getCnpj().equals())
+//                .findFirst().orElse(null));
+        txtNumeroNfe.setText(String.valueOf(entradaProdutoVO.getNumeroNfe()));
+        txtNumeroSerie.setText(String.valueOf(entradaProdutoVO.getSerieNfe()));
+        dtpEmissaoNfe.setValue(LocalDate.parse(DTF_DATA.format(entradaProdutoVO.getDataEmissaoNfe().toLocalDateTime())));
         dtpEntradaNfe.setValue(LocalDate.now());
     }
 
@@ -850,8 +898,6 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
             txtChaveNfe.setText(chaveNFe);
 
         }
-
-
     }
 
     void vlrFiscalVlrTotalTributo() {
