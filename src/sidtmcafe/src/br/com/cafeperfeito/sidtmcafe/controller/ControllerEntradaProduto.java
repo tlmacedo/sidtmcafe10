@@ -126,15 +126,6 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         listaTarefa.add(new Pair("vinculandoObjetosTabela", "vinculando objetos a tableMoel"));
         listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
 
-
-        //        listaTarefa.add(new Pair("preencherCboSituacaoSistema", "preenchendo situaão no istema"));
-//        listaTarefa.add(new Pair("preencherCboFiscalCestNcm", "preenchendo dados fiscais de Ncm e Cest"));
-//        listaTarefa.add(new Pair("preencherCboFiscalOrigem", "preenchendo dados fiscais de Origem"));
-//        listaTarefa.add(new Pair("preencherCboFiscalIcms", "preenchendo dados fiscal ICMS"));
-//        listaTarefa.add(new Pair("preencherCboFiscalPis", "preenchendo dados fiscal PIS"));
-//        listaTarefa.add(new Pair("preencherCboFiscalCofins", "preenchendo dados fiscal COFINS"));
-//
-//
         new ServiceSegundoPlano().tarefaAbreCadastro(getTaskEntradaProduto(), listaTarefa.size());
     }
 
@@ -219,17 +210,17 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 if (!ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().getSelectedItem().getText().equals(getTituloTab()))
                     return;
                 switch (event.getCode()) {
-//                    case F1:
-//                        if (!getStatusBarTecla().contains(event.getCode().toString()))
-//                            return;
-//                        setStatusFormulario("incluir");
-//                        setProdutoVO(new TabProdutoVO(0));
-//                        break;
-//                    case F2:
-//                    case F5:
-//                        if (!getStatusBarTecla().contains(event.getCode().toString()))
-//                            return;
-//                        if (!validarDadosProduto()) break;
+                    case F1:
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
+                        setStatusFormulario("Nova Nfe");
+                        setEntradaProdutoVO(new TabEntradaProdutoVO());
+                        break;
+                    case F2:
+                    case F5:
+                        if (!getStatusBarTecla().contains(event.getCode().toString()))
+                            return;
+                        if (!validarDadosProduto()) break;
 //                        if (buscaDuplicidadeCode(getProdutoVO().getCodigo(), false)) break;
 //                        if (salvarProduto()) {
 //                            String tmp = getStatusFormulario().toLowerCase();
@@ -246,7 +237,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 ////                            produtoVOFilteredList = (FilteredList<TabProdutoVO>) produtoVOObservableList;
 //                        }
 //                        pesquisaProduto();
-//                        break;
+                        break;
 //                    case F3:
 //                        if (!getStatusBarTecla().contains(event.getCode().toString()))
 //                            return;
@@ -591,12 +582,12 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         preencherObjetos();
         escutarTecla();
         fatorarObjetos();
-        setStatusFormulario("Pesquisa");
+        setStatusFormulario("Nova Nfe");
         ServiceCampoPersonalizado.fieldMask(painelViewEntradaProduto);
         Platform.runLater(() -> ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7)));
     }
 
-    static String STATUS_BAR_TECLA_PESQUISA = "[F1-Novo]  [F2-Incluir Itens]  [F4-Editar]  [F7-Pesquisar]  [F12-Sair]  ";
+    static String STATUS_BAR_TECLA_NOVA_NFE = "[F1-Limpa Campos]  [F2-Salvar Dados Nf-e]  [F7-Chave Nfe]  [F12-Sair]  ";
     static String STATUS_BAR_TECLA_INCLUIR = "[F1-Novo]  [F2-Finalizar NFe]  [F3-Cancelar inclusão]  ";
     static String STATUS_BAR_TECLA_EDITAR = "[F3-Cancelar edição]  [F5-Atualizar]  ";
 
@@ -698,6 +689,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     public void setStatusFormulario(String statusFormulario) {
         this.statusFormulario = statusFormulario;
         setStatusBarTecla(statusFormulario);
+        tpnDadoNfe.setText(String.format("Dados da nf-e                 status:[%s]", statusFormulario));
     }
 
     public String getStatusBarTecla() {
@@ -705,7 +697,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     }
 
     public void setStatusBarTecla(String statusFormulario) {
-        switch (statusFormulario.toLowerCase()) {
+        switch (statusFormulario.toLowerCase().replaceAll("\\W", "")) {
             case "incluir":
 //                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnCadastroProduto.getContent(), true);
 //                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoCadastral.getContent(), false);
@@ -724,12 +716,12 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //                txtCodigo.requestFocus();
 //                statusBarTecla = STATUS_BAR_TECLA_EDITAR;
                 break;
-            case "pesquisa":
-//                ServiceCampoPersonalizado.fieldDisable(painelViewEntradaProduto, true);
-//                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoNfe.getContent(), false);
+            case "novanfe":
+                ServiceCampoPersonalizado.fieldDisable(painelViewEntradaProduto, true);
+                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoNfe.getContent(), false);
                 ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnDadoNfe.getContent());
                 cboLojaDestino.requestFocus();
-                statusBarTecla = STATUS_BAR_TECLA_PESQUISA;
+                statusBarTecla = STATUS_BAR_TECLA_NOVA_NFE;
                 break;
         }
         ControllerPrincipal.ctrlPrincipal.atualizarStatusBarTeclas(getStatusBarTecla());
@@ -842,17 +834,17 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 
     void exibirDadosNfe() {
         cboLojaDestino.getSelectionModel().select(cboLojaDestino.getItems().stream()
-                .filter(lojaDestino -> lojaDestino.getCnpj().equals(entradaProdutoVO.getLojaDestino_id()))
+                .filter(lojaDestino -> lojaDestino.getId() == entradaProdutoVO.getLojaDestino_id())
                 .findFirst().orElse(null));
         cboFornecedor.getSelectionModel().select(cboFornecedor.getItems().stream()
-                .filter(fornecedor -> fornecedor.getCnpj().equals(entradaProdutoVO.getFornecedor_id()))
+                .filter(fornecedor -> fornecedor.getId() == entradaProdutoVO.getFornecedor_id())
                 .findFirst().orElse(null));
 //        cboFreteTransportadora.getSelectionModel().select(cboFreteTransportadora.getItems().stream()
-//                .filter(transportadora -> transportadora.getCnpj().equals())
+//                .filter(transportadora -> transportadora.getId() == entradaProduto.)
 //                .findFirst().orElse(null));
         txtNumeroNfe.setText(String.valueOf(entradaProdutoVO.getNumeroNfe()));
         txtNumeroSerie.setText(String.valueOf(entradaProdutoVO.getSerieNfe()));
-        dtpEmissaoNfe.setValue(LocalDate.parse(DTF_DATA.format(entradaProdutoVO.getDataEmissaoNfe().toLocalDateTime())));
+        dtpEmissaoNfe.setValue(LocalDate.parse(DTF_MYSQL_DATA.format(entradaProdutoVO.getDataEmissaoNfe().toLocalDateTime())));
         dtpEntradaNfe.setValue(LocalDate.now());
     }
 
@@ -948,6 +940,50 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         Double vlrFreteLiquido;
         vlrFreteLiquido = vlrFreteBruto + vlrFreteImposto;
         txtFreteVlrLiquido.setText(new BigDecimal(vlrFreteLiquido).setScale(2, RoundingMode.HALF_UP).toString());
+    }
+
+    boolean validarDadosProduto() {
+        boolean result = true;
+        String dado = "";
+        if (!(result = (txtChaveNfe.getText().length() >= 1 && result == true))) {
+            dado += "código";
+            txtCodigo.requestFocus();
+        }
+        if (!(result = (txtDescricao.getText().length() >= 3 && result == true))) {
+            dado += "descrição";
+            txtDescricao.requestFocus();
+        }
+        if (!(result = (txtFiscalNcm.getText().length() >= 1 && result == true))) {
+            dado += "descrição";
+            txtFiscalNcm.requestFocus();
+        }
+        if (!(result = (Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", ".")) > 0 && result == true))) {
+            dado += "preço de venda";
+            txtPrecoVenda.requestFocus();
+        }
+        if (!(result = ((cboUnidadeComercial.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
+            dado += "und comercial";
+            cboUnidadeComercial.requestFocus();
+        }
+        if (!(result = ((cboSituacaoSistema.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
+            dado += "sit. sistema";
+            cboSituacaoSistema.requestFocus();
+        }
+        if (!(result = ((cboFiscalOrigem.getSelectionModel().getSelectedIndex() >= 0
+                || cboFiscalIcms.getSelectionModel().getSelectedIndex() >= 0
+                || cboFiscalPis.getSelectionModel().getSelectedIndex() >= 0
+                || cboFiscalCofins.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
+            dado += "fiscal";
+            cboFiscalIcms.requestFocus();
+        }
+        if (!result) {
+            alertMensagem = new ServiceAlertMensagem();
+            alertMensagem.setCabecalho(String.format("Dados inválido [%s]", dado));
+            alertMensagem.setPromptText(String.format("%s, %s incompleto(a) ou invalido(a) para o produto: [%s]", USUARIO_LOGADO_APELIDO, dado, txtDescricao.getText()));
+            alertMensagem.setStrIco("ic_atencao_triangulo_24dp");
+            alertMensagem.getRetornoAlert_OK();
+        } else result = guardarProduto();
+        return result;
     }
 
 }

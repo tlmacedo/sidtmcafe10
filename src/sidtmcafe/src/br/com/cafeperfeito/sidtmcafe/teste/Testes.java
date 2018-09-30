@@ -1,5 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.teste;
 
+import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceCryptografia;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 
@@ -8,6 +9,9 @@ import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -262,27 +266,39 @@ public class Testes {
 
 
 // Arquivo a ser movido
-        File arquivo = new File("/Users/thiagomacedo/Desktop/35180906186733000220570010005423021009457382-cte.xml");
+//        File arquivo = new File("/Users/thiagomacedo/Desktop/35180906186733000220570010005423021009457382-cte.xml");
+//
+//        if (!arquivo.exists()) {
+//            System.out.println("Arquivo não encontrado");
+//        } else {
+//
+//            // Diretorio de destino
+//            File diretorioDestino = new File(PATH_DIR_XML_NFE_CTE + "cte/in/");
+//
+//            String fileName = arquivo.getName();
+//            Files.move(arquivo.toPath(), Paths.get(PATH_CLASS_XML_NFE_CTE + "cte/in", fileName), StandardCopyOption.REPLACE_EXISTING);
+//
+////            // Move o arquivo para o novo diretorio
+////            boolean sucesso = arquivo.renameTo(new File(diretorioDestino, arquivo.getName()));
+////            if (sucesso)
+////                System.out.println("Arquivo movido para '" + diretorioDestino.getAbsolutePath() + "'");
+////            else
+////                System.out.println("Erro ao mover arquivo '" + arquivo.getAbsolutePath() + "' para '"
+////                        + diretorioDestino.getAbsolutePath() + "'");
+//        }
 
-        if (!arquivo.exists()) {
-            System.out.println("Arquivo não encontrado");
-        } else {
 
-            // Diretorio de destino
-            File diretorioDestino = new File(PATH_DIR_XML_NFE_CTE + "cte/in/");
+        Connection conn = ConnectionFactory.getConnection();
+        CallableStatement stmt = conn.prepareCall("{CALL getTabEmpresa()}");
+        //stmt.setInt(1, 1);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next())
+            System.out.println(String.format("id: %s  cnpj: %s  empresa: %s (%s)",
+                    String.format("%03d", rs.getInt("id")),
+                    rs.getString("cnpj"),
+                    rs.getString("razao"),
+                    rs.getString("fantasia")));
 
-            String fileName = arquivo.getName();
-            Files.move(arquivo.toPath(), Paths.get(PATH_CLASS_XML_NFE_CTE + "cte/in", fileName), StandardCopyOption.REPLACE_EXISTING);
 
-//            // Move o arquivo para o novo diretorio
-//            boolean sucesso = arquivo.renameTo(new File(diretorioDestino, arquivo.getName()));
-//            if (sucesso)
-//                System.out.println("Arquivo movido para '" + diretorioDestino.getAbsolutePath() + "'");
-//            else
-//                System.out.println("Erro ao mover arquivo '" + arquivo.getAbsolutePath() + "' para '"
-//                        + diretorioDestino.getAbsolutePath() + "'");
-        }
     }
-
-
 }
