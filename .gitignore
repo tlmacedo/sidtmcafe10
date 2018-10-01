@@ -5,3 +5,7 @@ src/sidtmcafe/src/br/com/cafeperfeito/sidtmcafe/diagram/
 target/
 /target/
 /.idea/
+/src/sidtmcafe/resources/xml/cte/in/
+/src/sidtmcafe/resources/xml/cte/out/
+/src/sidtmcafe/resources/xml/nfe/in/
+/src/sidtmcafe/resources/xml/nfe/out/
