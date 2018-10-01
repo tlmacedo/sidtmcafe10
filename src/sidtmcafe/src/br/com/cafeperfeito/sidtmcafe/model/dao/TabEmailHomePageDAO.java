@@ -53,9 +53,9 @@ public class TabEmailHomePageDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("boolean", emailHomePage.isIsEmail() ? "true" : "false"));
         int emailHomePage_id = getInsertBancoDados(conn, comandoSql);
         if (empresa_id > 0)
-            new RelEmpresaEmailHomePageDAO().insertRelEmpresaEmailHomePage(conn, empresa_id, emailHomePage_id);
+            new RelEmpresa_EmailHomePageDAO().insertRelEmpresa_emailHomePage(conn, empresa_id, emailHomePage_id);
         if (contato_id > 0)
-            new RelContatoEmailHomePageDAO().insertRelContatoEmailHomePageVO(conn, contato_id, emailHomePage_id);
+            new RelContato_EmailHomePageDAO().insertRelContato_emailHomePageVO(conn, contato_id, emailHomePage_id);
         return emailHomePage_id;
     }
 
@@ -64,9 +64,9 @@ public class TabEmailHomePageDAO extends ServiceBuscaBancoDados {
                 "WHERE id = ? ";
         if (emailHome_id < 0) emailHome_id = emailHome_id * (-1);
         if (empresa_id > 0)
-            new RelEmpresaEmailHomePageDAO().dedeteRelEmpresaEmailHomePage(conn, empresa_id, emailHome_id);
+            new RelEmpresa_EmailHomePageDAO().dedeteRelEmpresa_emailHomePage(conn, empresa_id, emailHome_id);
         if (contato_id > 0)
-            new RelContatoEmailHomePageDAO().deleteRelContatoEmailHomePageVO(conn, contato_id, emailHome_id);
+            new RelContato_EmailHomePageDAO().deleteRelContato_emailHomePageVO(conn, contato_id, emailHome_id);
         addNewParametro(new Pair<>("int", String.valueOf(emailHome_id)));
         getDeleteBancoDados(conn, comandoSql);
     }

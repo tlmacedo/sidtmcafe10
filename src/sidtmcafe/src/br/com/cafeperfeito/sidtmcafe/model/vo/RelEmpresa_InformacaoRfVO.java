@@ -4,11 +4,11 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class RelEmpresaInformacaoRfVO extends RecursiveTreeObject<RelEmpresaInformacaoRfVO> {
+public class RelEmpresa_InformacaoRfVO extends RecursiveTreeObject<RelEmpresa_InformacaoRfVO> {
 
     IntegerProperty tabEmpresa_id, tabInformacaoReceitaFederal_id;
 
-    public RelEmpresaInformacaoRfVO() {
+    public RelEmpresa_InformacaoRfVO() {
     }
 
     public int getTabEmpresa_id() {

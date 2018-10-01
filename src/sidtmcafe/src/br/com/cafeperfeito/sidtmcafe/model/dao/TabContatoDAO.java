@@ -43,14 +43,14 @@ public class TabContatoDAO extends ServiceBuscaBancoDados {
     void addObjetosPesquisa(TabContatoVO contatoVO) {
         contatoVO.setSisCargoVO(new SisCargoDAO().getSisCargoVO(contatoVO.getSisCargo_id()));
 
-        List<RelContatoEmailHomePageVO> relContatoEmailHomePageVOList = new RelContatoEmailHomePageDAO().getRelContatoEmailHomePageVOList(contatoVO.getId());
+        List<RelContato_EmailHomePageVO> relContatoEmailHomePageVOList = new RelContato_EmailHomePageDAO().getRelContato_emailHomePageVOList(contatoVO.getId());
         List<TabEmailHomePageVO> tabEmailHomePageVOList = new ArrayList<>();
         if (relContatoEmailHomePageVOList != null)
             for (int i = 0; i < relContatoEmailHomePageVOList.size(); i++)
                 tabEmailHomePageVOList.add(new TabEmailHomePageDAO().getTabEmailHomePageVO(relContatoEmailHomePageVOList.get(i).getTabEmailHomePage_id()));
         contatoVO.setTabEmailHomePageVOList(tabEmailHomePageVOList);
 
-        List<RelContatoTelefoneVO> relContatoTelefoneVOList = new RelContatoTelefoneDAO().getRelContatoTelefoneVOList(contatoVO.getId());
+        List<RelContato_TelefoneVO> relContatoTelefoneVOList = new RelContato_TelefoneDAO().getRelContato_telefoneVOList(contatoVO.getId());
         List<TabTelefoneVO> tabTelefoneVOList = new ArrayList<>();
         if (relContatoEmailHomePageVOList != null)
             for (int i = 0; i < relContatoTelefoneVOList.size(); i++)
@@ -80,7 +80,7 @@ public class TabContatoDAO extends ServiceBuscaBancoDados {
         addNewParametro(new Pair<>("String", contato.getDescricao()));
         addParametro(new Pair<>("int", String.valueOf(contato.getSisCargo_id())));
         int contato_id = getInsertBancoDados(conn, comandoSql);
-        new RelEmpresaContatoDAO().insertRelEmpresaContatoVO(conn, empresa_id, contato_id);
+        new RelEmpresa_ContatoDAO().insertRelEmpresa_contatoVO(conn, empresa_id, contato_id);
         verificaDetalhes(conn, contato, contato_id);
         return contato_id;
     }
@@ -90,7 +90,7 @@ public class TabContatoDAO extends ServiceBuscaBancoDados {
                 "WHERE id = ? ";
         verificaDetalhes(conn, contato, contato.getId());
         if (contato.getId() < 0) contato.setId(contato.getId() * (-1));
-        new RelEmpresaContatoDAO().deleteRelEmpresaContatoVO(conn, empresa_id, contato.getId());
+        new RelEmpresa_ContatoDAO().deleteRelEmpresa_contatoVO(conn, empresa_id, contato.getId());
         addNewParametro(new Pair<>("int", String.valueOf(contato.getId())));
         getDeleteBancoDados(conn, comandoSql);
     }

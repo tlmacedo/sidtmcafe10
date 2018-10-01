@@ -80,35 +80,36 @@ public class TabEmpresaDAO extends ServiceBuscaBancoDados implements Constants {
         empresa.setUsuarioAtualizacaoVO(new TabColaboradorDAO().getTabColaboradorVO(empresa.getUsuarioAtualizacao_id(), false));
 
         List<TabEnderecoVO> tabEnderecoVOList = new ArrayList<>();
-        new RelEmpresaEnderecoDAO().getRelEmpresaEnderecoVOList(empresa.getId())
+        new RelEmpresa_EnderecoDAO().getRelEmpresa_enderecoVOList(empresa.getId())
                 .forEach(relEmpresaEndereco -> {
+                    relEmpresaEndereco.getTabEndereco_id();
                     tabEnderecoVOList.add(new TabEnderecoDAO().getTabEnderecoVO(relEmpresaEndereco.getTabEndereco_id()));
                 });
         empresa.setTabEnderecoVOList(tabEnderecoVOList);
 
         List<TabEmailHomePageVO> tabEmailHomePageVOList = new ArrayList<>();
-        new RelEmpresaEmailHomePageDAO().getRelEmpresaEmailHomePageVOList(empresa.getId())
+        new RelEmpresa_EmailHomePageDAO().getRelEmpresa_emailHomePageVOList(empresa.getId())
                 .forEach(relEmpresaEmailHomePage -> {
                     tabEmailHomePageVOList.add(new TabEmailHomePageDAO().getTabEmailHomePageVO(relEmpresaEmailHomePage.getTabEmailHomePage_id()));
                 });
         empresa.setTabEmailHomePageVOList(tabEmailHomePageVOList);
 
         List<TabTelefoneVO> tabTelefoneVOList = new ArrayList<>();
-        new RelEmpresaTelefoneDAO().getRelEmpresaTelefoneVOList(empresa.getId())
+        new RelEmpresa_TelefoneDAO().getRelEmpresa_telefoneVOList(empresa.getId())
                 .forEach(relEmpresaTelefone -> {
                     tabTelefoneVOList.add(new TabTelefoneDAO().getTabTelefoneVO(relEmpresaTelefone.getTabTelefone_id()));
                 });
         empresa.setTabTelefoneVOList(tabTelefoneVOList);
 
         List<TabContatoVO> tabContatoVOList = new ArrayList<>();
-        new RelEmpresaContatoDAO().getRelEmpresaContatoVOList(empresa.getId()).stream()
+        new RelEmpresa_ContatoDAO().getRelEmpresa_contatoVOList(empresa.getId()).stream()
                 .forEach(relEmpresaContato -> {
                     tabContatoVOList.add(new TabContatoDAO().getTabContatoVO(relEmpresaContato.getTabContato_id(), true));
                 });
         empresa.setTabContatoVOList(tabContatoVOList);
 
         List<TabInformacaoReceitaFederalVO> tabInformacaoReceitaFederalVOList = new ArrayList<>();
-        new RelEmpresaInformacaoRfDAO().getRelEmpresaInformacaoRfVOList(empresa.getId()).stream()
+        new RelEmpresa_InformacaoRfDAO().getRelEmpresa_informacaoRfVOList(empresa.getId()).stream()
                 .forEach(relInformacaoRf -> {
                     tabInformacaoReceitaFederalVOList.add(new TabInformacaoReceitaFederalDAO().getTabInformacaoReceitaFederalVO(relInformacaoRf.getTabInformacaoReceitaFederal_id()));
                 });

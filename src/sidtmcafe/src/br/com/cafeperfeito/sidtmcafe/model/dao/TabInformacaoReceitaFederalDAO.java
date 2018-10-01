@@ -54,13 +54,13 @@ public class TabInformacaoReceitaFederalDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("String", informacaoRF.getStr_Value()));
         String comandoSql = "INSERT INTO tabInformacaoReceitaFederal (isAtividadePrincipal, str_Key, str_Value) VALUES (?, ?, ?)";
         int informacaoRf_id = getInsertBancoDados(conn, comandoSql);
-        new RelEmpresaInformacaoRfDAO().insertRelEmpresaInformacaoRfVO(conn, empresa_id, informacaoRf_id);
+        new RelEmpresa_InformacaoRfDAO().insertRelEmpresa_informacaoRfVO(conn, empresa_id, informacaoRf_id);
         return informacaoRf_id;
     }
 
     public void deleteTabInformacaoReceitaFederalVO(Connection conn, TabInformacaoReceitaFederalVO informacaoRF, int empresa_id) throws SQLException {
         if (empresa_id < 0) empresa_id = empresa_id * (-1);
-        new RelEmpresaInformacaoRfDAO().deleteRelEmpresaInformacaoRfVO(conn, empresa_id, informacaoRF.getId());
+        new RelEmpresa_InformacaoRfDAO().deleteRelEmpresa_informacaoRfVO(conn, empresa_id, informacaoRF.getId());
         addNewParametro(new Pair<>("int", String.valueOf(informacaoRF.getId())));
         String comandoSql = "DELETE FROM tabInformacaoReceitaFederal WHERE id = ? ";
         getDeleteBancoDados(conn, comandoSql);

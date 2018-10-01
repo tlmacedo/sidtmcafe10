@@ -94,7 +94,7 @@ public class TabEnderecoDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("int", String.valueOf(endereco.getSisMunicipio_id())));
         addParametro(new Pair<>("String", endereco.getPontoReferencia()));
         int endereco_id = getInsertBancoDados(conn, comandoSql);
-        new RelEmpresaEnderecoDAO().insertRelEmpresaEndereco(conn, empresa_id, endereco_id);
+        new RelEmpresa_EnderecoDAO().insertRelEmpresa_endereco(conn, empresa_id, endereco_id);
         return endereco_id;
     }
 
@@ -102,7 +102,7 @@ public class TabEnderecoDAO extends ServiceBuscaBancoDados {
         String comandoSql = "DELETE FROM tabEndereco " +
                 "WHERE id = ? ";
         if (endereco_id < 0) endereco_id = endereco_id * (-1);
-        new RelEmpresaEnderecoDAO().dedeteRelEmpresaEndereco(conn, empresa_id, endereco_id);
+        new RelEmpresa_EnderecoDAO().dedeteRelEmpresa_endereco(conn, empresa_id, endereco_id);
         addNewParametro(new Pair<>("int", String.valueOf(empresa_id)));
         getDeleteBancoDados(conn, comandoSql);
     }

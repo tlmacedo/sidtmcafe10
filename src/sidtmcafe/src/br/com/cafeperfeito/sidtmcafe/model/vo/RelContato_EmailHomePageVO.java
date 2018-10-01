@@ -4,11 +4,11 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class RelContatoTelefoneVO extends RecursiveTreeObject<RelContatoTelefoneVO> {
+public class RelContato_EmailHomePageVO extends RecursiveTreeObject<RelContato_EmailHomePageVO> {
 
-    IntegerProperty tabContato_id, tabTelefone_id;
+    IntegerProperty tabContato_id, tabEmailHomePage_id;
 
-    public RelContatoTelefoneVO() {
+    public RelContato_EmailHomePageVO() {
     }
 
     public int getTabContato_id() {
@@ -24,17 +24,17 @@ public class RelContatoTelefoneVO extends RecursiveTreeObject<RelContatoTelefone
         tabContato_idProperty().set(tabContato_id);
     }
 
-    public int getTabTelefone_id() {
-        return tabTelefone_idProperty().get();
+    public int getTabEmailHomePage_id() {
+        return tabEmailHomePage_idProperty().get();
     }
 
-    public IntegerProperty tabTelefone_idProperty() {
-        if (tabTelefone_id == null) tabTelefone_id = new SimpleIntegerProperty(0);
-        return tabTelefone_id;
+    public IntegerProperty tabEmailHomePage_idProperty() {
+        if (tabEmailHomePage_id == null) tabEmailHomePage_id = new SimpleIntegerProperty(0);
+        return tabEmailHomePage_id;
     }
 
-    public void setTabTelefone_id(int tabTelefone_id) {
-        tabTelefone_idProperty().set(tabTelefone_id);
+    public void setTabEmailHomePage_id(int tabEmailHomePage_id) {
+        tabEmailHomePage_idProperty().set(tabEmailHomePage_id);
     }
 
 }

@@ -63,18 +63,18 @@ public class TabTelefoneDAO extends ServiceBuscaBancoDados implements Constants 
         addParametro(new Pair<>("int", String.valueOf(telefone.getSisTelefoneOperadora_id())));
         int telefone_id = getInsertBancoDados(conn, comandoSql);
         if (empresa_id > 0)
-            new RelEmpresaTelefoneDAO().insertRelEmpresaTelefoneVO(conn, empresa_id, telefone_id);
+            new RelEmpresa_TelefoneDAO().insertRelEmpresa_telefoneVO(conn, empresa_id, telefone_id);
         if (contato_id > 0)
-            new RelContatoTelefoneDAO().insertRelContatoTelefoneVO(conn, contato_id, telefone_id);
+            new RelContato_TelefoneDAO().insertRelContato_telefoneVO(conn, contato_id, telefone_id);
         return telefone_id;
     }
 
     public void deleteTabTelefoneVO(Connection conn, int telefone_id, int empresa_id, int contato_id) throws SQLException {
         if (telefone_id < 0) telefone_id = telefone_id * (-1);
         if (empresa_id > 0)
-            new RelEmpresaTelefoneDAO().deleteRelEmpresaTelefoneVO(conn, empresa_id, telefone_id);
+            new RelEmpresa_TelefoneDAO().deleteRelEmpresa_telefoneVO(conn, empresa_id, telefone_id);
         if (contato_id > 0)
-            new RelContatoTelefoneDAO().deleteRelContatoTelefoneVO(conn, contato_id, telefone_id);
+            new RelContato_TelefoneDAO().deleteRelContato_telefoneVO(conn, contato_id, telefone_id);
         addNewParametro(new Pair<>("int", String.valueOf(telefone_id)));
         String comandoSql = "DELETE FROM tabTelefone WHERE id = ? ";
         getDeleteBancoDados(conn, comandoSql);

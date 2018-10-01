@@ -4,11 +4,11 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class RelEmpresaEnderecoVO extends RecursiveTreeObject<RelEmpresaEnderecoVO> {
+public class RelEmpresa_TelefoneVO extends RecursiveTreeObject<RelEmpresa_TelefoneVO> {
 
-    IntegerProperty tabEmpresa_id, tabEndereco_id;
+    IntegerProperty tabEmpresa_id, tabTelefone_id;
 
-    public RelEmpresaEnderecoVO() {
+    public RelEmpresa_TelefoneVO() {
     }
 
     public int getTabEmpresa_id() {
@@ -24,17 +24,16 @@ public class RelEmpresaEnderecoVO extends RecursiveTreeObject<RelEmpresaEndereco
         tabEmpresa_idProperty().set(tabEmpresa_id);
     }
 
-    public int getTabEndereco_id() {
-        return tabEndereco_idProperty().get();
+    public int getTabTelefone_id() {
+        return tabTelefone_idProperty().get();
     }
 
-    public IntegerProperty tabEndereco_idProperty() {
-        if (tabEndereco_id == null) tabEndereco_id = new SimpleIntegerProperty(0);
-        return tabEndereco_id;
+    public IntegerProperty tabTelefone_idProperty() {
+        if (tabTelefone_id == null) tabTelefone_id = new SimpleIntegerProperty(0);
+        return tabTelefone_id;
     }
 
-    public void setTabEndereco_id(int tabEndereco_id) {
-        tabEndereco_idProperty().set(tabEndereco_id);
+    public void setTabTelefone_id(int tabTelefone_id) {
+        tabTelefone_idProperty().set(tabTelefone_id);
     }
-
 }
