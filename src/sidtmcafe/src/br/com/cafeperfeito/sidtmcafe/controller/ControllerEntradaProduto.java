@@ -2,6 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.controller;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.interfaces.ModelController;
+import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.dao.*;
 import br.com.cafeperfeito.sidtmcafe.model.model.TabModel;
 import br.com.cafeperfeito.sidtmcafe.model.vo.*;
@@ -38,9 +39,13 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -58,6 +63,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     public JFXTextField txtChaveNfe;
     public JFXTextField txtNumeroNfe;
     public JFXTextField txtNumeroSerie;
+    public JFXComboBox<FiscalModeloNfeCteVO> cboModeloNfe;
     public JFXComboBox<TabEmpresaVO> cboFornecedor;
     public DatePicker dtpEmissaoNfe;
     public DatePicker dtpEntradaNfe;
@@ -214,15 +220,21 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                         if (!getStatusBarTecla().contains(event.getCode().toString()))
                             return;
                         setStatusFormulario("Nova Nfe");
-                        setEntradaProdutoVO(new TabEntradaProdutoVO());
+                        if (getStatusBarTecla().toLowerCase().contains("incluindo"))
+                            setEntradaProdutoVO(new TabEntradaProdutoVO());
                         break;
                     case F2:
                     case F5:
                         if (!getStatusBarTecla().contains(event.getCode().toString()))
                             return;
-                        if (!validarDadosProduto()) break;
-//                        if (buscaDuplicidadeCode(getProdutoVO().getCodigo(), false)) break;
-//                        if (salvarProduto()) {
+                        if (getStatusBarTecla().toLowerCase().contains("salvar")) {
+                            if (!validarDadosProduto()) break;
+                            if (buscaDuplicidade("entrada_produto", String.valueOf(getEntradaProdutoVO().getNumeroNfe())))
+                                break;
+                            if (salvarDadosNfe()) {
+                                setStatusFormulario("incluindo");
+                            }
+//                        if (salvarDadosNfe()) {
 //                            String tmp = getStatusFormulario().toLowerCase();
 //                            setStatusFormulario("pesquisa");
 //                            switch (tmp) {
@@ -237,6 +249,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 ////                            produtoVOFilteredList = (FilteredList<TabProdutoVO>) produtoVOObservableList;
 //                        }
 //                        pesquisaProduto();
+                        }
                         break;
 //                    case F3:
 //                        if (!getStatusBarTecla().contains(event.getCode().toString()))
@@ -268,7 +281,10 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                     case F7:
                         if (!getStatusBarTecla().contains(event.getCode().toString()))
                             return;
-                        txtPesquisaProduto.requestFocus();
+                        if (getStatusBarTecla().toLowerCase().contains("-salvar"))
+                            txtPesquisaProduto.requestFocus();
+                        if (getStatusBarTecla().toLowerCase().contains("-incluir"))
+                            txtPesquisaProduto.requestFocus();
                         break;
 //                    case F8:
 //                        if (!getStatusBarTecla().contains(event.getCode().toString()))
@@ -588,6 +604,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     }
 
     static String STATUS_BAR_TECLA_NOVA_NFE = "[F1-Limpa Campos]  [F2-Salvar Dados Nf-e]  [F7-Chave Nfe]  [F12-Sair]  ";
+    static String STATUS_BAR_TECLA_INCLUINDO = "[F1-Nova Nf-e]  [F2-Incluir Nf-e]  [F5-Autorizar Nfe]  [F12-Sair]  ";
     static String STATUS_BAR_TECLA_INCLUIR = "[F1-Novo]  [F2-Finalizar NFe]  [F3-Cancelar inclusão]  ";
     static String STATUS_BAR_TECLA_EDITAR = "[F3-Cancelar edição]  [F5-Atualizar]  ";
 
@@ -603,6 +620,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     List<Pair> listaTarefa = new ArrayList<>();
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewEntradaProduto.getTituloJanela();
+    int statusNfe = 8;
 
     Task getTaskEntradaProduto() {
         int qtdTarefas = listaTarefa.size();
@@ -692,6 +710,14 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         tpnDadoNfe.setText(String.format("Dados da nf-e                 status:[%s]", statusFormulario));
     }
 
+    public int getStatusNfe() {
+        return statusNfe;
+    }
+
+    public void setStatusNfe(int statusNfe) {
+        this.statusNfe = statusNfe;
+    }
+
     public String getStatusBarTecla() {
         return statusBarTecla;
     }
@@ -721,7 +747,17 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoNfe.getContent(), false);
                 ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnDadoNfe.getContent());
                 cboLojaDestino.requestFocus();
+                setStatusNfe(9);
                 statusBarTecla = STATUS_BAR_TECLA_NOVA_NFE;
+
+                break;
+            case "incluindo":
+                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoNfe.getContent(), true);
+                ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnItensTotaisNfe.getContent(), false);
+                ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnItensTotaisNfe.getContent());
+                txtPesquisaProduto.requestFocus();
+                setStatusNfe(8);
+                statusBarTecla = STATUS_BAR_TECLA_INCLUINDO;
                 break;
         }
         ControllerPrincipal.ctrlPrincipal.atualizarStatusBarTeclas(getStatusBarTecla());
@@ -781,13 +817,8 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         //exibirDadosProduto();
     }
 
-    boolean buscaDuplicidade(String chavenfe) {
-        setEntradaProdutoVO(new TabEntradaProdutoDAO().getTabEntradaProdutoVO(chavenfe));
-        return (getEntradaProdutoVO() != null);
-    }
-
-    boolean buscaDuplicidade(int numeroNfe) {
-        setEntradaProdutoVO(new TabEntradaProdutoDAO().getTabEntradaProdutoVO(numeroNfe));
+    boolean buscaDuplicidade(String num_chaveNfe) {
+        setEntradaProdutoVO(new TabEntradaProdutoDAO().getTabEntradaProdutoVO(num_chaveNfe));
         return (getEntradaProdutoVO() != null);
     }
 
@@ -801,12 +832,12 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 String numeroNfe = tNfeProc.getNFe().getInfNFe().getIde().getNNF();
                 if (buscaDuplicidade(chaveNfe)) return;
                 txtChaveNfe.setText(chaveNfe);
-                msgConfirmaGuardarArquivoRepositorio(isNfe, arquivo);
+                //msgConfirmaGuardarArquivoRepositorio(isNfe, arquivo);
                 carregarDadosXmlNfe();
             } else {
                 cteProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), CteProc.class);
                 txtFreteChaveCte.setText(cteProc.getCTe().getInfCte().getId().replaceAll("\\D", ""));
-                msgConfirmaGuardarArquivoRepositorio(isNfe, arquivo);
+                //msgConfirmaGuardarArquivoRepositorio(isNfe, arquivo);
                 exibirDadosXmlCte();
             }
         } catch (Exception ex) {
@@ -825,7 +856,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         entradaProdutoVO.setChaveNfe(tNfeProc.getNFe().getInfNFe().getId().replaceAll("\\D", ""));
         entradaProdutoVO.setNumeroNfe(Integer.parseInt(tNfeProc.getNFe().getInfNFe().getIde().getNNF()));
         entradaProdutoVO.setSerieNfe(Integer.parseInt(tNfeProc.getNFe().getInfNFe().getIde().getSerie()));
-        entradaProdutoVO.setModeloNfeCte_id(new FiscalModeloNfeCteDAO().getFiscalModeloNfeCteVO(tNfeProc.getNFe().getInfNFe().getIde().getMod()).getId());
+        entradaProdutoVO.setModeloNfe_id(new FiscalModeloNfeCteDAO().getFiscalModeloNfeCteVO(tNfeProc.getNFe().getInfNFe().getIde().getMod()).getId());
         entradaProdutoVO.setFornecedor_id(new TabEmpresaDAO().getTabEmpresaVO(tNfeProc.getNFe().getInfNFe().getEmit().getCNPJ()).getId());
         entradaProdutoVO.setDataEmissaoNfe(Timestamp.valueOf(LocalDateTime.parse(tNfeProc.getNFe().getInfNFe().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE)));
         entradaProdutoVO.setDataEntradaNfe(Timestamp.valueOf(LocalDateTime.now()));
@@ -844,6 +875,9 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 //                .findFirst().orElse(null));
         txtNumeroNfe.setText(String.valueOf(entradaProdutoVO.getNumeroNfe()));
         txtNumeroSerie.setText(String.valueOf(entradaProdutoVO.getSerieNfe()));
+        cboModeloNfe.getSelectionModel().select(cboModeloNfe.getItems().stream()
+                .filter(modelo -> modelo.getId() == entradaProdutoVO.getModeloNfe_id())
+                .findFirst().orElse(null));
         dtpEmissaoNfe.setValue(LocalDate.parse(DTF_MYSQL_DATA.format(entradaProdutoVO.getDataEmissaoNfe().toLocalDateTime())));
         dtpEntradaNfe.setValue(LocalDate.now());
     }
@@ -942,48 +976,131 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         txtFreteVlrLiquido.setText(new BigDecimal(vlrFreteLiquido).setScale(2, RoundingMode.HALF_UP).toString());
     }
 
+    boolean buscaDuplicidade(String tipDuplic, String busca) {
+        try {
+            String detalhe = "";
+            switch (tipDuplic.toLowerCase().replaceAll("\\W", "")) {
+                case "entrada_produto":
+                    TabEntradaProdutoVO entradaProdutoVO;
+                    if (busca.length() == 44) {
+                        detalhe = "chave da Nf-e ";
+                        txtChaveNfe.requestFocus();
+                    } else {
+                        detalhe = "número da Nf-e ";
+                        txtNumeroNfe.requestFocus();
+                    }
+                    if ((entradaProdutoVO = new TabEntradaProdutoDAO().getTabEntradaProdutoVO(busca)) == null)
+                        return false;
+            }
+            alertMensagem = new ServiceAlertMensagem();
+            alertMensagem.setCabecalho(String.format("%s duplicado", detalhe));
+            alertMensagem.setPromptText(String.format("%s, o %s: [%s] já está cadastrado no sistema!",
+                    USUARIO_LOGADO_APELIDO, detalhe, busca));
+            alertMensagem.setStrIco("ic_atencao_triangulo_24dp");
+            alertMensagem.getRetornoAlert_OK();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
     boolean validarDadosProduto() {
         boolean result = true;
         String dado = "";
-        if (!(result = (txtChaveNfe.getText().length() >= 1 && result == true))) {
-            dado += "código";
-            txtCodigo.requestFocus();
+        if (!(result = ((cboLojaDestino.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
+            dado += "loja destino";
+            cboLojaDestino.requestFocus();
         }
-        if (!(result = (txtDescricao.getText().length() >= 3 && result == true))) {
-            dado += "descrição";
-            txtDescricao.requestFocus();
+        if (!(result = (txtChaveNfe.getText().replaceAll("\\W", "").length() == 44 && result == true))) {
+            dado += "nota fiscal";
+            txtChaveNfe.requestFocus();
         }
-        if (!(result = (txtFiscalNcm.getText().length() >= 1 && result == true))) {
-            dado += "descrição";
-            txtFiscalNcm.requestFocus();
+        if (!(result = (txtNumeroNfe.getText().length() >= 1 && result == true))) {
+            dado += "número Nfe";
+            txtNumeroNfe.requestFocus();
         }
-        if (!(result = (Double.parseDouble(txtPrecoVenda.getText().replace(".", "").replace(",", ".")) > 0 && result == true))) {
-            dado += "preço de venda";
-            txtPrecoVenda.requestFocus();
+        if (!(result = (txtNumeroSerie.getText().length() >= 1 && result == true))) {
+            dado += "número Nfe";
+            txtNumeroSerie.requestFocus();
         }
-        if (!(result = ((cboUnidadeComercial.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
-            dado += "und comercial";
-            cboUnidadeComercial.requestFocus();
+        if (!(result = ((cboFornecedor.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
+            dado += "fornecedor";
+            cboFornecedor.requestFocus();
         }
-        if (!(result = ((cboSituacaoSistema.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
-            dado += "sit. sistema";
-            cboSituacaoSistema.requestFocus();
-        }
-        if (!(result = ((cboFiscalOrigem.getSelectionModel().getSelectedIndex() >= 0
-                || cboFiscalIcms.getSelectionModel().getSelectedIndex() >= 0
-                || cboFiscalPis.getSelectionModel().getSelectedIndex() >= 0
-                || cboFiscalCofins.getSelectionModel().getSelectedIndex() >= 0) && result == true))) {
-            dado += "fiscal";
-            cboFiscalIcms.requestFocus();
+        if (!(result = ((dtpEmissaoNfe.getValue().isBefore(LocalDate.now())) && result == true))) {
+            dado += "data de emissão";
+            dtpEmissaoNfe.requestFocus();
         }
         if (!result) {
             alertMensagem = new ServiceAlertMensagem();
             alertMensagem.setCabecalho(String.format("Dados inválido [%s]", dado));
-            alertMensagem.setPromptText(String.format("%s, %s incompleto(a) ou invalido(a) para o produto: [%s]", USUARIO_LOGADO_APELIDO, dado, txtDescricao.getText()));
             alertMensagem.setStrIco("ic_atencao_triangulo_24dp");
+            alertMensagem.setPromptText(String.format("%s, %s incompleto(a) ou invalido(a)!",
+                    USUARIO_LOGADO_APELIDO, dado));
             alertMensagem.getRetornoAlert_OK();
-        } else result = guardarProduto();
+        } else guardarEntradaProduto();
         return result;
     }
+
+    boolean guardarEntradaProduto() {
+        try {
+            getEntradaProdutoVO().setLojaDestino_id(cboLojaDestino.getSelectionModel().getSelectedItem().getId());
+            getEntradaProdutoVO().setChaveNfe(txtChaveNfe.getText());
+            getEntradaProdutoVO().setNumeroNfe(Integer.parseInt(txtNumeroNfe.getText()));
+            getEntradaProdutoVO().setSerieNfe(Integer.parseInt(txtNumeroSerie.getText()));
+            getEntradaProdutoVO().setModeloNfeVO(cboModeloNfe.getSelectionModel().getSelectedItem());
+            getEntradaProdutoVO().setModeloNfe_id(getEntradaProdutoVO().getModeloNfe_id());
+            getEntradaProdutoVO().setFornecedorVO(cboFornecedor.getSelectionModel().getSelectedItem());
+            getEntradaProdutoVO().setFornecedor_id(getEntradaProdutoVO().getFornecedor_id());
+            getEntradaProdutoVO().setDataEmissaoNfe(Timestamp.valueOf(dtpEmissaoNfe.getValue().atStartOfDay()));
+            getEntradaProdutoVO().setDataEntradaNfe(Timestamp.valueOf(dtpEntradaNfe.getValue().atTime(LocalTime.now())));
+            getEntradaProdutoVO().setStatusNfe_id(getStatusNfe());
+//            getEntradaProdutoVO().setFiscal_nfeVO(new TabEntradaProduto_Fiscal_NfeVO());
+//            getEntradaProdutoVO().setFrete_nfeVO(new TabEntradaProduto_FreteVO());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    boolean salvarDadosNfe() {
+        Connection conn = ConnectionFactory.getConnection();
+        try {
+            conn.setAutoCommit(false);
+            if (getEntradaProdutoVO().getId() == 0)
+                getEntradaProdutoVO().setId(new TabEntradaProdutoDAO().insertTabEntradaProdutoVO(conn, getEntradaProdutoVO()));
+            else
+                new TabEntradaProdutoDAO().updateTabEntradaProdutoVO(conn, getEntradaProdutoVO());
+
+//            getEntradaProdutoVO().getCodBarraVOList().stream().sorted(Comparator.comparing(TabProduto_CodBarraVO::getId))
+//                    .forEach(codBarra -> {
+//                        try {
+//                            if (codBarra.getId() < 0)
+//                                new TabProduto_CodBarraDAO().deleteTabProduto_CodBarraVO(conn, codBarra.getId(),
+//                                        getEntradaProdutoVO().getId());
+//                            else if (codBarra.getId() > 0)
+//                                new TabProduto_CodBarraDAO().updateTabProduto_CodBarraVO(conn, codBarra);
+//                            else
+//                                codBarra.setId(new TabProduto_CodBarraDAO().insertTabProduto_CodBarraVO(conn, codBarra,
+//                                        getEntradaProdutoVO().getId()));
+//                        } catch (Exception ex) {
+//                            throw new RuntimeException("Erro no código de barras ===>>", ex);
+//                        }
+//                    });
+            conn.commit();
+        } catch (SQLException ex) {
+            try {
+                conn.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
 
 }

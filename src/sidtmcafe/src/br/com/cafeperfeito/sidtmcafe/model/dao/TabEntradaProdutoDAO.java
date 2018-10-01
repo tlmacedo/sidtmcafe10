@@ -24,9 +24,13 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
         return tabEntradaProdutoVO;
     }
 
-    public TabEntradaProdutoVO getTabEntradaProdutoVO(String chaveNfe) {
-        addNewParametro(new Pair<>("String", chaveNfe));
-        getResultSet("SELECT * FROM tabEntradaProduto WHERE chaveNfe = ? ");
+    public TabEntradaProdutoVO getTabEntradaProdutoVO(String num_chaveNfe) {
+        String comandoSql = "SELECT * FROM tabEntradaProduto ";
+        addNewParametro(new Pair<>("String", num_chaveNfe));
+        if (num_chaveNfe.length() == 44)
+            getResultSet(comandoSql + "WHERE chaveNfe = ? ");
+        else
+            getResultSet(comandoSql + "WHERE numeroNfe = ? ");
         return tabEntradaProdutoVO;
     }
 
@@ -46,7 +50,7 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
                 tabEntradaProdutoVO.setChaveNfe(rs.getString("chaveNfe"));
                 tabEntradaProdutoVO.setNumeroNfe(rs.getInt("numeroNfe"));
                 tabEntradaProdutoVO.setSerieNfe(rs.getInt("serieNfe"));
-                tabEntradaProdutoVO.setModeloNfeCte_id(rs.getInt("modeloNfeCte_id"));
+                tabEntradaProdutoVO.setModeloNfe_id(rs.getInt("modeloNfeCte_id"));
                 tabEntradaProdutoVO.setFornecedor_id(rs.getInt("fornecedor_id"));
                 tabEntradaProdutoVO.setStatusNfe_id(rs.getInt("statusNfe_id"));
                 tabEntradaProdutoVO.setDataEmissaoNfe(rs.getTimestamp("dataEmissaoNfe"));
@@ -95,10 +99,11 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
                 "chaveNfe = ?, " +
                 "numeroNfe = ?, " +
                 "serieNfe = ?, " +
-                "modeloNfeCte_id = ?, " +
+                "modeloNfe_id = ?, " +
                 "fornecedor_id = ?, " +
                 "dataEmissaoNfe = ?, " +
                 "dataEntradaNfe = ?, " +
+                "statusNfe_id = ?, " +
                 "fiscal_id = ?, " +
                 "frete_id = ? " +
                 "WHERE id = ?";
@@ -106,10 +111,11 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("String", entradaProdutoVO.getChaveNfe()));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getNumeroNfe())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getSerieNfe())));
-        addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getModeloNfeCte_id())));
+        addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getModeloNfe_id())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getFornecedor_id())));
         addParametro(new Pair<>("timestamp", String.valueOf(entradaProdutoVO.getDataEmissaoNfe())));
         addParametro(new Pair<>("timestamp", String.valueOf(entradaProdutoVO.getDataEntradaNfe())));
+        addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getStatusNfe_id())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getFiscal_id())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getFrete_id())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getId())));
@@ -122,23 +128,26 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
                 "chaveNfe, " +
                 "numeroNfe, " +
                 "serieNfe, " +
-                "modeloNfeCte_id, " +
+                "modeloNfe_id, " +
                 "fornecedor_id, " +
                 "dataEmissaoNfe, " +
                 "dataEntradaNfe, " +
+                "statusNfe_id, " +
                 "fiscal_id, " +
                 "frete_id) " +
                 "VALUES (" +
                 "?, ?, ?, ?, ?, " +
-                "?, ?, ?, ?, ?) ";
+                "?, ?, ?, ?, ?, " +
+                "?) ";
         addNewParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getLojaDestino_id())));
         addParametro(new Pair<>("String", entradaProdutoVO.getChaveNfe()));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getNumeroNfe())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getSerieNfe())));
-        addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getModeloNfeCte_id())));
+        addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getModeloNfe_id())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getFornecedor_id())));
         addParametro(new Pair<>("timestamp", String.valueOf(entradaProdutoVO.getDataEmissaoNfe())));
         addParametro(new Pair<>("timestamp", String.valueOf(entradaProdutoVO.getDataEntradaNfe())));
+        addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getStatusNfe_id())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getFiscal_id())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getFrete_id())));
 

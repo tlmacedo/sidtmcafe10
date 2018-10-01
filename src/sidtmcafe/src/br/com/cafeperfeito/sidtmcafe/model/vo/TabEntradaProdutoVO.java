@@ -11,13 +11,14 @@ import java.sql.Timestamp;
 public class TabEntradaProdutoVO extends RecursiveTreeObject<TabEntradaProdutoVO> {
 
     TabEmpresaVO lojaDestinoVO, fornecedorVO;
-    FiscalModeloNfeCteVO modeloNfeCteVO;
+    FiscalModeloNfeCteVO modeloNfeVO;
     SisStatusNfeVO statusNfeVO;
     TabEntradaProduto_Fiscal_NfeVO fiscal_nfeVO;
+    TabEntradaProduto_FreteVO frete_nfeVO;
 
     Timestamp dataEmissaoNfe, dataEntradaNfe;
 
-    IntegerProperty id, lojaDestino_id, numeroNfe, serieNfe, modeloNfeCte_id, fornecedor_id, statusNfe_id, fiscal_id, frete_id;
+    IntegerProperty id, lojaDestino_id, numeroNfe, serieNfe, modeloNfe_id, fornecedor_id, statusNfe_id, fiscal_id, frete_id;
     StringProperty chaveNfe;
 
 
@@ -40,12 +41,12 @@ public class TabEntradaProdutoVO extends RecursiveTreeObject<TabEntradaProdutoVO
         this.fornecedorVO = fornecedorVO;
     }
 
-    public FiscalModeloNfeCteVO getModeloNfeCteVO() {
-        return modeloNfeCteVO;
+    public FiscalModeloNfeCteVO getModeloNfeVO() {
+        return modeloNfeVO;
     }
 
-    public void setModeloNfeCteVO(FiscalModeloNfeCteVO modeloNfeCteVO) {
-        this.modeloNfeCteVO = modeloNfeCteVO;
+    public void setModeloNfeVO(FiscalModeloNfeCteVO modeloNfeVO) {
+        this.modeloNfeVO = modeloNfeVO;
     }
 
     public SisStatusNfeVO getStatusNfeVO() {
@@ -62,6 +63,14 @@ public class TabEntradaProdutoVO extends RecursiveTreeObject<TabEntradaProdutoVO
 
     public void setFiscal_nfeVO(TabEntradaProduto_Fiscal_NfeVO fiscal_nfeVO) {
         this.fiscal_nfeVO = fiscal_nfeVO;
+    }
+
+    public TabEntradaProduto_FreteVO getFrete_nfeVO() {
+        return frete_nfeVO;
+    }
+
+    public void setFrete_nfeVO(TabEntradaProduto_FreteVO frete_nfeVO) {
+        this.frete_nfeVO = frete_nfeVO;
     }
 
     public Timestamp getDataEmissaoNfe() {
@@ -132,17 +141,17 @@ public class TabEntradaProdutoVO extends RecursiveTreeObject<TabEntradaProdutoVO
         serieNfeProperty().set(serieNfe);
     }
 
-    public int getModeloNfeCte_id() {
-        return modeloNfeCte_idProperty().get();
+    public int getModeloNfe_id() {
+        return modeloNfe_idProperty().get();
     }
 
-    public IntegerProperty modeloNfeCte_idProperty() {
-        if (modeloNfeCte_id == null) modeloNfeCte_id = new SimpleIntegerProperty(0);
-        return modeloNfeCte_id;
+    public IntegerProperty modeloNfe_idProperty() {
+        if (modeloNfe_id == null) modeloNfe_id = new SimpleIntegerProperty(0);
+        return modeloNfe_id;
     }
 
-    public void setModeloNfeCte_id(int modeloNfeCte_id) {
-        modeloNfeCte_idProperty().set(modeloNfeCte_id);
+    public void setModeloNfe_id(int modeloNfe_id) {
+        modeloNfe_idProperty().set(modeloNfe_id);
     }
 
     public int getFornecedor_id() {
@@ -207,6 +216,6 @@ public class TabEntradaProdutoVO extends RecursiveTreeObject<TabEntradaProdutoVO
     }
 
     public void setChaveNfe(String chaveNfe) {
-        chaveNfeProperty().set(chaveNfe);
+        chaveNfeProperty().set(chaveNfe.replaceAll("\\W", ""));
     }
 }

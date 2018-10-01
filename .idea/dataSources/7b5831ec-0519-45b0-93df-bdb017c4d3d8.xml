@@ -1159,1596 +1159,1593 @@
     <table id="318" parent="5" name="tabProduto"/>
     <table id="319" parent="5" name="tabProduto_CodBarra"/>
     <table id="320" parent="5" name="tabTelefone"/>
-    <routine id="321" parent="5" name="getTabColaborador">
-      <SourceTextLength>149</SourceTextLength>
-      <RoutineKind>procedure</RoutineKind>
-    </routine>
-    <table id="322" parent="6" name="SisAutomacaoSistema">
+    <table id="321" parent="6" name="SisAutomacaoSistema">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="323" parent="6" name="SisClassificacaoJuridica">
+    <table id="322" parent="6" name="SisClassificacaoJuridica">
       <Comment>Classificacao juridica</Comment>
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="324" parent="6" name="SisFiscalCSTCOFINS">
+    <table id="323" parent="6" name="SisFiscalCSTCOFINS">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="325" parent="6" name="SisFiscalCSTICMS">
+    <table id="324" parent="6" name="SisFiscalCSTICMS">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="326" parent="6" name="SisFiscalCSTPIS">
+    <table id="325" parent="6" name="SisFiscalCSTPIS">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="327" parent="6" name="SisLogSistema">
+    <table id="326" parent="6" name="SisLogSistema">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="328" parent="6" name="SisMenuPrincipal">
+    <table id="327" parent="6" name="SisMenuPrincipal">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="329" parent="6" name="SisNFeCFOP">
+    <table id="328" parent="6" name="SisNFeCFOP">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="330" parent="6" name="SisNFeWebServices">
+    <table id="329" parent="6" name="SisNFeWebServices">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="331" parent="6" name="SisSefazAMTributos">
+    <table id="330" parent="6" name="SisSefazAMTributos">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="332" parent="6" name="SisTipoWebHomeEmail">
+    <table id="331" parent="6" name="SisTipoWebHomeEmail">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="333" parent="6" name="SisTiposSaidaDeProdutos">
+    <table id="332" parent="6" name="SisTiposSaidaDeProdutos">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="334" parent="6" name="SisUnidadesComercial">
+    <table id="333" parent="6" name="SisUnidadesComercial">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="335" parent="6" name="sisMunicipio">
+    <table id="334" parent="6" name="sisMunicipio">
       <Comment>tabela de cidades do brasil codigo IBGE</Comment>
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="336" parent="6" name="sisSituacaoSistema">
-      <Comment>tabela que indica a situacao atual</Comment>
+    <table id="335" parent="6" name="sisSituacaoSistema">
+      <Comment>tabela que indica a situacao atual </Comment>
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="337" parent="6" name="sisTabelaOrigem">
+    <table id="336" parent="6" name="sisTabelaOrigem">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="338" parent="6" name="sisTelefoneOperadora">
+    <table id="337" parent="6" name="sisTelefoneOperadora">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="339" parent="6" name="sisTipoEndereco">
+    <table id="338" parent="6" name="sisTipoEndereco">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="340" parent="6" name="sisUF">
+    <table id="339" parent="6" name="sisUF">
       <Comment>tabela de estados do brasil com codigo do IBGE</Comment>
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="341" parent="6" name="tabCargo">
+    <table id="340" parent="6" name="tabCargo">
       <Comment>tabela dos cargos disponiveis</Comment>
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="342" parent="6" name="tabColaborador">
+    <table id="341" parent="6" name="tabColaborador">
       <Comment>tabela dos colaboradores</Comment>
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="343" parent="6" name="tabContatos">
+    <table id="342" parent="6" name="tabContatos">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="344" parent="6" name="tabEmailHomePage"/>
-    <table id="345" parent="6" name="tabEmpresas">
+    <table id="343" parent="6" name="tabEmailHomePage"/>
+    <table id="344" parent="6" name="tabEmpresas">
       <Comment>tabela de empresas (Clientes, Fornecedores, Transportadoras)</Comment>
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="346" parent="6" name="tabEmpresasCondicoesProdutos">
+    <table id="345" parent="6" name="tabEmpresasCondicoesProdutos">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="347" parent="6" name="tabEmpresasDetalhesReceitaFederal">
+    <table id="346" parent="6" name="tabEmpresasDetalhesReceitaFederal">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="348" parent="6" name="tabEmpresasPrazos">
+    <table id="347" parent="6" name="tabEmpresasPrazos">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="349" parent="6" name="tabEndereco">
+    <table id="348" parent="6" name="tabEndereco">
       <Comment>tabela de enderecos</Comment>
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="350" parent="6" name="tabEstoque">
+    <table id="349" parent="6" name="tabEstoque">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="351" parent="6" name="tabLoja">
+    <table id="350" parent="6" name="tabLoja">
       <Comment>tabela das lojas</Comment>
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="352" parent="6" name="tabProdutos">
+    <table id="351" parent="6" name="tabProdutos">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="353" parent="6" name="tabProdutosEan">
+    <table id="352" parent="6" name="tabProdutosEan">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="354" parent="6" name="tabSaidaDeProdutosItensTemp">
+    <table id="353" parent="6" name="tabSaidaDeProdutosItensTemp">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="355" parent="6" name="tabSaidaDeProdutosTemp">
+    <table id="354" parent="6" name="tabSaidaDeProdutosTemp">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="356" parent="6" name="tabTelefone">
+    <table id="355" parent="6" name="tabTelefone">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <table id="357" parent="6" name="tabWebHomeEmail">
+    <table id="356" parent="6" name="tabWebHomeEmail">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </table>
-    <column id="358" parent="282" name="id">
+    <column id="357" parent="282" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="359" parent="282" name="segmento">
+    <column id="358" parent="282" name="segmento">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="360" parent="282" name="descricao">
+    <column id="359" parent="282" name="descricao">
       <Position>3</Position>
       <DataType>varchar(600)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="361" parent="282" name="cest">
+    <column id="360" parent="282" name="cest">
       <Position>4</Position>
       <DataType>varchar(7)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="362" parent="282" name="ncm">
+    <column id="361" parent="282" name="ncm">
       <Position>5</Position>
       <DataType>varchar(8)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="363" parent="282" name="PRIMARY">
+    <key id="362" parent="282" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="364" parent="283" name="id">
+    <column id="363" parent="283" name="id">
       <Position>1</Position>
       <Comment>Fiscal</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="365" parent="283" name="descricao">
+    <column id="364" parent="283" name="descricao">
       <Position>2</Position>
       <DataType>varchar(180)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="366" parent="283" name="PRIMARY">
+    <key id="365" parent="283" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="367" parent="284" name="id">
+    <column id="366" parent="284" name="id">
       <Position>1</Position>
       <DataType>varchar(2)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="368" parent="284" name="descricao">
+    <column id="367" parent="284" name="descricao">
       <Position>2</Position>
       <DataType>varchar(60)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="369" parent="284" name="PRIMARY">
+    <key id="368" parent="284" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="370" parent="285" name="id">
+    <column id="369" parent="285" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="371" parent="285" name="descricao">
+    <column id="370" parent="285" name="descricao">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="372" parent="285" name="PRIMARY">
+    <key id="371" parent="285" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="373" parent="286" name="id">
+    <column id="372" parent="286" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="374" parent="286" name="descricao">
+    <column id="373" parent="286" name="descricao">
       <Position>2</Position>
       <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="375" parent="286" name="PRIMARY">
+    <key id="374" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="376" parent="287" name="id">
+    <column id="375" parent="287" name="id">
       <Position>1</Position>
       <Comment>	</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="377" parent="287" name="descricao">
+    <column id="376" parent="287" name="descricao">
       <Position>2</Position>
       <DataType>varchar(2)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="378" parent="287" name="PRIMARY">
+    <key id="377" parent="287" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="379" parent="288" name="id">
+    <column id="378" parent="288" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="380" parent="288" name="descricao">
+    <column id="379" parent="288" name="descricao">
       <Position>2</Position>
       <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="381" parent="288" name="PRIMARY">
+    <key id="380" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="382" parent="289" name="id">
+    <column id="381" parent="289" name="id">
       <Position>1</Position>
       <DataType>int(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="383" parent="289" name="descricao">
+    <column id="382" parent="289" name="descricao">
       <Position>2</Position>
       <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="384" parent="289" name="PRIMARY">
+    <key id="383" parent="289" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="385" parent="290" name="tabContato_id">
+    <column id="384" parent="290" name="tabContato_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="386" parent="290" name="tabEmailHomePage_id">
+    <column id="385" parent="290" name="tabEmailHomePage_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="387" parent="290" name="fk_relContatoEmailHomePage_tabContato1_idx">
+    <index id="386" parent="290" name="fk_relContatoEmailHomePage_tabContato1_idx">
       <ColNames>tabContato_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="388" parent="290" name="fk_relContatoEmailHomePage_tabEmailHomePage1_idx">
+    <index id="387" parent="290" name="fk_relContatoEmailHomePage_tabEmailHomePage1_idx">
       <ColNames>tabEmailHomePage_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="389" parent="290" name="fk_relContatoEmailHomePage_tabContato1">
+    <foreign-key id="388" parent="290" name="fk_relContatoEmailHomePage_tabContato1">
       <ColNames>tabContato_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabcontato</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="390" parent="290" name="fk_relContatoEmailHomePage_tabEmailHomePage1">
+    <foreign-key id="389" parent="290" name="fk_relContatoEmailHomePage_tabEmailHomePage1">
       <ColNames>tabEmailHomePage_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabemailhomepage</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="391" parent="291" name="tabContato_id">
+    <column id="390" parent="291" name="tabContato_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="392" parent="291" name="tabTelefone_id">
+    <column id="391" parent="291" name="tabTelefone_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="393" parent="291" name="fk_relContatoTelefone_tabContato1_idx">
+    <index id="392" parent="291" name="fk_relContatoTelefone_tabContato1_idx">
       <ColNames>tabContato_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="394" parent="291" name="fk_relContatoTelefone_tabTelefone1_idx">
+    <index id="393" parent="291" name="fk_relContatoTelefone_tabTelefone1_idx">
       <ColNames>tabTelefone_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="395" parent="291" name="fk_relContatoTelefone_tabContato1">
+    <foreign-key id="394" parent="291" name="fk_relContatoTelefone_tabContato1">
       <ColNames>tabContato_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabcontato</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="396" parent="291" name="fk_relContatoTelefone_tabTelefone1">
+    <foreign-key id="395" parent="291" name="fk_relContatoTelefone_tabTelefone1">
       <ColNames>tabTelefone_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabtelefone</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="397" parent="292" name="tabEmpresa_id">
+    <column id="396" parent="292" name="tabEmpresa_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="398" parent="292" name="tabContato_id">
+    <column id="397" parent="292" name="tabContato_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="399" parent="292" name="fk_relEmpresaContato_tabEmpresa1_idx">
+    <index id="398" parent="292" name="fk_relEmpresaContato_tabEmpresa1_idx">
       <ColNames>tabEmpresa_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="400" parent="292" name="fk_relEmpresaContato_tabContato1_idx">
+    <index id="399" parent="292" name="fk_relEmpresaContato_tabContato1_idx">
       <ColNames>tabContato_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="401" parent="292" name="fk_relEmpresaContato_tabEmpresa1">
+    <foreign-key id="400" parent="292" name="fk_relEmpresaContato_tabEmpresa1">
       <ColNames>tabEmpresa_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabempresa</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="402" parent="292" name="fk_relEmpresaContato_tabContato1">
+    <foreign-key id="401" parent="292" name="fk_relEmpresaContato_tabContato1">
       <ColNames>tabContato_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabcontato</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="403" parent="293" name="tabEmpresa_id">
+    <column id="402" parent="293" name="tabEmpresa_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="404" parent="293" name="tabEmailHomePage_id">
+    <column id="403" parent="293" name="tabEmailHomePage_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="405" parent="293" name="fk_relEmpresaEmailHomePage_tabEmpresa1_idx">
+    <index id="404" parent="293" name="fk_relEmpresaEmailHomePage_tabEmpresa1_idx">
       <ColNames>tabEmpresa_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="406" parent="293" name="fk_relEmpresaEmailHomePage_tabEmailHomePage1_idx">
+    <index id="405" parent="293" name="fk_relEmpresaEmailHomePage_tabEmailHomePage1_idx">
       <ColNames>tabEmailHomePage_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="407" parent="293" name="fk_relEmpresaEmailHomePage_tabEmpresa1">
+    <foreign-key id="406" parent="293" name="fk_relEmpresaEmailHomePage_tabEmpresa1">
       <ColNames>tabEmpresa_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabempresa</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="408" parent="293" name="fk_relEmpresaEmailHomePage_tabEmailHomePage1">
+    <foreign-key id="407" parent="293" name="fk_relEmpresaEmailHomePage_tabEmailHomePage1">
       <ColNames>tabEmailHomePage_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabemailhomepage</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="409" parent="294" name="tabEmpresa_id">
+    <column id="408" parent="294" name="tabEmpresa_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="410" parent="294" name="tabEndereco_id">
+    <column id="409" parent="294" name="tabEndereco_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="411" parent="294" name="fk_relEmpresaEndereco_tabEmpresa1_idx">
+    <index id="410" parent="294" name="fk_relEmpresaEndereco_tabEmpresa1_idx">
       <ColNames>tabEmpresa_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="412" parent="294" name="fk_relEmpresaEndereco_tabEndereco1_idx">
+    <index id="411" parent="294" name="fk_relEmpresaEndereco_tabEndereco1_idx">
       <ColNames>tabEndereco_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="413" parent="294" name="fk_relEmpresaEndereco_tabEmpresa1">
+    <foreign-key id="412" parent="294" name="fk_relEmpresaEndereco_tabEmpresa1">
       <ColNames>tabEmpresa_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabempresa</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="414" parent="294" name="fk_relEmpresaEndereco_tabEndereco1">
+    <foreign-key id="413" parent="294" name="fk_relEmpresaEndereco_tabEndereco1">
       <ColNames>tabEndereco_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabendereco</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="415" parent="295" name="tabEmpresa_id">
+    <column id="414" parent="295" name="tabEmpresa_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="416" parent="295" name="tabInformacaoReceitaFederal_id">
+    <column id="415" parent="295" name="tabInformacaoReceitaFederal_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="417" parent="295" name="fk_relEmpresaInformacaoRF_tabEmpresa1_idx">
+    <index id="416" parent="295" name="fk_relEmpresaInformacaoRF_tabEmpresa1_idx">
       <ColNames>tabEmpresa_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="418" parent="295" name="fk_relEmpresaInformacaoRF_tabInformacaoReceitaFederal1_idx">
+    <index id="417" parent="295" name="fk_relEmpresaInformacaoRF_tabInformacaoReceitaFederal1_idx">
       <ColNames>tabInformacaoReceitaFederal_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="419" parent="295" name="fk_relEmpresaInformacaoRF_tabEmpresa1">
+    <foreign-key id="418" parent="295" name="fk_relEmpresaInformacaoRF_tabEmpresa1">
       <ColNames>tabEmpresa_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabEmpresa</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="420" parent="295" name="fk_relEmpresaInformacaoRF_tabInformacaoReceitaFederal1">
+    <foreign-key id="419" parent="295" name="fk_relEmpresaInformacaoRF_tabInformacaoReceitaFederal1">
       <ColNames>tabInformacaoReceitaFederal_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabInformacaoReceitaFederal</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="421" parent="296" name="tabEmpresa_id">
+    <column id="420" parent="296" name="tabEmpresa_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="422" parent="296" name="tabTelefone_id">
+    <column id="421" parent="296" name="tabTelefone_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="423" parent="296" name="fk_relEmpresaTelefone_tabEmpresa1_idx">
+    <index id="422" parent="296" name="fk_relEmpresaTelefone_tabEmpresa1_idx">
       <ColNames>tabEmpresa_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="424" parent="296" name="fk_relEmpresaTelefone_tabTelefone1_idx">
+    <index id="423" parent="296" name="fk_relEmpresaTelefone_tabTelefone1_idx">
       <ColNames>tabTelefone_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="425" parent="296" name="fk_relEmpresaTelefone_tabEmpresa1">
+    <foreign-key id="424" parent="296" name="fk_relEmpresaTelefone_tabEmpresa1">
       <ColNames>tabEmpresa_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabempresa</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="426" parent="296" name="fk_relEmpresaTelefone_tabTelefone1">
+    <foreign-key id="425" parent="296" name="fk_relEmpresaTelefone_tabTelefone1">
       <ColNames>tabTelefone_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabtelefone</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="427" parent="297" name="tabProduto_id">
+    <column id="426" parent="297" name="tabProduto_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="428" parent="297" name="tabProduto_CodBarra_id">
+    <column id="427" parent="297" name="tabProduto_CodBarra_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="429" parent="297" name="fk_relProduto_CodBarra_tabProduto1_idx">
+    <index id="428" parent="297" name="fk_relProduto_CodBarra_tabProduto1_idx">
       <ColNames>tabProduto_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="430" parent="297" name="fk_relProduto_CodBarra_tabProduto_CodBarra1_idx">
+    <index id="429" parent="297" name="fk_relProduto_CodBarra_tabProduto_CodBarra1_idx">
       <ColNames>tabProduto_CodBarra_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="431" parent="297" name="fk_relProduto_CodBarra_tabProduto1">
+    <foreign-key id="430" parent="297" name="fk_relProduto_CodBarra_tabProduto1">
       <ColNames>tabProduto_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabProduto</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="432" parent="297" name="fk_relProduto_CodBarra_tabProduto_CodBarra1">
+    <foreign-key id="431" parent="297" name="fk_relProduto_CodBarra_tabProduto_CodBarra1">
       <ColNames>tabProduto_CodBarra_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabProduto_CodBarra</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="433" parent="298" name="id">
+    <column id="432" parent="298" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="434" parent="298" name="descricao">
+    <column id="433" parent="298" name="descricao">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="435" parent="298" name="PRIMARY">
+    <key id="434" parent="298" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="436" parent="299" name="id">
+    <column id="435" parent="299" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="437" parent="299" name="descricao">
+    <column id="436" parent="299" name="descricao">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="438" parent="299" name="tituloTab">
+    <column id="437" parent="299" name="tituloTab">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="439" parent="299" name="filho_id">
+    <column id="438" parent="299" name="filho_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="440" parent="299" name="icoMenu">
+    <column id="439" parent="299" name="icoMenu">
       <Position>5</Position>
       <DataType>varchar(80)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="441" parent="299" name="tabPane">
+    <column id="440" parent="299" name="tabPane">
       <Position>6</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="442" parent="299" name="teclaAtalho">
+    <column id="441" parent="299" name="teclaAtalho">
       <Position>7</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="443" parent="299" name="PRIMARY">
+    <key id="442" parent="299" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="444" parent="300" name="id">
+    <column id="443" parent="300" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="445" parent="300" name="descricao">
+    <column id="444" parent="300" name="descricao">
       <Position>2</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="446" parent="300" name="sisUf_id">
+    <column id="445" parent="300" name="sisUf_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="447" parent="300" name="isCapital">
+    <column id="446" parent="300" name="isCapital">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="448" parent="300" name="ibge_id">
+    <column id="447" parent="300" name="ibge_id">
       <Position>5</Position>
       <DataType>varchar(7)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="449" parent="300" name="ddd">
+    <column id="448" parent="300" name="ddd">
       <Position>6</Position>
       <DataType>int(2)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="450" parent="300" name="fk_sisMunicipio_sisUF1_idx">
+    <index id="449" parent="300" name="fk_sisMunicipio_sisUF1_idx">
       <ColNames>sisUf_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="451" parent="300" name="PRIMARY">
+    <key id="450" parent="300" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="452" parent="300" name="fk_sisMunicipio_sisUF1">
+    <foreign-key id="451" parent="300" name="fk_sisMunicipio_sisUF1">
       <ColNames>sisUf_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>sisuf</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="453" parent="301" name="id">
+    <column id="452" parent="301" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="454" parent="301" name="descricao">
+    <column id="453" parent="301" name="descricao">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="455" parent="301" name="classificacao">
+    <column id="454" parent="301" name="classificacao">
       <Position>3</Position>
       <DataType>int(6)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="456" parent="301" name="PRIMARY">
+    <key id="455" parent="301" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="457" parent="302" name="id">
+    <column id="456" parent="302" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="458" parent="302" name="descricao">
+    <column id="457" parent="302" name="descricao">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="459" parent="302" name="PRIMARY">
+    <key id="458" parent="302" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="460" parent="303" name="id">
+    <column id="459" parent="303" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="461" parent="303" name="descricao">
+    <column id="460" parent="303" name="descricao">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="462" parent="303" name="tipo">
+    <column id="461" parent="303" name="tipo">
       <Position>3</Position>
       <DataType>int(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="463" parent="303" name="ddd">
+    <column id="462" parent="303" name="ddd">
       <Position>4</Position>
       <DataType>int(2)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="464" parent="303" name="codWsPortabilidadeCelular">
+    <column id="463" parent="303" name="codWsPortabilidadeCelular">
       <Position>5</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="465" parent="303" name="PRIMARY">
+    <key id="464" parent="303" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="466" parent="304" name="id">
+    <column id="465" parent="304" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="467" parent="304" name="descricao">
+    <column id="466" parent="304" name="descricao">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="468" parent="304" name="PRIMARY">
+    <key id="467" parent="304" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="469" parent="305" name="id">
+    <column id="468" parent="305" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="470" parent="305" name="descricao">
+    <column id="469" parent="305" name="descricao">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="471" parent="305" name="sigla">
+    <column id="470" parent="305" name="sigla">
       <Position>3</Position>
       <DataType>varchar(2)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="472" parent="305" name="PRIMARY">
+    <key id="471" parent="305" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="473" parent="306" name="id">
+    <column id="472" parent="306" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="474" parent="306" name="descricao">
+    <column id="473" parent="306" name="descricao">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="475" parent="306" name="sigla">
+    <column id="474" parent="306" name="sigla">
       <Position>3</Position>
       <DataType>varchar(8)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="476" parent="306" name="PRIMARY">
+    <key id="475" parent="306" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="477" parent="307" name="id">
+    <column id="476" parent="307" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="478" parent="307" name="nome">
+    <column id="477" parent="307" name="nome">
       <Position>2</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="479" parent="307" name="apelido">
+    <column id="478" parent="307" name="apelido">
       <Position>3</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="480" parent="307" name="senha">
+    <column id="479" parent="307" name="senha">
       <Position>4</Position>
       <DataType>varchar(56)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="481" parent="307" name="sisCargo_id">
+    <column id="480" parent="307" name="sisCargo_id">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="482" parent="307" name="sisSituacaoSistema_id">
+    <column id="481" parent="307" name="sisSituacaoSistema_id">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="483" parent="307" name="tabLoja_id">
+    <column id="482" parent="307" name="tabLoja_id">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="484" parent="307" name="fk_tabColaborador_sisCargo1_idx">
+    <index id="483" parent="307" name="fk_tabColaborador_sisCargo1_idx">
       <ColNames>sisCargo_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="485" parent="307" name="fk_tabColaborador_sisSituacaoSistema1_idx">
+    <index id="484" parent="307" name="fk_tabColaborador_sisSituacaoSistema1_idx">
       <ColNames>sisSituacaoSistema_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="486" parent="307" name="fk_tabColaborador_tabEmpresa1_idx">
+    <index id="485" parent="307" name="fk_tabColaborador_tabEmpresa1_idx">
       <ColNames>tabLoja_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="487" parent="307" name="PRIMARY">
+    <key id="486" parent="307" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="488" parent="307" name="fk_tabColaborador_sisCargo1">
+    <foreign-key id="487" parent="307" name="fk_tabColaborador_sisCargo1">
       <ColNames>sisCargo_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>siscargo</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="489" parent="307" name="fk_tabColaborador_sisSituacaoSistema1">
+    <foreign-key id="488" parent="307" name="fk_tabColaborador_sisSituacaoSistema1">
       <ColNames>sisSituacaoSistema_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>sissituacaosistema</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="490" parent="307" name="fk_tabColaborador_tabEmpresa1">
+    <foreign-key id="489" parent="307" name="fk_tabColaborador_tabEmpresa1">
       <ColNames>tabLoja_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabempresa</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="491" parent="308" name="id">
+    <column id="490" parent="308" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="492" parent="308" name="descricao">
+    <column id="491" parent="308" name="descricao">
       <Position>2</Position>
       <DataType>varchar(40)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="493" parent="308" name="sisCargo_id">
+    <column id="492" parent="308" name="sisCargo_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="494" parent="308" name="fk_tabContato_sisCargo1_idx">
+    <index id="493" parent="308" name="fk_tabContato_sisCargo1_idx">
       <ColNames>sisCargo_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="495" parent="308" name="PRIMARY">
+    <key id="494" parent="308" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="496" parent="308" name="fk_tabContato_sisCargo1">
+    <foreign-key id="495" parent="308" name="fk_tabContato_sisCargo1">
       <ColNames>sisCargo_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>siscargo</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="497" parent="309" name="id">
+    <column id="496" parent="309" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="498" parent="309" name="descricao">
+    <column id="497" parent="309" name="descricao">
       <Position>2</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="499" parent="309" name="isEmail">
+    <column id="498" parent="309" name="isEmail">
       <Position>3</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="500" parent="309" name="PRIMARY">
+    <key id="499" parent="309" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="501" parent="310" name="id">
+    <column id="500" parent="310" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="502" parent="310" name="isEmpresa">
+    <column id="501" parent="310" name="isEmpresa">
       <Position>2</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="503" parent="310" name="cnpj">
+    <column id="502" parent="310" name="cnpj">
       <Position>3</Position>
       <DataType>varchar(14)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="504" parent="310" name="ieIsento">
+    <column id="503" parent="310" name="ieIsento">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="505" parent="310" name="ie">
+    <column id="504" parent="310" name="ie">
       <Position>5</Position>
       <DataType>varchar(14)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="506" parent="310" name="razao">
+    <column id="505" parent="310" name="razao">
       <Position>6</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="507" parent="310" name="fantasia">
+    <column id="506" parent="310" name="fantasia">
       <Position>7</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="508" parent="310" name="isLoja">
+    <column id="507" parent="310" name="isLoja">
       <Position>8</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="509" parent="310" name="isCliente">
+    <column id="508" parent="310" name="isCliente">
       <Position>9</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="510" parent="310" name="isFornecedor">
+    <column id="509" parent="310" name="isFornecedor">
       <Position>10</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="511" parent="310" name="isTransportadora">
+    <column id="510" parent="310" name="isTransportadora">
       <Position>11</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="512" parent="310" name="sisSituacaoSistema_id">
+    <column id="511" parent="310" name="sisSituacaoSistema_id">
       <Position>12</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="513" parent="310" name="usuarioCadastro_id">
+    <column id="512" parent="310" name="usuarioCadastro_id">
       <Position>13</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="514" parent="310" name="dataCadastro">
+    <column id="513" parent="310" name="dataCadastro">
       <Position>14</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="515" parent="310" name="usuarioAtualizacao_id">
+    <column id="514" parent="310" name="usuarioAtualizacao_id">
       <Position>15</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="516" parent="310" name="dataAtualizacao">
+    <column id="515" parent="310" name="dataAtualizacao">
       <Position>16</Position>
       <DataType>timestamp|0s</DataType>
       <ColumnKind>normal</ColumnKind>
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
     </column>
-    <column id="517" parent="310" name="dataAbertura">
+    <column id="516" parent="310" name="dataAbertura">
       <Position>17</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="518" parent="310" name="naturezaJuridica">
+    <column id="517" parent="310" name="naturezaJuridica">
       <Position>18</Position>
       <DataType>varchar(150)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="519" parent="310" name="fk_tabEmpresa_sisSituacaoSistema1_idx">
+    <index id="518" parent="310" name="fk_tabEmpresa_sisSituacaoSistema1_idx">
       <ColNames>sisSituacaoSistema_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="520" parent="310" name="fk_tabEmpresa_tabColaborador1_idx">
+    <index id="519" parent="310" name="fk_tabEmpresa_tabColaborador1_idx">
       <ColNames>usuarioCadastro_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="521" parent="310" name="fk_tabEmpresa_tabColaborador2_idx">
+    <index id="520" parent="310" name="fk_tabEmpresa_tabColaborador2_idx">
       <ColNames>usuarioAtualizacao_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="522" parent="310" name="PRIMARY">
+    <key id="521" parent="310" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="523" parent="310" name="fk_tabEmpresa_sisSituacaoSistema1">
+    <foreign-key id="522" parent="310" name="fk_tabEmpresa_sisSituacaoSistema1">
       <ColNames>sisSituacaoSistema_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>sissituacaosistema</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="524" parent="310" name="fk_tabEmpresa_tabColaborador1">
+    <foreign-key id="523" parent="310" name="fk_tabEmpresa_tabColaborador1">
       <ColNames>usuarioCadastro_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabcolaborador</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="525" parent="310" name="fk_tabEmpresa_tabColaborador2">
+    <foreign-key id="524" parent="310" name="fk_tabEmpresa_tabColaborador2">
       <ColNames>usuarioAtualizacao_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabcolaborador</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="526" parent="311" name="id">
+    <column id="525" parent="311" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="527" parent="311" name="sisTipoEndereco_id">
+    <column id="526" parent="311" name="sisTipoEndereco_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="528" parent="311" name="cep">
+    <column id="527" parent="311" name="cep">
       <Position>3</Position>
       <DataType>varchar(8)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="529" parent="311" name="logradouro">
+    <column id="528" parent="311" name="logradouro">
       <Position>4</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="530" parent="311" name="numero">
+    <column id="529" parent="311" name="numero">
       <Position>5</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="531" parent="311" name="complemento">
+    <column id="530" parent="311" name="complemento">
       <Position>6</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="532" parent="311" name="bairro">
+    <column id="531" parent="311" name="bairro">
       <Position>7</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="533" parent="311" name="sisMunicipio_id">
+    <column id="532" parent="311" name="sisMunicipio_id">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="534" parent="311" name="pontoReferencia">
+    <column id="533" parent="311" name="pontoReferencia">
       <Position>9</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="535" parent="311" name="fk_tabEndereco_sisTipoEndereco1_idx">
+    <index id="534" parent="311" name="fk_tabEndereco_sisTipoEndereco1_idx">
       <ColNames>sisTipoEndereco_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="536" parent="311" name="fk_tabEndereco_sisMunicipio1_idx">
+    <index id="535" parent="311" name="fk_tabEndereco_sisMunicipio1_idx">
       <ColNames>sisMunicipio_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="537" parent="311" name="PRIMARY">
+    <key id="536" parent="311" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="538" parent="311" name="fk_tabEndereco_sisTipoEndereco1">
+    <foreign-key id="537" parent="311" name="fk_tabEndereco_sisTipoEndereco1">
       <ColNames>sisTipoEndereco_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>sistipoendereco</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="539" parent="311" name="fk_tabEndereco_sisMunicipio1">
+    <foreign-key id="538" parent="311" name="fk_tabEndereco_sisMunicipio1">
       <ColNames>sisMunicipio_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>sismunicipio</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="540" parent="312" name="id">
+    <column id="539" parent="312" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="541" parent="312" name="lojaDestino_id">
+    <column id="540" parent="312" name="lojaDestino_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="542" parent="312" name="chaveNfe">
+    <column id="541" parent="312" name="chaveNfe">
       <Position>3</Position>
       <DataType>varchar(44)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="543" parent="312" name="numeroNfe">
+    <column id="542" parent="312" name="numeroNfe">
       <Position>4</Position>
       <DataType>int(9)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="544" parent="312" name="serieNfe">
+    <column id="543" parent="312" name="serieNfe">
       <Position>5</Position>
       <DataType>int(3)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="545" parent="312" name="modeloNfeCte_id">
+    <column id="544" parent="312" name="modeloNfe_id">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="546" parent="312" name="fornecedor_id">
+    <column id="545" parent="312" name="fornecedor_id">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="547" parent="312" name="dataEmissaoNfe">
+    <column id="546" parent="312" name="dataEmissaoNfe">
       <Position>8</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="548" parent="312" name="dataEntradaNfe">
+    <column id="547" parent="312" name="dataEntradaNfe">
       <Position>9</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="549" parent="312" name="statusNfe_id">
+    <column id="548" parent="312" name="statusNfe_id">
       <Position>10</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="550" parent="312" name="fiscal_id">
+    <column id="549" parent="312" name="fiscal_id">
       <Position>11</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="551" parent="312" name="frete_id">
+    <column id="550" parent="312" name="frete_id">
       <Position>12</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="552" parent="312" name="fk_tabEntradaProduto_LojaDestino1_idx">
+    <index id="551" parent="312" name="fk_tabEntradaProduto_LojaDestino1_idx">
       <ColNames>lojaDestino_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="553" parent="312" name="fk_tabEntradaProduto_ModeloNfeCte1_idx">
-      <ColNames>modeloNfeCte_id</ColNames>
+    <index id="552" parent="312" name="fk_tabEntradaProduto_ModeloNfeCte1_idx">
+      <ColNames>modeloNfe_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="554" parent="312" name="fk_tabEntradaProduto_Fornecedor1_idx">
+    <index id="553" parent="312" name="fk_tabEntradaProduto_Fornecedor1_idx">
       <ColNames>fornecedor_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="555" parent="312" name="fk_tabEntradaProduto_StatusNfe1_idx">
+    <index id="554" parent="312" name="fk_tabEntradaProduto_StatusNfe1_idx">
       <ColNames>statusNfe_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="556" parent="312" name="fk_tabEntradaProduto_Fiscal1_idx">
+    <index id="555" parent="312" name="fk_tabEntradaProduto_Fiscal1_idx">
       <ColNames>fiscal_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="557" parent="312" name="fk_tabEntradaProduto_Frete1_idx">
+    <index id="556" parent="312" name="fk_tabEntradaProduto_Frete1_idx">
       <ColNames>frete_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="558" parent="312" name="PRIMARY">
+    <key id="557" parent="312" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="559" parent="312" name="fk_tabEntradaProduto_LojaDestino1">
+    <foreign-key id="558" parent="312" name="fk_tabEntradaProduto_LojaDestino1">
       <ColNames>lojaDestino_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabEmpresa</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="560" parent="312" name="fk_tabEntradaProduto_ModeloNfeCte1">
-      <ColNames>modeloNfeCte_id</ColNames>
+    <foreign-key id="559" parent="312" name="fk_tabEntradaProduto_ModeloNfeCte1">
+      <ColNames>modeloNfe_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalModeloNfeCte</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="561" parent="312" name="fk_tabEntradaProduto_Fornecedor1">
+    <foreign-key id="560" parent="312" name="fk_tabEntradaProduto_Fornecedor1">
       <ColNames>fornecedor_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabEmpresa</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="562" parent="312" name="fk_tabEntradaProduto_StatusNfe1">
+    <foreign-key id="561" parent="312" name="fk_tabEntradaProduto_StatusNfe1">
       <ColNames>statusNfe_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>sisStatusNfe</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="563" parent="312" name="fk_tabEntradaProduto_Fiscal1">
+    <foreign-key id="562" parent="312" name="fk_tabEntradaProduto_Fiscal1">
       <ColNames>fiscal_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabEntradaProduto_Fiscal_Nfe</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="564" parent="312" name="fk_tabEntradaProduto_Frete1">
+    <foreign-key id="563" parent="312" name="fk_tabEntradaProduto_Frete1">
       <ColNames>frete_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabEntradaProduto_Frete</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="565" parent="313" name="id">
+    <column id="564" parent="313" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="566" parent="313" name="numControle">
+    <column id="565" parent="313" name="numControle">
       <Position>2</Position>
       <DataType>varchar(13)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="567" parent="313" name="docOrigem">
+    <column id="566" parent="313" name="docOrigem">
       <Position>3</Position>
       <DataType>varchar(12)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="568" parent="313" name="fiscalTributoSefazAm_id">
+    <column id="567" parent="313" name="fiscalTributoSefazAm_id">
       <Position>4</Position>
       <DataType>int(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="569" parent="313" name="vlrNfe">
+    <column id="568" parent="313" name="vlrNfe">
       <Position>5</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="570" parent="313" name="vlrTributo">
+    <column id="569" parent="313" name="vlrTributo">
       <Position>6</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="571" parent="313" name="vlrMulta">
+    <column id="570" parent="313" name="vlrMulta">
       <Position>7</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="572" parent="313" name="vlrJuros">
+    <column id="571" parent="313" name="vlrJuros">
       <Position>8</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="573" parent="313" name="vlrTaxa">
+    <column id="572" parent="313" name="vlrTaxa">
       <Position>9</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="574" parent="313" name="fk_tabEntradaProduto_Fiscal_fiscalTributoSefazAm1_idx">
+    <index id="573" parent="313" name="fk_tabEntradaProduto_Fiscal_fiscalTributoSefazAm1_idx">
       <ColNames>fiscalTributoSefazAm_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="575" parent="313" name="PRIMARY">
+    <key id="574" parent="313" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="576" parent="313" name="fk_tabEntradaProduto_Fiscal_fiscalTributoSefazAm10">
+    <foreign-key id="575" parent="313" name="fk_tabEntradaProduto_Fiscal_fiscalTributoSefazAm10">
       <ColNames>fiscalTributoSefazAm_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalTributoSefazAm</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="577" parent="314" name="id">
+    <column id="576" parent="314" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="578" parent="314" name="numControle">
+    <column id="577" parent="314" name="numControle">
       <Position>2</Position>
       <DataType>varchar(13)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="579" parent="314" name="docOrigem">
+    <column id="578" parent="314" name="docOrigem">
       <Position>3</Position>
       <DataType>varchar(12)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="580" parent="314" name="fiscalTributoSefazAm_id">
+    <column id="579" parent="314" name="fiscalTributoSefazAm_id">
       <Position>4</Position>
       <DataType>int(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="581" parent="314" name="vlrNfe">
+    <column id="580" parent="314" name="vlrNfe">
       <Position>5</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="582" parent="314" name="vlrTributo">
+    <column id="581" parent="314" name="vlrTributo">
       <Position>6</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="583" parent="314" name="vlrMulta">
+    <column id="582" parent="314" name="vlrMulta">
       <Position>7</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="584" parent="314" name="vlrJuros">
+    <column id="583" parent="314" name="vlrJuros">
       <Position>8</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="585" parent="314" name="vlrTaxa">
+    <column id="584" parent="314" name="vlrTaxa">
       <Position>9</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="586" parent="314" name="fk_tabEntradaProduto_Fiscal_fiscalTributoSefazAm1_idx">
+    <index id="585" parent="314" name="fk_tabEntradaProduto_Fiscal_fiscalTributoSefazAm1_idx">
       <ColNames>fiscalTributoSefazAm_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="587" parent="314" name="PRIMARY">
+    <key id="586" parent="314" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="588" parent="314" name="fk_tabEntradaProduto_Fiscal_fiscalTributoSefazAm1">
+    <foreign-key id="587" parent="314" name="fk_tabEntradaProduto_Fiscal_fiscalTributoSefazAm1">
       <ColNames>fiscalTributoSefazAm_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalTributoSefazAm</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="589" parent="315" name="id">
+    <column id="588" parent="315" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="590" parent="315" name="chaveCte">
+    <column id="589" parent="315" name="chaveCte">
       <Position>2</Position>
       <DataType>varchar(44)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="591" parent="315" name="tomadorServico_id">
+    <column id="590" parent="315" name="tomadorServico_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="592" parent="315" name="numeroCte">
+    <column id="591" parent="315" name="numeroCte">
       <Position>4</Position>
       <DataType>int(9)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="593" parent="315" name="serieCte">
+    <column id="592" parent="315" name="serieCte">
       <Position>5</Position>
       <DataType>int(3)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="594" parent="315" name="modeloNfeCte_id">
+    <column id="593" parent="315" name="modeloNfeCte_id">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="595" parent="315" name="situacaoTributaria_id">
+    <column id="594" parent="315" name="situacaoTributaria_id">
       <Position>7</Position>
       <DataType>varchar(2)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="596" parent="315" name="transportadora_id">
+    <column id="595" parent="315" name="transportadora_id">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="597" parent="315" name="dataEmissaoCte">
+    <column id="596" parent="315" name="dataEmissaoCte">
       <Position>9</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="598" parent="315" name="vlrCte">
+    <column id="597" parent="315" name="vlrCte">
       <Position>10</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="599" parent="315" name="qtdVolume">
+    <column id="598" parent="315" name="qtdVolume">
       <Position>11</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="600" parent="315" name="pesoBruto">
+    <column id="599" parent="315" name="pesoBruto">
       <Position>12</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="601" parent="315" name="vlrFreteBruto">
+    <column id="600" parent="315" name="vlrFreteBruto">
       <Position>13</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="602" parent="315" name="vlrImpostoFrete">
+    <column id="601" parent="315" name="vlrImpostoFrete">
       <Position>14</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="603" parent="315" name="fiscal_Cte_id">
+    <column id="602" parent="315" name="fiscal_Cte_id">
       <Position>15</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="604" parent="315" name="fk_tabEntradaProduto_TomadorServico1_idx">
+    <index id="603" parent="315" name="fk_tabEntradaProduto_TomadorServico1_idx">
       <ColNames>tomadorServico_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="605" parent="315" name="fk_tabEntradaProduto_ModeloNfeCte2_idx">
+    <index id="604" parent="315" name="fk_tabEntradaProduto_ModeloNfeCte2_idx">
       <ColNames>modeloNfeCte_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="606" parent="315" name="fk_tabEntradaProduto_SituacaoTributaria1_idx">
+    <index id="605" parent="315" name="fk_tabEntradaProduto_SituacaoTributaria1_idx">
       <ColNames>situacaoTributaria_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="607" parent="315" name="fk_tabEntradaProduto_Transportadora1_idx">
+    <index id="606" parent="315" name="fk_tabEntradaProduto_Transportadora1_idx">
       <ColNames>transportadora_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="608" parent="315" name="fk_tabEntradaProduto_Fiscal_Cte1_idx">
+    <index id="607" parent="315" name="fk_tabEntradaProduto_Fiscal_Cte1_idx">
       <ColNames>fiscal_Cte_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="609" parent="315" name="PRIMARY">
+    <key id="608" parent="315" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="610" parent="315" name="fk_tabEntradaProduto_TomadorServico1">
+    <foreign-key id="609" parent="315" name="fk_tabEntradaProduto_TomadorServico1">
       <ColNames>tomadorServico_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalFreteTomadorServico</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="611" parent="315" name="fk_tabEntradaProduto_ModeloNfeCte2">
+    <foreign-key id="610" parent="315" name="fk_tabEntradaProduto_ModeloNfeCte2">
       <ColNames>modeloNfeCte_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalModeloNfeCte</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="612" parent="315" name="fk_tabEntradaProduto_SituacaoTributaria1">
+    <foreign-key id="611" parent="315" name="fk_tabEntradaProduto_SituacaoTributaria1">
       <ColNames>situacaoTributaria_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalFreteSituacaoTributaria</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="613" parent="315" name="fk_tabEntradaProduto_Transportadora1">
+    <foreign-key id="612" parent="315" name="fk_tabEntradaProduto_Transportadora1">
       <ColNames>transportadora_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabEmpresa</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="614" parent="315" name="fk_tabEntradaProduto_Fiscal_Cte1">
+    <foreign-key id="613" parent="315" name="fk_tabEntradaProduto_Fiscal_Cte1">
       <ColNames>fiscal_Cte_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabEntradaProduto_Fiscal_Cte</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="615" parent="316" name="id">
+    <column id="614" parent="316" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="616" parent="316" name="produto_id">
+    <column id="615" parent="316" name="produto_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="617" parent="316" name="qtd">
+    <column id="616" parent="316" name="qtd">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="618" parent="316" name="lote">
+    <column id="617" parent="316" name="lote">
       <Position>4</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="619" parent="316" name="validade">
+    <column id="618" parent="316" name="validade">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
@@ -2756,986 +2753,982 @@
       <ColumnKind>normal</ColumnKind>
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
     </column>
-    <column id="620" parent="316" name="vlrBruto">
+    <column id="619" parent="316" name="vlrBruto">
       <Position>6</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="621" parent="316" name="vlrImposto">
+    <column id="620" parent="316" name="vlrImposto">
       <Position>7</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="622" parent="316" name="vlrFrete">
+    <column id="621" parent="316" name="vlrFrete">
       <Position>8</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="623" parent="316" name="vlrFreteImposto">
+    <column id="622" parent="316" name="vlrFreteImposto">
       <Position>9</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="624" parent="316" name="vlrFreteLiquido">
+    <column id="623" parent="316" name="vlrFreteLiquido">
       <Position>10</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="625" parent="316" name="vlrLiquido">
+    <column id="624" parent="316" name="vlrLiquido">
       <Position>11</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="626" parent="316" name="usuarioCadastro_id">
+    <column id="625" parent="316" name="usuarioCadastro_id">
       <Position>12</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="627" parent="316" name="dataCadastro">
+    <column id="626" parent="316" name="dataCadastro">
       <Position>13</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="628" parent="316" name="docOrigem">
+    <column id="627" parent="316" name="docOrigem">
       <Position>14</Position>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="629" parent="316" name="chaveNfeEntrada">
+    <column id="628" parent="316" name="chaveNfeEntrada">
       <Position>15</Position>
       <DataType>varchar(44)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="630" parent="316" name="fk_tabEstoque_tabProduto1_idx">
+    <index id="629" parent="316" name="fk_tabEstoque_tabProduto1_idx">
       <ColNames>produto_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="631" parent="316" name="fk_tabEstoque_tabColaborador1_idx">
+    <index id="630" parent="316" name="fk_tabEstoque_tabColaborador1_idx">
       <ColNames>usuarioCadastro_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="632" parent="316" name="PRIMARY">
+    <key id="631" parent="316" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="633" parent="316" name="fk_tabEstoque_tabProduto1">
+    <foreign-key id="632" parent="316" name="fk_tabEstoque_tabProduto1">
       <ColNames>produto_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabproduto</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="634" parent="316" name="fk_tabEstoque_tabColaborador1">
+    <foreign-key id="633" parent="316" name="fk_tabEstoque_tabColaborador1">
       <ColNames>usuarioCadastro_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabcolaborador</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="635" parent="317" name="id">
+    <column id="634" parent="317" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="636" parent="317" name="isAtividadePrincipal">
+    <column id="635" parent="317" name="isAtividadePrincipal">
       <Position>2</Position>
       <DataType>int(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="637" parent="317" name="str_Key">
+    <column id="636" parent="317" name="str_Key">
       <Position>3</Position>
       <DataType>varchar(70)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="638" parent="317" name="str_Value">
+    <column id="637" parent="317" name="str_Value">
       <Position>4</Position>
       <DataType>varchar(500)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="639" parent="317" name="PRIMARY">
+    <key id="638" parent="317" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="640" parent="318" name="id">
+    <column id="639" parent="318" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="641" parent="318" name="codigo">
+    <column id="640" parent="318" name="codigo">
       <Position>2</Position>
       <DataType>varchar(15)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="642" parent="318" name="descricao">
+    <column id="641" parent="318" name="descricao">
       <Position>3</Position>
       <DataType>varchar(120)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="643" parent="318" name="peso">
+    <column id="642" parent="318" name="peso">
       <Position>4</Position>
       <DataType>decimal(9,3 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="644" parent="318" name="sisUnidadeComercial_id">
+    <column id="643" parent="318" name="sisUnidadeComercial_id">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="645" parent="318" name="sisSituacaoSistema_id">
+    <column id="644" parent="318" name="sisSituacaoSistema_id">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="646" parent="318" name="precoFabrica">
+    <column id="645" parent="318" name="precoFabrica">
       <Position>7</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="647" parent="318" name="precoVenda">
+    <column id="646" parent="318" name="precoVenda">
       <Position>8</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="648" parent="318" name="varejo">
+    <column id="647" parent="318" name="varejo">
       <Position>9</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="649" parent="318" name="precoUltimoImpostoSEFAZ">
+    <column id="648" parent="318" name="precoUltimoImpostoSEFAZ">
       <Position>10</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="650" parent="318" name="precoUltimoFrete">
+    <column id="649" parent="318" name="precoUltimoFrete">
       <Position>11</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="651" parent="318" name="comissao">
+    <column id="650" parent="318" name="comissao">
       <Position>12</Position>
       <DataType>decimal(11,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="652" parent="318" name="ncm">
+    <column id="651" parent="318" name="ncm">
       <Position>13</Position>
       <DataType>varchar(8)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="653" parent="318" name="cest">
+    <column id="652" parent="318" name="cest">
       <Position>14</Position>
       <DataType>varchar(7)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="654" parent="318" name="fiscalCstOrigem_id">
+    <column id="653" parent="318" name="fiscalCstOrigem_id">
       <Position>15</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="655" parent="318" name="fiscalIcms_id">
+    <column id="654" parent="318" name="fiscalIcms_id">
       <Position>16</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="656" parent="318" name="fiscalPis_id">
+    <column id="655" parent="318" name="fiscalPis_id">
       <Position>17</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="657" parent="318" name="fiscalCofins_id">
+    <column id="656" parent="318" name="fiscalCofins_id">
       <Position>18</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="658" parent="318" name="nfeGenero">
+    <column id="657" parent="318" name="nfeGenero">
       <Position>19</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="659" parent="318" name="usuarioCadastro_id">
+    <column id="658" parent="318" name="usuarioCadastro_id">
       <Position>20</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="660" parent="318" name="dataCadastro">
+    <column id="659" parent="318" name="dataCadastro">
       <Position>21</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="661" parent="318" name="usuarioAtualizacao_id">
+    <column id="660" parent="318" name="usuarioAtualizacao_id">
       <Position>22</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="662" parent="318" name="dataAtualizacao">
+    <column id="661" parent="318" name="dataAtualizacao">
       <Position>23</Position>
       <DataType>timestamp|0s</DataType>
       <ColumnKind>normal</ColumnKind>
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
     </column>
-    <column id="663" parent="318" name="imgProduto">
+    <column id="662" parent="318" name="imgProduto">
       <Position>24</Position>
       <DataType>longblob|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="664" parent="318" name="fk_tabProduto_sisUnidadeComercial1_idx">
+    <index id="663" parent="318" name="fk_tabProduto_sisUnidadeComercial1_idx">
       <ColNames>sisUnidadeComercial_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="665" parent="318" name="fk_tabProduto_sisSituacaoSistema1_idx">
+    <index id="664" parent="318" name="fk_tabProduto_sisSituacaoSistema1_idx">
       <ColNames>sisSituacaoSistema_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="666" parent="318" name="fk_tabProduto_fiscalCSTOrigem1_idx">
+    <index id="665" parent="318" name="fk_tabProduto_fiscalCSTOrigem1_idx">
       <ColNames>fiscalCstOrigem_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="667" parent="318" name="fk_tabProduto_fiscalICMS1_idx">
+    <index id="666" parent="318" name="fk_tabProduto_fiscalICMS1_idx">
       <ColNames>fiscalIcms_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="668" parent="318" name="fk_tabProduto_fiscalPISCOFINS1_idx">
+    <index id="667" parent="318" name="fk_tabProduto_fiscalPISCOFINS1_idx">
       <ColNames>fiscalPis_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="669" parent="318" name="fk_tabProduto_fiscalPISCOFINS1_idx1">
+    <index id="668" parent="318" name="fk_tabProduto_fiscalPISCOFINS1_idx1">
       <ColNames>fiscalCofins_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="670" parent="318" name="fk_tabProduto_tabColaborador1_idx">
+    <index id="669" parent="318" name="fk_tabProduto_tabColaborador1_idx">
       <ColNames>usuarioCadastro_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="671" parent="318" name="fk_tabProduto_tabColaborador2_idx">
+    <index id="670" parent="318" name="fk_tabProduto_tabColaborador2_idx">
       <ColNames>usuarioAtualizacao_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="672" parent="318" name="PRIMARY">
+    <key id="671" parent="318" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="673" parent="318" name="fk_tabProduto_sisUnidadeComercial1">
+    <foreign-key id="672" parent="318" name="fk_tabProduto_sisUnidadeComercial1">
       <ColNames>sisUnidadeComercial_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>sisunidadecomercial</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="674" parent="318" name="fk_tabProduto_sisSituacaoSistema1">
+    <foreign-key id="673" parent="318" name="fk_tabProduto_sisSituacaoSistema1">
       <ColNames>sisSituacaoSistema_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>sissituacaosistema</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="675" parent="318" name="fk_tabProduto_fiscalCSTOrigem1">
+    <foreign-key id="674" parent="318" name="fk_tabProduto_fiscalCSTOrigem1">
       <ColNames>fiscalCstOrigem_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalcstorigem</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="676" parent="318" name="fk_tabProduto_fiscalICMS1">
+    <foreign-key id="675" parent="318" name="fk_tabProduto_fiscalICMS1">
       <ColNames>fiscalIcms_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalicms</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="677" parent="318" name="fk_tabProduto_fiscalPIS1">
+    <foreign-key id="676" parent="318" name="fk_tabProduto_fiscalPIS1">
       <ColNames>fiscalPis_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalpiscofins</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="678" parent="318" name="fk_tabProduto_fiscalCOFINS1">
+    <foreign-key id="677" parent="318" name="fk_tabProduto_fiscalCOFINS1">
       <ColNames>fiscalCofins_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>fiscalpiscofins</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="679" parent="318" name="fk_tabProduto_tabColaborador1">
+    <foreign-key id="678" parent="318" name="fk_tabProduto_tabColaborador1">
       <ColNames>usuarioCadastro_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabcolaborador</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="680" parent="318" name="fk_tabProduto_tabColaborador2">
+    <foreign-key id="679" parent="318" name="fk_tabProduto_tabColaborador2">
       <ColNames>usuarioAtualizacao_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>tabcolaborador</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="681" parent="319" name="id">
+    <column id="680" parent="319" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="682" parent="319" name="codBarra">
+    <column id="681" parent="319" name="codBarra">
       <Position>2</Position>
       <DataType>varchar(13)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="683" parent="319" name="imgCodBarra">
+    <column id="682" parent="319" name="imgCodBarra">
       <Position>3</Position>
       <DataType>longblob|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="684" parent="319" name="OIOIOI">
+    <column id="683" parent="319" name="OIOIOI">
       <Position>4</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="685" parent="319" name="PRIMARY">
+    <key id="684" parent="319" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="686" parent="320" name="id">
+    <column id="685" parent="320" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="687" parent="320" name="descricao">
+    <column id="686" parent="320" name="descricao">
       <Position>2</Position>
       <DataType>varchar(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="688" parent="320" name="sisTelefoneOperadora_id">
+    <column id="687" parent="320" name="sisTelefoneOperadora_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="689" parent="320" name="fk_tabTelefone_sisTelefoneOperadora1_idx">
+    <index id="688" parent="320" name="fk_tabTelefone_sisTelefoneOperadora1_idx">
       <ColNames>sisTelefoneOperadora_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="690" parent="320" name="PRIMARY">
+    <key id="689" parent="320" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="691" parent="320" name="fk_tabTelefone_sisTelefoneOperadora1">
+    <foreign-key id="690" parent="320" name="fk_tabTelefone_sisTelefoneOperadora1">
       <ColNames>sisTelefoneOperadora_id</ColNames>
       <RefSchemaName>cafeperfeito</RefSchemaName>
       <RefTableName>sistelefoneoperadora</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <argument id="692" parent="321" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-    </argument>
-    <column id="693" parent="322" name="id">
+    <column id="691" parent="321" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="694" parent="322" name="descricao">
+    <column id="692" parent="321" name="descricao">
       <Position>2</Position>
       <DataType>varchar(40)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="695" parent="322" name="value">
+    <column id="693" parent="321" name="value">
       <Position>3</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="696" parent="322" name="PRIMARY">
+    <key id="694" parent="321" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="697" parent="323" name="id">
+    <column id="695" parent="322" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="698" parent="323" name="descricao">
+    <column id="696" parent="322" name="descricao">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="699" parent="323" name="PRIMARY">
+    <key id="697" parent="322" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="700" parent="324" name="id">
+    <column id="698" parent="323" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="701" parent="324" name="descricao">
+    <column id="699" parent="323" name="descricao">
       <Position>2</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="702" parent="324" name="PRIMARY">
+    <key id="700" parent="323" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="703" parent="325" name="id">
+    <column id="701" parent="324" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="704" parent="325" name="descricao">
+    <column id="702" parent="324" name="descricao">
       <Position>2</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="705" parent="325" name="PRIMARY">
+    <key id="703" parent="324" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="706" parent="326" name="id">
+    <column id="704" parent="325" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="707" parent="326" name="descricao">
+    <column id="705" parent="325" name="descricao">
       <Position>2</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="708" parent="326" name="PRIMARY">
+    <key id="706" parent="325" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="709" parent="327" name="id">
+    <column id="707" parent="326" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="710" parent="327" name="data">
+    <column id="708" parent="326" name="data">
       <Position>2</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="711" parent="327" name="loja_id">
+    <column id="709" parent="326" name="loja_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="712" parent="327" name="usuario_id">
+    <column id="710" parent="326" name="usuario_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="713" parent="327" name="classe">
+    <column id="711" parent="326" name="classe">
       <Position>5</Position>
       <DataType>varchar(60)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="714" parent="327" name="execucao">
+    <column id="712" parent="326" name="execucao">
       <Position>6</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="715" parent="327" name="descricao">
+    <column id="713" parent="326" name="descricao">
       <Position>7</Position>
       <DataType>varchar(1000)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="716" parent="327" name="PRIMARY">
+    <key id="714" parent="326" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="717" parent="328" name="id">
+    <column id="715" parent="327" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="718" parent="328" name="descricao">
+    <column id="716" parent="327" name="descricao">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="719" parent="328" name="filho_id">
+    <column id="717" parent="327" name="filho_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="720" parent="328" name="imagemNome">
+    <column id="718" parent="327" name="imagemNome">
       <Position>4</Position>
       <DataType>varchar(60)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="721" parent="328" name="tabPane">
+    <column id="719" parent="327" name="tabPane">
       <Position>5</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="722" parent="328" name="teclasAtalho">
+    <column id="720" parent="327" name="teclasAtalho">
       <Position>6</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="723" parent="328" name="PRIMARY">
+    <key id="721" parent="327" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="724" parent="329" name="id">
+    <column id="722" parent="328" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="725" parent="329" name="codigo">
+    <column id="723" parent="328" name="codigo">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="726" parent="329" name="descricao">
+    <column id="724" parent="328" name="descricao">
       <Position>3</Position>
       <DataType>varchar(350)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="727" parent="329" name="indNFe">
+    <column id="725" parent="328" name="indNFe">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="728" parent="329" name="PRIMARY">
+    <key id="726" parent="328" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="729" parent="330" name="id">
+    <column id="727" parent="329" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="730" parent="330" name="ambiente">
+    <column id="728" parent="329" name="ambiente">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="731" parent="330" name="tipWebService">
+    <column id="729" parent="329" name="tipWebService">
       <Position>3</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="732" parent="330" name="versaoDados">
+    <column id="730" parent="329" name="versaoDados">
       <Position>4</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="733" parent="330" name="enderecoWebService">
+    <column id="731" parent="329" name="enderecoWebService">
       <Position>5</Position>
       <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="734" parent="330" name="PRIMARY">
+    <key id="732" parent="329" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="735" parent="331" name="id">
+    <column id="733" parent="330" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="736" parent="331" name="descricao">
+    <column id="734" parent="330" name="descricao">
       <Position>2</Position>
       <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="737" parent="331" name="PRIMARY">
+    <key id="735" parent="330" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="738" parent="332" name="id">
+    <column id="736" parent="331" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="739" parent="332" name="descricao">
+    <column id="737" parent="331" name="descricao">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="740" parent="332" name="PRIMARY">
+    <key id="738" parent="331" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="741" parent="333" name="id">
+    <column id="739" parent="332" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="742" parent="333" name="descricao">
+    <column id="740" parent="332" name="descricao">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="743" parent="333" name="PRIMARY">
+    <key id="741" parent="332" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="744" parent="334" name="id">
+    <column id="742" parent="333" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="745" parent="334" name="descricao">
+    <column id="743" parent="333" name="descricao">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="746" parent="334" name="sigla">
+    <column id="744" parent="333" name="sigla">
       <Position>3</Position>
       <DataType>varchar(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="747" parent="334" name="PRIMARY">
+    <key id="745" parent="333" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="748" parent="335" name="id">
+    <column id="746" parent="334" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="749" parent="335" name="descricao">
+    <column id="747" parent="334" name="descricao">
       <Position>2</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="750" parent="335" name="uf_id">
+    <column id="748" parent="334" name="uf_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="751" parent="335" name="isCapital">
+    <column id="749" parent="334" name="isCapital">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="752" parent="335" name="ibge_id">
+    <column id="750" parent="334" name="ibge_id">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="753" parent="335" name="fk_tabSis_Cidades_tabSis_Estados1_idx">
+    <index id="751" parent="334" name="fk_tabSis_Cidades_tabSis_Estados1_idx">
       <ColNames>uf_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="754" parent="335" name="PRIMARY">
+    <key id="752" parent="334" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="755" parent="335" name="fk_tabSis_Cidades_tabSis_Estados1">
+    <foreign-key id="753" parent="334" name="fk_tabSis_Cidades_tabSis_Estados1">
       <ColNames>uf_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sisuf</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="756" parent="336" name="id">
+    <column id="754" parent="335" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="757" parent="336" name="descricao">
+    <column id="755" parent="335" name="descricao">
       <Position>2</Position>
       <DataType>varchar(40)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="758" parent="336" name="classificacao">
+    <column id="756" parent="335" name="classificacao">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="759" parent="336" name="PRIMARY">
+    <key id="757" parent="335" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="760" parent="337" name="id">
+    <column id="758" parent="336" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="761" parent="337" name="descricao">
+    <column id="759" parent="336" name="descricao">
       <Position>2</Position>
       <DataType>varchar(40)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="762" parent="337" name="PRIMARY">
+    <key id="760" parent="336" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="763" parent="338" name="id">
+    <column id="761" parent="337" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="764" parent="338" name="descricao">
+    <column id="762" parent="337" name="descricao">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="765" parent="338" name="PRIMARY">
+    <key id="763" parent="337" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="766" parent="339" name="id">
+    <column id="764" parent="338" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="767" parent="339" name="descricao">
+    <column id="765" parent="338" name="descricao">
       <Position>2</Position>
       <DataType>varchar(40)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="768" parent="339" name="PRIMARY">
+    <key id="766" parent="338" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="769" parent="340" name="id">
+    <column id="767" parent="339" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="770" parent="340" name="descricao">
+    <column id="768" parent="339" name="descricao">
       <Position>2</Position>
       <DataType>varchar(40)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="771" parent="340" name="sigla">
+    <column id="769" parent="339" name="sigla">
       <Position>3</Position>
       <DataType>varchar(2)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="772" parent="340" name="ibge_id">
+    <column id="770" parent="339" name="ibge_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="773" parent="340" name="PRIMARY">
+    <key id="771" parent="339" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="774" parent="341" name="id">
+    <column id="772" parent="340" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="775" parent="341" name="descricao">
+    <column id="773" parent="340" name="descricao">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="776" parent="341" name="PRIMARY">
+    <key id="774" parent="340" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="777" parent="342" name="id">
+    <column id="775" parent="341" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="778" parent="342" name="nome">
+    <column id="776" parent="341" name="nome">
       <Position>2</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="779" parent="342" name="apelido">
+    <column id="777" parent="341" name="apelido">
       <Position>3</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="780" parent="342" name="email">
+    <column id="778" parent="341" name="email">
       <Position>4</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="781" parent="342" name="senha">
+    <column id="779" parent="341" name="senha">
       <Position>5</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="782" parent="342" name="cargo_id">
+    <column id="780" parent="341" name="cargo_id">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="783" parent="342" name="loja_id">
+    <column id="781" parent="341" name="loja_id">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="784" parent="342" name="situacaoNoSistema_id">
+    <column id="782" parent="341" name="situacaoNoSistema_id">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="785" parent="342" name="tabColaboradores_tabCargos_id_fk">
+    <index id="783" parent="341" name="tabColaboradores_tabCargos_id_fk">
       <ColNames>cargo_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="786" parent="342" name="tabColaboradores_tabLojas_id_fk">
+    <index id="784" parent="341" name="tabColaboradores_tabLojas_id_fk">
       <ColNames>loja_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="787" parent="342" name="tabColaboradores_SisSituacaoNoSistema_id_fk">
+    <index id="785" parent="341" name="tabColaboradores_SisSituacaoNoSistema_id_fk">
       <ColNames>situacaoNoSistema_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="788" parent="342" name="PRIMARY">
+    <key id="786" parent="341" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="789" parent="342" name="tabColaboradores_tabCargos_id_fk">
+    <foreign-key id="787" parent="341" name="tabColaboradores_tabCargos_id_fk">
       <ColNames>cargo_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>tabcargo</RefTableName>
@@ -3743,7 +3736,7 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="790" parent="342" name="tabColaboradores_tabLojas_id_fk">
+    <foreign-key id="788" parent="341" name="tabColaboradores_tabLojas_id_fk">
       <ColNames>loja_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>tabloja</RefTableName>
@@ -3751,7 +3744,7 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="791" parent="342" name="tabColaboradores_SisSituacaoNoSistema_id_fk">
+    <foreign-key id="789" parent="341" name="tabColaboradores_SisSituacaoNoSistema_id_fk">
       <ColNames>situacaoNoSistema_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sissituacaosistema</RefTableName>
@@ -3759,41 +3752,41 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="792" parent="343" name="id">
+    <column id="790" parent="342" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="793" parent="343" name="descricao">
+    <column id="791" parent="342" name="descricao">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="794" parent="343" name="origemTabela_id">
+    <column id="792" parent="342" name="origemTabela_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="795" parent="343" name="origemCodigo_id">
+    <column id="793" parent="342" name="origemCodigo_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="796" parent="343" name="fk_tab_Contatos_tabSis_OrigemTabela1_idx">
+    <index id="794" parent="342" name="fk_tab_Contatos_tabSis_OrigemTabela1_idx">
       <ColNames>origemTabela_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="797" parent="343" name="PRIMARY">
+    <key id="795" parent="342" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="798" parent="343" name="fk_tabContatos_SisOrigemTabela">
+    <foreign-key id="796" parent="342" name="fk_tabContatos_SisOrigemTabela">
       <ColNames>origemTabela_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sistabelaorigem</RefTableName>
@@ -3801,465 +3794,465 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="799" parent="344" name="id">
+    <column id="797" parent="343" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="800" parent="344" name="descricao">
+    <column id="798" parent="343" name="descricao">
       <Position>2</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="801" parent="344" name="isEmail">
+    <column id="799" parent="343" name="isEmail">
       <Position>3</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="802" parent="344" name="PRIMARY">
+    <key id="800" parent="343" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="803" parent="345" name="id">
+    <column id="801" parent="344" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="804" parent="345" name="classificacaoJuridica_id">
+    <column id="802" parent="344" name="classificacaoJuridica_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="805" parent="345" name="cnpj">
+    <column id="803" parent="344" name="cnpj">
       <Position>3</Position>
       <DataType>varchar(14)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="806" parent="345" name="ie">
+    <column id="804" parent="344" name="ie">
       <Position>4</Position>
       <DataType>varchar(12)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="807" parent="345" name="razao">
+    <column id="805" parent="344" name="razao">
       <Position>5</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="808" parent="345" name="fantasia">
+    <column id="806" parent="344" name="fantasia">
       <Position>6</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="809" parent="345" name="isCliente">
+    <column id="807" parent="344" name="isCliente">
       <Position>7</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="810" parent="345" name="isFornecedor">
+    <column id="808" parent="344" name="isFornecedor">
       <Position>8</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="811" parent="345" name="isTransportadora">
+    <column id="809" parent="344" name="isTransportadora">
       <Position>9</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="812" parent="345" name="usuarioCadastro_id">
+    <column id="810" parent="344" name="usuarioCadastro_id">
       <Position>10</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="813" parent="345" name="dataCadastro">
+    <column id="811" parent="344" name="dataCadastro">
       <Position>11</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="814" parent="345" name="usuarioAtualizacao_id">
+    <column id="812" parent="344" name="usuarioAtualizacao_id">
       <Position>12</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="815" parent="345" name="dataAtualizacao">
+    <column id="813" parent="344" name="dataAtualizacao">
       <Position>13</Position>
       <DataType>timestamp|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="816" parent="345" name="situacaoNoSistema_id">
+    <column id="814" parent="344" name="situacaoNoSistema_id">
       <Position>14</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="817" parent="345" name="dataAbertura">
+    <column id="815" parent="344" name="dataAbertura">
       <Position>15</Position>
       <DataType>timestamp|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="818" parent="345" name="naturezaJuridica">
+    <column id="816" parent="344" name="naturezaJuridica">
       <Position>16</Position>
       <DataType>varchar(120)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="819" parent="345" name="cnpj_UNIQUE">
+    <index id="817" parent="344" name="cnpj_UNIQUE">
       <ColNames>cnpj</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="820" parent="345" name="fk_tab_Empresas_tabSis_ClassificacaoJuridica1_idx">
+    <index id="818" parent="344" name="fk_tab_Empresas_tabSis_ClassificacaoJuridica1_idx">
       <ColNames>classificacaoJuridica_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="821" parent="345" name="fk_tab_Empresas_tab_Colaboradores1_idx">
+    <index id="819" parent="344" name="fk_tab_Empresas_tab_Colaboradores1_idx">
       <ColNames>usuarioCadastro_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="822" parent="345" name="fk_tab_Empresas_tabSis_SituacaoNoSistema1_idx">
+    <index id="820" parent="344" name="fk_tab_Empresas_tabSis_SituacaoNoSistema1_idx">
       <ColNames>situacaoNoSistema_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="823" parent="345" name="PRIMARY">
+    <key id="821" parent="344" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="824" parent="345" name="cnpj_UNIQUE">
+    <key id="822" parent="344" name="cnpj_UNIQUE">
       <ColNames>cnpj</ColNames>
       <UnderlyingIndexName>cnpj_UNIQUE</UnderlyingIndexName>
     </key>
-    <foreign-key id="825" parent="345" name="fk_tab_Empresas_tabSis_ClassificacaoJuridica1">
+    <foreign-key id="823" parent="344" name="fk_tab_Empresas_tabSis_ClassificacaoJuridica1">
       <ColNames>classificacaoJuridica_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sisclassificacaojuridica</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="826" parent="345" name="fk_tab_Empresas_tab_Colaboradores1">
+    <foreign-key id="824" parent="344" name="fk_tab_Empresas_tab_Colaboradores1">
       <ColNames>usuarioCadastro_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>tabcolaborador</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="827" parent="345" name="fk_tab_Empresas_tabSis_SituacaoNoSistema1">
+    <foreign-key id="825" parent="344" name="fk_tab_Empresas_tabSis_SituacaoNoSistema1">
       <ColNames>situacaoNoSistema_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sissituacaosistema</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="828" parent="346" name="id">
+    <column id="826" parent="345" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="829" parent="346" name="empresa_id">
+    <column id="827" parent="345" name="empresa_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="830" parent="346" name="produto_id">
+    <column id="828" parent="345" name="produto_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="831" parent="346" name="qtdMinima">
+    <column id="829" parent="345" name="qtdMinima">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="832" parent="346" name="qtdBonificacao">
+    <column id="830" parent="345" name="qtdBonificacao">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="833" parent="346" name="vlrDesc">
+    <column id="831" parent="345" name="vlrDesc">
       <Position>6</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="834" parent="346" name="prazo">
+    <column id="832" parent="345" name="prazo">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="835" parent="346" name="fk_tab_EmpresasCondicoesProdutos_tab_Empresas1_idx">
+    <index id="833" parent="345" name="fk_tab_EmpresasCondicoesProdutos_tab_Empresas1_idx">
       <ColNames>empresa_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="836" parent="346" name="PRIMARY">
+    <key id="834" parent="345" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="837" parent="346" name="fk_tab_EmpresasCondicoesProdutos_tab_Empresas1">
+    <foreign-key id="835" parent="345" name="fk_tab_EmpresasCondicoesProdutos_tab_Empresas1">
       <ColNames>empresa_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>tabempresas</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="838" parent="347" name="id">
+    <column id="836" parent="346" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="839" parent="347" name="empresa_id">
+    <column id="837" parent="346" name="empresa_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="840" parent="347" name="descricao">
+    <column id="838" parent="346" name="descricao">
       <Position>3</Position>
       <DataType>varchar(60)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="841" parent="347" name="value">
+    <column id="839" parent="346" name="value">
       <Position>4</Position>
       <DataType>varchar(500)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="842" parent="347" name="PRIMARY">
+    <key id="840" parent="346" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="843" parent="347" name="fk_tab_EmpresasDetalhesReceitaFederal_tab_Empresas1">
+    <foreign-key id="841" parent="346" name="fk_tab_EmpresasDetalhesReceitaFederal_tab_Empresas1">
       <ColNames>id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>tabempresas</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="844" parent="348" name="id">
+    <column id="842" parent="347" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="845" parent="348" name="empresa_id">
+    <column id="843" parent="347" name="empresa_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="846" parent="348" name="mensalista">
+    <column id="844" parent="347" name="mensalista">
       <Position>3</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="847" parent="348" name="dias">
+    <column id="845" parent="347" name="dias">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="848" parent="348" name="limite">
+    <column id="846" parent="347" name="limite">
       <Position>5</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="849" parent="348" name="nfe">
+    <column id="847" parent="347" name="nfe">
       <Position>6</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="850" parent="348" name="recibo">
+    <column id="848" parent="347" name="recibo">
       <Position>7</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="851" parent="348" name="fk_tab_EmpresasPrazos_tab_Empresas1_idx">
+    <index id="849" parent="347" name="fk_tab_EmpresasPrazos_tab_Empresas1_idx">
       <ColNames>empresa_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="852" parent="348" name="PRIMARY">
+    <key id="850" parent="347" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="853" parent="348" name="fk_tab_EmpresasPrazos_tab_Empresas1">
+    <foreign-key id="851" parent="347" name="fk_tab_EmpresasPrazos_tab_Empresas1">
       <ColNames>empresa_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>tabempresas</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="854" parent="349" name="id">
+    <column id="852" parent="348" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="855" parent="349" name="tipoEndereco_id">
+    <column id="853" parent="348" name="tipoEndereco_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="856" parent="349" name="cep">
+    <column id="854" parent="348" name="cep">
       <Position>3</Position>
       <DataType>varchar(8)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="857" parent="349" name="logradouro">
+    <column id="855" parent="348" name="logradouro">
       <Position>4</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="858" parent="349" name="numero">
+    <column id="856" parent="348" name="numero">
       <Position>5</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="859" parent="349" name="complemento">
+    <column id="857" parent="348" name="complemento">
       <Position>6</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="860" parent="349" name="bairro">
+    <column id="858" parent="348" name="bairro">
       <Position>7</Position>
       <DataType>varchar(40)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="861" parent="349" name="uf_id">
+    <column id="859" parent="348" name="uf_id">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="862" parent="349" name="municipio_id">
+    <column id="860" parent="348" name="municipio_id">
       <Position>9</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="863" parent="349" name="isAtivo">
+    <column id="861" parent="348" name="isAtivo">
       <Position>10</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;1&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="864" parent="349" name="tabelaOrigem_id">
+    <column id="862" parent="348" name="tabelaOrigem_id">
       <Position>11</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="865" parent="349" name="codigoOrigem_id">
+    <column id="863" parent="348" name="codigoOrigem_id">
       <Position>12</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="866" parent="349" name="fk_tab_Enderecos_tabSis_TiposEnderecos1_idx">
+    <index id="864" parent="348" name="fk_tab_Enderecos_tabSis_TiposEnderecos1_idx">
       <ColNames>tipoEndereco_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="867" parent="349" name="fk_tab_Enderecos_tabSis_Estados1_idx">
+    <index id="865" parent="348" name="fk_tab_Enderecos_tabSis_Estados1_idx">
       <ColNames>uf_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="868" parent="349" name="fk_tab_Enderecos_tabSis_Cidades1_idx">
+    <index id="866" parent="348" name="fk_tab_Enderecos_tabSis_Cidades1_idx">
       <ColNames>municipio_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="869" parent="349" name="fk_tab_Enderecos_tabSis_OrigemTabela1_idx">
+    <index id="867" parent="348" name="fk_tab_Enderecos_tabSis_OrigemTabela1_idx">
       <ColNames>tabelaOrigem_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="870" parent="349" name="PRIMARY">
+    <key id="868" parent="348" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="871" parent="349" name="fk_tab_Enderecos_tabSis_TiposEnderecos1">
+    <foreign-key id="869" parent="348" name="fk_tab_Enderecos_tabSis_TiposEnderecos1">
       <ColNames>tipoEndereco_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sistipoendereco</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="872" parent="349" name="fk_tab_Enderecos_tabSis_Estados1">
+    <foreign-key id="870" parent="348" name="fk_tab_Enderecos_tabSis_Estados1">
       <ColNames>uf_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sisuf</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="873" parent="349" name="fk_tab_Enderecos_tabSis_Cidades1">
+    <foreign-key id="871" parent="348" name="fk_tab_Enderecos_tabSis_Cidades1">
       <ColNames>municipio_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sismunicipio</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="874" parent="349" name="fk_tab_Enderecos_tabSis_OrigemTabela1">
+    <foreign-key id="872" parent="348" name="fk_tab_Enderecos_tabSis_OrigemTabela1">
       <ColNames>tabelaOrigem_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sistabelaorigem</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="875" parent="350" name="id">
+    <column id="873" parent="349" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="876" parent="350" name="produto_id">
+    <column id="874" parent="349" name="produto_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="877" parent="350" name="qtd">
+    <column id="875" parent="349" name="qtd">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="878" parent="350" name="lote">
+    <column id="876" parent="349" name="lote">
       <Position>4</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="879" parent="350" name="validade">
+    <column id="877" parent="349" name="validade">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
@@ -4267,236 +4260,236 @@
       <ColumnKind>normal</ColumnKind>
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
     </column>
-    <column id="880" parent="350" name="vlrBruto">
+    <column id="878" parent="349" name="vlrBruto">
       <Position>6</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="881" parent="350" name="vlrImposto">
+    <column id="879" parent="349" name="vlrImposto">
       <Position>7</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="882" parent="350" name="vlrFreteBruto">
+    <column id="880" parent="349" name="vlrFreteBruto">
       <Position>8</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="883" parent="350" name="vlrImpostoFrete">
+    <column id="881" parent="349" name="vlrImpostoFrete">
       <Position>9</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="884" parent="350" name="vlrImpostoDentroFrete">
+    <column id="882" parent="349" name="vlrImpostoDentroFrete">
       <Position>10</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="885" parent="350" name="vlrFreteLiquido">
+    <column id="883" parent="349" name="vlrFreteLiquido">
       <Position>11</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="886" parent="350" name="vlrLiquido">
+    <column id="884" parent="349" name="vlrLiquido">
       <Position>12</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="887" parent="350" name="usuarioCadastro_id">
+    <column id="885" parent="349" name="usuarioCadastro_id">
       <Position>13</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="888" parent="350" name="dataCadastro">
+    <column id="886" parent="349" name="dataCadastro">
       <Position>14</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="889" parent="350" name="documentoEntrada">
+    <column id="887" parent="349" name="documentoEntrada">
       <Position>15</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="890" parent="350" name="documentoEntradaChaveNfe">
+    <column id="888" parent="349" name="documentoEntradaChaveNfe">
       <Position>16</Position>
       <DataType>varchar(44)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="891" parent="350" name="PRIMARY">
+    <key id="889" parent="349" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="892" parent="351" name="id">
+    <column id="890" parent="350" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="893" parent="351" name="cnpj">
+    <column id="891" parent="350" name="cnpj">
       <Position>2</Position>
       <DataType>varchar(14)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="894" parent="351" name="ie">
+    <column id="892" parent="350" name="ie">
       <Position>3</Position>
       <DataType>varchar(12)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="895" parent="351" name="isAtiva">
+    <column id="893" parent="350" name="isAtiva">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="896" parent="351" name="razao">
+    <column id="894" parent="350" name="razao">
       <Position>5</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="897" parent="351" name="fantasia">
+    <column id="895" parent="350" name="fantasia">
       <Position>6</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="898" parent="351" name="PRIMARY">
+    <key id="896" parent="350" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="899" parent="352" name="id">
+    <column id="897" parent="351" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="900" parent="352" name="codigo">
+    <column id="898" parent="351" name="codigo">
       <Position>2</Position>
       <DataType>varchar(15)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="901" parent="352" name="descricao">
+    <column id="899" parent="351" name="descricao">
       <Position>3</Position>
       <DataType>varchar(120)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="902" parent="352" name="peso">
+    <column id="900" parent="351" name="peso">
       <Position>4</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="903" parent="352" name="unidadeComercial_id">
+    <column id="901" parent="351" name="unidadeComercial_id">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="904" parent="352" name="situacaoNoSistema_id">
+    <column id="902" parent="351" name="situacaoNoSistema_id">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="905" parent="352" name="precoDeFabrica">
+    <column id="903" parent="351" name="precoDeFabrica">
       <Position>7</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="906" parent="352" name="margem">
+    <column id="904" parent="351" name="margem">
       <Position>8</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="907" parent="352" name="precoDeVenda">
+    <column id="905" parent="351" name="precoDeVenda">
       <Position>9</Position>
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="908" parent="352" name="varejo">
+    <column id="906" parent="351" name="varejo">
       <Position>10</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="909" parent="352" name="comissao">
+    <column id="907" parent="351" name="comissao">
       <Position>11</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="910" parent="352" name="cst_ICMS_id">
+    <column id="908" parent="351" name="cst_ICMS_id">
       <Position>12</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="911" parent="352" name="cst_PIS_id">
+    <column id="909" parent="351" name="cst_PIS_id">
       <Position>13</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="912" parent="352" name="cst_COFINS_id">
+    <column id="910" parent="351" name="cst_COFINS_id">
       <Position>14</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="913" parent="352" name="nfeNcm">
+    <column id="911" parent="351" name="nfeNcm">
       <Position>15</Position>
       <DataType>varchar(8)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="914" parent="352" name="nfeCest">
+    <column id="912" parent="351" name="nfeCest">
       <Position>16</Position>
       <DataType>varchar(8)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="915" parent="352" name="nfeOrigem">
+    <column id="913" parent="351" name="nfeOrigem">
       <Position>17</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="916" parent="352" name="nfeGenero">
+    <column id="914" parent="351" name="nfeGenero">
       <Position>18</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="917" parent="352" name="usuarioCadastro_id">
+    <column id="915" parent="351" name="usuarioCadastro_id">
       <Position>19</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="918" parent="352" name="dataCadastro">
+    <column id="916" parent="351" name="dataCadastro">
       <Position>20</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
@@ -4504,179 +4497,179 @@
       <ColumnKind>normal</ColumnKind>
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
     </column>
-    <column id="919" parent="352" name="usuarioAtualizacao_id">
+    <column id="917" parent="351" name="usuarioAtualizacao_id">
       <Position>21</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="920" parent="352" name="dataAtualizacao">
+    <column id="918" parent="351" name="dataAtualizacao">
       <Position>22</Position>
       <DataType>timestamp|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="921" parent="352" name="fk_tab_Produtos_tabSis_UnidadesComercial1_idx">
+    <index id="919" parent="351" name="fk_tab_Produtos_tabSis_UnidadesComercial1_idx">
       <ColNames>unidadeComercial_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="922" parent="352" name="fk_tab_Produtos_tabSis_SituacaoNoSistema1_idx">
+    <index id="920" parent="351" name="fk_tab_Produtos_tabSis_SituacaoNoSistema1_idx">
       <ColNames>situacaoNoSistema_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="923" parent="352" name="fk_tab_Produtos_tabSis_Fiscal_CST_ICMS1_idx">
+    <index id="921" parent="351" name="fk_tab_Produtos_tabSis_Fiscal_CST_ICMS1_idx">
       <ColNames>cst_ICMS_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="924" parent="352" name="fk_tab_Produtos_tabSis_Fiscal_CST_PIS1_idx">
+    <index id="922" parent="351" name="fk_tab_Produtos_tabSis_Fiscal_CST_PIS1_idx">
       <ColNames>cst_PIS_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="925" parent="352" name="fk_tab_Produtos_tabSis_Fiscal_CST_COFINS1_idx">
+    <index id="923" parent="351" name="fk_tab_Produtos_tabSis_Fiscal_CST_COFINS1_idx">
       <ColNames>cst_COFINS_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="926" parent="352" name="PRIMARY">
+    <key id="924" parent="351" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="927" parent="352" name="fk_tab_Produtos_tabSis_UnidadesComercial1">
+    <foreign-key id="925" parent="351" name="fk_tab_Produtos_tabSis_UnidadesComercial1">
       <ColNames>unidadeComercial_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sisunidadescomercial</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="928" parent="352" name="fk_tab_Produtos_tabSis_SituacaoNoSistema1">
+    <foreign-key id="926" parent="351" name="fk_tab_Produtos_tabSis_SituacaoNoSistema1">
       <ColNames>situacaoNoSistema_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sissituacaosistema</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="929" parent="352" name="fk_tab_Produtos_tabSis_Fiscal_CST_ICMS1">
+    <foreign-key id="927" parent="351" name="fk_tab_Produtos_tabSis_Fiscal_CST_ICMS1">
       <ColNames>cst_ICMS_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sisfiscalcsticms</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="930" parent="352" name="fk_tab_Produtos_tabSis_Fiscal_CST_PIS1">
+    <foreign-key id="928" parent="351" name="fk_tab_Produtos_tabSis_Fiscal_CST_PIS1">
       <ColNames>cst_PIS_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sisfiscalcstpis</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="931" parent="352" name="fk_tab_Produtos_tabSis_Fiscal_CST_COFINS1">
+    <foreign-key id="929" parent="351" name="fk_tab_Produtos_tabSis_Fiscal_CST_COFINS1">
       <ColNames>cst_COFINS_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sisfiscalcstcofins</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="932" parent="353" name="id">
+    <column id="930" parent="352" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="933" parent="353" name="produto_id">
+    <column id="931" parent="352" name="produto_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="934" parent="353" name="codigoEan">
+    <column id="932" parent="352" name="codigoEan">
       <Position>3</Position>
       <DataType>varchar(13)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="935" parent="353" name="fk_tab_Produtos_EAN_tab_Produtos1_idx">
+    <index id="933" parent="352" name="fk_tab_Produtos_EAN_tab_Produtos1_idx">
       <ColNames>produto_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="936" parent="353" name="PRIMARY">
+    <key id="934" parent="352" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="937" parent="353" name="fk_tab_Produtos_EAN_tab_Produtos1">
+    <foreign-key id="935" parent="352" name="fk_tab_Produtos_EAN_tab_Produtos1">
       <ColNames>produto_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>tabprodutos</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="938" parent="354" name="id">
+    <column id="936" parent="353" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="939" parent="354" name="produto_id">
+    <column id="937" parent="353" name="produto_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="940" parent="354" name="produto_codigo">
+    <column id="938" parent="353" name="produto_codigo">
       <Position>3</Position>
       <DataType>varchar(15)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="941" parent="354" name="produto_descricao">
+    <column id="939" parent="353" name="produto_descricao">
       <Position>4</Position>
       <DataType>varchar(120)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="942" parent="354" name="estoque_id">
+    <column id="940" parent="353" name="estoque_id">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="943" parent="354" name="qtd">
+    <column id="941" parent="353" name="qtd">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="944" parent="354" name="produto_precoDeVenda">
+    <column id="942" parent="353" name="produto_precoDeVenda">
       <Position>7</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="945" parent="354" name="descPorcentagem">
+    <column id="943" parent="353" name="descPorcentagem">
       <Position>8</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="946" parent="354" name="descValor">
+    <column id="944" parent="353" name="descValor">
       <Position>9</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="947" parent="354" name="vlrTotalBruto">
+    <column id="945" parent="353" name="vlrTotalBruto">
       <Position>10</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="948" parent="354" name="vlrTotalLiquido">
+    <column id="946" parent="353" name="vlrTotalLiquido">
       <Position>11</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="949" parent="354" name="estoque_qtd">
+    <column id="947" parent="353" name="estoque_qtd">
       <Position>12</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="950" parent="354" name="estoque_validade">
+    <column id="948" parent="353" name="estoque_validade">
       <Position>13</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
@@ -4684,161 +4677,161 @@
       <ColumnKind>normal</ColumnKind>
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
     </column>
-    <column id="951" parent="354" name="estoque_lote">
+    <column id="949" parent="353" name="estoque_lote">
       <Position>14</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="952" parent="354" name="produto_varejo">
+    <column id="950" parent="353" name="produto_varejo">
       <Position>15</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="953" parent="354" name="produto_volume">
+    <column id="951" parent="353" name="produto_volume">
       <Position>16</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="954" parent="354" name="PRIMARY">
+    <key id="952" parent="353" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="955" parent="355" name="id">
+    <column id="953" parent="354" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="956" parent="355" name="orcamento">
+    <column id="954" parent="354" name="orcamento">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="957" parent="355" name="data">
+    <column id="955" parent="354" name="data">
       <Position>3</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="958" parent="355" name="PRIMARY">
+    <key id="956" parent="354" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="959" parent="356" name="id">
+    <column id="957" parent="355" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="960" parent="356" name="descricao">
+    <column id="958" parent="355" name="descricao">
       <Position>2</Position>
       <DataType>varchar(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="961" parent="356" name="operadora_id">
+    <column id="959" parent="355" name="operadora_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="962" parent="356" name="tabelaOrigem_id">
+    <column id="960" parent="355" name="tabelaOrigem_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="963" parent="356" name="codigoOrigem_id">
+    <column id="961" parent="355" name="codigoOrigem_id">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="964" parent="356" name="fk_tab_Telefones_tabSis_OperadorasCelular1_idx">
+    <index id="962" parent="355" name="fk_tab_Telefones_tabSis_OperadorasCelular1_idx">
       <ColNames>operadora_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="965" parent="356" name="fk_tab_Telefones_tabSis_OrigemTabela1_idx">
+    <index id="963" parent="355" name="fk_tab_Telefones_tabSis_OrigemTabela1_idx">
       <ColNames>tabelaOrigem_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="966" parent="356" name="PRIMARY">
+    <key id="964" parent="355" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="967" parent="356" name="fk_tab_Telefones_tabSis_OperadorasCelular1">
+    <foreign-key id="965" parent="355" name="fk_tab_Telefones_tabSis_OperadorasCelular1">
       <ColNames>operadora_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sisoperadorastelefonia</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="968" parent="356" name="fk_tab_Telefones_tabSis_OrigemTabela1">
+    <foreign-key id="966" parent="355" name="fk_tab_Telefones_tabSis_OrigemTabela1">
       <ColNames>tabelaOrigem_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sistabelaorigem</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="969" parent="357" name="id">
+    <column id="967" parent="356" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="970" parent="357" name="tipoWebHomeEmail_id">
+    <column id="968" parent="356" name="tipoWebHomeEmail_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="971" parent="357" name="descricao">
+    <column id="969" parent="356" name="descricao">
       <Position>3</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="972" parent="357" name="origemTabela_id">
+    <column id="970" parent="356" name="origemTabela_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="973" parent="357" name="origemCodigo_id">
+    <column id="971" parent="356" name="origemCodigo_id">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="974" parent="357" name="fk_tab_WebHomeEmail_tabSis_TipoWebHomeEmail1_idx">
+    <index id="972" parent="356" name="fk_tab_WebHomeEmail_tabSis_TipoWebHomeEmail1_idx">
       <ColNames>tipoWebHomeEmail_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="975" parent="357" name="fk_tab_WebHomeEmail_tabSis_OrigemTabela1_idx">
+    <index id="973" parent="356" name="fk_tab_WebHomeEmail_tabSis_OrigemTabela1_idx">
       <ColNames>origemTabela_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="976" parent="357" name="PRIMARY">
+    <key id="974" parent="356" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="977" parent="357" name="fk_tab_WebHomeEmail_tabSis_TipoWebHomeEmail1">
+    <foreign-key id="975" parent="356" name="fk_tab_WebHomeEmail_tabSis_TipoWebHomeEmail1">
       <ColNames>tipoWebHomeEmail_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sistipowebhomeemail</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="978" parent="357" name="fk_tab_WebHomeEmail_tabSis_OrigemTabela1">
+    <foreign-key id="976" parent="356" name="fk_tab_WebHomeEmail_tabSis_OrigemTabela1">
       <ColNames>origemTabela_id</ColNames>
       <RefSchemaName>cafeperfeitoback</RefSchemaName>
       <RefTableName>sistabelaorigem</RefTableName>

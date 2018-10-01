@@ -66,11 +66,21 @@
                                                 <Tooltip text="série da nfe de entrada"/>
                                             </tooltip>
                                         </JFXTextField>
-                                        <JFXComboBox fx:id="cboFornecedor"
+                                        <JFXComboBox fx:id="cboModeloNfe"
                                                      accessibleText="len::;type::;value::;seteditable::;"
                                                      labelFloat="true" layoutX="670.0" layoutY="10.0"
                                                      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                                     minWidth="-Infinity" prefHeight="20.0" prefWidth="450.0"
+                                                     minWidth="-Infinity" prefHeight="20.0" prefWidth="60.0"
+                                                     promptText="Modelo">
+                                            <tooltip>
+                                                <Tooltip text="modelo da nfe de entrada"/>
+                                            </tooltip>
+                                        </JFXComboBox>
+                                        <JFXComboBox fx:id="cboFornecedor"
+                                                     accessibleText="len::;type::;value::;seteditable::;"
+                                                     labelFloat="true" layoutX="740.0" layoutY="10.0"
+                                                     maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                                                     minWidth="-Infinity" prefHeight="20.0" prefWidth="380.0"
                                                      promptText="Fornecedor">
                                             <tooltip>
                                                 <Tooltip text="fornecedor emissor da nfe de entrada"/>
