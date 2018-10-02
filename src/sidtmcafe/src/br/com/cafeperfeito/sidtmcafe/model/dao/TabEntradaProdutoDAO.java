@@ -52,13 +52,9 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
                 tabEntradaProdutoVO.setSerieNfe(rs.getInt("serieNfe"));
                 tabEntradaProdutoVO.setModeloNfe_id(rs.getInt("modeloNfeCte_id"));
                 tabEntradaProdutoVO.setFornecedor_id(rs.getInt("fornecedor_id"));
-                tabEntradaProdutoVO.setStatusNfe_id(rs.getInt("statusNfe_id"));
                 tabEntradaProdutoVO.setDataEmissaoNfe(rs.getTimestamp("dataEmissaoNfe"));
                 tabEntradaProdutoVO.setDataEntradaNfe(rs.getTimestamp("dataEntradaNfe"));
-                tabEntradaProdutoVO.setFiscal_id(rs.getInt("fiscal_id"));
-                tabEntradaProdutoVO.setFiscal_nfeVO(new TabEntradaProduto_Fiscal_NfeDAO()
-                        .getTabEntradaProduto_fiscal_nfeVO(tabEntradaProdutoVO.getFiscal_id()));
-                tabEntradaProdutoVO.setFrete_id(rs.getInt("frete_id"));
+                tabEntradaProdutoVO.setStatusNfe_id(rs.getInt("statusNfe_id"));
                 if (tabEntradaProdutoVOList != null) tabEntradaProdutoVOList.add(tabEntradaProdutoVO);
             }
         } catch (Exception ex) {
@@ -103,9 +99,7 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
                 "fornecedor_id = ?, " +
                 "dataEmissaoNfe = ?, " +
                 "dataEntradaNfe = ?, " +
-                "statusNfe_id = ?, " +
-                "fiscal_id = ?, " +
-                "frete_id = ? " +
+                "statusNfe_id = ? " +
                 "WHERE id = ?";
         addNewParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getLojaDestino_id())));
         addParametro(new Pair<>("String", entradaProdutoVO.getChaveNfe()));
@@ -116,8 +110,6 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("timestamp", String.valueOf(entradaProdutoVO.getDataEmissaoNfe())));
         addParametro(new Pair<>("timestamp", String.valueOf(entradaProdutoVO.getDataEntradaNfe())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getStatusNfe_id())));
-        addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getFiscal_id())));
-        addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getFrete_id())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getId())));
         getUpdateBancoDados(conn, comandoSql);
     }
@@ -132,13 +124,10 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
                 "fornecedor_id, " +
                 "dataEmissaoNfe, " +
                 "dataEntradaNfe, " +
-                "statusNfe_id, " +
-                "fiscal_id, " +
-                "frete_id) " +
+                "statusNfe_id) " +
                 "VALUES (" +
                 "?, ?, ?, ?, ?, " +
-                "?, ?, ?, ?, ?, " +
-                "?) ";
+                "?, ?, ?, ?) ";
         addNewParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getLojaDestino_id())));
         addParametro(new Pair<>("String", entradaProdutoVO.getChaveNfe()));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getNumeroNfe())));
@@ -148,8 +137,6 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("timestamp", String.valueOf(entradaProdutoVO.getDataEmissaoNfe())));
         addParametro(new Pair<>("timestamp", String.valueOf(entradaProdutoVO.getDataEntradaNfe())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getStatusNfe_id())));
-        addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getFiscal_id())));
-        addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getFrete_id())));
 
         return getInsertBancoDados(conn, comandoSql);
     }

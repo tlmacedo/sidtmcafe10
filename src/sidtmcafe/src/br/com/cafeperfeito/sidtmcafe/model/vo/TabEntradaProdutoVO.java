@@ -13,12 +13,10 @@ public class TabEntradaProdutoVO extends RecursiveTreeObject<TabEntradaProdutoVO
     TabEmpresaVO lojaDestinoVO, fornecedorVO;
     FiscalModeloNfeCteVO modeloNfeVO;
     SisStatusNfeVO statusNfeVO;
-    TabEntradaProduto_Fiscal_NfeVO fiscal_nfeVO;
-    TabEntradaProduto_FreteVO frete_nfeVO;
 
     Timestamp dataEmissaoNfe, dataEntradaNfe;
 
-    IntegerProperty id, lojaDestino_id, numeroNfe, serieNfe, modeloNfe_id, fornecedor_id, statusNfe_id, fiscal_id, frete_id;
+    IntegerProperty id, lojaDestino_id, numeroNfe, serieNfe, modeloNfe_id, fornecedor_id, statusNfe_id;
     StringProperty chaveNfe;
 
 
@@ -55,22 +53,6 @@ public class TabEntradaProdutoVO extends RecursiveTreeObject<TabEntradaProdutoVO
 
     public void setStatusNfeVO(SisStatusNfeVO statusNfeVO) {
         this.statusNfeVO = statusNfeVO;
-    }
-
-    public TabEntradaProduto_Fiscal_NfeVO getFiscal_nfeVO() {
-        return fiscal_nfeVO;
-    }
-
-    public void setFiscal_nfeVO(TabEntradaProduto_Fiscal_NfeVO fiscal_nfeVO) {
-        this.fiscal_nfeVO = fiscal_nfeVO;
-    }
-
-    public TabEntradaProduto_FreteVO getFrete_nfeVO() {
-        return frete_nfeVO;
-    }
-
-    public void setFrete_nfeVO(TabEntradaProduto_FreteVO frete_nfeVO) {
-        this.frete_nfeVO = frete_nfeVO;
     }
 
     public Timestamp getDataEmissaoNfe() {
@@ -178,32 +160,6 @@ public class TabEntradaProdutoVO extends RecursiveTreeObject<TabEntradaProdutoVO
 
     public void setStatusNfe_id(int statusNfe_id) {
         statusNfe_idProperty().set(statusNfe_id);
-    }
-
-    public int getFiscal_id() {
-        return fiscal_idProperty().get();
-    }
-
-    public IntegerProperty fiscal_idProperty() {
-        if (fiscal_id == null) fiscal_id = new SimpleIntegerProperty(0);
-        return fiscal_id;
-    }
-
-    public void setFiscal_id(int fiscal_id) {
-        fiscal_idProperty().set(fiscal_id);
-    }
-
-    public int getFrete_id() {
-        return frete_idProperty().get();
-    }
-
-    public IntegerProperty frete_idProperty() {
-        if (frete_id == null) frete_id = new SimpleIntegerProperty(0);
-        return frete_id;
-    }
-
-    public void setFrete_id(int frete_id) {
-        frete_idProperty().set(frete_id);
     }
 
     public String getChaveNfe() {
