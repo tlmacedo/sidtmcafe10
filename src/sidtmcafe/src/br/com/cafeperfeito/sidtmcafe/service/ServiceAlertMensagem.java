@@ -507,7 +507,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
             case "fone":
             case "telefone":
             case "celular":
-                formatTextField.maskField(textField, 9, "telefone", 0);
+                formatTextField.maskField(textField, 8, "telefone", 0);
                 textField.textProperty().addListener((observable, oldValue, newValue) -> {
                     String value = newValue.replaceAll("\\D", "");
                     if (newValue.length() > 0)
@@ -516,6 +516,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
                 break;
             default:
                 formatTextField.maskField(textField, 8, tipMascaraField, 0);
+                break;
         }
     }
 

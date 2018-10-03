@@ -37,6 +37,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
@@ -51,9 +52,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import static java.util.stream.Collectors.toList;
+
 public class ControllerEntradaProduto extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
 
-    File fileArquivoNfeCte;
+    File fileArquivoNfe, fileArquivoCte;
+    boolean isNfe;
     public JFXTextField txtFreteFiscalVlrNFe;
     public JFXTextField txtFiscalVlrNFe;
     public AnchorPane painelViewEntradaProduto;
@@ -561,14 +565,17 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
             if (txtChaveNfe.isDisable()) return;
             Dragboard board = event.getDragboard();
             if (board.hasFiles())
-                if (Pattern.compile(REGEX_EXTENSAO_NFE).matcher(board.getFiles().get(0).toPath().toString()).find())
+                if (Pattern.compile(REGEX_EXTENSAO_NFE).matcher(board.getFiles().get(0).toPath().toString()).find()) {
+                    isNfe = true;
                     event.acceptTransferModes(TransferMode.ANY);
+                }
         });
         txtChaveNfe.setOnDragDropped(event -> {
             if (txtChaveNfe.isDisable()) return;
             try {
                 Dragboard board = event.getDragboard();
-                validaXmlNfeCte(true, new FileInputStream(fileArquivoNfeCte = new File(String.valueOf(board.getFiles().get(0)))));
+                if ((fileArquivoNfe = new File(String.valueOf(board.getFiles().get(0)))).exists())
+                    validaXmlNfeCte(fileArquivoNfe);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -577,14 +584,17 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
             if (txtFreteChaveCte.isDisable()) return;
             Dragboard board = event.getDragboard();
             if (board.hasFiles())
-                if (Pattern.compile(REGEX_EXTENSAO_NFE).matcher(board.getFiles().get(0).toPath().toString()).find())
+                if (Pattern.compile(REGEX_EXTENSAO_NFE).matcher(board.getFiles().get(0).toPath().toString()).find()) {
+                    isNfe = false;
                     event.acceptTransferModes(TransferMode.ANY);
+                }
         });
         txtFreteChaveCte.setOnDragDropped(event -> {
             if (txtFreteChaveCte.isDisable()) return;
             try {
                 Dragboard board = event.getDragboard();
-                validaXmlNfeCte(false, new FileInputStream(fileArquivoNfeCte = new File(String.valueOf(board.getFiles().get(0)))));
+                if ((fileArquivoCte = new File(String.valueOf(board.getFiles().get(0)))).exists())
+                    validaXmlNfeCte(fileArquivoCte);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -747,7 +757,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoNfe.getContent(), false);
                 ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnDadoNfe.getContent());
                 cboLojaDestino.requestFocus();
-                setStatusNfe(9);
+                setStatusNfe(2);
                 statusBarTecla = STATUS_BAR_TECLA_NOVA_NFE;
 
                 break;
@@ -756,7 +766,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnItensTotaisNfe.getContent(), false);
                 ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnItensTotaisNfe.getContent());
                 txtPesquisaProduto.requestFocus();
-                setStatusNfe(8);
+                setStatusNfe(1);
                 statusBarTecla = STATUS_BAR_TECLA_INCLUINDO;
                 break;
         }
@@ -791,15 +801,16 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         produtoVOFilteredList = new FilteredList<>(produtoVOObservableList = FXCollections.observableArrayList(new TabProdutoDAO().getTabProdutoVOList()));
     }
 
-    void msgConfirmaGuardarArquivoRepositorio(boolean isNfe, FileInputStream arquivo) {
-        alertMensagem.setStrIco("ic_repositorio_git_24dp.png");
-        alertMensagem.setCabecalho(String.format("Repositorio"));
-        alertMensagem.setPromptText(String.format("%s, deseja guardar arquivo %s no repositorio do sistema?",
-                USUARIO_LOGADO_APELIDO, isNfe ? "Nf-e" : "Ct-e"));
-        if (alertMensagem.getRetornoAlert_YES_NO().get() == ButtonType.NO) return;
+    void guardaCopiaArquivoXml(File arquivoXml) {
+//        alertMensagem.setStrIco("ic_repositorio_git_24dp.png");
+//        alertMensagem.setCabecalho(String.format("Repositorio"));
+//        alertMensagem.setPromptText(String.format("%s, deseja guardar arquivo %s no repositorio do sistema?",
+//                USUARIO_LOGADO_APELIDO, isNfe ? "Nf-e" : "Ct-e"));
+//        if (alertMensagem.getRetornoAlert_YES_NO().get() == ButtonType.NO) return;
         try {
-            Files.copy(fileArquivoNfeCte.toPath(),
-                    Paths.get(PATH_DIR_XML_NFE_CTE + (isNfe ? "nfe" : "cte") + "/in", fileArquivoNfeCte.getName()),
+            Files.copy(arquivoXml.toPath(),
+                    Paths.get(PATH_DIR_XML_NFE_CTE + (arquivoXml.getName().contains("nfe")
+                            ? "nfe" : "cte") + "/in", arquivoXml.getName()),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -822,23 +833,26 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         return (getEntradaProdutoVO() != null);
     }
 
-    void validaXmlNfeCte(boolean isNfe, FileInputStream arquivo) {
+    void validaXmlNfeCte(File arquivoXml) {
         alertMensagem = new ServiceAlertMensagem();
-        if (!fileArquivoNfeCte.exists()) return;
+        if (!arquivoXml.exists()) return;
         try {
-            if (isNfe) {
-                tNfeProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), TNfeProc.class);
+            FileInputStream inputStream = new FileInputStream(arquivoXml);
+            if (arquivoXml.getName().contains("nfe")) {
+                tNfeProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(inputStream), TNfeProc.class);
                 String chaveNfe = tNfeProc.getNFe().getInfNFe().getId().replaceAll("\\D", "");
                 String numeroNfe = tNfeProc.getNFe().getInfNFe().getIde().getNNF();
                 if (buscaDuplicidade(chaveNfe)) return;
                 txtChaveNfe.setText(chaveNfe);
-                //msgConfirmaGuardarArquivoRepositorio(isNfe, arquivo);
+                guardaCopiaArquivoXml(arquivoXml);
                 carregarDadosXmlNfe();
             } else {
-                cteProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(arquivo), CteProc.class);
+                cteProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(inputStream), CteProc.class);
                 txtFreteChaveCte.setText(cteProc.getCTe().getInfCte().getId().replaceAll("\\D", ""));
                 //msgConfirmaGuardarArquivoRepositorio(isNfe, arquivo);
+                guardaCopiaArquivoXml(arquivoXml);
                 exibirDadosXmlCte();
+                procurarArquivoNfeVinculadoNfe();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -847,6 +861,18 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
             alertMensagem.setPromptText(String.format("%s, arquivo %s inválido!", USUARIO_LOGADO_APELIDO, isNfe ? "Nf-e" : "Ct-e"));
             alertMensagem.getRetornoAlert_OK();
             txtFreteChaveCte.requestFocus();
+        }
+    }
+
+    void procurarArquivoNfeVinculadoNfe() {
+        Path configFilePath = Paths.get(fileArquivoCte.getPath().replace(fileArquivoCte.getName(), ""));
+        try {
+            if ((fileArquivoNfe = Files.walk(configFilePath)
+                    .filter(s -> s.getFileName().toString().contains(cteProc.getCTe().getInfCte().getInfCTeNorm().getInfDoc().getInfNFe().get(0).getChave()))
+                    .findFirst().get().toFile()).exists())
+                validaXmlNfeCte(fileArquivoNfe);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 

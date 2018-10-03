@@ -100,9 +100,11 @@ public class ServiceFormatarDado implements Constants {
                 len = 11;
                 return String.format(getFormato(len), 0).replace("0", MASK_CARACTER_DIGITO);
             case "telefone":
+                if (len == 0) len = 8;
+                return String.format(getFormato(len), 0).replaceAll(REGEX_FS_TELEFONE.getKey(), REGEX_FS_TELEFONE.getValue()).replace("0", MASK_CARACTER_DIGITO);
             case "celular":
                 if (len == 0) len = 9;
-                return String.format(getFormato(len), 0).replaceAll(REGEX_FS_TELEFONE.getKey(), REGEX_FS_TELEFONE.getValue()).replace("0", MASK_CARACTER_DIGITO);
+                return String.format(getFormato(len), 0).replaceAll(REGEX_FS_CELULAR.getKey(), REGEX_FS_CELULAR.getValue()).replace("0", MASK_CARACTER_DIGITO);
             case "ean":
             case "barcode":
             case "barras":

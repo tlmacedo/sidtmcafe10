@@ -126,7 +126,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         formatCnpj = new ServiceFormatarDado();
         formatCnpj.maskField(txtCNPJ, 0, "cnpj", 0);
         formatIe = new ServiceFormatarDado();
-        formatIe.maskField(txtIE, 0, "ie", 0);
+        formatIe.maskField(txtIE, 0, "ieSP", 0);
     }
 
     @Override
@@ -818,7 +818,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     }
 
     void verificaIeRg() {
-        if (chkIeIsento.isSelected() || txtIE.getLength() == 0)
+        if (chkIeIsento.isSelected())// || txtIE.getLength() == 0)
             return;
         String mask = String.format("%s", txtIE.getPromptText().toLowerCase().replace(".", "").equals("rg") ?
                 "rg" : String.format("ie%s", cboEndUF.getSelectionModel().getSelectedItem() != null
@@ -826,7 +826,6 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
                 : ""));
         formatIe.setMascara(0, mask, 0);
         txtIE.setText(txtIE.getText().replaceAll("\\d", ""));
-        //txtIE.setText(ServiceFormatarDado.getValorFormatado(txtIE.getText(), "0" + mask));
     }
 
     boolean guardarEmpresa() {
