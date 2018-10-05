@@ -57,6 +57,11 @@ import static java.util.stream.Collectors.toList;
 public class ControllerEntradaProduto extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
 
     File fileArquivoNfe, fileArquivoCte;
+    boolean changeTamTitle = false;
+    Double hDadosNfe = 148.0, hDetNfe = 93.0, hDetCte = 25.0, hImpCte = 25.0, hTotaisNfe = 622.0, hItemNfe = 407.0, hItemTab = 312.0;
+    Double yDetCte = 98.0, yTotaisNfe = 155.0;
+    //    Double hTDadosNfe = 150.0, hTDetNfe = 930.0, hTImpNfe = 25.0, hTDetCte = 25.0, hTImpCte = 25.0, hTTotaisNfe = 605.0, hTItemNfe = 375.0;
+//    Double yTDetCte = 98.0, yTTotaisNfe = 160.0, yTItemNfe = 180.0;
     boolean isNfe;
     public JFXTextField txtFreteFiscalVlrNFe;
     public JFXTextField txtFiscalVlrNFe;
@@ -514,6 +519,92 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
             }
         });
 
+        tpnImpostoNfe.expandedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                hItemTab -= 37.0;
+                hTotaisNfe -= 37.0;
+                hItemNfe -= 37.0;
+                yTotaisNfe += 37.0;
+                hDadosNfe += 37.0;
+                yDetCte += 37.0;
+                hDetNfe += 37.0;
+            } else {
+                hItemTab += 37.0;
+                hTotaisNfe += 37.0;
+                hItemNfe += 37.0;
+                yTotaisNfe -= 37.0;
+                hDadosNfe -= 37.0;
+                yDetCte -= 37.0;
+                hDetNfe -= 37.0;
+            }
+            organizaPosicoes();
+        });
+
+        tpnDetalheFrete.expandedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                hItemTab -= 98.0;
+                hTotaisNfe -= 98.0;
+                hItemNfe -= 98.0;
+                yTotaisNfe += 98.0;
+                hDadosNfe += 98.0;
+                hDetCte += 98.0;
+                if (tpnFreteImposto.isExpanded()) {
+                    hItemTab -= 37.0;
+                    hTotaisNfe -= 37.0;
+                    hItemNfe -= 37.0;
+                    yTotaisNfe += 37.0;
+                    hDadosNfe += 37.0;
+                    hImpCte += 37.0;
+                }
+            } else {
+                hItemTab += 98.0;
+                hTotaisNfe += 98.0;
+                hItemNfe += 98.0;
+                yTotaisNfe -= 98.0;
+                hDadosNfe -= 98.0;
+                hDetCte -= 98.0;
+                if (tpnFreteImposto.isExpanded()) {
+                    hItemTab += 37.0;
+                    hTotaisNfe += 37.0;
+                    hItemNfe += 37.0;
+                    yTotaisNfe -= 37.0;
+                    hDadosNfe -= 37.0;
+                    hImpCte -= 37.0;
+                }
+            }
+            organizaPosicoes();
+        });
+
+        tpnFreteImposto.expandedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                hItemTab -= 37.0;
+                hTotaisNfe -= 37.0;
+                hItemNfe -= 37.0;
+                yTotaisNfe += 37.0;
+                hDadosNfe += 37.0;
+                hDetCte += 37.0;
+                hImpCte += 37.0;
+            } else {
+                hItemTab += 37.0;
+                hTotaisNfe += 37.0;
+                hItemNfe += 37.0;
+                yTotaisNfe -= 37.0;
+                hDadosNfe -= 37.0;
+                hDetCte -= 37.0;
+                hImpCte -= 37.0;
+            }
+            organizaPosicoes();
+        });
+
+//        tpnFreteImposto.expandedProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue) {
+//                tpnDetalheFrete.setPrefHeight(155.0);
+//                tpnItensTotaisNfe.setLayoutY(tpnItensTotaisNfe.getScaleY());
+//            } else {
+//                tpnDetalheFrete.setPrefHeight(155.0 - 37.0);
+//            }
+//        });
+
 //        txtMargem.textProperty().addListener(new ChangeListener<String>() {
 //            @Override
 //            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -627,6 +718,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     ObservableList<TabProdutoVO> produtoVOObservableList = FXCollections.observableArrayList();
     FilteredList<TabProdutoVO> produtoVOFilteredList;
     TabEntradaProdutoVO entradaProdutoVO;
+    TabEntradaProduto_Fiscal_NfeVO fiscal_nfeVO;
     List<Pair> listaTarefa = new ArrayList<>();
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewEntradaProduto.getTituloJanela();
@@ -828,6 +920,14 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         //exibirDadosProduto();
     }
 
+    public TabEntradaProduto_Fiscal_NfeVO getFiscal_nfeVO() {
+        return fiscal_nfeVO;
+    }
+
+    public void setFiscal_nfeVO(TabEntradaProduto_Fiscal_NfeVO fiscal_nfeVO) {
+        this.fiscal_nfeVO = fiscal_nfeVO;
+    }
+
     boolean buscaDuplicidade(String num_chaveNfe) {
         setEntradaProdutoVO(new TabEntradaProdutoDAO().getTabEntradaProdutoVO(num_chaveNfe));
         return (getEntradaProdutoVO() != null);
@@ -886,6 +986,8 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         entradaProdutoVO.setFornecedor_id(new TabEmpresaDAO().getTabEmpresaVO(tNfeProc.getNFe().getInfNFe().getEmit().getCNPJ()).getId());
         entradaProdutoVO.setDataEmissaoNfe(Timestamp.valueOf(LocalDateTime.parse(tNfeProc.getNFe().getInfNFe().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE)));
         entradaProdutoVO.setDataEntradaNfe(Timestamp.valueOf(LocalDateTime.now()));
+        setFiscal_nfeVO(null);
+        fiscal_nfeVO.setVlrNfe(new BigDecimal(Double.parseDouble(tNfeProc.getNFe().getInfNFe().getTotal().getICMSTot().getVNF())));
         exibirDadosNfe();
     }
 
@@ -906,6 +1008,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 .findFirst().orElse(null));
         dtpEmissaoNfe.setValue(LocalDate.parse(DTF_MYSQL_DATA.format(entradaProdutoVO.getDataEmissaoNfe().toLocalDateTime())));
         dtpEntradaNfe.setValue(LocalDate.now());
+        txtFiscalVlrNFe.setText(fiscal_nfeVO.getVlrNfe().setScale(2).toString());
     }
 
     void exibirDadosXmlCte() {
@@ -1000,6 +1103,18 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         Double vlrFreteLiquido;
         vlrFreteLiquido = vlrFreteBruto + vlrFreteImposto;
         txtFreteVlrLiquido.setText(new BigDecimal(vlrFreteLiquido).setScale(2, RoundingMode.HALF_UP).toString());
+    }
+
+    void organizaPosicoes() {
+        tpnItensTotaisNfe.setPrefHeight(hTotaisNfe);
+        tpnItensTotaisNfe.setLayoutY(yTotaisNfe);
+        tpnDadoNfe.setPrefHeight(hDadosNfe);
+        tpnDetalheFrete.setLayoutY(yDetCte);
+        tpnDetalheFrete.setPrefHeight(hDetCte);
+        tpnFreteImposto.setPrefHeight(hImpCte);
+        tpnItensNfe.setPrefHeight(hItemNfe);
+        ttvItensNfe.setPrefHeight(hItemTab);
+        tpnDetalheNfe.setPrefHeight(hDetNfe);
     }
 
     boolean buscaDuplicidade(String tipDuplic, String busca) {
