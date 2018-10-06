@@ -46,11 +46,11 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
             while (rs.next()) {
                 tabEntradaProdutoVO = new TabEntradaProdutoVO();
                 tabEntradaProdutoVO.setId(rs.getInt("id"));
-                tabEntradaProdutoVO.setLojaDestino_id(rs.getInt("codigo"));
+                tabEntradaProdutoVO.setLojaDestino_id(rs.getInt("lojaDestino_id"));
                 tabEntradaProdutoVO.setChaveNfe(rs.getString("chaveNfe"));
                 tabEntradaProdutoVO.setNumeroNfe(rs.getInt("numeroNfe"));
                 tabEntradaProdutoVO.setSerieNfe(rs.getInt("serieNfe"));
-                tabEntradaProdutoVO.setModeloNfe_id(rs.getInt("modeloNfeCte_id"));
+                tabEntradaProdutoVO.setModeloNfe_id(rs.getInt("modeloNfe_id"));
                 tabEntradaProdutoVO.setFornecedor_id(rs.getInt("fornecedor_id"));
                 tabEntradaProdutoVO.setDataEmissaoNfe(rs.getTimestamp("dataEmissaoNfe"));
                 tabEntradaProdutoVO.setDataEntradaNfe(rs.getTimestamp("dataEntradaNfe"));

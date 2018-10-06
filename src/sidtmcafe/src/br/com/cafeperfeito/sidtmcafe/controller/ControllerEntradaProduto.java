@@ -925,6 +925,8 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     }
 
     public void setFiscal_nfeVO(TabEntradaProduto_Fiscal_NfeVO fiscal_nfeVO) {
+        if (fiscal_nfeVO == null)
+            fiscal_nfeVO = new TabEntradaProduto_Fiscal_NfeVO();
         this.fiscal_nfeVO = fiscal_nfeVO;
     }
 
@@ -948,8 +950,10 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 carregarDadosXmlNfe();
             } else {
                 cteProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(inputStream), CteProc.class);
-                txtFreteChaveCte.setText(cteProc.getCTe().getInfCte().getId().replaceAll("\\D", ""));
-                //msgConfirmaGuardarArquivoRepositorio(isNfe, arquivo);
+                String chaveCte = cteProc.getCTe().getInfCte().getId().replaceAll("\\D", "");
+                String numeroCte = cteProc.getCTe().getInfCte().getIde().getNCT();
+                if (buscaDuplicidade(chaveCte)) return;
+                txtFreteChaveCte.setText(chaveCte);
                 guardaCopiaArquivoXml(arquivoXml);
                 exibirDadosXmlCte();
                 procurarArquivoNfeVinculadoNfe();
@@ -987,7 +991,11 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         entradaProdutoVO.setDataEmissaoNfe(Timestamp.valueOf(LocalDateTime.parse(tNfeProc.getNFe().getInfNFe().getIde().getDhEmi(), DTF_NFE_TO_LOCAL_DATE)));
         entradaProdutoVO.setDataEntradaNfe(Timestamp.valueOf(LocalDateTime.now()));
         setFiscal_nfeVO(null);
-        fiscal_nfeVO.setVlrNfe(new BigDecimal(Double.parseDouble(tNfeProc.getNFe().getInfNFe().getTotal().getICMSTot().getVNF())));
+        tpnImpostoNfe.setExpanded(true);
+        System.out.println("0: [" + tNfeProc.getNFe().getInfNFe().getTotal().getICMSTot().getVNF() + "]");
+        System.out.println("1: [" + Double.parseDouble(tNfeProc.getNFe().getInfNFe().getTotal().getICMSTot().getVNF()) + "]");
+        System.out.println("2: [" + new BigDecimal(Double.parseDouble(tNfeProc.getNFe().getInfNFe().getTotal().getICMSTot().getVNF())).setScale(2) + "]");
+        fiscal_nfeVO.setVlrNfe(new BigDecimal(Double.parseDouble(tNfeProc.getNFe().getInfNFe().getTotal().getICMSTot().getVNF())).setScale(2));
         exibirDadosNfe();
     }
 
@@ -1009,6 +1017,10 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         dtpEmissaoNfe.setValue(LocalDate.parse(DTF_MYSQL_DATA.format(entradaProdutoVO.getDataEmissaoNfe().toLocalDateTime())));
         dtpEntradaNfe.setValue(LocalDate.now());
         txtFiscalVlrNFe.setText(fiscal_nfeVO.getVlrNfe().setScale(2).toString());
+    }
+
+    void carregarDadosXmlCte() {
+
     }
 
     void exibirDadosXmlCte() {
