@@ -8,7 +8,7 @@ import javafx.beans.property.StringProperty;
 
 import java.math.BigDecimal;
 
-public class TabEntradaProduto_Fiscal_NfeVO extends RecursiveTreeObject<TabEntradaProduto_Fiscal_NfeVO> {
+public class TabEntradaProduto_FiscalVO extends RecursiveTreeObject<TabEntradaProduto_FiscalVO> {
 
     FiscalTributoSefazAmVO tributoSefazAmVO;
 
@@ -17,7 +17,7 @@ public class TabEntradaProduto_Fiscal_NfeVO extends RecursiveTreeObject<TabEntra
 
     BigDecimal vlrNfe, vlrTributo, vlrMulta, vlrJuros, vlrTaxa;
 
-    public TabEntradaProduto_Fiscal_NfeVO() {
+    public TabEntradaProduto_FiscalVO() {
     }
 
     public FiscalTributoSefazAmVO getTributoSefazAmVO() {

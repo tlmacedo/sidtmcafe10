@@ -412,7 +412,7 @@
                                                                         text="número de controle do imposto do cte de entrada"/>
                                                             </tooltip>
                                                         </JFXTextField>
-                                                        <JFXTextField fx:id="txtFreteFiscalImpostoDocumentoOrigem"
+                                                        <JFXTextField fx:id="txtFreteFiscalDocumentoOrigem"
                                                                       accessibleText="len::12;type::nfedocorigem;value::;seteditable::;"
                                                                       layoutX="100.0" layoutY="10.0"
                                                                       maxHeight="-Infinity" maxWidth="-Infinity"

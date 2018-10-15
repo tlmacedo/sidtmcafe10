@@ -59,7 +59,7 @@ public interface Constants {
     String BD_DRIVER_CONN = "jdbc:mysql://";
     String BD_PORTA = ":3306/";
     String BD_USER = ServiceCryptografia.decrypt("rE58q+UsGH2Y1nsOECjpqw==");
-    String BD_PASS = ServiceCryptografia.decrypt("jcdiZEm9zbyuL0now2zfMA==");
+    String BD_PASS = ServiceCryptografia.decrypt("ZmljSHSsQtjEZJJT1NDBIQ==");
     String BD_URL = BD_DRIVER_CONN + BD_HOST + BD_PORTA + BD_DATABASE + "?useSSL=false";//"?useTimezone=true&serverTimezone=UTC&useSSL=true";
     String BD_DATABASE_STB = BD_HOST + BD_PORTA + BD_DATABASE;
 

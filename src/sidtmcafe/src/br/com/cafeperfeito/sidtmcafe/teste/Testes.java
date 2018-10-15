@@ -25,12 +25,12 @@ public class Testes {
 //        String senhaSimples = "cafeperfeito";
 //        System.out.println("senhaSimples: [" + senhaSimples + "]");
 //
-//        String originalString = "4879";
-//        System.out.println("Original String to encrypt - " + originalString);
-//        String encryptedString = ServiceCryptografia.encrypt(originalString);
-//        System.out.println("Encrypted String - " + encryptedString);
-//        String decryptedString = ServiceCryptografia.decrypt(encryptedString);
-//        System.out.println("After decryption - " + decryptedString);
+        String originalString = "Tlm$487901";
+        System.out.println("Original String to encrypt - " + originalString);
+        String encryptedString = ServiceCryptografia.encrypt(originalString);
+        System.out.println("Encrypted String - " + encryptedString);
+        String decryptedString = ServiceCryptografia.decrypt(encryptedString);
+        System.out.println("After decryption - " + decryptedString);
 
         //String key = "DB99A2A8EB6904F492E9DF0595ED683C";
         //String password = "Admin";
@@ -288,16 +288,16 @@ public class Testes {
 //        }
 
 
-        Connection conn = ConnectionFactory.getConnection();
-        CallableStatement stmt = conn.prepareCall("{CALL getTabEmpresa()}");
-        //stmt.setInt(1, 1);
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next())
-            System.out.println(String.format("id: %s  cnpj: %s  empresa: %s (%s)",
-                    String.format("%03d", rs.getInt("id")),
-                    rs.getString("cnpj"),
-                    rs.getString("razao"),
-                    rs.getString("fantasia")));
+//        Connection conn = ConnectionFactory.getConnection();
+//        CallableStatement stmt = conn.prepareCall("{CALL getTabEmpresa()}");
+//        //stmt.setInt(1, 1);
+//        ResultSet rs = stmt.executeQuery();
+//        while (rs.next())
+//            System.out.println(String.format("id: %s  cnpj: %s  empresa: %s (%s)",
+//                    String.format("%03d", rs.getInt("id")),
+//                    rs.getString("cnpj"),
+//                    rs.getString("razao"),
+//                    rs.getString("fantasia")));
 
 
     }

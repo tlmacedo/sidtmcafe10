@@ -1,42 +1,39 @@
 package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
-import br.com.cafeperfeito.sidtmcafe.model.vo.FiscalTributoSefazAmVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabEntradaProdutoVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabEntradaProduto_Fiscal_NfeVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabEntradaProduto_FiscalVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
 import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
-public class TabEntradaProduto_Fiscal_NfeDAO extends ServiceBuscaBancoDados {
+public class TabEntradaProduto_FiscalDAO extends ServiceBuscaBancoDados {
 
-    TabEntradaProduto_Fiscal_NfeVO tabEntradaProduto_fiscal_nfeVO = null;
+    TabEntradaProduto_FiscalVO tabEntradaProduto_FiscalVO = null;
 
-    public TabEntradaProduto_Fiscal_NfeVO getTabEntradaProduto_fiscal_nfeVO(int id) {
+    public TabEntradaProduto_FiscalVO getTabEntradaProduto_FiscalVO(int id) {
         addNewParametro(new Pair<>("int", String.valueOf(id)));
-        getResultSet("SELECT * FROM tabEntradaProduto_Fiscal_Nfe WHERE id = ? ");
-        return tabEntradaProduto_fiscal_nfeVO;
+        getResultSet("SELECT * FROM tabEntradaProduto_Fiscal WHERE id = ? ");
+        return tabEntradaProduto_FiscalVO;
     }
 
     void getResultSet(String sql) {
         getResultadosBandoDados(sql + "ORDER BY id ");
         try {
             while (rs.next()) {
-                tabEntradaProduto_fiscal_nfeVO = new TabEntradaProduto_Fiscal_NfeVO();
-                tabEntradaProduto_fiscal_nfeVO.setId(rs.getInt("id"));
-                tabEntradaProduto_fiscal_nfeVO.setNumControle(rs.getString("numControle"));
-                tabEntradaProduto_fiscal_nfeVO.setDocOrigem(rs.getString("docOrigem"));
-                tabEntradaProduto_fiscal_nfeVO.setTributoSefazAM_id(rs.getInt("fiscalTributoSefazAm_id"));
-                tabEntradaProduto_fiscal_nfeVO.setTributoSefazAmVO(new FiscalTributoSefazAmDAO()
-                        .getFiscalTributoSefazAmVO(tabEntradaProduto_fiscal_nfeVO.getTributoSefazAM_id()));
-                tabEntradaProduto_fiscal_nfeVO.setVlrNfe(rs.getBigDecimal("vlrNfe"));
-                tabEntradaProduto_fiscal_nfeVO.setVlrTributo(rs.getBigDecimal("vlrTributo"));
-                tabEntradaProduto_fiscal_nfeVO.setVlrMulta(rs.getBigDecimal("vlrMulta"));
-                tabEntradaProduto_fiscal_nfeVO.setVlrJuros(rs.getBigDecimal("vlrJuros"));
-                tabEntradaProduto_fiscal_nfeVO.setVlrTaxa(rs.getBigDecimal("vlrTaxa"));
+                tabEntradaProduto_FiscalVO = new TabEntradaProduto_FiscalVO();
+                tabEntradaProduto_FiscalVO.setId(rs.getInt("id"));
+                tabEntradaProduto_FiscalVO.setNumControle(rs.getString("numControle"));
+                tabEntradaProduto_FiscalVO.setDocOrigem(rs.getString("docOrigem"));
+                tabEntradaProduto_FiscalVO.setTributoSefazAM_id(rs.getInt("fiscalTributoSefazAm_id"));
+                tabEntradaProduto_FiscalVO.setTributoSefazAmVO(new FiscalTributoSefazAmDAO()
+                        .getFiscalTributoSefazAmVO(tabEntradaProduto_FiscalVO.getTributoSefazAM_id()));
+                tabEntradaProduto_FiscalVO.setVlrNfe(rs.getBigDecimal("vlrNfe"));
+                tabEntradaProduto_FiscalVO.setVlrTributo(rs.getBigDecimal("vlrTributo"));
+                tabEntradaProduto_FiscalVO.setVlrMulta(rs.getBigDecimal("vlrMulta"));
+                tabEntradaProduto_FiscalVO.setVlrJuros(rs.getBigDecimal("vlrJuros"));
+                tabEntradaProduto_FiscalVO.setVlrTaxa(rs.getBigDecimal("vlrTaxa"));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -45,8 +42,8 @@ public class TabEntradaProduto_Fiscal_NfeDAO extends ServiceBuscaBancoDados {
         }
     }
 
-    public void updateTabEntradaProduto_Fiscal_NfeVO(Connection conn, TabEntradaProduto_Fiscal_NfeVO entradaProduto_fiscal_nfeVO) throws SQLException {
-        String comandoSql = "UPDATE tabEntradaProduto_Fiscal_Nfe SET " +
+    public void updateTabEntradaProduto_FiscalVO(Connection conn, TabEntradaProduto_FiscalVO entradaProduto_fiscal_nfeVO) throws SQLException {
+        String comandoSql = "UPDATE tabEntradaProduto_Fiscal SET " +
                 "numControle = ?, " +
                 "docOrigem = ?, " +
                 "fiscalTributoSefazAm_id = ?, " +
@@ -68,8 +65,8 @@ public class TabEntradaProduto_Fiscal_NfeDAO extends ServiceBuscaBancoDados {
         getUpdateBancoDados(conn, comandoSql);
     }
 
-    public int insertTabEntradaProduto_Fiscal_NfeVO(Connection conn, TabEntradaProduto_Fiscal_NfeVO entradaProduto_fiscal_nfeVO) throws SQLException {
-        String comandoSql = "INSERT INTO tabEntradaProduto_Fiscal_Nfe " +
+    public int insertTabEntradaProduto_FiscalVO(Connection conn, TabEntradaProduto_FiscalVO entradaProduto_fiscal_nfeVO) throws SQLException {
+        String comandoSql = "INSERT INTO tabEntradaProduto_Fiscal " +
                 "numControle, " +
                 "docOrigem, " +
                 "fiscalTributoSefazAm_id, " +
@@ -93,9 +90,9 @@ public class TabEntradaProduto_Fiscal_NfeDAO extends ServiceBuscaBancoDados {
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void deleteTabEntradaProduto_Fiscal_NfeVO(Connection conn, int entradaProduto_fiscal_nfe_id) throws SQLException {
+    public void deleteTabEntradaProduto_FiscalVO(Connection conn, int entradaProduto_fiscal_nfe_id) throws SQLException {
         if (entradaProduto_fiscal_nfe_id < 0) entradaProduto_fiscal_nfe_id = entradaProduto_fiscal_nfe_id * (-1);
-        String comandoSql = "DELETE FROM tabEntradaProduto_Fiscal_Nfe WHERE id = ? ";
+        String comandoSql = "DELETE FROM tabEntradaProduto_Fiscal WHERE id = ? ";
         addNewParametro(new Pair<>("int", String.valueOf(entradaProduto_fiscal_nfe_id)));
         getDeleteBancoDados(conn, comandoSql);
     }

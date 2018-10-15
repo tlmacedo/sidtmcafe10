@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 public class ServiceCampoPersonalizado implements Constants {
@@ -26,8 +28,6 @@ public class ServiceCampoPersonalizado implements Constants {
     public static void fieldClear(AnchorPane anchorPane) {
         for (Node node : anchorPane.getChildren()) {
             String vlrInicial = "";
-//            if (node.getAccessibleText() == null)
-//                continue;
             if (node.getAccessibleText() != null) {
                 HashMap<String, String> hashMap = ServiceFormatarDado.getFieldFormatMap(node.getAccessibleText());
                 if (hashMap.containsKey("value")) {
@@ -46,6 +46,12 @@ public class ServiceCampoPersonalizado implements Constants {
                 ((JFXComboBox) node).getSelectionModel().select(vlrInicial.equals("") ? -1 : Integer.parseInt(vlrInicial));
             else if (node instanceof ImageView)
                 ((ImageView) node).setImage(null);
+            else if (node instanceof DatePicker)
+                if (vlrInicial.equals("")) {
+                    ((DatePicker) node).setValue(LocalDate.now());
+                } else {
+                    ((DatePicker) node).setValue(LocalDate.parse(vlrInicial));
+                }
             else if (node instanceof Circle)
                 ((Circle) node).setFill(FUNDO_RADIAL_GRADIENT);
             else if (node instanceof JFXListView)
