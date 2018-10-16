@@ -51,6 +51,7 @@ import java.util.stream.Collectors;
 public class ControllerCadastroProduto extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
 
     ObservableList<TabProduto_CodBarraVO> listCodBarraVOObservableList = FXCollections.observableArrayList();
+    boolean formValidoAbertura = false;
     public AnchorPane painelViewCadastroProduto;
     public TitledPane tpnCadastroProduto;
     public JFXTextField txtPesquisaProduto;
@@ -112,9 +113,9 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         listaTarefa.add(new Pair("carregarListaProduto", "carregando lista de produtos"));
         listaTarefa.add(new Pair("vinculandoObjetosTabela", "vinculando objetos a tableMoel"));
 
-        listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
+//        listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
 
-        new ServiceSegundoPlano().tarefaAbreCadastro(getTaskCadastroProduto(), listaTarefa.size());
+        formValidoAbertura = new ServiceSegundoPlano().tarefaAbreCadastro(getTaskCadastroProduto(), listaTarefa.size());
     }
 
     @Override
@@ -425,7 +426,11 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         fatorarObjetos();
         setStatusFormulario("Pesquisa");
         ServiceCampoPersonalizado.fieldMask(painelViewCadastroProduto);
-        Platform.runLater(() -> ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7)));
+        Platform.runLater(() -> {
+            if (!formValidoAbertura)
+                fechar();
+            ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7));
+        });
     }
 
     ObservableList<TabProdutoVO> produtoVOObservableList = FXCollections.observableArrayList();
@@ -462,10 +467,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     switch (tarefaAtual.getKey().toString()) {
                         case "vinculandoObjetosTabela":
                             TabModel.setLblRegistrosLocalizados(lblRegistrosLocalizados);
+                            TabModel.escutaListaProduto();
                             TabModel.setTtvProduto(ttvProduto);
                             TabModel.setProdutoVOObservableList(produtoVOObservableList);
                             TabModel.setProdutoVOFilteredList(produtoVOFilteredList);
-                            TabModel.escutaListaProduto();
                             break;
                         case "criarTabelaProduto":
                             TabModel.tabelaProduto();
@@ -494,9 +499,9 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                         case "carregarListaProduto":
                             carregarListaProduto();
                             break;
-                        case "preencherTabelaProduto":
-                            TabModel.preencherTabelaProduto();
-                            break;
+//                        case "preencherTabelaProduto":
+//                            TabModel.preencherTabelaProduto();
+//                            break;
                     }
                 }
                 updateProgress(qtdTarefas, qtdTarefas);

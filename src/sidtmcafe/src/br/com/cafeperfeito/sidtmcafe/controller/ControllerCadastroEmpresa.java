@@ -47,6 +47,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
     ObservableList<TabEmailHomePageVO> listContatoEmailHomePageVOObservableList = FXCollections.observableArrayList();
     ObservableList<TabTelefoneVO> listContatoTelefoneVOObservableList = FXCollections.observableArrayList();
     ObservableList<TabInformacaoReceitaFederalVO> listInformacaoReceitaFederalVOObservableList = FXCollections.observableArrayList();
+    boolean formValidoAbertura = false;
     public AnchorPane painelViewCadastroEmpresa;
     public TitledPane tpnCadastroEmpresa;
     public JFXTextField txtPesquisaEmpresa;
@@ -121,7 +122,7 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
 
         listaTarefa.add(new Pair("preencherTabelaEmpresa", "preenchendo tabela empresa"));
 
-        new ServiceSegundoPlano().tarefaAbreCadastro(getTaskCadastroEmpresa(), listaTarefa.size());
+        formValidoAbertura = new ServiceSegundoPlano().tarefaAbreCadastro(getTaskCadastroEmpresa(), listaTarefa.size());
 
         formatCnpj = new ServiceFormatarDado();
         formatCnpj.maskField(txtCNPJ, 0, "cnpj", 0);
@@ -462,7 +463,11 @@ public class ControllerCadastroEmpresa extends ServiceVariavelSistema implements
         fatorarObjetos();
         setStatusFormulario("Pesquisa");
         ServiceCampoPersonalizado.fieldMask(painelViewCadastroEmpresa);
-        Platform.runLater(() -> ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7)));
+        Platform.runLater(() -> {
+            if (!formValidoAbertura)
+                fechar();
+            ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7));
+        });
     }
 
     ObservableList<TabEmpresaVO> empresaVOObservableList;

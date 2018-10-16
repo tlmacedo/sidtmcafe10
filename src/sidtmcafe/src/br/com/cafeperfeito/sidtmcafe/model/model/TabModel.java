@@ -257,11 +257,11 @@ public class TabModel {
         }
     }
 
-    public static void escutaListaProduto(){
+    public static void escutaListaProduto() {
         ttvProduto.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode()== KeyCode.ENTER)
+                if (event.getCode() == KeyCode.ENTER)
                     event.consume();
             }
         });
@@ -273,11 +273,11 @@ public class TabModel {
         });
     }
 
-    public static void escutaListaEmpresa(){
+    public static void escutaListaEmpresa() {
         ttvProduto.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode()== KeyCode.ENTER)
+                if (event.getCode() == KeyCode.ENTER)
                     event.consume();
             }
         });

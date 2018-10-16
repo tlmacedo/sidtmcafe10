@@ -5,6 +5,7 @@ import javafx.concurrent.Task;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.util.Optional;
 
 public class ServiceSegundoPlano implements Constants {
 
@@ -19,8 +20,8 @@ public class ServiceSegundoPlano implements Constants {
 
     int qtdTarefas = 1;
 
-    public void tarefaAbreCadastro(Task voidTask, int qtdTarefas) {
-        new ServiceAlertMensagem("Aguarde carregando dados do sistema...", "",
+    public boolean tarefaAbreCadastro(Task voidTask, int qtdTarefas) {
+        return new ServiceAlertMensagem("Aguarde carregando dados do sistema...", "",
                 "ic_aguarde_sentado_orange_32dp.png")
                 .getProgressBar(voidTask, true, false, qtdTarefas);
     }

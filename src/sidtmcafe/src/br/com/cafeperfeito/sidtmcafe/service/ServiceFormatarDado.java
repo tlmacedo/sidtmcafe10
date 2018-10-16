@@ -33,6 +33,8 @@ public class ServiceFormatarDado implements Constants {
     }
 
     public static Double getDoubleFromTextField(String value) {
+        if (value.length() > 0 && value.substring(value.length() - 1).equals(","))
+            value = value.substring(0, (value.length() - 1));
         if (value.equals("") || value == null) return 0.;
         return Double.parseDouble(value.replace(".", "").replace(",", "."));
     }

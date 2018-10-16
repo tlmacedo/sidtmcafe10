@@ -113,6 +113,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     public Label lblRegistrosLocalizados;
     public TitledPane tpnItensNfe;
     public TreeTableView ttvItensNfe;
+    boolean formValidoAbertura = false;
 
     @Override
     public void fechar() {
@@ -136,7 +137,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         listaTarefa.add(new Pair("vinculandoObjetosTabela", "vinculando objetos a tableMoel"));
         listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
 
-        new ServiceSegundoPlano().tarefaAbreCadastro(getTaskEntradaProduto(), listaTarefa.size());
+        formValidoAbertura = new ServiceSegundoPlano().tarefaAbreCadastro(getTaskEntradaProduto(), listaTarefa.size());
     }
 
     @Override
@@ -642,7 +643,11 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         fatorarObjetos();
         setStatusFormulario("Nova Nfe");
         ServiceCampoPersonalizado.fieldMask(painelViewEntradaProduto);
-        Platform.runLater(() -> ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7)));
+        Platform.runLater(() -> {
+            if (!formValidoAbertura)
+                fechar();
+            ControllerPrincipal.ctrlPrincipal.painelViewPrincipal.fireEvent(ServiceComandoTecladoMouse.pressTecla(KeyCode.F7));
+        });
     }
 
     static String STATUS_BAR_TECLA_PESQUISA = "[F1-Limpar Campos]  [F2-Salvar Dados Nf-e]  [F7-Chave Nf-e]  [F8-Chave Ct-e]  [F12-Sair]  ";
@@ -917,7 +922,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 
     boolean buscaDuplicidade(String num_chaveNfe) {
         setEntradaProdutoVO(new TabEntradaProdutoDAO().getTabEntradaProdutoVO(num_chaveNfe));
-        return (getEntradaProdutoVO() != null);
+        return (getEntradaProdutoVO().getId() > 0);
     }
 
     void validaXmlNfeCte(File arquivoXml) {

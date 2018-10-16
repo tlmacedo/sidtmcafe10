@@ -4,7 +4,6 @@ import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -34,9 +33,11 @@ import java.util.Optional;
 import java.util.Random;
 
 public class ServiceAlertMensagem extends JFrame implements Constants {
+    Thread thread;
     Dialog dialog;
     DialogPane dialogPane;
     int qtdTarefasDialog = 2;
+    boolean resultProgressBar = false;
     boolean transparenteDialog = false;
     boolean geraMsgRetornoDialog = false;
     ServiceFormatarDado formatTextField;
@@ -267,7 +268,7 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
                     strContagem = " (" + (duracaoTimeOut - (tempo / 10)) + ")" + pontos;
                     lblMensagem.setText(lblTextoMsg.getText() + strContagem);
                 }));
-        tlRegressiva.setCycleCount(Animation.INDEFINITE);
+        tlRegressiva.setCycleCount(duracaoTimeOut * 10 / 3);
         tlRegressiva.play();
     }
 
@@ -276,7 +277,8 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
         dialog.close();
     }
 
-    public void getProgressBar(Task<?> task, boolean transparente, boolean showAndWait, int qtdTarefas) {
+    public boolean getProgressBar(Task<?> task, boolean transparente, boolean showAndWait, int qtdTarefas) {
+        resultProgressBar = false;
         qtdTarefasDialog = qtdTarefas;
         transparenteDialog = transparente;
         taskDialog = task;
@@ -309,14 +311,23 @@ public class ServiceAlertMensagem extends JFrame implements Constants {
                     progressBarDialog.setVisible(false);
                 }
             }
+            resultProgressBar = true;
             tlRegressiva.stop();
         });
 
-        Thread thread = new Thread(taskDialog);
+        tlRegressiva.setOnFinished(event -> {
+            resultProgressBar = false;
+            closeDialog();
+            return;
+        });
+
+        thread = new Thread(taskDialog);
         thread.setDaemon(true);
         thread.start();
 
         dialog.showAndWait();
+
+        return resultProgressBar;
     }
 
     public void getRetornoAlert_OK() {
