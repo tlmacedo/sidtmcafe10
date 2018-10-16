@@ -266,12 +266,10 @@ public class TabModel {
             }
         });
         produtoVOFilteredList.addListener((ListChangeListener<TabProdutoVO>) c -> {
-            int qtd = produtoVOFilteredList.size();
-            lblRegistrosLocalizados.setText(String.format("%d registro%s localizado%s.", qtd,
-                    qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));
             preencherTabelaProduto();
         });
     }
+
 
     public static void escutaListaEmpresa() {
         ttvProduto.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
@@ -282,9 +280,6 @@ public class TabModel {
             }
         });
         produtoVOFilteredList.addListener((ListChangeListener<TabProdutoVO>) c -> {
-            int qtd = produtoVOFilteredList.size();
-            lblRegistrosLocalizados.setText(String.format("%d registro%s localizado%s.", qtd,
-                    qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));
             preencherTabelaProduto();
         });
     }
@@ -450,6 +445,7 @@ public class TabModel {
     }
 
     public static void preencherTabelaProduto() {
+        atualizaRegistrosProdutos();
         final TreeItem<TabProdutoVO> root = new RecursiveTreeItem<TabProdutoVO>(produtoVOFilteredList, RecursiveTreeObject::getChildren);
         ttvProduto.getColumns().setAll(TabModel.getColunaIdProduto(), TabModel.getColunaCodigo(),
                 TabModel.getColunaDescricao(), TabModel.getColunaUndCom(), TabModel.getColunaVarejo(),
@@ -471,6 +467,12 @@ public class TabModel {
                     .findFirst().orElse(null) != null) return true;
             return false;
         });
+    }
+
+    public static void atualizaRegistrosProdutos(){
+        int qtd = produtoVOFilteredList.size();
+        lblRegistrosLocalizados.setText(String.format("%d registro%s localizado%s.", qtd,
+                qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));
     }
 
 }

@@ -113,7 +113,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         listaTarefa.add(new Pair("carregarListaProduto", "carregando lista de produtos"));
         listaTarefa.add(new Pair("vinculandoObjetosTabela", "vinculando objetos a tableMoel"));
 
-//        listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
+        listaTarefa.add(new Pair("preencherTabelaProduto", "preenchendo tabela produto"));
 
         formValidoAbertura = new ServiceSegundoPlano().tarefaAbreCadastro(getTaskCadastroProduto(), listaTarefa.size());
     }
@@ -467,10 +467,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                     switch (tarefaAtual.getKey().toString()) {
                         case "vinculandoObjetosTabela":
                             TabModel.setLblRegistrosLocalizados(lblRegistrosLocalizados);
-                            TabModel.escutaListaProduto();
                             TabModel.setTtvProduto(ttvProduto);
                             TabModel.setProdutoVOObservableList(produtoVOObservableList);
                             TabModel.setProdutoVOFilteredList(produtoVOFilteredList);
+                            TabModel.escutaListaProduto();
                             break;
                         case "criarTabelaProduto":
                             TabModel.tabelaProduto();
@@ -499,9 +499,9 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                         case "carregarListaProduto":
                             carregarListaProduto();
                             break;
-//                        case "preencherTabelaProduto":
-//                            TabModel.preencherTabelaProduto();
-//                            break;
+                        case "preencherTabelaProduto":
+                            TabModel.preencherTabelaProduto();
+                            break;
                     }
                 }
                 updateProgress(qtdTarefas, qtdTarefas);
@@ -527,6 +527,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
         this.statusFormulario = statusFormulario;
         setStatusBarTecla(statusFormulario);
         lblStatus.setText(String.format("[%s]", getStatusFormulario()));
+        TabModel.atualizaRegistrosProdutos();
     }
 
     public String getStatusBarTecla() {
