@@ -186,7 +186,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                             System.out.println("apertou.. " + event.getCode());
                             if (!validarDadosNfe()) break;
                             System.out.println("apertou... " + event.getCode());
-                            if (buscaDuplicidade(getEntradaNfeVO().getChaveNfe())) break;
+                            if (buscaDuplicidade(getEntradaNfeVO().getChaveNfe(), true)) break;
                             System.out.println("tentando salvar");
                             if (salvarDadosNfe()) {
                                 setStatusFormulario("salvardados");
@@ -522,62 +522,6 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
             organizaPosicoes();
         });
 
-//        tpnFreteImposto.expandedProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue) {
-//                tpnDetalheFrete.setPrefHeight(155.0);
-//                tpnItensTotaisNfe.setLayoutY(tpnItensTotaisNfe.getScaleY());
-//            } else {
-//                tpnDetalheFrete.setPrefHeight(155.0 - 37.0);
-//            }
-//        });
-
-//        txtMargem.textProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
-//                if (!txtMargem.isFocused()) {
-//                    return;
-//                }
-//                vlrConsumidor();
-//                vlrLucroBruto();
-//            }
-//        });
-//
-//        txtPrecoVenda.textProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
-//                if (!txtPrecoVenda.isFocused()) return;
-//                vlrMargem();
-//                vlrLucroBruto();
-//            }
-//        });
-//
-//        txtComissaoPorc.textProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
-//                if (!txtComissaoPorc.isFocused()) return;
-//                vlrComissaoReal();
-//                vlrLucroBruto();
-//            }
-//        });
-//
-//        txtPrecoUltimoImpostoSefaz.textProperty().addListener((observable, oldValue, newValue) -> {
-//            if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
-//            if (!txtPrecoUltimoImpostoSefaz.isFocused()) return;
-//            vlrLucroBruto();
-//        });
-//
-//        txtPrecoUltimoFrete.textProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                if (getStatusFormulario().toLowerCase().equals("pesquisa")) return;
-//                if (!txtPrecoUltimoFrete.isFocused()) return;
-//                vlrLucroBruto();
-//            }
-//        });
-
         tpnDadoNfe.setOnDragOver(event -> {
             if (tpnDadoNfe.isDisable()) return;
             Dragboard board = event.getDragboard();
@@ -597,44 +541,6 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 ex.printStackTrace();
             }
         });
-
-//        txtChaveNfe.setOnDragOver(event -> {
-//            if (txtChaveNfe.isDisable()) return;
-//            Dragboard board = event.getDragboard();
-//            if (board.hasFiles())
-//                if (Pattern.compile(REGEX_EXTENSAO_NFE).matcher(board.getFiles().get(0).toPath().toString()).find())
-//                    event.acceptTransferModes(TransferMode.ANY);
-//        });
-//
-//        txtChaveNfe.setOnDragDropped(event -> {
-//            if (txtChaveNfe.isDisable()) return;
-//            try {
-//                Dragboard board = event.getDragboard();
-//                if ((fileArquivoNfe = new File(String.valueOf(board.getFiles().get(0)))).exists())
-//                    validaXmlNfeCte(fileArquivoNfe);
-//            } catch (Exception ex) {
-//                ex.printStackTrace();
-//            }
-//        });
-//
-//        txtFreteChaveCte.setOnDragOver(event -> {
-//            if (txtFreteChaveCte.isDisable()) return;
-//            Dragboard board = event.getDragboard();
-//            if (board.hasFiles())
-//                if (Pattern.compile(REGEX_EXTENSAO_NFE).matcher(board.getFiles().get(0).toPath().toString()).find())
-//                    event.acceptTransferModes(TransferMode.ANY);
-//        });
-//
-//        txtFreteChaveCte.setOnDragDropped(event -> {
-//            if (txtFreteChaveCte.isDisable()) return;
-//            try {
-//                Dragboard board = event.getDragboard();
-//                if ((fileArquivoCte = new File(String.valueOf(board.getFiles().get(0)))).exists())
-//                    validaXmlNfeCte(fileArquivoCte);
-//            } catch (Exception ex) {
-//                ex.printStackTrace();
-//            }
-//        });
     }
 
     @Override
@@ -666,9 +572,9 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     ObservableList<TabEmpresaVO> empresaVOObservableList;
     ObservableList<TabProdutoVO> produtoVOObservableList = FXCollections.observableArrayList();
     FilteredList<TabProdutoVO> produtoVOFilteredList;
-    TabEntradaProdutoVO entradaNfeVO;
-    TabEntradaProduto_FreteVO entradaCteVO;
-    TabEntradaProduto_FiscalVO entradaFiscalNfeVO, entradaFiscalCteVO;
+    TabEntradaNfeVO entradaNfeVO;
+    TabEntradaCteVO entradaCteVO;
+    TabEntradaFiscalVO entradaFiscalNfeVO, entradaFiscalCteVO;
     List<Pair> listaTarefa = new ArrayList<>();
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewEntradaProduto.getTituloJanela();
@@ -711,24 +617,6 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                         case "preencherCboFreteSituacaoTributaria":
                             preencherCboFreteSituacaoTributaria();
                             break;
-//                        case "preencherCboSituacaoSistema":
-//                            preencherCboSituacaoSistema();
-//                            break;
-//                        case "preencherCboFiscalCestNcm":
-//                            preencherCboFiscalCestNcm();
-//                            break;
-//                        case "preencherCboFiscalOrigem":
-//                            preencherCboFiscalOrigem();
-//                            break;
-//                        case "preencherCboFiscalIcms":
-//                            preencherCboFiscalIcms();
-//                            break;
-//                        case "preencherCboFiscalPis":
-//                            preencherCboFiscalPis();
-//                            break;
-//                        case "preencherCboFiscalCofins":
-//                            preencherCboFiscalCofins();
-//                            break;
                         case "carregarListaProduto":
                             carregarListaProduto();
                             break;
@@ -781,6 +669,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 ServiceCampoPersonalizado.fieldDisable(painelViewEntradaProduto, true);
                 ServiceCampoPersonalizado.fieldDisable((AnchorPane) tpnDadoNfe.getContent(), false);
                 ServiceCampoPersonalizado.fieldClear((AnchorPane) tpnDadoNfe.getContent());
+                System.out.println("limpou?");
                 cboLojaDestino.requestFocus();
                 statusBarTecla = STATUS_BAR_TECLA_PESQUISA;
                 setStatusNfe(0);
@@ -878,45 +767,45 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         }
     }
 
-    public TabEntradaProdutoVO getEntradaNfeVO() {
+    public TabEntradaNfeVO getEntradaNfeVO() {
         return entradaNfeVO;
     }
 
-    public void setEntradaNfeVO(TabEntradaProdutoVO entradaProduto) {
-        if (entradaProduto == null)
-            entradaProduto = new TabEntradaProdutoVO();
-        entradaNfeVO = entradaProduto;
+    public void setEntradaNfeVO(TabEntradaNfeVO entradaNfe) {
+        if (entradaNfe == null)
+            entradaNfe = new TabEntradaNfeVO();
+        entradaNfeVO = entradaNfe;
         //exibirDadosProduto();
     }
 
-    public TabEntradaProduto_FiscalVO getEntradaFiscalNfeVO() {
+    public TabEntradaFiscalVO getEntradaFiscalNfeVO() {
         return entradaFiscalNfeVO;
     }
 
-    public void setEntradaFiscalNfeVO(TabEntradaProduto_FiscalVO entradaFiscalNfeVO) {
-        if (entradaFiscalNfeVO == null)
-            entradaFiscalNfeVO = new TabEntradaProduto_FiscalVO();
-        this.entradaFiscalNfeVO = entradaFiscalNfeVO;
+    public void setEntradaFiscalNfeVO(TabEntradaFiscalVO entradaFiscalNfe) {
+        if (entradaFiscalNfe == null)
+            entradaFiscalNfe = new TabEntradaFiscalVO();
+        this.entradaFiscalNfeVO = entradaFiscalNfe;
     }
 
-    public TabEntradaProduto_FiscalVO getEntradaFiscalCteVO() {
+    public TabEntradaFiscalVO getEntradaFiscalCteVO() {
         return entradaFiscalCteVO;
     }
 
-    public void setEntradaFiscalCteVO(TabEntradaProduto_FiscalVO entradaFiscalCteVO) {
-        if (entradaFiscalCteVO == null)
-            entradaFiscalCteVO = new TabEntradaProduto_FiscalVO();
-        this.entradaFiscalCteVO = entradaFiscalCteVO;
+    public void setEntradaFiscalCteVO(TabEntradaFiscalVO entradaFiscalCte) {
+        if (entradaFiscalCte == null)
+            entradaFiscalCte = new TabEntradaFiscalVO();
+        this.entradaFiscalCteVO = entradaFiscalCte;
     }
 
-    public TabEntradaProduto_FreteVO getEntradaCteVO() {
+    public TabEntradaCteVO getEntradaCteVO() {
         return entradaCteVO;
     }
 
-    public void setEntradaCteVO(TabEntradaProduto_FreteVO entradaCteVO) {
-        if (entradaCteVO == null)
-            entradaCteVO = new TabEntradaProduto_FreteVO();
-        this.entradaCteVO = entradaCteVO;
+    public void setEntradaCteVO(TabEntradaCteVO entradaCte) {
+        if (entradaCte == null)
+            entradaCte = new TabEntradaCteVO();
+        this.entradaCteVO = entradaCte;
     }
 
     void labelContainers() {
@@ -948,7 +837,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 fileArquivoNfe = arquivoXml;
                 tNfeProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(inputStream), TNfeProc.class);
                 String chaveNfe = tNfeProc.getNFe().getInfNFe().getId().replaceAll("\\D", "");
-                if (buscaDuplicidade(chaveNfe)) return;
+                if (buscaDuplicidade(chaveNfe, isNfe)) return;
                 txtChaveNfe.setText(chaveNfe);
                 guardaCopiaArquivoXml(arquivoXml);
                 exibirDadosXmlNfe();
@@ -956,7 +845,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
                 fileArquivoCte = arquivoXml;
                 cteProc = ServiceXmlUtil.xmlToObject(ServiceXmlUtil.leXml(inputStream), CteProc.class);
                 String chaveCte = cteProc.getCTe().getInfCte().getId().replaceAll("\\D", "");
-                if (buscaDuplicidade(chaveCte)) return;
+                if (buscaDuplicidade(chaveCte, isNfe)) return;
                 txtFreteChaveCte.setText(chaveCte);
                 guardaCopiaArquivoXml(arquivoXml);
                 procurarArquivoNfeVinculadoNfe();
@@ -1112,28 +1001,39 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         labelContainers();
     }
 
-    boolean buscaDuplicidade(String num_chaveNfe) {
+    boolean buscaDuplicidade(String num_chaveNfe, boolean isNfe) {
         num_chaveNfe = num_chaveNfe.replaceAll("\\D", "");
         String detalhe = "";
-        TabEntradaProdutoVO entradaProdutoVO;
+        TabEntradaNfeVO entNfeVO = null;
+        TabEntradaCteVO entCteVO;
         if (num_chaveNfe.length() == 44) {
-            detalhe = "chave da Nf-e ";
+            detalhe = "a chave da ";
             txtChaveNfe.requestFocus();
         }
         if (num_chaveNfe.length() > 0 && num_chaveNfe.length() < 9) {
-            detalhe = "número da Nf-e ";
+            detalhe = "o número da ";
             txtNumeroNfe.requestFocus();
         }
-        if ((entradaProdutoVO = new TabEntradaProdutoDAO().getTabEntradaProdutoVO(num_chaveNfe)) == null)
-            return false;
+//        if (isNfe) {
+            if ((entNfeVO = new TabEntradaNfeDAO().getTabEntradaNfeVO(num_chaveNfe)) == null)
+                return false;
+//        } else {
+////            if ((entCteVO = new TabEntradaProduto_FreteDAO().getDeleteBancoDados();))
+//        }
 
-        setEntradaNfeVO(entradaProdutoVO);
         alertMensagem = new ServiceAlertMensagem();
-        alertMensagem.setCabecalho(String.format("%s duplicado", detalhe));
-        alertMensagem.setPromptText(String.format("%s, o %s: [%s] já está cadastrado no sistema!",
-                USUARIO_LOGADO_APELIDO, detalhe, num_chaveNfe));
+        alertMensagem.setCabecalho(String.format("%s %s duplicado", detalhe, isNfe ? "Nf-e " : "Ct-e "));
+        alertMensagem.setPromptText(String.format("%s, %s %s: [%s]\njá está cadastrado no sistema!\nDeseja visualizar a Nf-e?",
+                USUARIO_LOGADO_APELIDO, detalhe, isNfe ? "Nf-e " : "Ct-e", num_chaveNfe));
         alertMensagem.setStrIco("ic_atencao_triangulo_24dp");
-        alertMensagem.getRetornoAlert_OK();
+        if (alertMensagem.getRetornoAlert_YES_NO().get() == ButtonType.YES) {
+            if (isNfe)
+                setEntradaNfeVO(entNfeVO);
+            System.out.println("Botao YES");
+        } else {
+            setStatusFormulario("Nova Nfe");
+            System.out.println("Botao No");
+        }
         return true;
     }
 
@@ -1279,13 +1179,13 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
 
     boolean guardarDadosNfe() {
         try {
-            setEntradaNfeVO(null);
+            setEntradaNfeVO(getEntradaNfeVO());
             getEntradaNfeVO().setLojaDestino_id(cboLojaDestino.getSelectionModel().getSelectedItem().getId());
             getEntradaNfeVO().setChaveNfe(txtChaveNfe.getText());
             getEntradaNfeVO().setNumeroNfe(Integer.parseInt(txtNumeroNfe.getText()));
             getEntradaNfeVO().setSerieNfe(Integer.parseInt(txtNumeroSerie.getText()));
             getEntradaNfeVO().setModeloNfeVO(cboModeloNfe.getSelectionModel().getSelectedItem());
-            getEntradaNfeVO().setModeloNfe_id(getEntradaNfeVO().getModeloNfe_id());
+            getEntradaNfeVO().setModeloNfe_id(getEntradaNfeVO().getModeloNfeVO().getId());
             getEntradaNfeVO().setFornecedorVO(cboFornecedor.getSelectionModel().getSelectedItem());
             getEntradaNfeVO().setFornecedor_id(getEntradaNfeVO().getFornecedorVO().getId());
             getEntradaNfeVO().setDataEmissaoNfe(Timestamp.valueOf(dtpEmissaoNfe.getValue().atStartOfDay()));
@@ -1321,16 +1221,17 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         Connection conn = ConnectionFactory.getConnection();
         try {
             conn.setAutoCommit(false);
+            System.out.println("000: " + getEntradaNfeVO().getFornecedor_id());
             if (getEntradaNfeVO().getId() == 0)
-                getEntradaNfeVO().setId(new TabEntradaProdutoDAO().insertTabEntradaProdutoVO(conn, getEntradaNfeVO()));
+                getEntradaNfeVO().setId(new TabEntradaNfeDAO().insertTabEntradaNfeVO(conn, getEntradaNfeVO()));
             else
-                new TabEntradaProdutoDAO().updateTabEntradaProdutoVO(conn, getEntradaNfeVO());
+                new TabEntradaNfeDAO().updateTabEntradaNfeVO(conn, getEntradaNfeVO());
 
             if (tpnImpostoNfe.isExpanded())
                 if (getEntradaFiscalNfeVO().getId() == 0)
-                    getEntradaFiscalNfeVO().setId(new TabEntradaProduto_FiscalDAO().insertTabEntradaProduto_FiscalVO(conn, getEntradaFiscalNfeVO(), getEntradaNfeVO().getFornecedor_id()));
+                    getEntradaFiscalNfeVO().setId(new TabEntradaFiscalDAO().insertTabEntradaFiscalVO(conn, getEntradaFiscalNfeVO(), getEntradaNfeVO().getId()));
                 else
-                    new TabEntradaProduto_FiscalDAO().updateTabEntradaProduto_FiscalVO(conn, getEntradaFiscalNfeVO());
+                    new TabEntradaFiscalDAO().updateTabEntradaFiscalVO(conn, getEntradaFiscalNfeVO());
             if (tpnDetalheFrete.isExpanded())
                 ;
 

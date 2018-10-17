@@ -9,7 +9,7 @@ import javafx.beans.property.StringProperty;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-public class TabEntradaProdutoVO extends RecursiveTreeObject<TabEntradaProdutoVO> {
+public class TabEntradaNfeVO extends RecursiveTreeObject<TabEntradaNfeVO> {
 
     TabEmpresaVO lojaDestinoVO, fornecedorVO;
     FiscalModeloNfeCteVO modeloNfeVO;
@@ -21,7 +21,7 @@ public class TabEntradaProdutoVO extends RecursiveTreeObject<TabEntradaProdutoVO
     StringProperty chaveNfe;
 
 
-    public TabEntradaProdutoVO() {
+    public TabEntradaNfeVO() {
         this.dataEmissaoNfe = Timestamp.valueOf(LocalDateTime.now());
         this.dataEntradaNfe = Timestamp.valueOf(LocalDateTime.now());
     }
