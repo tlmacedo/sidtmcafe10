@@ -42,7 +42,7 @@ public class TabEntradaProduto_FiscalDAO extends ServiceBuscaBancoDados {
         }
     }
 
-    public void updateTabEntradaProduto_FiscalVO(Connection conn, TabEntradaProduto_FiscalVO entradaProduto_fiscal_nfeVO) throws SQLException {
+    public void updateTabEntradaProduto_FiscalVO(Connection conn, TabEntradaProduto_FiscalVO tabEntradaProduto_fiscalVO) throws SQLException {
         String comandoSql = "UPDATE tabEntradaProduto_Fiscal SET " +
                 "numControle = ?, " +
                 "docOrigem = ?, " +
@@ -53,19 +53,19 @@ public class TabEntradaProduto_FiscalDAO extends ServiceBuscaBancoDados {
                 "vlrJuros = ?, " +
                 "vlrTaxa = ? " +
                 "WHERE id = ? ";
-        addNewParametro(new Pair<>("String", entradaProduto_fiscal_nfeVO.getNumControle()));
-        addParametro(new Pair<>("String", entradaProduto_fiscal_nfeVO.getDocOrigem()));
-        addParametro(new Pair<>("int", String.valueOf(entradaProduto_fiscal_nfeVO.getTributoSefazAM_id())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaProduto_fiscal_nfeVO.getVlrNfe())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaProduto_fiscal_nfeVO.getVlrTributo())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaProduto_fiscal_nfeVO.getVlrMulta())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaProduto_fiscal_nfeVO.getVlrJuros())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaProduto_fiscal_nfeVO.getVlrTaxa())));
-        addParametro(new Pair<>("int", String.valueOf(entradaProduto_fiscal_nfeVO.getId())));
+        addNewParametro(new Pair<>("String", tabEntradaProduto_fiscalVO.getNumControle()));
+        addParametro(new Pair<>("String", tabEntradaProduto_fiscalVO.getDocOrigem()));
+        addParametro(new Pair<>("int", String.valueOf(tabEntradaProduto_fiscalVO.getTributoSefazAM_id())));
+        addParametro(new Pair<>("Decimal", String.valueOf(tabEntradaProduto_fiscalVO.getVlrNfe())));
+        addParametro(new Pair<>("Decimal", String.valueOf(tabEntradaProduto_fiscalVO.getVlrTributo())));
+        addParametro(new Pair<>("Decimal", String.valueOf(tabEntradaProduto_fiscalVO.getVlrMulta())));
+        addParametro(new Pair<>("Decimal", String.valueOf(tabEntradaProduto_fiscalVO.getVlrJuros())));
+        addParametro(new Pair<>("Decimal", String.valueOf(tabEntradaProduto_fiscalVO.getVlrTaxa())));
+        addParametro(new Pair<>("int", String.valueOf(tabEntradaProduto_fiscalVO.getId())));
         getUpdateBancoDados(conn, comandoSql);
     }
 
-    public int insertTabEntradaProduto_FiscalVO(Connection conn, TabEntradaProduto_FiscalVO entradaProduto_fiscal_nfeVO) throws SQLException {
+    public int insertTabEntradaProduto_FiscalVO(Connection conn, TabEntradaProduto_FiscalVO fiscalVO, int entrada_id) throws SQLException {
         String comandoSql = "INSERT INTO tabEntradaProduto_Fiscal " +
                 "numControle, " +
                 "docOrigem, " +
@@ -78,22 +78,24 @@ public class TabEntradaProduto_FiscalDAO extends ServiceBuscaBancoDados {
                 "VALUES (" +
                 "?, ?, ?, ?, ?, " +
                 "?, ?, ?) ";
-        addNewParametro(new Pair<>("String", entradaProduto_fiscal_nfeVO.getNumControle()));
-        addParametro(new Pair<>("String", entradaProduto_fiscal_nfeVO.getDocOrigem()));
-        addParametro(new Pair<>("int", String.valueOf(entradaProduto_fiscal_nfeVO.getTributoSefazAM_id())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaProduto_fiscal_nfeVO.getVlrNfe())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaProduto_fiscal_nfeVO.getVlrTributo())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaProduto_fiscal_nfeVO.getVlrMulta())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaProduto_fiscal_nfeVO.getVlrJuros())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaProduto_fiscal_nfeVO.getVlrTaxa())));
-        addParametro(new Pair<>("int", String.valueOf(entradaProduto_fiscal_nfeVO.getId())));
-        return getInsertBancoDados(conn, comandoSql);
+        addNewParametro(new Pair<>("String", fiscalVO.getNumControle()));
+        addParametro(new Pair<>("String", fiscalVO.getDocOrigem()));
+        addParametro(new Pair<>("int", String.valueOf(fiscalVO.getTributoSefazAM_id())));
+        addParametro(new Pair<>("Decimal", String.valueOf(fiscalVO.getVlrNfe())));
+        addParametro(new Pair<>("Decimal", String.valueOf(fiscalVO.getVlrTributo())));
+        addParametro(new Pair<>("Decimal", String.valueOf(fiscalVO.getVlrMulta())));
+        addParametro(new Pair<>("Decimal", String.valueOf(fiscalVO.getVlrJuros())));
+        addParametro(new Pair<>("Decimal", String.valueOf(fiscalVO.getVlrTaxa())));
+        addParametro(new Pair<>("int", String.valueOf(fiscalVO.getId())));
+        int fiscal_id = getInsertBancoDados(conn, comandoSql);
+        new RelEntradaProduto_EntradaProdutoFiscalDAO().insertRelEntradaProduto_EntradaProdutoFiscalVO(conn, entrada_id, fiscal_id);
+        return fiscal_id;
     }
 
-    public void deleteTabEntradaProduto_FiscalVO(Connection conn, int entradaProduto_fiscal_nfe_id) throws SQLException {
-        if (entradaProduto_fiscal_nfe_id < 0) entradaProduto_fiscal_nfe_id = entradaProduto_fiscal_nfe_id * (-1);
+    public void deleteTabEntradaProduto_FiscalVO(Connection conn, int entradaProduto_fiscal_id) throws SQLException {
+        if (entradaProduto_fiscal_id < 0) entradaProduto_fiscal_id = entradaProduto_fiscal_id * (-1);
         String comandoSql = "DELETE FROM tabEntradaProduto_Fiscal WHERE id = ? ";
-        addNewParametro(new Pair<>("int", String.valueOf(entradaProduto_fiscal_nfe_id)));
+        addNewParametro(new Pair<>("int", String.valueOf(entradaProduto_fiscal_id)));
         getDeleteBancoDados(conn, comandoSql);
     }
 

@@ -133,6 +133,7 @@ public class TabEntradaProdutoDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getNumeroNfe())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getSerieNfe())));
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getModeloNfe_id())));
+        System.out.println("001: " + entradaProdutoVO.getFornecedor_id());
         addParametro(new Pair<>("int", String.valueOf(entradaProdutoVO.getFornecedor_id())));
         addParametro(new Pair<>("timestamp", String.valueOf(entradaProdutoVO.getDataEmissaoNfe())));
         addParametro(new Pair<>("timestamp", String.valueOf(entradaProdutoVO.getDataEntradaNfe())));
