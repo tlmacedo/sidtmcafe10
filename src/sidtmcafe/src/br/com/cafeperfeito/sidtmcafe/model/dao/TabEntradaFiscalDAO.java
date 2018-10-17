@@ -65,7 +65,7 @@ public class TabEntradaFiscalDAO extends ServiceBuscaBancoDados {
         getUpdateBancoDados(conn, comandoSql);
     }
 
-    public int insertTabEntradaFiscalVO(Connection conn, TabEntradaFiscalVO entradaFiscalVO, int entrada_id) throws SQLException {
+    public int insertTabEntradaFiscalVO(Connection conn, TabEntradaFiscalVO entradaFiscalVO, boolean isNfe, int nfeOrCte_id) throws SQLException {
         String comandoSql = "INSERT INTO tabEntradaFiscal (" +
                 "numControle, " +
                 "docOrigem, " +
@@ -87,7 +87,10 @@ public class TabEntradaFiscalDAO extends ServiceBuscaBancoDados {
         addParametro(new Pair<>("Decimal", String.valueOf(entradaFiscalVO.getVlrJuros())));
         addParametro(new Pair<>("Decimal", String.valueOf(entradaFiscalVO.getVlrTaxa())));
         int fiscal_id = getInsertBancoDados(conn, comandoSql);
-        new RelEntradaNfe_EntradaFiscalDAO().insertRelEntradaNfe_EntradaFiscalVO(conn, entrada_id, fiscal_id);
+        if (isNfe)
+            new RelEntradaNfe_EntradaFiscalDAO().insertRelEntradaNfe_EntradaFiscalVO(conn, nfeOrCte_id, fiscal_id);
+        else
+            new RelEntradaCte_EntradaFiscalDAO().insertRelEntradaCte_EntradaFiscalVO(conn, nfeOrCte_id, fiscal_id);
         return fiscal_id;
     }
 

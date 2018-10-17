@@ -29,7 +29,7 @@ public class FiscalFreteSituacaoTributariaDAO extends ServiceBuscaBancoDados {
         try {
             while (rs.next()) {
                 freteSituacaoTributariaVO = new FiscalFreteSituacaoTributariaVO();
-                freteSituacaoTributariaVO.setId(rs.getString("id"));
+                freteSituacaoTributariaVO.setId(rs.getInt("id"));
                 freteSituacaoTributariaVO.setDescricao(rs.getString("descricao"));
                 if (fiscalFreteSituacaoTributariaVOList != null)
                     fiscalFreteSituacaoTributariaVOList.add(freteSituacaoTributariaVO);

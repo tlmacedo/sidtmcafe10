@@ -8,6 +8,7 @@ import javafx.beans.property.StringProperty;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class TabEntradaCteVO extends RecursiveTreeObject<TabEntradaCteVO> {
 
@@ -23,6 +24,7 @@ public class TabEntradaCteVO extends RecursiveTreeObject<TabEntradaCteVO> {
     BigDecimal vlrCte, pesoBruto, vlrFreteBruto, vlrImpostoFrete;
 
     public TabEntradaCteVO() {
+        this.dataEmissaoCte = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public FiscalFreteTomadorServicoVO getTomadorServicoVO() {
@@ -83,7 +85,7 @@ public class TabEntradaCteVO extends RecursiveTreeObject<TabEntradaCteVO> {
     }
 
     public IntegerProperty tomadorServico_idProperty() {
-        if (id == null) id = new SimpleIntegerProperty(0);
+        if (tomadorServico_id == null) tomadorServico_id = new SimpleIntegerProperty(0);
         return tomadorServico_id;
     }
 
@@ -96,7 +98,7 @@ public class TabEntradaCteVO extends RecursiveTreeObject<TabEntradaCteVO> {
     }
 
     public IntegerProperty numeroCteProperty() {
-        if (id == null) id = new SimpleIntegerProperty(0);
+        if (numeroCte == null) numeroCte = new SimpleIntegerProperty(0);
         return numeroCte;
     }
 
@@ -187,7 +189,7 @@ public class TabEntradaCteVO extends RecursiveTreeObject<TabEntradaCteVO> {
     }
 
     public void setVlrCte(BigDecimal vlrCte) {
-        vlrCte = vlrCte;
+        this.vlrCte = vlrCte;
     }
 
     public BigDecimal getPesoBruto() {
@@ -195,7 +197,7 @@ public class TabEntradaCteVO extends RecursiveTreeObject<TabEntradaCteVO> {
     }
 
     public void setPesoBruto(BigDecimal pesoBruto) {
-        pesoBruto = pesoBruto;
+        this.pesoBruto = pesoBruto;
     }
 
     public BigDecimal getVlrFreteBruto() {
@@ -203,7 +205,7 @@ public class TabEntradaCteVO extends RecursiveTreeObject<TabEntradaCteVO> {
     }
 
     public void setVlrFreteBruto(BigDecimal vlrFreteBruto) {
-        vlrFreteBruto = vlrFreteBruto;
+        this.vlrFreteBruto = vlrFreteBruto;
     }
 
     public BigDecimal getVlrImpostoFrete() {
@@ -211,6 +213,6 @@ public class TabEntradaCteVO extends RecursiveTreeObject<TabEntradaCteVO> {
     }
 
     public void setVlrImpostoFrete(BigDecimal vlrImpostoFrete) {
-        vlrImpostoFrete = vlrImpostoFrete;
+        this.vlrImpostoFrete = vlrImpostoFrete;
     }
 }

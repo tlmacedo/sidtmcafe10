@@ -113,7 +113,7 @@ public class TabEntradaCteDAO extends ServiceBuscaBancoDados {
         getUpdateBancoDados(conn, comandoSql);
     }
 
-    public int insertTabEntradaCteVO(Connection conn, TabEntradaCteVO entradaCteVO) throws SQLException {
+    public int insertTabEntradaCteVO(Connection conn, TabEntradaCteVO entradaCteVO, int nfe_id) throws SQLException {
         String comandoSql = "INSERT INTO tabEntradaCte (" +
                 "chaveCte, " +
                 "tomadorServico_id, " +
@@ -133,21 +133,35 @@ public class TabEntradaCteDAO extends ServiceBuscaBancoDados {
                 "?, ?, ?, ?, ?, " +
                 "?, ?, ?, ?, ?, " +
                 "?, ?, ?) ";
-        addNewParametro(new Pair<>("String", entradaCteVO.getChaveCte()));
+        addNewParametro(new Pair<>("String", entradaCteVO.getChaveCte().replaceAll("\\D", "")));
+        System.out.println("getChaveCte: " + entradaCteVO.getChaveCte().replaceAll("\\D", ""));
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getTomadorServico_id())));
+        System.out.println("getTomadorServico_id: " + entradaCteVO.getTomadorServico_id());
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getNumeroCte())));
+        System.out.println("getNumeroCte: " + entradaCteVO.getNumeroCte());
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getSerieCte())));
+        System.out.println("getSerieCte: " + entradaCteVO.getSerieCte());
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getModeloCte_id())));
+        System.out.println("getModeloCte_id: " + entradaCteVO.getModeloCte_id());
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getSituacaoTributaria_id())));
+        System.out.println("getSituacaoTributaria_id: " + entradaCteVO.getSituacaoTributaria_id());
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getTransportadora_id())));
+        System.out.println("getTransportadora_id: " + entradaCteVO.getTransportadora_id());
         addParametro(new Pair<>("timestamp", String.valueOf(entradaCteVO.getDataEmissaoCte())));
+        System.out.println("getDataEmissaoCte: " + entradaCteVO.getDataEmissaoCte());
         addParametro(new Pair<>("Decimal", String.valueOf(entradaCteVO.getVlrCte())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaCteVO.getQtdVolume())));
+        System.out.println("getVlrCte: " + entradaCteVO.getVlrCte());
+        addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getQtdVolume())));
+        System.out.println("getQtdVolume: " + entradaCteVO.getQtdVolume());
         addParametro(new Pair<>("Decimal", String.valueOf(entradaCteVO.getPesoBruto())));
+        System.out.println("getPesoBruto: " + entradaCteVO.getPesoBruto());
         addParametro(new Pair<>("Decimal", String.valueOf(entradaCteVO.getVlrFreteBruto())));
+        System.out.println("getVlrFreteBruto: " + entradaCteVO.getVlrFreteBruto());
         addParametro(new Pair<>("Decimal", String.valueOf(entradaCteVO.getVlrImpostoFrete())));
-
-        return getInsertBancoDados(conn, comandoSql);
+        System.out.println("getVlrImpostoFrete: " + entradaCteVO.getVlrImpostoFrete());
+        int cte_id = getInsertBancoDados(conn, comandoSql);
+        new RelEntradaNfe_EntradaCteDAO().insertRelEntradaNfe_EntradaCteVO(conn, nfe_id, cte_id);
+        return cte_id;
     }
 
     public void deleteTabEntradaCteVO(Connection conn, int entradaCte_id) throws SQLException {
