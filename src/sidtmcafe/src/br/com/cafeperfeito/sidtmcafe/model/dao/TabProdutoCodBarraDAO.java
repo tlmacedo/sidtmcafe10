@@ -1,7 +1,7 @@
 package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoCodBarraVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceImage;
 import javafx.util.Pair;
@@ -11,27 +11,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabProduto_CodBarraDAO extends ServiceBuscaBancoDados {
+public class TabProdutoCodBarraDAO extends ServiceBuscaBancoDados {
 
-    TabProduto_CodBarraVO codBarraVO = null;
-    List<TabProduto_CodBarraVO> codBarraVOList = null;
+    TabProdutoCodBarraVO codBarraVO = null;
+    List<TabProdutoCodBarraVO> codBarraVOList = null;
 
-    public TabProduto_CodBarraVO getTabProduto_codBarraVO(int id) {
+    public TabProdutoCodBarraVO getTabProdutoCodBarraVO(int id) {
         addNewParametro(new Pair<>("int", String.valueOf(id)));
-        getResultSet("SELECT * FROM tabProduto_CodBarra WHERE id = ? ");
+        getResultSet("SELECT * FROM tabProdutoCodBarra WHERE id = ? ");
         return codBarraVO;
     }
 
-    public TabProduto_CodBarraVO getTabProduto_codBarraVO(String barCode) {
+    public TabProdutoCodBarraVO getTabProdutoCodBarraVO(String barCode) {
         addNewParametro(new Pair<>("String", barCode));
-        getResultSet("SELECT * FROM tabProduto_CodBarra WHERE codBarra = ? ");
+        getResultSet("SELECT * FROM tabProdutoCodBarra WHERE codBarra = ? ");
         return codBarraVO;
     }
 
-    public List<TabProduto_CodBarraVO> getTabProduto_codBarraVOList(int produto_id) {
+    public List<TabProdutoCodBarraVO> getTabProdutoCodBarraVOList(int produto_id) {
         codBarraVOList = new ArrayList<>();
         addNewParametro(new Pair<>("int", String.valueOf(produto_id)));
-        getResultSet("SELECT * FROM tabProduto_CodBarra WHERE produto_id = ? ");
+        getResultSet("SELECT * FROM tabProdutoCodBarra WHERE produto_id = ? ");
         return codBarraVOList;
     }
 
@@ -39,7 +39,7 @@ public class TabProduto_CodBarraDAO extends ServiceBuscaBancoDados {
         getResultadosBandoDados(sql + "ORDER BY id ");
         try {
             while (rs.next()) {
-                codBarraVO = new TabProduto_CodBarraVO();
+                codBarraVO = new TabProdutoCodBarraVO();
                 codBarraVO.setId(rs.getInt("id"));
                 codBarraVO.setCodBarra(rs.getString("codBarra"));
                 codBarraVO.setImgCodBarra(ServiceImage.getImageFromInputStream(rs.getBinaryStream("imgCodBarra")));
@@ -52,8 +52,8 @@ public class TabProduto_CodBarraDAO extends ServiceBuscaBancoDados {
         }
     }
 
-    public void updateTabProduto_CodBarraVO(Connection conn, TabProduto_CodBarraVO codBarra) throws SQLException {
-        String comandoSql = "UPDATE tabProduto_CodBarra SET " +
+    public void updateTabProdutoCodBarraVO(Connection conn, TabProdutoCodBarraVO codBarra) throws SQLException {
+        String comandoSql = "UPDATE tabProdutoCodBarra SET " +
                 "codBarra = ?, " +
                 "imgCodBarra = ? " +
                 "WHERE id = ? ";
@@ -64,8 +64,8 @@ public class TabProduto_CodBarraDAO extends ServiceBuscaBancoDados {
         getUpdateBancoDados(conn, comandoSql);
     }
 
-    public int insertTabProduto_CodBarraVO(Connection conn, TabProduto_CodBarraVO codBarra, int produto_id) throws SQLException {
-        String comandoSql = "INSERT INTO tabProduto_CodBarra " +
+    public int insertTabProdutoCodBarraVO(Connection conn, TabProdutoCodBarraVO codBarra, int produto_id) throws SQLException {
+        String comandoSql = "INSERT INTO tabProdutoCodBarra " +
                 "(codBarra, " +
                 "imgCodBarra) " +
                 "VALUES(" +
@@ -79,11 +79,11 @@ public class TabProduto_CodBarraDAO extends ServiceBuscaBancoDados {
         return produto_CodBarra_id;
     }
 
-    public void deleteTabProduto_CodBarraVO(Connection conn, int codBarra_id, int produto_id) throws SQLException {
+    public void deleteTabProdutoCodBarraVO(Connection conn, int codBarra_id, int produto_id) throws SQLException {
         if (codBarra_id < 0) codBarra_id = codBarra_id * (-1);
         if (produto_id > 0)
             new RelProduto_CodBarraDAO().deleteRelProduto_CodBarraVO(conn, produto_id, codBarra_id);
-        String comandoSql = "DELETE FROM tabProduto_CodBarra WHERE id = ? ";
+        String comandoSql = "DELETE FROM tabProdutoCodBarra WHERE id = ? ";
         addNewParametro(new Pair<>("int", String.valueOf(codBarra_id)));
         getDeleteBancoDados(conn, comandoSql);
     }

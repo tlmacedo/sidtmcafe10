@@ -23,7 +23,7 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
     FiscalPisCofinsVO fiscalCofinsVO;
     TabColaboradorVO usuarioCadastroVO;
     TabColaboradorVO usuarioAtualizacaoVO;
-    List<TabProduto_CodBarraVO> codBarraVOList;
+    List<TabProdutoCodBarraVO> codBarraVOList;
 
     Timestamp dataCadastro, dataAtualizacao;
 
@@ -123,11 +123,11 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
         this.usuarioAtualizacaoVO = usuarioAtualizacaoVO;
     }
 
-    public List<TabProduto_CodBarraVO> getCodBarraVOList() {
+    public List<TabProdutoCodBarraVO> getCodBarraVOList() {
         return codBarraVOList;
     }
 
-    public void setCodBarraVOList(List<TabProduto_CodBarraVO> codBarraVOList) {
+    public void setCodBarraVOList(List<TabProdutoCodBarraVO> codBarraVOList) {
         this.codBarraVOList = codBarraVOList;
     }
 

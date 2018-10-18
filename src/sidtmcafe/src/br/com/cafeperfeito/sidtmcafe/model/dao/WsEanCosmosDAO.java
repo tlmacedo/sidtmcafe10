@@ -2,7 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoCodBarraVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.WsEanCosmosVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaWebService;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceEan13;
@@ -66,7 +66,7 @@ public class WsEanCosmosDAO extends ServiceBuscaWebService implements Constants 
         if (produto.getCodBarraVOList().stream()
                 .filter(cod -> cod.getCodBarra().equals(busca))
                 .count() == 0)
-            produto.getCodBarraVOList().add(new TabProduto_CodBarraVO(busca, imageTmp[1]));
+            produto.getCodBarraVOList().add(new TabProdutoCodBarraVO(busca, imageTmp[1]));
     }
 
 }

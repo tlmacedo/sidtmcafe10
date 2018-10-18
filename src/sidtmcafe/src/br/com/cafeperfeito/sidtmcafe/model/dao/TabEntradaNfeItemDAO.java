@@ -40,15 +40,19 @@ public class TabEntradaNfeItemDAO extends ServiceBuscaBancoDados {
             while (rs.next()) {
                 tabEntradaNfeItemVO = new TabEntradaNfeItemVO();
                 tabEntradaNfeItemVO.setId(rs.getInt("id"));
-                tabEntradaNfeItemVO.setLojaDestino_id(rs.getInt("lojaDestino_id"));
-                tabEntradaNfeItemVO.setChaveNfe(rs.getString("chaveNfe"));
-                tabEntradaNfeItemVO.setNumeroNfe(rs.getInt("numeroNfe"));
-                tabEntradaNfeItemVO.setSerieNfe(rs.getInt("serieNfe"));
-                tabEntradaNfeItemVO.setModeloNfe_id(rs.getInt("modeloNfe_id"));
-                tabEntradaNfeItemVO.setFornecedor_id(rs.getInt("fornecedor_id"));
-                tabEntradaNfeItemVO.setDataEmissaoNfe(rs.getTimestamp("dataEmissaoNfe"));
-                tabEntradaNfeItemVO.setDataEntradaNfe(rs.getTimestamp("dataEntradaNfe"));
-                tabEntradaNfeItemVO.setStatusNfe_id(rs.getInt("statusNfe_id"));
+                tabEntradaNfeItemVO.setTabEntradaNfe_id(rs.getInt("tabEntradaNfe_id"));
+                tabEntradaNfeItemVO.setTabProduto_id(rs.getInt("tabProduto_id"));
+                tabEntradaNfeItemVO.setCodProduto(rs.getString("codProduto"));
+                tabEntradaNfeItemVO.setDescricao(rs.getString("descricao"));
+                tabEntradaNfeItemVO.setPeso(rs.getBigDecimal("peso"));
+                tabEntradaNfeItemVO.setQtd(rs.getInt("qtd"));
+                tabEntradaNfeItemVO.setVlrFabrica(rs.getBigDecimal("vlrFabrica"));
+                tabEntradaNfeItemVO.setVlrTotalBruto(rs.getBigDecimal("vlrTotalBruto"));
+                tabEntradaNfeItemVO.setVlrImposto(rs.getBigDecimal("vlrImposto"));
+                tabEntradaNfeItemVO.setVlrDesconto(rs.getBigDecimal("vlrDesconto"));
+                tabEntradaNfeItemVO.setVlrLiquido(rs.getBigDecimal("vlrLiquido"));
+                tabEntradaNfeItemVO.setEstoque(rs.getInt("estoque"));
+                tabEntradaNfeItemVO.setVarejo(rs.getInt("varejo"));
                 if (tabEntradaNfeItemVOList != null) tabEntradaNfeItemVOList.add(tabEntradaNfeItemVO);
             }
         } catch (Exception ex) {
@@ -82,54 +86,64 @@ public class TabEntradaNfeItemDAO extends ServiceBuscaBancoDados {
                 "varejo = ? " +
                 "WHERE id = ? ";
         addNewParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getTabEntradaNfe_id())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getTabProduto_id())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getCodProduto())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getDescricao())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getTabProduto_id())));
+        addParametro(new Pair<>("String", String.valueOf(entradaNfeItem.getCodProduto())));
+        addParametro(new Pair<>("String", String.valueOf(entradaNfeItem.getDescricao())));
         addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getPeso())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getQtd())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getQtd())));
         addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getVlrFabrica())));
         addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getVlrTotalBruto())));
         addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getVlrImposto())));
         addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getVlrDesconto())));
         addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getVlrLiquido())));
         addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getEstoque())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getVarejo())));
-        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getId())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getVarejo())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getId())));
 
         getUpdateBancoDados(conn, comandoSql);
     }
 
     public int insertTabEntradaNfeItemVO(Connection conn, TabEntradaNfeItemVO entradaNfeItem) throws SQLException {
-        String comandoSql = "INSERT INTO tabEntradaNfe " +
-                "(lojaDestino_id, " +
-                "chaveNfe, " +
-                "numeroNfe, " +
-                "serieNfe, " +
-                "modeloNfe_id, " +
-                "fornecedor_id, " +
-                "dataEmissaoNfe, " +
-                "dataEntradaNfe, " +
-                "sisStatusNfe_id) " +
+        String comandoSql = "INSERT INTO tabEntradaNfeItem (" +
+                "tabEntradaNfe_id, " +
+                "tabProduto_id, " +
+                "codProduto, " +
+                "descricao, " +
+                "peso, " +
+                "qtd, " +
+                "vlrFabrica, " +
+                "vlrTotalBruto, " +
+                "vlrImposto, " +
+                "vlrDesconto, " +
+                "vlrLiquido, " +
+                "estoque, " +
+                "varejo) " +
                 "VALUES (" +
                 "?, ?, ?, ?, ?, " +
-                "?, ?, ?, ?) ";
-        addNewParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getLojaDestino_id())));
-        addParametro(new Pair<>("String", entradaNfeItem.getChaveNfe()));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getNumeroNfe())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getSerieNfe())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getModeloNfe_id())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getFornecedor_id())));
-        addParametro(new Pair<>("timestamp", String.valueOf(entradaNfeItem.getDataEmissaoNfe())));
-        addParametro(new Pair<>("timestamp", String.valueOf(entradaNfeItem.getDataEntradaNfe())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getStatusNfe_id())));
+                "?, ?, ?, ?, ?, " +
+                "?, ?, ? " +
+                ") ";
+        addNewParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getTabEntradaNfe_id())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getTabProduto_id())));
+        addParametro(new Pair<>("String", String.valueOf(entradaNfeItem.getCodProduto())));
+        addParametro(new Pair<>("String", String.valueOf(entradaNfeItem.getDescricao())));
+        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getPeso())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getQtd())));
+        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getVlrFabrica())));
+        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getVlrTotalBruto())));
+        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getVlrImposto())));
+        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getVlrDesconto())));
+        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getVlrLiquido())));
+        addParametro(new Pair<>("Decimal", String.valueOf(entradaNfeItem.getEstoque())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfeItem.getVarejo())));
 
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void deleteTabEntradaNfeItemVO(Connection conn, int entradaProduto_id) throws SQLException {
-        if (entradaProduto_id < 0) entradaProduto_id = entradaProduto_id * (-1);
-        String comandoSql = "DELETE FROM tabEntradaNfe WHERE id = ? ";
-        addNewParametro(new Pair<>("int", String.valueOf(entradaProduto_id)));
+    public void deleteTabEntradaNfeItemVO(Connection conn, int id) throws SQLException {
+        if (id < 0) id = id * (-1);
+        String comandoSql = "DELETE FROM tabEntradaNfeItem WHERE id = ? ";
+        addNewParametro(new Pair<>("int", String.valueOf(id)));
         getDeleteBancoDados(conn, comandoSql);
     }
 

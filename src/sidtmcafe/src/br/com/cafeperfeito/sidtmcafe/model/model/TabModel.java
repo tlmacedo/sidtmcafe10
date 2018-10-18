@@ -1,8 +1,10 @@
 package br.com.cafeperfeito.sidtmcafe.model.model;
 
 import br.com.cafeperfeito.sidtmcafe.model.dao.TabProdutoDAO;
+import br.com.cafeperfeito.sidtmcafe.model.dao.TabProdutoEstoqueDAO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabInformacaoReceitaFederalVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoEstoqueVO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -446,7 +448,15 @@ public class TabModel {
 
     public static void preencherTabelaProduto() {
         atualizaRegistrosProdutos();
-        final TreeItem<TabProdutoVO> root = new RecursiveTreeItem<TabProdutoVO>(produtoVOFilteredList, RecursiveTreeObject::getChildren);
+        final TreeItem<TabProdutoVO> root;// = new RecursiveTreeItem<TabProdutoVO>();
+        for (TabProdutoVO prod : produtoVOFilteredList) {
+            TabProdutoEstoqueVO estoqueVO;
+            TreeItem<TabProdutoVO> itemProd = new TreeItem<>(prod);
+            TreeItem<TabProdutoEstoqueVO> itemEstoq = new TreeItem<>(new TabProdutoEstoqueVO(0));
+            if ((estoqueVO = new TabProdutoEstoqueDAO().getEstoqueVO(prod.getId()))!=null)
+                itemEstoq.setValue(estoqueVO);
+            itemProd.getChildren().addAll(itemEstoq);
+        }
         ttvProduto.getColumns().setAll(TabModel.getColunaIdProduto(), TabModel.getColunaCodigo(),
                 TabModel.getColunaDescricao(), TabModel.getColunaUndCom(), TabModel.getColunaVarejo(),
                 TabModel.getColunaPrecoFabrica(), TabModel.getColunaPrecoVenda(),
@@ -469,7 +479,7 @@ public class TabModel {
         });
     }
 
-    public static void atualizaRegistrosProdutos(){
+    public static void atualizaRegistrosProdutos() {
         int qtd = produtoVOFilteredList.size();
         lblRegistrosLocalizados.setText(String.format("%d registro%s localizado%s.", qtd,
                 qtd > 1 ? "s" : "", qtd > 1 ? "s" : ""));

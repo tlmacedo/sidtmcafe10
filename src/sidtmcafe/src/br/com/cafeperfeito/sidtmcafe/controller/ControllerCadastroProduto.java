@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
 
 public class ControllerCadastroProduto extends ServiceVariavelSistema implements Initializable, ModelController, Constants {
 
-    ObservableList<TabProduto_CodBarraVO> listCodBarraVOObservableList = FXCollections.observableArrayList();
+    ObservableList<TabProdutoCodBarraVO> listCodBarraVOObservableList = FXCollections.observableArrayList();
     boolean formValidoAbertura = false;
     public AnchorPane painelViewCadastroProduto;
     public TitledPane tpnCadastroProduto;
@@ -79,7 +79,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     public Label lblDataCadastroDiff;
     public Label lblDataAtualizacao;
     public Label lblDataAtualizacaoDiff;
-    public JFXListView<TabProduto_CodBarraVO> listCodigoBarra;
+    public JFXListView<TabProdutoCodBarraVO> listCodigoBarra;
     public JFXComboBox<FiscalCestNcmVO> cboFiscalCestNcm;
     public JFXTextField txtFiscalGenero;
     public JFXTextField txtFiscalNcm;
@@ -141,14 +141,14 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
                 return cell;
             }
         });
-        listCodigoBarra.setCellFactory(new Callback<ListView<TabProduto_CodBarraVO>, ListCell<TabProduto_CodBarraVO>>() {
+        listCodigoBarra.setCellFactory(new Callback<ListView<TabProdutoCodBarraVO>, ListCell<TabProdutoCodBarraVO>>() {
             @Override
-            public ListCell<TabProduto_CodBarraVO> call(ListView<TabProduto_CodBarraVO> param) {
-                final ListCell<TabProduto_CodBarraVO> cell = new ListCell<TabProduto_CodBarraVO>() {
+            public ListCell<TabProdutoCodBarraVO> call(ListView<TabProdutoCodBarraVO> param) {
+                final ListCell<TabProdutoCodBarraVO> cell = new ListCell<TabProdutoCodBarraVO>() {
                     private ImageView imageView = new ImageView();
 
                     @Override
-                    protected void updateItem(TabProduto_CodBarraVO item, boolean empty) {
+                    protected void updateItem(TabProdutoCodBarraVO item, boolean empty) {
                         super.updateItem(item, empty);
                         if (empty) {
                             setText(null);
@@ -761,7 +761,7 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
 
     void delCodeBar() {
-        TabProduto_CodBarraVO codBarraVO = null;
+        TabProdutoCodBarraVO codBarraVO = null;
         codBarraVO = listCodigoBarra.getSelectionModel().getSelectedItem();
         if (codBarraVO == null) return;
         alertMensagem = new ServiceAlertMensagem();
@@ -891,16 +891,16 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
             else
                 new TabProdutoDAO().updateTabProdutoVO(conn, getProdutoVO());
 
-            getProdutoVO().getCodBarraVOList().stream().sorted(Comparator.comparing(TabProduto_CodBarraVO::getId))
+            getProdutoVO().getCodBarraVOList().stream().sorted(Comparator.comparing(TabProdutoCodBarraVO::getId))
                     .forEach(codBarra -> {
                         try {
                             if (codBarra.getId() < 0)
-                                new TabProduto_CodBarraDAO().deleteTabProduto_CodBarraVO(conn, codBarra.getId(),
+                                new TabProdutoCodBarraDAO().deleteTabProdutoCodBarraVO(conn, codBarra.getId(),
                                         getProdutoVO().getId());
                             else if (codBarra.getId() > 0)
-                                new TabProduto_CodBarraDAO().updateTabProduto_CodBarraVO(conn, codBarra);
+                                new TabProdutoCodBarraDAO().updateTabProdutoCodBarraVO(conn, codBarra);
                             else
-                                codBarra.setId(new TabProduto_CodBarraDAO().insertTabProduto_CodBarraVO(conn, codBarra,
+                                codBarra.setId(new TabProdutoCodBarraDAO().insertTabProdutoCodBarraVO(conn, codBarra,
                                         getProdutoVO().getId()));
                         } catch (Exception ex) {
                             throw new RuntimeException("Erro no código de barras ===>>", ex);

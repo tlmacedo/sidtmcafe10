@@ -2,7 +2,7 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabProduto_CodBarraVO;
+import br.com.cafeperfeito.sidtmcafe.model.vo.TabProdutoCodBarraVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceImage;
 import javafx.util.Pair;
@@ -34,8 +34,8 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
     }
 
     public TabProdutoVO getTabProduto_CodBarraVO(String codBarra) {
-        TabProduto_CodBarraVO codBarraVO;
-        if ((codBarraVO = new TabProduto_CodBarraDAO().getTabProduto_codBarraVO(codBarra)) == null) return null;
+        TabProdutoCodBarraVO codBarraVO;
+        if ((codBarraVO = new TabProdutoCodBarraDAO().getTabProdutoCodBarraVO(codBarra)) == null) return null;
         int produto_id = new RelProduto_CodBarraDAO().getRelProduto_CodBarraVO(0, codBarraVO.getId()).getTabProduto_id();
         if (produto_id == 0) return null;
         addNewParametro(new Pair<>("int", String.valueOf(produto_id)));
@@ -109,10 +109,10 @@ public class TabProdutoDAO extends ServiceBuscaBancoDados {
 
         produto.setUsuarioAtualizacaoVO(new TabColaboradorDAO().getTabColaboradorVO(produto.getUsuarioAtualizacao_id(), false));
 
-        List<TabProduto_CodBarraVO> codBarraVOList = new ArrayList<>();
+        List<TabProdutoCodBarraVO> codBarraVOList = new ArrayList<>();
         new RelProduto_CodBarraDAO().getRelProduto_CodBarraVOList(produto.getId()).stream()
                 .forEach(relProduto_codBarraVO -> {
-                    codBarraVOList.add(new TabProduto_CodBarraDAO().getTabProduto_codBarraVO(relProduto_codBarraVO.getTabProduto_CodBarra_id()));
+                    codBarraVOList.add(new TabProdutoCodBarraDAO().getTabProdutoCodBarraVO(relProduto_codBarraVO.getTabProduto_CodBarra_id()));
                 });
         produto.setCodBarraVOList(codBarraVOList);
     }
