@@ -644,6 +644,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         this.statusFormulario = statusFormulario;
         setStatusBarTecla(statusFormulario);
         tpnEntradaNfe.setText(String.format("Dados da nf-e                 status:[%s]", statusFormulario));
+        TabModel.atualizaRegistrosProdutos();
     }
 
     public int getStatusNfe() {

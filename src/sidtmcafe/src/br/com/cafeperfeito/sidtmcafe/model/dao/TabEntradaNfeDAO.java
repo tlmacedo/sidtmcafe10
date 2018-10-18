@@ -78,7 +78,7 @@ public class TabEntradaNfeDAO extends ServiceBuscaBancoDados {
         entradaNfe.setStatusNfeVO(new SisStatusNfeDAO().getSisStatusNfeVO(entradaNfe.getStatusNfe_id()));
     }
 
-    public void updateTabEntradaNfeVO(Connection conn, TabEntradaNfeVO entradaNfeVO) throws SQLException {
+    public void updateTabEntradaNfeVO(Connection conn, TabEntradaNfeVO entradaNfe) throws SQLException {
         String comandoSql = "UPDATE tabEntradaNfe SET " +
                 "lojaDestino_id = ?, " +
                 "chaveNfe = ?, " +
@@ -90,20 +90,20 @@ public class TabEntradaNfeDAO extends ServiceBuscaBancoDados {
                 "dataEntradaNfe = ?, " +
                 "statusNfe_id = ? " +
                 "WHERE id = ?";
-        addNewParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getLojaDestino_id())));
-        addParametro(new Pair<>("String", entradaNfeVO.getChaveNfe()));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getNumeroNfe())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getSerieNfe())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getModeloNfe_id())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getFornecedor_id())));
-        addParametro(new Pair<>("timestamp", String.valueOf(entradaNfeVO.getDataEmissaoNfe())));
-        addParametro(new Pair<>("timestamp", String.valueOf(entradaNfeVO.getDataEntradaNfe())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getStatusNfe_id())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getId())));
+        addNewParametro(new Pair<>("int", String.valueOf(entradaNfe.getLojaDestino_id())));
+        addParametro(new Pair<>("String", entradaNfe.getChaveNfe()));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfe.getNumeroNfe())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfe.getSerieNfe())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfe.getModeloNfe_id())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfe.getFornecedor_id())));
+        addParametro(new Pair<>("timestamp", String.valueOf(entradaNfe.getDataEmissaoNfe())));
+        addParametro(new Pair<>("timestamp", String.valueOf(entradaNfe.getDataEntradaNfe())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfe.getStatusNfe_id())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfe.getId())));
         getUpdateBancoDados(conn, comandoSql);
     }
 
-    public int insertTabEntradaNfeVO(Connection conn, TabEntradaNfeVO entradaNfeVO) throws SQLException {
+    public int insertTabEntradaNfeVO(Connection conn, TabEntradaNfeVO entradaNfe) throws SQLException {
         String comandoSql = "INSERT INTO tabEntradaNfe " +
                 "(lojaDestino_id, " +
                 "chaveNfe, " +
@@ -117,23 +117,23 @@ public class TabEntradaNfeDAO extends ServiceBuscaBancoDados {
                 "VALUES (" +
                 "?, ?, ?, ?, ?, " +
                 "?, ?, ?, ?) ";
-        addNewParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getLojaDestino_id())));
-        addParametro(new Pair<>("String", entradaNfeVO.getChaveNfe()));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getNumeroNfe())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getSerieNfe())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getModeloNfe_id())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getFornecedor_id())));
-        addParametro(new Pair<>("timestamp", String.valueOf(entradaNfeVO.getDataEmissaoNfe())));
-        addParametro(new Pair<>("timestamp", String.valueOf(entradaNfeVO.getDataEntradaNfe())));
-        addParametro(new Pair<>("int", String.valueOf(entradaNfeVO.getStatusNfe_id())));
+        addNewParametro(new Pair<>("int", String.valueOf(entradaNfe.getLojaDestino_id())));
+        addParametro(new Pair<>("String", entradaNfe.getChaveNfe()));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfe.getNumeroNfe())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfe.getSerieNfe())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfe.getModeloNfe_id())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfe.getFornecedor_id())));
+        addParametro(new Pair<>("timestamp", String.valueOf(entradaNfe.getDataEmissaoNfe())));
+        addParametro(new Pair<>("timestamp", String.valueOf(entradaNfe.getDataEntradaNfe())));
+        addParametro(new Pair<>("int", String.valueOf(entradaNfe.getStatusNfe_id())));
 
         return getInsertBancoDados(conn, comandoSql);
     }
 
-    public void deleteTabEntradaNfeVO(Connection conn, int entradaProduto_id) throws SQLException {
-        if (entradaProduto_id < 0) entradaProduto_id = entradaProduto_id * (-1);
+    public void deleteTabEntradaNfeVO(Connection conn, int entradaNfe_id) throws SQLException {
+        if (entradaNfe_id < 0) entradaNfe_id = entradaNfe_id * (-1);
         String comandoSql = "DELETE FROM tabEntradaNfe WHERE id = ? ";
-        addNewParametro(new Pair<>("int", String.valueOf(entradaProduto_id)));
+        addNewParametro(new Pair<>("int", String.valueOf(entradaNfe_id)));
         getDeleteBancoDados(conn, comandoSql);
     }
 }

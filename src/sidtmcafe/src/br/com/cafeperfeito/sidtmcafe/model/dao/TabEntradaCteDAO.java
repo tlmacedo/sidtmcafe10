@@ -119,7 +119,7 @@ public class TabEntradaCteDAO extends ServiceBuscaBancoDados {
                 "tomadorServico_id, " +
                 "numeroCte, " +
                 "serieCte, " +
-                "modeloNfeCte_id, " +
+                "modeloCte_id, " +
                 "situacaoTributaria_id, " +
                 "transportadora_id, " +
                 "dataEmissaoCte, " +
@@ -129,36 +129,22 @@ public class TabEntradaCteDAO extends ServiceBuscaBancoDados {
                 "vlrFreteBruto, " +
                 "vlrImpostoFrete " +
                 ") VALUES (" +
-                "VALUES (" +
                 "?, ?, ?, ?, ?, " +
                 "?, ?, ?, ?, ?, " +
                 "?, ?, ?) ";
         addNewParametro(new Pair<>("String", entradaCteVO.getChaveCte().replaceAll("\\D", "")));
-        System.out.println("getChaveCte: " + entradaCteVO.getChaveCte().replaceAll("\\D", ""));
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getTomadorServico_id())));
-        System.out.println("getTomadorServico_id: " + entradaCteVO.getTomadorServico_id());
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getNumeroCte())));
-        System.out.println("getNumeroCte: " + entradaCteVO.getNumeroCte());
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getSerieCte())));
-        System.out.println("getSerieCte: " + entradaCteVO.getSerieCte());
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getModeloCte_id())));
-        System.out.println("getModeloCte_id: " + entradaCteVO.getModeloCte_id());
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getSituacaoTributaria_id())));
-        System.out.println("getSituacaoTributaria_id: " + entradaCteVO.getSituacaoTributaria_id());
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getTransportadora_id())));
-        System.out.println("getTransportadora_id: " + entradaCteVO.getTransportadora_id());
         addParametro(new Pair<>("timestamp", String.valueOf(entradaCteVO.getDataEmissaoCte())));
-        System.out.println("getDataEmissaoCte: " + entradaCteVO.getDataEmissaoCte());
         addParametro(new Pair<>("Decimal", String.valueOf(entradaCteVO.getVlrCte())));
-        System.out.println("getVlrCte: " + entradaCteVO.getVlrCte());
         addParametro(new Pair<>("int", String.valueOf(entradaCteVO.getQtdVolume())));
-        System.out.println("getQtdVolume: " + entradaCteVO.getQtdVolume());
         addParametro(new Pair<>("Decimal", String.valueOf(entradaCteVO.getPesoBruto())));
-        System.out.println("getPesoBruto: " + entradaCteVO.getPesoBruto());
         addParametro(new Pair<>("Decimal", String.valueOf(entradaCteVO.getVlrFreteBruto())));
-        System.out.println("getVlrFreteBruto: " + entradaCteVO.getVlrFreteBruto());
         addParametro(new Pair<>("Decimal", String.valueOf(entradaCteVO.getVlrImpostoFrete())));
-        System.out.println("getVlrImpostoFrete: " + entradaCteVO.getVlrImpostoFrete());
         int cte_id = getInsertBancoDados(conn, comandoSql);
         new RelEntradaNfe_EntradaCteDAO().insertRelEntradaNfe_EntradaCteVO(conn, nfe_id, cte_id);
         return cte_id;
