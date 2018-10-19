@@ -22,6 +22,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 public class TabModel {
 
     static TreeTableView<TabProdutoVO> ttvProduto;
@@ -73,6 +77,8 @@ public class TabModel {
     static TreeTableColumn<TabProdutoVO, Integer> colunaQtdEstoque;
     static TreeTableColumn<TabProdutoVO, String> colunaSituacaoSistema;
     static TreeTableColumn<TabProdutoVO, Integer> colunaVarejo;
+    static TreeTableColumn<TabProdutoVO, String> colunaLote;
+    static TreeTableColumn<TabProdutoVO, String> colunaValidade;
 
     static TreeTableColumn<TabEmpresaVO, Integer> colunaIdEmpresa;
     static TreeTableColumn<TabEmpresaVO, String> colunaCnpj;
@@ -125,6 +131,22 @@ public class TabModel {
 
     public static TreeTableColumn<TabProdutoVO, Integer> getColunaVarejo() {
         return colunaVarejo;
+    }
+
+    public static TreeTableColumn<TabProdutoVO, String> getColunaLote() {
+        return colunaLote;
+    }
+
+    public static void setColunaLote(TreeTableColumn<TabProdutoVO, String> colunaLote) {
+        TabModel.colunaLote = colunaLote;
+    }
+
+    public static TreeTableColumn<TabProdutoVO, String> getColunaValidade() {
+        return colunaValidade;
+    }
+
+    public static void setColunaValidade(TreeTableColumn<TabProdutoVO, String> colunaValidade) {
+        TabModel.colunaValidade = colunaValidade;
     }
 
     public static TreeTableColumn<TabEmpresaVO, Integer> getColunaIdEmpresa() {
@@ -186,10 +208,10 @@ public class TabModel {
     public static void tabelaProduto() {
         try {
             Label lblId = new Label("id");
-            lblId.setPrefWidth(28);
+            lblId.setPrefWidth(48);
             colunaIdProduto = new TreeTableColumn<TabProdutoVO, Integer>();
             colunaIdProduto.setGraphic(lblId);
-            colunaIdProduto.setPrefWidth(28);
+            colunaIdProduto.setPrefWidth(48);
             colunaIdProduto.setStyle("-fx-alignment: center-right;");
             colunaIdProduto.setCellValueFactory(param -> param.getValue().getValue().idProperty().asObject());
 
@@ -213,7 +235,11 @@ public class TabModel {
             colunaUndCom = new TreeTableColumn<TabProdutoVO, String>();
             colunaUndCom.setGraphic(lblUndComercial);
             colunaUndCom.setPrefWidth(70);
-            colunaUndCom.setCellValueFactory(param -> param.getValue().getValue().getSisUnidadeComercialVO().siglaProperty());
+            colunaUndCom.setCellValueFactory(param -> {
+                if (param.getValue().getValue().getSisUnidadeComercial_id() == 0)
+                    return new SimpleStringProperty("");
+                return param.getValue().getValue().getSisUnidadeComercialVO().siglaProperty();
+            });
 
             Label lblVarejo = new Label("Varejo");
             lblVarejo.setPrefWidth(50);
@@ -244,7 +270,11 @@ public class TabModel {
             colunaSituacaoSistema = new TreeTableColumn<TabProdutoVO, String>();
             colunaSituacaoSistema.setGraphic(lblSituacaoSistema);
             colunaSituacaoSistema.setPrefWidth(100);
-            colunaSituacaoSistema.setCellValueFactory(param -> param.getValue().getValue().getSisSituacaoSistemaVO().descricaoProperty());
+            colunaSituacaoSistema.setCellValueFactory(param -> {
+                if (param.getValue().getValue().getSisSituacaoSistema_id() == 0)
+                    return new SimpleStringProperty("");
+                return param.getValue().getValue().getSisSituacaoSistemaVO().descricaoProperty();
+            });
 
             Label lblEstoque = new Label("Estoque");
             lblEstoque.setPrefWidth(65);
@@ -252,7 +282,31 @@ public class TabModel {
             colunaQtdEstoque.setGraphic(lblEstoque);
             colunaQtdEstoque.setPrefWidth(65);
             colunaQtdEstoque.setStyle("-fx-alignment: center-right;");
-            //colunaQtdEstoque.setCellValueFactory(FXCollections.observableArrayList(new SimpleIntegerProperty(0)));
+            colunaQtdEstoque.setCellValueFactory(param -> param.getValue().getValue().estoqueProperty().asObject());
+
+            Label lblLote = new Label("Lote");
+            lblLote.setPrefWidth(105);
+            colunaLote = new TreeTableColumn<TabProdutoVO, String>();
+            colunaLote.setGraphic(lblLote);
+            colunaLote.setPrefWidth(105);
+            colunaLote.setStyle("-fx-alignment: center-left;");
+            colunaLote.setCellValueFactory(param -> {
+                if (param.getValue().getValue().loteProperty() == null)
+                    return new SimpleStringProperty("");
+                return param.getValue().getValue().loteProperty();
+            });
+
+            Label lblValidade = new Label("Validade");
+            lblValidade.setPrefWidth(150);
+            colunaValidade = new TreeTableColumn<TabProdutoVO, String>();
+            colunaValidade.setGraphic(lblValidade);
+            colunaValidade.setPrefWidth(150);
+            colunaValidade.setStyle("-fx-alignment: center-right;");
+            colunaValidade.setCellValueFactory(param -> {
+                if (param.getValue().getValue().getValidade() == null)
+                    return new SimpleStringProperty("");
+                return new SimpleStringProperty(param.getValue().getValue().getValidade().toString());
+            });
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -448,19 +502,25 @@ public class TabModel {
 
     public static void preencherTabelaProduto() {
         atualizaRegistrosProdutos();
-        final TreeItem<TabProdutoVO> root;// = new RecursiveTreeItem<TabProdutoVO>();
+        //final TreeItem<TabProdutoVO> root = new RecursiveTreeItem<TabProdutoVO>(produtoVOFilteredList, RecursiveTreeObject::getChildren);
+        TreeItem<TabProdutoVO> root = new TreeItem<TabProdutoVO>();
         for (TabProdutoVO prod : produtoVOFilteredList) {
-            TabProdutoEstoqueVO estoqueVO;
-            TreeItem<TabProdutoVO> itemProd = new TreeItem<>(prod);
-            TreeItem<TabProdutoEstoqueVO> itemEstoq = new TreeItem<>(new TabProdutoEstoqueVO(0));
-            if ((estoqueVO = new TabProdutoEstoqueDAO().getEstoqueVO(prod.getId()))!=null)
-                itemEstoq.setValue(estoqueVO);
-            itemProd.getChildren().addAll(itemEstoq);
+            final int[] estoqTot = {0};
+            TreeItem<TabProdutoVO> itemProd = new TreeItem<TabProdutoVO>(prod);
+            new TabProdutoEstoqueDAO().getTabProdutoEstoqueVOList(prod.getId()).stream()
+                    .forEach(estqProd -> {
+                        itemProd.getChildren().add(new TreeItem<TabProdutoVO>(new TabProdutoVO(estqProd.getId(), estqProd.getQtd(), estqProd.getLote(), estqProd.getValidade())));
+                        estoqTot[0] += estqProd.getQtd();
+                    });
+            itemProd.getValue().setEstoque(estoqTot[0]);
+            root.getChildren().add(itemProd);
         }
+
         ttvProduto.getColumns().setAll(TabModel.getColunaIdProduto(), TabModel.getColunaCodigo(),
                 TabModel.getColunaDescricao(), TabModel.getColunaUndCom(), TabModel.getColunaVarejo(),
                 TabModel.getColunaPrecoFabrica(), TabModel.getColunaPrecoVenda(),
-                TabModel.getColunaSituacaoSistema(), TabModel.getColunaQtdEstoque());
+                TabModel.getColunaSituacaoSistema(), TabModel.getColunaQtdEstoque(),
+                TabModel.getColunaLote(), TabModel.getColunaValidade());
         ttvProduto.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         ttvProduto.setRoot(root);
         ttvProduto.setShowRoot(false);

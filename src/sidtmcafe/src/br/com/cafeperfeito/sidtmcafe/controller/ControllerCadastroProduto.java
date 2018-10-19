@@ -171,7 +171,10 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
     public void escutarTecla() {
         ttvProduto.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) return;
-            setProdutoVO(newValue.getValue());
+            if (newValue.getValue().getDescricao().equals(""))
+                setProdutoVO(newValue.getParent().getValue());
+            else
+                setProdutoVO(newValue.getValue());
         });
 
         ttvProduto.focusedProperty().addListener((observable, oldValue, newValue) -> {

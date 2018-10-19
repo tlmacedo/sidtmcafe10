@@ -25,12 +25,12 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
     TabColaboradorVO usuarioAtualizacaoVO;
     List<TabProdutoCodBarraVO> codBarraVOList;
 
-    Timestamp dataCadastro, dataAtualizacao;
+    Timestamp dataCadastro, dataAtualizacao, validade;
 
     IntegerProperty id, sisUnidadeComercial_id, sisSituacaoSistema_id, varejo, fiscalCSTOrigem_id,
-            fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, usuarioCadastro_id, usuarioAtualizacao_id;
+            fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, usuarioCadastro_id, usuarioAtualizacao_id, estoque;
 
-    StringProperty codigo, descricao, nfeGenero, ncm, cest;
+    StringProperty codigo, descricao, nfeGenero, ncm, cest, lote;
 
     BigDecimal peso, precoFabrica, precoVenda, precoUltimoImpostoSefaz, precoUltimoFrete, comissao;
 
@@ -38,6 +38,13 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     public TabProdutoVO() {
 
+    }
+
+    public TabProdutoVO(int id, int estoque, String lote, Timestamp validade) {
+        this.id = new SimpleIntegerProperty(id);
+        this.estoque = new SimpleIntegerProperty(estoque);
+        this.lote = new SimpleStringProperty(lote);
+        this.validade = validade;
     }
 
     public TabProdutoVO(int id) {
@@ -145,6 +152,14 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     public void setDataAtualizacao(Timestamp dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public Timestamp getValidade() {
+        return validade;
+    }
+
+    public void setValidade(Timestamp validade) {
+        this.validade = validade;
     }
 
     public int getId() {
@@ -277,6 +292,19 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
         usuarioAtualizacao_idProperty().set(usuarioAtualizacao_id);
     }
 
+    public int getEstoque() {
+        return estoqueProperty().get();
+    }
+
+    public IntegerProperty estoqueProperty() {
+        if (estoque == null) estoque = new SimpleIntegerProperty(0);
+        return estoque;
+    }
+
+    public void setEstoque(int estoque) {
+        estoqueProperty().set(estoque);
+    }
+
     public String getCodigo() {
         return codigoProperty().get();
     }
@@ -340,6 +368,19 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     public void setCest(String cest) {
         cestProperty().set(cest);
+    }
+
+    public String getLote() {
+        return loteProperty().get();
+    }
+
+    public StringProperty loteProperty() {
+        if (lote == null) lote = new SimpleStringProperty("");
+        return lote;
+    }
+
+    public void setLote(String lote) {
+        loteProperty().set(lote);
     }
 
     public BigDecimal getPeso() {

@@ -16,6 +16,7 @@
     &:odd {
       -fx-background-color: derive(-fx-control-inner-background, -12%);
     }
+
     &:filled:selected {
       -fx-background-color: -fx-selection-bar;
       -fx-text-fill: -fx-selection-bar-text;

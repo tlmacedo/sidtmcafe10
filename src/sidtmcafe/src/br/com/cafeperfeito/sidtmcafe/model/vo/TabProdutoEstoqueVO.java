@@ -20,6 +20,9 @@ public class TabProdutoEstoqueVO extends RecursiveTreeObject<TabProdutoEstoqueVO
 
     BigDecimal vlrBruto, vlrImposto, vlrCteBruto, vlrCteImposto, vlrCteLiquido, vlrLiquido;
 
+    public TabProdutoEstoqueVO() {
+    }
+
     public TabProdutoEstoqueVO(int tabProduto_id) {
         this.id = new SimpleIntegerProperty(0);
         this.tabProduto_id = new SimpleIntegerProperty(tabProduto_id);
