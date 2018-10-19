@@ -45,7 +45,7 @@ public class ServiceX509InfoCertificado {
             Provider pp = ks.getProvider();
             info("--------------------------------------------------------");
             info("Provider   : " + pp.getName());
-            info("Prov.Vers. : " + pp.getVersion());
+            //info("Prov.Vers. : " + pp.getVersion());
             info("KS Type    : " + ks.getType());
             info("KS DefType : " + KeyStore.getDefaultType());
 

@@ -2,7 +2,6 @@ package br.com.cafeperfeito.sidtmcafe.model.dao;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
 import br.com.cafeperfeito.sidtmcafe.model.vo.SisStatusNfeVO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.TabEntradaProdutoVO;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceBuscaBancoDados;
 import javafx.util.Pair;
 

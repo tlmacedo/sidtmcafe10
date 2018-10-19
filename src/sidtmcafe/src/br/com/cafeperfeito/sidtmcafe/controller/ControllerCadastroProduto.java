@@ -21,6 +21,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,6 +30,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Callback;
@@ -120,6 +125,23 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     @Override
     public void fatorarObjetos() {
+        ttvProduto.setRowFactory(param -> {
+            TreeTableRow<TabProdutoVO> row = new TreeTableRow<TabProdutoVO>() {
+                @Override
+                protected void updateItem(TabProdutoVO item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null) {
+                        getStyleClass().remove("produto-estoque");
+                    } else if (item.getDescricao().equals("")) {
+                        if (!getStyleClass().contains("produto-estoque"))
+                            getStyleClass().add("produto-estoque");
+                    } else {
+                        getStyleClass().remove("produto-estoque");
+                    }
+                }
+            };
+            return row;
+        });
         cboFiscalCestNcm.setCellFactory(new Callback<ListView<FiscalCestNcmVO>, ListCell<FiscalCestNcmVO>>() {
             @Override
             public ListCell<FiscalCestNcmVO> call(ListView<FiscalCestNcmVO> param) {

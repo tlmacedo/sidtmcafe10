@@ -60,7 +60,6 @@ public class ServiceBuscaBancoDados {
         try {
             stmt.clearParameters();
             for (int i = 0; i < listParametro.size(); i++) {
-                System.out.println("busca... " + listParametro.get(i).getKey().toLowerCase() + ": [" + listParametro.get(i).getValue() + "]");
                 switch (listParametro.get(i).getKey().toLowerCase()) {
                     case "decimal":
                         stmt.setBigDecimal(i + 1, new BigDecimal(listParametro.get(i).getValue()));

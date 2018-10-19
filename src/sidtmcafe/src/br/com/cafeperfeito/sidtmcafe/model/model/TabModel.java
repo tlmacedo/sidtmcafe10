@@ -1,5 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.model.model;
 
+import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 import br.com.cafeperfeito.sidtmcafe.model.dao.TabProdutoDAO;
 import br.com.cafeperfeito.sidtmcafe.model.dao.TabProdutoEstoqueDAO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.TabEmpresaVO;
@@ -20,11 +21,17 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 import java.time.LocalDate;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
+
+import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.DTF_DATA;
 
 public class TabModel {
 
@@ -68,7 +75,7 @@ public class TabModel {
         TabModel.produtoVOFilteredList = produtoVOFilteredList;
     }
 
-    static TreeTableColumn<TabProdutoVO, Integer> colunaIdProduto;
+    static TreeTableColumn<TabProdutoVO, String> colunaIdProduto;
     static TreeTableColumn<TabProdutoVO, String> colunaCodigo;
     static TreeTableColumn<TabProdutoVO, String> colunaDescricao;
     static TreeTableColumn<TabProdutoVO, String> colunaUndCom;
@@ -97,7 +104,7 @@ public class TabModel {
     static TreeTableColumn<TabInformacaoReceitaFederalVO, String> colunaQsaKey;
     static TreeTableColumn<TabInformacaoReceitaFederalVO, String> colunaQsaValue;
 
-    public static TreeTableColumn<TabProdutoVO, Integer> getColunaIdProduto() {
+    public static TreeTableColumn<TabProdutoVO, String> getColunaIdProduto() {
         return colunaIdProduto;
     }
 
@@ -209,11 +216,31 @@ public class TabModel {
         try {
             Label lblId = new Label("id");
             lblId.setPrefWidth(48);
-            colunaIdProduto = new TreeTableColumn<TabProdutoVO, Integer>();
+            colunaIdProduto = new TreeTableColumn<TabProdutoVO, String>();
             colunaIdProduto.setGraphic(lblId);
             colunaIdProduto.setPrefWidth(48);
             colunaIdProduto.setStyle("-fx-alignment: center-right;");
-            colunaIdProduto.setCellValueFactory(param -> param.getValue().getValue().idProperty().asObject());
+            colunaIdProduto.setCellValueFactory(param -> {
+                if (param.getValue().getValue().getId() == 0)
+                    return new SimpleStringProperty("");
+                return param.getValue().getValue().idProperty().asString();
+            });
+//            colunaIdProduto.setCellFactory(param -> {
+//                TreeTableCell<TabProdutoVO, Integer> cell = new TreeTableCell<TabProdutoVO, Integer>() {
+//                    @Override
+//                    protected void updateItem(Integer item, boolean empty) {
+//                        super.updateItem(item, empty);
+//                        if (empty) {
+//                            setText("");
+//                            getStyleClass().add("produto-estoque");
+//                        } else {
+//                            setText(String.valueOf(item));
+//                        }
+//                        System.out.println("    getStyleClass(): [" + getStyleClass() + "]\n    getStylesheets(): [" + getStylesheets() + "]");
+//                    }
+//                };
+//                return cell;
+//            });
 
             Label lblCodigo = new Label("Código");
             lblCodigo.setPrefWidth(60);
@@ -229,6 +256,23 @@ public class TabModel {
             colunaDescricao.setGraphic(lblDescricao);
             colunaDescricao.setPrefWidth(350);
             colunaDescricao.setCellValueFactory(param -> param.getValue().getValue().descricaoProperty());
+//            colunaDescricao.setCellFactory(param -> {
+//                TreeTableCell<TabProdutoVO, String> cell = new TreeTableCell<TabProdutoVO, String>() {
+//                    @Override
+//                    protected void updateItem(String item, boolean empty) {
+//                        super.updateItem(item, empty);
+//                        if (empty || item ==null) {
+//                            setText("123");
+//                            getStyleClass().add("estoqueProduto");
+//                        } else {
+//                            setText(item.toString());
+//                        }
+//
+//                    }
+//                };
+//                return cell;
+//            });
+
 
             Label lblUndComercial = new Label("Und Com");
             lblUndComercial.setPrefWidth(70);
@@ -289,7 +333,7 @@ public class TabModel {
             colunaLote = new TreeTableColumn<TabProdutoVO, String>();
             colunaLote.setGraphic(lblLote);
             colunaLote.setPrefWidth(105);
-            colunaLote.setStyle("-fx-alignment: center-left;");
+            colunaLote.setStyle("-fx-alignment: center;");
             colunaLote.setCellValueFactory(param -> {
                 if (param.getValue().getValue().loteProperty() == null)
                     return new SimpleStringProperty("");
@@ -297,15 +341,15 @@ public class TabModel {
             });
 
             Label lblValidade = new Label("Validade");
-            lblValidade.setPrefWidth(150);
+            lblValidade.setPrefWidth(105);
             colunaValidade = new TreeTableColumn<TabProdutoVO, String>();
             colunaValidade.setGraphic(lblValidade);
-            colunaValidade.setPrefWidth(150);
+            colunaValidade.setPrefWidth(105);
             colunaValidade.setStyle("-fx-alignment: center-right;");
             colunaValidade.setCellValueFactory(param -> {
                 if (param.getValue().getValue().getValidade() == null)
                     return new SimpleStringProperty("");
-                return new SimpleStringProperty(param.getValue().getValue().getValidade().toString());
+                return new SimpleStringProperty(DTF_DATA.format(param.getValue().getValue().getValidade().toLocalDateTime().toLocalDate()));
             });
 
         } catch (Exception ex) {

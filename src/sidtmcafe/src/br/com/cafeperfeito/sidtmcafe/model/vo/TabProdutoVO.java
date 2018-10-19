@@ -28,7 +28,7 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
     Timestamp dataCadastro, dataAtualizacao, validade;
 
     IntegerProperty id, sisUnidadeComercial_id, sisSituacaoSistema_id, varejo, fiscalCSTOrigem_id,
-            fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, usuarioCadastro_id, usuarioAtualizacao_id, estoque;
+            fiscalICMS_id, fiscalPIS_id, fiscalCOFINS_id, usuarioCadastro_id, usuarioAtualizacao_id, estoque_id, estoque;
 
     StringProperty codigo, descricao, nfeGenero, ncm, cest, lote;
 
@@ -40,8 +40,8 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     }
 
-    public TabProdutoVO(int id, int estoque, String lote, Timestamp validade) {
-        this.id = new SimpleIntegerProperty(id);
+    public TabProdutoVO(int estoque_id, int estoque, String lote, Timestamp validade) {
+        this.estoque_id = new SimpleIntegerProperty(estoque_id);
         this.estoque = new SimpleIntegerProperty(estoque);
         this.lote = new SimpleStringProperty(lote);
         this.validade = validade;
@@ -290,6 +290,19 @@ public class TabProdutoVO extends RecursiveTreeObject<TabProdutoVO> {
 
     public void setUsuarioAtualizacao_id(int usuarioAtualizacao_id) {
         usuarioAtualizacao_idProperty().set(usuarioAtualizacao_id);
+    }
+
+    public int getEstoque_id() {
+        return estoque_idProperty().get();
+    }
+
+    public IntegerProperty estoque_idProperty() {
+        if (estoque_id == null) estoque_id = new SimpleIntegerProperty(0);
+        return estoque_id;
+    }
+
+    public void setEstoque_id(int estoque_id) {
+        estoque_idProperty().set(estoque_id);
     }
 
     public int getEstoque() {

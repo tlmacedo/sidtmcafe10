@@ -307,15 +307,6 @@
     -fx-text-fill: #FF6600;
     -fx-font-size: 10px;
     -fx-padding: 0 4 0 0; }
-.tree-table-view .tree-table-cell {
-  -fx-background-color: transparent;
-  -fx-alignment: center-left;
-  -fx-font-family: sans-serif;
-  -fx-font-size: 10px;
-  -fx-text-fill: #000000;
-  -fx-padding: 0 4 0 0; }
-  .tree-table-view .tree-table-cell.chkbox {
-    -fx-alignment: center; }
 .tree-table-view .tree-table-row-cell {
   -fx-pref-height: 20;
   -fx-background-color: #e9e9e9;
@@ -329,6 +320,26 @@
     -fx-background-color: transparent; }
     .tree-table-view .tree-table-row-cell:empty .table-cell {
       -fx-border-width: 0; }
+  .tree-table-view .tree-table-row-cell.produto-estoque {
+    -fx-background-color: #FF6600; }
+    .tree-table-view .tree-table-row-cell.produto-estoque:odd {
+      -fx-background-color: #FF6600, derive(#FF6600, -12%); }
+    .tree-table-view .tree-table-row-cell.produto-estoque:selected {
+      -fx-background-color: -fx-selection-bar, derive(#FF6600, -30%);
+      -fx-text-fill: -fx-selection-bar-text; }
+    .tree-table-view .tree-table-row-cell.produto-estoque:empty {
+      -fx-background-color: transparent; }
+      .tree-table-view .tree-table-row-cell.produto-estoque:empty .table-cell {
+        -fx-border-width: 0; }
+.tree-table-view .tree-table-cell {
+  -fx-background-color: transparent;
+  -fx-alignment: center-left;
+  -fx-font-family: sans-serif;
+  -fx-font-size: 10px;
+  -fx-text-fill: #000000;
+  -fx-padding: 0 4 0 0; }
+  .tree-table-view .tree-table-cell.chkbox {
+    -fx-alignment: center; }
 
 .jfx-date-picker, .date-picker {
   -fx-font-family: sans-serif;
