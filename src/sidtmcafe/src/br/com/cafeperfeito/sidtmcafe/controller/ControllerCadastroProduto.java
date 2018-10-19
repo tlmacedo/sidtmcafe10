@@ -125,23 +125,23 @@ public class ControllerCadastroProduto extends ServiceVariavelSistema implements
 
     @Override
     public void fatorarObjetos() {
-        ttvProduto.setRowFactory(param -> {
-            TreeTableRow<TabProdutoVO> row = new TreeTableRow<TabProdutoVO>() {
-                @Override
-                protected void updateItem(TabProdutoVO item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item == null) {
-                        getStyleClass().remove("produto-estoque");
-                    } else if (item.getDescricao().equals("")) {
-                        if (!getStyleClass().contains("produto-estoque"))
-                            getStyleClass().add("produto-estoque");
-                    } else {
-                        getStyleClass().remove("produto-estoque");
-                    }
-                }
-            };
-            return row;
-        });
+//        ttvProduto.setRowFactory(param -> {
+//            TreeTableRow<TabProdutoVO> row = new TreeTableRow<TabProdutoVO>() {
+//                @Override
+//                protected void updateItem(TabProdutoVO item, boolean empty) {
+//                    super.updateItem(item, empty);
+//                    if (item == null) {
+//                        getStyleClass().remove("produto-estoque");
+//                    } else if (item.getDescricao().equals("")) {
+//                        if (!getStyleClass().contains("produto-estoque"))
+//                            getStyleClass().add("produto-estoque");
+//                    } else {
+//                        getStyleClass().remove("produto-estoque");
+//                    }
+//                }
+//            };
+//            return row;
+//        });
         cboFiscalCestNcm.setCellFactory(new Callback<ListView<FiscalCestNcmVO>, ListCell<FiscalCestNcmVO>>() {
             @Override
             public ListCell<FiscalCestNcmVO> call(ListView<FiscalCestNcmVO> param) {

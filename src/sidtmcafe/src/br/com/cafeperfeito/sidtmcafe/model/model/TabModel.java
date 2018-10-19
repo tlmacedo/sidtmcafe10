@@ -225,22 +225,6 @@ public class TabModel {
                     return new SimpleStringProperty("");
                 return param.getValue().getValue().idProperty().asString();
             });
-//            colunaIdProduto.setCellFactory(param -> {
-//                TreeTableCell<TabProdutoVO, Integer> cell = new TreeTableCell<TabProdutoVO, Integer>() {
-//                    @Override
-//                    protected void updateItem(Integer item, boolean empty) {
-//                        super.updateItem(item, empty);
-//                        if (empty) {
-//                            setText("");
-//                            getStyleClass().add("produto-estoque");
-//                        } else {
-//                            setText(String.valueOf(item));
-//                        }
-//                        System.out.println("    getStyleClass(): [" + getStyleClass() + "]\n    getStylesheets(): [" + getStylesheets() + "]");
-//                    }
-//                };
-//                return cell;
-//            });
 
             Label lblCodigo = new Label("Código");
             lblCodigo.setPrefWidth(60);
@@ -256,23 +240,6 @@ public class TabModel {
             colunaDescricao.setGraphic(lblDescricao);
             colunaDescricao.setPrefWidth(350);
             colunaDescricao.setCellValueFactory(param -> param.getValue().getValue().descricaoProperty());
-//            colunaDescricao.setCellFactory(param -> {
-//                TreeTableCell<TabProdutoVO, String> cell = new TreeTableCell<TabProdutoVO, String>() {
-//                    @Override
-//                    protected void updateItem(String item, boolean empty) {
-//                        super.updateItem(item, empty);
-//                        if (empty || item ==null) {
-//                            setText("123");
-//                            getStyleClass().add("estoqueProduto");
-//                        } else {
-//                            setText(item.toString());
-//                        }
-//
-//                    }
-//                };
-//                return cell;
-//            });
-
 
             Label lblUndComercial = new Label("Und Com");
             lblUndComercial.setPrefWidth(70);
@@ -368,6 +335,24 @@ public class TabModel {
         produtoVOFilteredList.addListener((ListChangeListener<TabProdutoVO>) c -> {
             preencherTabelaProduto();
         });
+        ttvProduto.setRowFactory(param -> {
+            TreeTableRow<TabProdutoVO> row = new TreeTableRow<TabProdutoVO>() {
+                @Override
+                protected void updateItem(TabProdutoVO item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null) {
+                        getStyleClass().remove("produto-estoque");
+                    } else if (item.getDescricao().equals("")) {
+                        if (!getStyleClass().contains("produto-estoque"))
+                            getStyleClass().add("produto-estoque");
+                    } else {
+                        getStyleClass().remove("produto-estoque");
+                    }
+                }
+            };
+            return row;
+        });
+
     }
 
 
