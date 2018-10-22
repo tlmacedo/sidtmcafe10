@@ -15,6 +15,7 @@ import java.util.Locale;
 
 public interface Constants {
 
+
     /*
      * Costants de referencia para o sistema
      */

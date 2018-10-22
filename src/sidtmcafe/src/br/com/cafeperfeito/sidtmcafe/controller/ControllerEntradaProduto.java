@@ -147,18 +147,13 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     @SuppressWarnings("Duplicates")
     @Override
     public void escutarTecla() {
-//        ttvProduto.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        ttvProduto.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 //            if (newValue == null) return;
 //            if (newValue.getValue().getDescricao().equals(""))
-//                setProdutoVO(newValue.getParent().getValue());
+//                setNfeItemVO(newValue.getParent().getValue());
 //            else
-//                setProdutoVO(newValue.getValue());
-//        });
-//
-//        ttvProduto.focusedProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue && statusFormulario.toLowerCase().equals("pesquisa") && ttvProduto.getSelectionModel().getSelectedItem() != null)
-//                setProdutoVO(ttvProduto.getSelectionModel().getSelectedItem().getValue());
-//        });
+//                setNfeItemVO(newValue.getValue());
+        });
 
         ControllerPrincipal.ctrlPrincipal.tabPaneViewPrincipal.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.intValue() < 0 || newValue.intValue() == oldValue.intValue()) return;
@@ -574,6 +569,7 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
     TabEntradaNfeVO entradaNfeVO;
     TabEntradaCteVO entradaCteVO;
     TabEntradaFiscalVO entradaFiscalNfeVO, entradaFiscalCteVO;
+    TabEntradaNfeItemVO nfeItemVO;
     List<Pair> listaTarefa = new ArrayList<>();
     ServiceAlertMensagem alertMensagem;
     String statusFormulario, statusBarTecla, tituloTab = ViewEntradaProduto.getTituloJanela();
@@ -805,6 +801,16 @@ public class ControllerEntradaProduto extends ServiceVariavelSistema implements 
         if (entradaCte == null)
             entradaCte = new TabEntradaCteVO();
         this.entradaCteVO = entradaCte;
+    }
+
+    public TabEntradaNfeItemVO getNfeItemVO() {
+        return nfeItemVO;
+    }
+
+    public void setNfeItemVO(TabEntradaNfeItemVO nfeItem) {
+        if (nfeItem == null)
+            nfeItem = new TabEntradaNfeItemVO();
+        this.nfeItemVO = nfeItemVO;
     }
 
     void labelContainers() {
