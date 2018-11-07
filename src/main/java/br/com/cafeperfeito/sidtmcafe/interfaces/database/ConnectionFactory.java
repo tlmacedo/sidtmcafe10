@@ -2,9 +2,25 @@ package br.com.cafeperfeito.sidtmcafe.interfaces.database;
 
 import br.com.cafeperfeito.sidtmcafe.interfaces.Constants;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.sql.*;
 
 public class ConnectionFactory implements Constants {
+    private static final String UNIT_NAME = "sidtmcafePU";
+
+    private EntityManagerFactory emf;
+    private EntityManager em;
+
+    public EntityManager getEntityManager() {
+        if (emf == null)
+            emf = Persistence.createEntityManagerFactory(UNIT_NAME);
+        if (em == null)
+            em = emf.createEntityManager();
+
+        return em;
+    }
 
     public static Connection getConnection() {
         try {
