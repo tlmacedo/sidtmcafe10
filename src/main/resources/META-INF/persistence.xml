@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="sidtmCafePU" transaction-type="RESOURCE_LOCAL">
+        <!-- Implementação do JPA -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <!-- Lista de entidades -->
+        <properties>
+            <!-- Propriedades JDBC -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cafeperfeito"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="Tlm$487901"/>
+            <!-- Configurações específicas do Hibernate -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.use_sql_comments" value="false"/>
+            <property name="hibernate.jdbc.wrap_result_sets" value="false"/>
+            <property name="hibernate.hibernate.cache.use_query_cache" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!--Hibernate properties-->
+
+        </properties>
+    </persistence-unit>
+</persistence>
