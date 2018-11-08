@@ -2,7 +2,6 @@
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="CompassSettings">
     <option name="compassExecutableFilePath" value="/usr/local/bin/compass" />
-    <option name="compassSupportEnabled" value="true" />
   </component>
   <component name="FacetManager">
     <facet type="hibernate" name="Hibernate">

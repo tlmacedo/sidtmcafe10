@@ -3,7 +3,6 @@ package br.com.cafeperfeito.sidtmcafe.model.vo;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -13,13 +12,17 @@ public class Usuario extends Colaborador implements Serializable {
 
     @Column(length = 56)
     private String senha;
+    @ManyToOne
+    @JoinColumn(name = "situacaoNoSistema_id", foreignKey = @ForeignKey(name = "fk_usuario_situacaoNoSistema_id"))
+    private SituacaoNoSistema situacaoNoSistema;
 
     public Usuario() {
     }
 
-    public Usuario(String nome, String apelido, String ctps, Date dataAdmisao, BigDecimal salario, Boolean ativo, Cargo cargo, String senha) {
+    public Usuario(String nome, String apelido, String ctps, Date dataAdmisao, BigDecimal salario, Boolean ativo, Cargo cargo, String senha, SituacaoNoSistema situacaoNoSistema) {
         super(nome, apelido, ctps, dataAdmisao, salario, ativo, cargo);
         this.senha = senha;
+        this.situacaoNoSistema = situacaoNoSistema;
     }
 
     public String getSenha() {
@@ -30,11 +33,29 @@ public class Usuario extends Colaborador implements Serializable {
         this.senha = senha;
     }
 
+    public SituacaoNoSistema getSituacaoNoSistema() {
+        return situacaoNoSistema;
+    }
+
+    public void setSituacaoNoSistema(SituacaoNoSistema situacaoNoSistema) {
+        this.situacaoNoSistema = situacaoNoSistema;
+    }
+
     @Override
-    public String toString() {
-        return super.getApelido();
-//        return "Usuario{" +
-//                "senha='" + senha + '\'' +
-//                "} " + super.toString();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Usuario)) return false;
+        if (!super.equals(o)) return false;
+
+        Usuario usuario = (Usuario) o;
+
+        return getSenha().equals(usuario.getSenha());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + getSenha().hashCode();
+        return result;
     }
 }

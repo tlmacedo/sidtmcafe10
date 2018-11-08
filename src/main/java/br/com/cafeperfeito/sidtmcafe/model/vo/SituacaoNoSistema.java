@@ -4,30 +4,29 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "cargo")
-public class Cargo implements Serializable {
+@Table(name = "situacaoNoSistema")
+public class SituacaoNoSistema implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(nullable = false, length = 30)
+    private Integer id;
+    @Column(length = 30)
     private String descricao;
 
-
-    public Cargo() {
+    public SituacaoNoSistema() {
     }
 
-    public Cargo(String descricao) {
+    public SituacaoNoSistema(String descricao) {
         this.descricao = descricao;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
-        this.id = Long.valueOf(id);
+        this.id = id;
     }
 
     public String getDescricao() {
@@ -41,23 +40,15 @@ public class Cargo implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Cargo)) return false;
+        if (!(o instanceof SituacaoNoSistema)) return false;
 
-        Cargo cargo = (Cargo) o;
+        SituacaoNoSistema that = (SituacaoNoSistema) o;
 
-        return getId().equals(cargo.getId());
+        return getId().equals(that.getId());
     }
 
     @Override
     public int hashCode() {
         return getId().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Cargo{" +
-                "id=" + id +
-                ", descricao='" + descricao + '\'' +
-                '}';
     }
 }
