@@ -1,5 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -11,26 +12,34 @@ public class Empresa implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private Boolean isLojaSistema;
-    private Boolean isJuridica;
-    @Column(length = 14)
+    private Long id;
+    @Column(nullable = false)
+    private Boolean isLojaSistema = false;
+    @Column(nullable = false)
+    private Integer tipo = 2;
+    @Column(nullable = false, length = 14)
     private String cnpjCpf;
-    private Boolean isIsento;
-    @Column(length = 14)
+    @Column(nullable = false)
+    private Boolean isIsento = false;
+    @Column(nullable = false, length = 14)
     private String ieRg;
-    @Column(length = 80)
+    @Column(nullable = false, length = 80)
     private String razao;
-    @Column(length = 80)
+    @Column(nullable = false, length = 80)
     private String fantasia;
-    private Boolean isCliente;
-    private Boolean isFornecedor;
-    private Boolean isTransportadora;
+    @Column(nullable = false)
+    private Boolean isCliente = true;
+    @Column(nullable = false)
+    private Boolean isFornecedor = false;
+    @Column(nullable = false)
+    private Boolean isTransportadora = false;
+    @Column(nullable = false)
+    private Integer situacao = 1;
     @ManyToOne
     @JoinColumn(name = "usuarioCadastro_id", foreignKey = @ForeignKey(name = "fk_empresa_usuarioCadastro_id"))
     private Usuario usuarioCadastro;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataCadastro;
+    private Date dataCadastro = new Date();
     @ManyToOne
     @JoinColumn(name = "usuarioAtualizacao_id", foreignKey = @ForeignKey(name = "fk_empresa_usuarioAtualizacao_id"))
     private Usuario usuarioAtualizacao;
@@ -38,18 +47,32 @@ public class Empresa implements Serializable {
     private Date dataAtualizacao;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAbetura;
-    @Column(length = 150)
-    private String naturezaJuridica;
-    @ManyToOne
-    @JoinColumn(name = "situacaoNoSistema_id", foreignKey = @ForeignKey(name = "fk_empresa_situacaoNoSistema_id"))
-    private SituacaoNoSistema situacaoNoSistema;
+    @Column(nullable = false, length = 150)
+    private String naturezaJuridica = "";
+
+    //    private Usuario usuarioCadastro;
+//
+//    private Usuario usuarioAtualizacao;
+//
+//    private Collection<Endereco> enderecos;
+//
+//    private Collection<Endereco> assocEmpresaEndereco;
+//
+//    private Collection<Telefone> assocEmpresaTelefone;
+//
+//    private Collection<Colaborador> colaboradores;
+//
+//    private Collection<EmailHomePage> assocEmpresaEmailHomePage;
+//
+//    private Collection<Contato> assocEmpresaContato;
+
 
     public Empresa() {
     }
 
-    public Empresa(Boolean isLojaSistema, Boolean isJuridica, String cnpjCpf, Boolean isIsento, String ieRg, String razao, String fantasia, Boolean isCliente, Boolean isFornecedor, Boolean isTransportadora, Usuario usuarioCadastro, Date dataCadastro, Usuario usuarioAtualizacao, Date dataAtualizacao, Date dataAbetura, String naturezaJuridica, SituacaoNoSistema situacaoNoSistema) {
+    public Empresa(Boolean isLojaSistema, Integer tipo, String cnpjCpf, Boolean isIsento, String ieRg, String razao, String fantasia, Boolean isCliente, Boolean isFornecedor, Boolean isTransportadora, Integer situacao, Usuario usuarioCadastro, Date dataCadastro, Usuario usuarioAtualizacao, Date dataAtualizacao, Date dataAbetura, String naturezaJuridica) {
         this.isLojaSistema = isLojaSistema;
-        this.isJuridica = isJuridica;
+        this.tipo = tipo;
         this.cnpjCpf = cnpjCpf;
         this.isIsento = isIsento;
         this.ieRg = ieRg;
@@ -58,20 +81,20 @@ public class Empresa implements Serializable {
         this.isCliente = isCliente;
         this.isFornecedor = isFornecedor;
         this.isTransportadora = isTransportadora;
+        this.situacao = situacao;
         this.usuarioCadastro = usuarioCadastro;
         this.dataCadastro = dataCadastro;
         this.usuarioAtualizacao = usuarioAtualizacao;
         this.dataAtualizacao = dataAtualizacao;
         this.dataAbetura = dataAbetura;
         this.naturezaJuridica = naturezaJuridica;
-        this.situacaoNoSistema = situacaoNoSistema;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -83,12 +106,12 @@ public class Empresa implements Serializable {
         isLojaSistema = lojaSistema;
     }
 
-    public Boolean getJuridica() {
-        return isJuridica;
+    public Integer getTipo() {
+        return tipo;
     }
 
-    public void setJuridica(Boolean juridica) {
-        isJuridica = juridica;
+    public void setTipo(Integer tipo) {
+        this.tipo = tipo;
     }
 
     public String getCnpjCpf() {
@@ -155,6 +178,14 @@ public class Empresa implements Serializable {
         isTransportadora = transportadora;
     }
 
+    public Integer getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(Integer situacao) {
+        this.situacao = situacao;
+    }
+
     public Usuario getUsuarioCadastro() {
         return usuarioCadastro;
     }
@@ -203,14 +234,6 @@ public class Empresa implements Serializable {
         this.naturezaJuridica = naturezaJuridica;
     }
 
-    public SituacaoNoSistema getSituacaoNoSistema() {
-        return situacaoNoSistema;
-    }
-
-    public void setSituacaoNoSistema(SituacaoNoSistema situacaoNoSistema) {
-        this.situacaoNoSistema = situacaoNoSistema;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -224,5 +247,29 @@ public class Empresa implements Serializable {
     @Override
     public int hashCode() {
         return getId().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Empresa{" +
+                "id=" + id +
+                ", isLojaSistema=" + isLojaSistema +
+                ", tipo=" + tipo +
+                ", cnpjCpf='" + cnpjCpf + '\'' +
+                ", isIsento=" + isIsento +
+                ", ieRg='" + ieRg + '\'' +
+                ", razao='" + razao + '\'' +
+                ", fantasia='" + fantasia + '\'' +
+                ", isCliente=" + isCliente +
+                ", isFornecedor=" + isFornecedor +
+                ", isTransportadora=" + isTransportadora +
+                ", situacao=" + situacao +
+                ", usuarioCadastro=" + usuarioCadastro +
+                ", dataCadastro=" + dataCadastro +
+                ", usuarioAtualizacao=" + usuarioAtualizacao +
+                ", dataAtualizacao=" + dataAtualizacao +
+                ", dataAbetura=" + dataAbetura +
+                ", naturezaJuridica='" + naturezaJuridica + '\'' +
+                '}';
     }
 }

@@ -1,6 +1,10 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
-import javax.persistence.*;
+import br.com.cafeperfeito.sidtmcafe.model.vo.enums.SituacaoNoSistefma;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -12,17 +16,15 @@ public class Usuario extends Colaborador implements Serializable {
 
     @Column(length = 56)
     private String senha;
-    @ManyToOne
-    @JoinColumn(name = "situacaoNoSistema_id", foreignKey = @ForeignKey(name = "fk_usuario_situacaoNoSistema_id"))
-    private SituacaoNoSistema situacaoNoSistema;
+    private Integer situacao;
 
     public Usuario() {
     }
 
-    public Usuario(String nome, String apelido, String ctps, Date dataAdmisao, BigDecimal salario, Boolean ativo, Cargo cargo, String senha, SituacaoNoSistema situacaoNoSistema) {
-        super(nome, apelido, ctps, dataAdmisao, salario, ativo, cargo);
+    public Usuario(String nome, String apelido, String ctps, Date dataAdmisao, BigDecimal salario, Boolean ativo, Cargo cargo, Empresa trabalha, String senha, Integer situacao) {
+        super(nome, apelido, ctps, dataAdmisao, salario, ativo, cargo, trabalha);
         this.senha = senha;
-        this.situacaoNoSistema = situacaoNoSistema;
+        this.situacao = situacao;
     }
 
     public String getSenha() {
@@ -33,29 +35,27 @@ public class Usuario extends Colaborador implements Serializable {
         this.senha = senha;
     }
 
-    public SituacaoNoSistema getSituacaoNoSistema() {
-        return situacaoNoSistema;
+    public SituacaoNoSistefma getSituacao() {
+        return SituacaoNoSistefma.toEnum(situacao);
     }
 
-    public void setSituacaoNoSistema(SituacaoNoSistema situacaoNoSistema) {
-        this.situacaoNoSistema = situacaoNoSistema;
+    public void setSituacao(SituacaoNoSistefma situacao) {
+        this.situacao = situacao.getCod();
     }
+
+
+    //    private Cargo cargo;
+//
+//    private Collection<Empresa> empresaCadastro;
+//
+//    private Collection<Empresa> empresaAtualiza;
+
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Usuario)) return false;
-        if (!super.equals(o)) return false;
-
-        Usuario usuario = (Usuario) o;
-
-        return getSenha().equals(usuario.getSenha());
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + getSenha().hashCode();
-        return result;
+    public String toString() {
+        return "Usuario{" +
+                "senha='" + senha + '\'' +
+                ", situacao=" + situacao +
+                "} " + super.toString();
     }
 }

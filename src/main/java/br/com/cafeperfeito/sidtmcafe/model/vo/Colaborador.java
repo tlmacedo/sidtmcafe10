@@ -1,9 +1,12 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -30,11 +33,16 @@ public class Colaborador implements Serializable {
     @ManyToOne
     @JoinColumn(name = "cargo_id", foreignKey = @ForeignKey(name = "fk_colaborador_cargo_id"))
     private Cargo cargo;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", foreignKey = @ForeignKey(name = "fk_colaborador_empresa_id"))
+    private Empresa trabalha;
+    @OneToMany
+    private List<Telefone> telefones = new ArrayList<>();
 
     public Colaborador() {
     }
 
-    public Colaborador(String nome, String apelido, String ctps, Date dataAdmisao, BigDecimal salario, Boolean ativo, Cargo cargo) {
+    public Colaborador(String nome, String apelido, String ctps, Date dataAdmisao, BigDecimal salario, Boolean ativo, Cargo cargo, Empresa trabalha) {
         this.nome = nome;
         this.apelido = apelido;
         this.ctps = ctps;
@@ -42,14 +50,15 @@ public class Colaborador implements Serializable {
         this.salario = salario;
         this.ativo = ativo;
         this.cargo = cargo;
+        this.trabalha = trabalha;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = Long.valueOf(id);
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -108,6 +117,22 @@ public class Colaborador implements Serializable {
         this.cargo = cargo;
     }
 
+    public Empresa getTrabalha() {
+        return trabalha;
+    }
+
+    public void setTrabalha(Empresa trabalha) {
+        this.trabalha = trabalha;
+    }
+
+    public List<Telefone> getTelefones() {
+        return telefones;
+    }
+
+    public void setTelefones(List<Telefone> telefones) {
+        this.telefones = telefones;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -121,20 +146,6 @@ public class Colaborador implements Serializable {
     @Override
     public int hashCode() {
         return getId().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Colaborador{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", apelido='" + apelido + '\'' +
-                ", ctps='" + ctps + '\'' +
-                ", dataAdmisao=" + dataAdmisao +
-                ", salario=" + salario +
-                ", ativo=" + ativo +
-                ", cargo=" + cargo +
-                '}';
     }
 
     public String getDetalheColaborador() {
@@ -155,5 +166,21 @@ public class Colaborador implements Serializable {
 //            );
 //        });
         return detColaborador.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "Colaborador{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", apelido='" + apelido + '\'' +
+                ", ctps='" + ctps + '\'' +
+                ", dataAdmisao=" + dataAdmisao +
+                ", salario=" + salario +
+                ", ativo=" + ativo +
+                ", cargo=" + cargo +
+                ", trabalha=" + trabalha +
+                ", telefones=" + telefones +
+                '}';
     }
 }
