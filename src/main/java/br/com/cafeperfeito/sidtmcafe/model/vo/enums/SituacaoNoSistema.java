@@ -1,6 +1,6 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo.enums;
 
-public enum SituacaoNoSistefma {
+public enum SituacaoNoSistema {
 
     ATIVO(1, "Ativo"),
     DESATIVADO(2, "Desativado"),
@@ -13,7 +13,7 @@ public enum SituacaoNoSistefma {
     private int cod;
     private String descricao;
 
-    private SituacaoNoSistefma(int cod, String descricao) {
+    private SituacaoNoSistema(int cod, String descricao) {
         this.cod = cod;
         this.descricao = descricao;
     }
@@ -26,9 +26,9 @@ public enum SituacaoNoSistefma {
         return descricao;
     }
 
-    public static SituacaoNoSistefma toEnum(Integer cod) {
+    public static SituacaoNoSistema toEnum(Integer cod) {
         if (cod == null) return null;
-        for (SituacaoNoSistefma tipo : SituacaoNoSistefma.values())
+        for (SituacaoNoSistema tipo : SituacaoNoSistema.values())
             if (cod.equals(tipo.getCod()))
                 return tipo;
         throw new IllegalArgumentException("Id inválido");

@@ -4,6 +4,7 @@ package br.com.cafeperfeito.sidtmcafe.model.vo;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,8 +25,8 @@ public class Colaborador implements Serializable {
     private String apelido;
     @Column(nullable = false, length = 30)
     private String ctps;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataAdmisao;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime dataAdmisao;
     @Column(length = 20, scale = 2, nullable = false)
     private BigDecimal salario;
     @Column(nullable = false)
@@ -42,7 +43,7 @@ public class Colaborador implements Serializable {
     public Colaborador() {
     }
 
-    public Colaborador(String nome, String apelido, String ctps, Date dataAdmisao, BigDecimal salario, Boolean ativo, Cargo cargo, Empresa trabalha) {
+    public Colaborador(String nome, String apelido, String ctps, LocalDateTime dataAdmisao, BigDecimal salario, Boolean ativo, Cargo cargo, Empresa trabalha) {
         this.nome = nome;
         this.apelido = apelido;
         this.ctps = ctps;
@@ -85,11 +86,11 @@ public class Colaborador implements Serializable {
         this.ctps = ctps;
     }
 
-    public Date getDataAdmisao() {
+    public LocalDateTime getDataAdmisao() {
         return dataAdmisao;
     }
 
-    public void setDataAdmisao(Date dataAdmisao) {
+    public void setDataAdmisao(LocalDateTime dataAdmisao) {
         this.dataAdmisao = dataAdmisao;
     }
 

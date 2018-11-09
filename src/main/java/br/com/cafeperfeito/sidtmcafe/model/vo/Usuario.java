@@ -1,13 +1,13 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
-import br.com.cafeperfeito.sidtmcafe.model.vo.enums.SituacaoNoSistefma;
+import br.com.cafeperfeito.sidtmcafe.model.vo.enums.SituacaoNoSistema;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usuario")
@@ -21,7 +21,7 @@ public class Usuario extends Colaborador implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(String nome, String apelido, String ctps, Date dataAdmisao, BigDecimal salario, Boolean ativo, Cargo cargo, Empresa trabalha, String senha, Integer situacao) {
+    public Usuario(String nome, String apelido, String ctps, LocalDateTime dataAdmisao, BigDecimal salario, Boolean ativo, Cargo cargo, Empresa trabalha, String senha, Integer situacao) {
         super(nome, apelido, ctps, dataAdmisao, salario, ativo, cargo, trabalha);
         this.senha = senha;
         this.situacao = situacao;
@@ -35,11 +35,11 @@ public class Usuario extends Colaborador implements Serializable {
         this.senha = senha;
     }
 
-    public SituacaoNoSistefma getSituacao() {
-        return SituacaoNoSistefma.toEnum(situacao);
+    public SituacaoNoSistema getSituacao() {
+        return SituacaoNoSistema.toEnum(situacao);
     }
 
-    public void setSituacao(SituacaoNoSistefma situacao) {
+    public void setSituacao(SituacaoNoSistema situacao) {
         this.situacao = situacao.getCod();
     }
 
@@ -51,11 +51,15 @@ public class Usuario extends Colaborador implements Serializable {
 //    private Collection<Empresa> empresaAtualiza;
 
 
-    @Override
-    public String toString() {
+    public String getDetalhesUsuario() {
         return "Usuario{" +
                 "senha='" + senha + '\'' +
                 ", situacao=" + situacao +
                 "} " + super.toString();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Usuario{%s} ", getApelido());
     }
 }

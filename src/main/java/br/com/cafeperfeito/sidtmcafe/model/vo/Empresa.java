@@ -1,9 +1,13 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
 
+import br.com.cafeperfeito.sidtmcafe.model.vo.enums.SituacaoNoSistema;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "empresa")
@@ -38,15 +42,19 @@ public class Empresa implements Serializable {
     @ManyToOne
     @JoinColumn(name = "usuarioCadastro_id", foreignKey = @ForeignKey(name = "fk_empresa_usuarioCadastro_id"))
     private Usuario usuarioCadastro;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataCadastro = new Date();
+    //@Column(columnDefinition = "timestamp CURRENT_TIMESTAMP")
+    @CreationTimestamp
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime dataCadastro;
     @ManyToOne
     @JoinColumn(name = "usuarioAtualizacao_id", foreignKey = @ForeignKey(name = "fk_empresa_usuarioAtualizacao_id"))
     private Usuario usuarioAtualizacao;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataAtualizacao;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataAbetura;
+    //@Column(columnDefinition = "timestamp ON UPDATE CURRENT_TIMESTAMP")
+    @UpdateTimestamp
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime dataAtualizacao;
+    @Column(columnDefinition = "DATETIME")
+    private LocalDateTime dataAbetura;
     @Column(nullable = false, length = 150)
     private String naturezaJuridica = "";
 
@@ -70,7 +78,7 @@ public class Empresa implements Serializable {
     public Empresa() {
     }
 
-    public Empresa(Boolean isLojaSistema, Integer tipo, String cnpjCpf, Boolean isIsento, String ieRg, String razao, String fantasia, Boolean isCliente, Boolean isFornecedor, Boolean isTransportadora, Integer situacao, Usuario usuarioCadastro, Date dataCadastro, Usuario usuarioAtualizacao, Date dataAtualizacao, Date dataAbetura, String naturezaJuridica) {
+    public Empresa(Boolean isLojaSistema, Integer tipo, String cnpjCpf, Boolean isIsento, String ieRg, String razao, String fantasia, Boolean isCliente, Boolean isFornecedor, Boolean isTransportadora, SituacaoNoSistema situacao, Usuario usuarioCadastro, LocalDateTime dataCadastro, Usuario usuarioAtualizacao, LocalDateTime dataAtualizacao, LocalDateTime dataAbetura, String naturezaJuridica) {
         this.isLojaSistema = isLojaSistema;
         this.tipo = tipo;
         this.cnpjCpf = cnpjCpf;
@@ -81,7 +89,7 @@ public class Empresa implements Serializable {
         this.isCliente = isCliente;
         this.isFornecedor = isFornecedor;
         this.isTransportadora = isTransportadora;
-        this.situacao = situacao;
+        this.situacao = situacao.getCod();
         this.usuarioCadastro = usuarioCadastro;
         this.dataCadastro = dataCadastro;
         this.usuarioAtualizacao = usuarioAtualizacao;
@@ -178,12 +186,12 @@ public class Empresa implements Serializable {
         isTransportadora = transportadora;
     }
 
-    public Integer getSituacao() {
-        return situacao;
+    public SituacaoNoSistema getSituacao() {
+        return SituacaoNoSistema.toEnum(situacao);
     }
 
-    public void setSituacao(Integer situacao) {
-        this.situacao = situacao;
+    public void setSituacao(SituacaoNoSistema situacao) {
+        this.situacao = situacao.getCod();
     }
 
     public Usuario getUsuarioCadastro() {
@@ -194,11 +202,11 @@ public class Empresa implements Serializable {
         this.usuarioCadastro = usuarioCadastro;
     }
 
-    public Date getDataCadastro() {
+    public LocalDateTime getDataCadastro() {
         return dataCadastro;
     }
 
-    public void setDataCadastro(Date dataCadastro) {
+    public void setDataCadastro(LocalDateTime dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
 
@@ -210,19 +218,19 @@ public class Empresa implements Serializable {
         this.usuarioAtualizacao = usuarioAtualizacao;
     }
 
-    public Date getDataAtualizacao() {
+    public LocalDateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(Date dataAtualizacao) {
+    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public Date getDataAbetura() {
+    public LocalDateTime getDataAbetura() {
         return dataAbetura;
     }
 
-    public void setDataAbetura(Date dataAbetura) {
+    public void setDataAbetura(LocalDateTime dataAbetura) {
         this.dataAbetura = dataAbetura;
     }
 
