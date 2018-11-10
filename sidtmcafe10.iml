@@ -91,5 +91,6 @@
     <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.12" level="project" />
     <orderEntry type="library" name="Maven: org.controlsfx:controlsfx:9.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20180130" level="project" />
+    <orderEntry type="library" name="Maven: org.modelmapper:modelmapper:2.3.0" level="project" />
   </component>
 </module>

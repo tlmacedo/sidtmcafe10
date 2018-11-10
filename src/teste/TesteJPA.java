@@ -1,6 +1,8 @@
 import br.com.cafeperfeito.sidtmcafe.model.dao.UsuarioDAO;
+import br.com.cafeperfeito.sidtmcafe.model.dto.UsuarioDTO;
 import br.com.cafeperfeito.sidtmcafe.model.vo.Usuario;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceImprimirListaJSon;
+import org.modelmapper.ModelMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,9 +13,13 @@ public class TesteJPA {
     public static void main(String[] args) throws IOException {
         System.out.println("qual codigo de usuario vc deseja verificar?:");
         UsuarioDAO usuarioDAO = new UsuarioDAO();
-        List<Usuario> usuarios = new ArrayList<>();
-        usuarios.add(usuarioDAO.getById(Usuario.class, Long.valueOf(new Scanner(System.in).nextLine())));
-        ServiceImprimirListaJSon.imprimirLista(usuarios);
+        Usuario usuario = new Usuario();
+        usuario = usuarioDAO.getById(Usuario.class, Long.valueOf(new Scanner(System.in).nextLine()));
+        ModelMapper modelMapper = new ModelMapper();
+        UsuarioDTO usuarioDTO = modelMapper.map(usuario, UsuarioDTO.class);
+        List list = new ArrayList();
+        list.add(usuarioDTO);
+        ServiceImprimirListaJSon.imprimirLista(list);
     }
 
     private static Long getDigitado(String scanner) {
