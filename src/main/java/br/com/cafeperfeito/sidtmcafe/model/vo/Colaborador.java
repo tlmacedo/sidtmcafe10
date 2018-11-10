@@ -1,15 +1,17 @@
 package br.com.cafeperfeito.sidtmcafe.model.vo;
 
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("JpaModelReferenceInspection")
 @Entity
 @Table(name = "colaborador")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -25,7 +27,7 @@ public class Colaborador implements Serializable {
     private String apelido;
     @Column(nullable = false, length = 30)
     private String ctps;
-    @Column(columnDefinition = "TIMESTAMP")
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dataAdmisao;
     @Column(length = 20, scale = 2, nullable = false)
     private BigDecimal salario;
@@ -34,10 +36,11 @@ public class Colaborador implements Serializable {
     @ManyToOne
     @JoinColumn(name = "cargo_id", foreignKey = @ForeignKey(name = "fk_colaborador_cargo_id"))
     private Cargo cargo;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "empresa_id", foreignKey = @ForeignKey(name = "fk_colaborador_empresa_id"))
     private Empresa trabalha;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Telefone> telefones = new ArrayList<>();
 
     public Colaborador() {

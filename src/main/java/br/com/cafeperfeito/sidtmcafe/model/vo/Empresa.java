@@ -39,12 +39,12 @@ public class Empresa implements Serializable {
     private Boolean isTransportadora = false;
     @Column(nullable = false)
     private Integer situacao = 1;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "usuarioCadastro_id", foreignKey = @ForeignKey(name = "fk_empresa_usuarioCadastro_id"))
     private Usuario usuarioCadastro;
     //@Column(columnDefinition = "timestamp CURRENT_TIMESTAMP")
     @CreationTimestamp
-    @Column(columnDefinition = "TIMESTAMP")
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dataCadastro;
     @ManyToOne
     @JoinColumn(name = "usuarioAtualizacao_id", foreignKey = @ForeignKey(name = "fk_empresa_usuarioAtualizacao_id"))

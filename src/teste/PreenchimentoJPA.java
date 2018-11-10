@@ -1,10 +1,10 @@
 import br.com.cafeperfeito.sidtmcafe.model.dao.CargoDAO;
 import br.com.cafeperfeito.sidtmcafe.model.dao.EmpresaDAO;
+import br.com.cafeperfeito.sidtmcafe.model.dao.TelefoneOperadoraDAO;
 import br.com.cafeperfeito.sidtmcafe.model.dao.UsuarioDAO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.Cargo;
-import br.com.cafeperfeito.sidtmcafe.model.vo.Empresa;
-import br.com.cafeperfeito.sidtmcafe.model.vo.Usuario;
+import br.com.cafeperfeito.sidtmcafe.model.vo.*;
 import br.com.cafeperfeito.sidtmcafe.model.vo.enums.SituacaoNoSistema;
+import br.com.cafeperfeito.sidtmcafe.model.vo.enums.TelefoneTipo;
 import br.com.cafeperfeito.sidtmcafe.service.ServiceImprimirListaJSon;
 
 import java.io.IOException;
@@ -17,17 +17,20 @@ import java.util.List;
 
 import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.DTF_MYSQL_DATAHORA;
 
-public class TestJPA {
+public class PreenchimentoJPA {
 
     static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     public static void main(String[] args) throws ParseException, IOException {
-//    EntityManager em = new ConnectionFactory().getEntityManager();
+//        EntityManager em = new ConnectionFactory().getEntityManager();
 
+
+        TelefoneOperadoraDAO telefoneOperadoraDAO = new TelefoneOperadoraDAO();
+        inserirTelefoneOperadora(telefoneOperadoraDAO);
+        ServiceImprimirListaJSon.imprimirLista(telefoneOperadoraDAO.getAll(TelefoneOperadora.class));
 
         CargoDAO cargoDAO = new CargoDAO();
         inserirCargo(cargoDAO);
-        List<Cargo> cargoList = new ArrayList<>();
         ServiceImprimirListaJSon.imprimirLista(cargoDAO.getAll(Cargo.class));
 
 
@@ -77,14 +80,25 @@ public class TestJPA {
     private static void inserirUsuario(UsuarioDAO usuarioDAO) throws ParseException {
         CargoDAO cargoDAO = new CargoDAO();
         EmpresaDAO empresaDAO = new EmpresaDAO();
-        usuarioDAO.save(new Usuario("Thiago Macedo", "thiago", "123456", LocalDateTime.parse("2006-04-28 00:00:00", DTF_MYSQL_DATAHORA), BigDecimal.valueOf(8000.0),
+        TelefoneOperadoraDAO telefoneOperadoraDAO = new TelefoneOperadoraDAO();
+
+        List<Telefone> telefoneList = new ArrayList<>();
+        telefoneList.add(new Telefone("981686148", telefoneOperadoraDAO.getById(TelefoneOperadora.class, 1L)));
+        telefoneList.add(new Telefone("38776148", telefoneOperadoraDAO.getById(TelefoneOperadora.class, 1L)));
+        Usuario usuario = new Usuario("Thiago Macedo", "thiago", "123456", LocalDateTime.parse("2006-04-28 00:00:00", DTF_MYSQL_DATAHORA), BigDecimal.valueOf(8000.0),
                 true, cargoDAO.getById(Cargo.class, 1L),
                 empresaDAO.getById(Empresa.class, 1L),
-                "qg93SUDsMWXgcYjlYFtX4Q==", 1));
-        usuarioDAO.save(new Usuario("Carla Macedo", "carla", "567890", LocalDateTime.parse("2013-05-18 09:00:00", DTF_MYSQL_DATAHORA), BigDecimal.valueOf(5000.0),
+                "qg93SUDsMWXgcYjlYFtX4Q==", 1);
+        usuario.setTelefones(telefoneList);
+        usuarioDAO.save(usuario);
+        telefoneList = new ArrayList<>();
+        telefoneList.add(new Telefone("992412974", telefoneOperadoraDAO.getById(TelefoneOperadora.class, 1L)));
+        usuario = new Usuario("Carla Macedo", "carla", "567890", LocalDateTime.parse("2013-05-18 09:00:00", DTF_MYSQL_DATAHORA), BigDecimal.valueOf(5000.0),
                 true, cargoDAO.getById(Cargo.class, 2L),
                 empresaDAO.getById(Empresa.class, 1L),
-                "JZ4WgTIDJiviuZ7agiW2/A==", 1));
+                "JZ4WgTIDJiviuZ7agiW2/A==", 1);
+        usuario.setTelefones(telefoneList);
+        usuarioDAO.save(usuario);
     }
 
     private static void inserirEmpresa(EmpresaDAO empresaDAO) throws ParseException {
@@ -396,6 +410,64 @@ public class TestJPA {
                 "A.M. DA S RODRIGUES & CIA LTDA", "SUPERMERCADO RODRIGUES", false, true, false, SituacaoNoSistema.ATIVO,
                 usuarioDAO.getById(Usuario.class, 1L), LocalDateTime.parse("2018-10-16 14:25:10", DTF_MYSQL_DATAHORA), null,
                 null, LocalDateTime.parse("2013-12-16 00:00:00", DTF_MYSQL_DATAHORA), "206-2 - SOCIEDADE EMPRESÁRIA LIMITADA)"));
+
+    }
+
+    private static void inserirTelefoneOperadora(TelefoneOperadoraDAO telefoneOperadoraDAO) {
+        telefoneOperadoraDAO.save(new TelefoneOperadora("TIM", TelefoneTipo.FIXO_CELULAR, 41, "55341;55141"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("CLARO / EMBRATEL / NET", TelefoneTipo.FIXO_CELULAR, 21, "55321;55121"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("CTBC TELECOM", TelefoneTipo.FIXO_CELULAR, 12, "55312"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("OI", TelefoneTipo.FIXO_CELULAR, 31, "55314;55331;55114;55131"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("VIVO", TelefoneTipo.FIXO_CELULAR, 15, "55320;55323;55115;55215"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("SERCOMTEL", TelefoneTipo.FIXO_CELULAR, 43, "55343;55143"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("NEXTEL", TelefoneTipo.FIXO_CELULAR, 0, "55351;55377"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("GENTE TELECOM", TelefoneTipo.FIXO, 10, "55277"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("LIGUEMAX", TelefoneTipo.FIXO, 11, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("FONAR", TelefoneTipo.FIXO, 13, "55113"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("BRASIL TELECOM", TelefoneTipo.FIXO, 14, "55274"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("VIACOM", TelefoneTipo.FIXO, 16, "55192"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("TRANSIT TELECOM", TelefoneTipo.FIXO, 17, "55117"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("SPIN", TelefoneTipo.FIXO, 18, "55118"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("EPSILON", TelefoneTipo.FIXO, 19, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("INTELIG", TelefoneTipo.FIXO, 23, "55123"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("PRIMEIRA ESCOLHA", TelefoneTipo.FIXO, 24, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("GVT", TelefoneTipo.FIXO, 25, "55125"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("IDT", TelefoneTipo.FIXO, 26, "55126"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("AEROTECH", TelefoneTipo.FIXO, 27, "55127"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("ALPAMAYO", TelefoneTipo.FIXO, 28, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("CONVERGIA", TelefoneTipo.FIXO, 32, "55132"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("TELEDADOS", TelefoneTipo.FIXO, 34, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("EASYTONE", TelefoneTipo.FIXO, 35, "55135"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("DSLI", TelefoneTipo.FIXO, 36, "55136"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("GOLDEN LINE", TelefoneTipo.FIXO, 37, "55137"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("VIPER", TelefoneTipo.FIXO, 38, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("GT GROUP", TelefoneTipo.FIXO, 42, "55142"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("GLOBAL CROSSING (IMPSAT)", TelefoneTipo.FIXO, 45, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("HOJE", TelefoneTipo.FIXO, 46, "55140"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("BT COMMUNICATIONS", TelefoneTipo.FIXO, 47, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("PLENNA", TelefoneTipo.FIXO, 48, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("CAMBRIDGE", TelefoneTipo.FIXO, 49, "55150"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("51 BRASIL", TelefoneTipo.FIXO, 51, "55197"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("LINKNET", TelefoneTipo.FIXO, 52, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("TELEBIT", TelefoneTipo.FIXO, 54, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("ESPAS", TelefoneTipo.FIXO, 56, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("VOITEL", TelefoneTipo.FIXO, 58, "55158"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("NEXUS", TelefoneTipo.FIXO, 61, "55161"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("HELLO BRAZIL", TelefoneTipo.FIXO, 63, "55163"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("NEOTELECOM", TelefoneTipo.FIXO, 64, "55235"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("CGB VOIP", TelefoneTipo.FIXO, 65, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("REDEVOX", TelefoneTipo.FIXO, 69, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("LOCAWEB", TelefoneTipo.FIXO, 72, "55170"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("SERMATEL", TelefoneTipo.FIXO, 81, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("BBT BRASIL", TelefoneTipo.FIXO, 84, "55184"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("AMERICA NET", TelefoneTipo.FIXO, 85, "55106"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("KONECTA", TelefoneTipo.FIXO, 89, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("NEBRACAM", TelefoneTipo.FIXO, 95, null));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("AMIGO", TelefoneTipo.FIXO, 96, "55146"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("NAO IDENTIFICADO", TelefoneTipo.FIXO, 0, "55999"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("BRASTEL", TelefoneTipo.FIXO, 92, "55173"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("IPCORPTELECOM", TelefoneTipo.FIXO, 92, "55191"));
+        telefoneOperadoraDAO.save(new TelefoneOperadora("ALGAR", TelefoneTipo.FIXO, 92, "55112"));
 
     }
 
