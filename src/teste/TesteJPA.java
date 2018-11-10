@@ -12,7 +12,7 @@ public class TesteJPA {
         System.out.println("qual codigo de usuario vc deseja verificar?:");
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         List<Usuario> usuarios = new ArrayList<>();
-        usuarios.add(usuarioDAO.getById(Usuario.class, getDigitado(new Scanner(System.in).nextLine())));
+        usuarios.add(usuarioDAO.getById(Usuario.class, Long.valueOf(new Scanner(System.in).nextLine())));
         ServiceImprimirListaJSon.imprimirLista(usuarios);
     }
 
