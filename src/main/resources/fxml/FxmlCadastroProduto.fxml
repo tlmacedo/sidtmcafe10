@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXListView?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.control.TreeTableView?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
-
 <AnchorPane fx:id="painelViewCadastroProduto" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="780.0" prefWidth="1350.0" styleClass="view-cadastro-produto"
             xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="br.com.cafeperfeito.sidtmcafe.controller.ControllerCadastroProduto">
+            fx:controller="br.com.tlmacedo.cafeperfeito.controller.ControllerCadastroProduto">
     <children>
         <TitledPane fx:id="tpnCadastroProduto" collapsible="false" focusTraversable="false" layoutX="5.0" layoutY="5.0"
                     prefHeight="180.0" prefWidth="1340.0" text="Cadastro de produto">

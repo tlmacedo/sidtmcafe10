@@ -1,7 +1,6 @@
-import br.com.cafeperfeito.sidtmcafe.model.dao.UsuarioDAO;
-import br.com.cafeperfeito.sidtmcafe.model.dto.UsuarioDTO;
-import br.com.cafeperfeito.sidtmcafe.model.vo.Usuario;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceImprimirListaJSon;
+import br.com.tlmacedo.cafeperfeito.model.dao.UsuarioDAO;
+import br.com.tlmacedo.cafeperfeito.model.vo.UsuarioVO;
+import br.com.tlmacedo.cafeperfeito.service.ServiceImprimirListaJSon;
 import org.modelmapper.ModelMapper;
 
 import java.io.IOException;
@@ -11,15 +10,18 @@ import java.util.Scanner;
 
 public class TesteJPA {
     public static void main(String[] args) throws IOException {
-        System.out.println("qual codigo de usuario vc deseja verificar?:");
+        System.out.println("qual codigo de usuarioVO vc deseja verificar?:");
+        UsuarioVO usuarioVO = new UsuarioVO();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
-        Usuario usuario = new Usuario();
-        usuario = usuarioDAO.getById(Usuario.class, Long.valueOf(new Scanner(System.in).nextLine()));
+        usuarioVO = usuarioDAO.getById(UsuarioVO.class, Long.valueOf(new Scanner(System.in).nextLine()));
         ModelMapper modelMapper = new ModelMapper();
-        UsuarioDTO usuarioDTO = modelMapper.map(usuario, UsuarioDTO.class);
+//        UsuarioDTO usuarioDTO = modelMapper.map(usuarioVO, UsuarioDTO.class);
         List list = new ArrayList();
-        list.add(usuarioDTO);
+        list.add(usuarioVO);
         ServiceImprimirListaJSon.imprimirLista(list);
+
+//        TelefoneDAO telefoneDAO = new TelefoneDAO();
+//        ServiceImprimirListaJSon.imprimirLista(telefoneDAO.getAll(TelefoneVO.class));
     }
 
     private static Long getDigitado(String scanner) {

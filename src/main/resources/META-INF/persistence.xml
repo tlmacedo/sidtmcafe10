@@ -4,9 +4,9 @@
         <!-- Implementação do JPA -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!-- Lista de entidades -->
-        <class>br.com.cafeperfeito.sidtmcafe.model.vo.Usuario</class>
-        <class>br.com.cafeperfeito.sidtmcafe.model.vo.Cargo</class>
-        <class>br.com.cafeperfeito.sidtmcafe.model.vo.Colaborador</class>
+        <class>br.com.tlmacedo.cafeperfeito.model.vo.UsuarioVO</class>
+        <class>br.com.tlmacedo.cafeperfeito.model.vo.CargoVO</class>
+        <class>br.com.tlmacedo.cafeperfeito.model.vo.ColaboradorVO</class>
         <properties>
             <!-- Propriedades JDBC -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>

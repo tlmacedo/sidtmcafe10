@@ -10,7 +10,7 @@
             minWidth="-Infinity" prefHeight="175.0" prefWidth="450.0"
             xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             styleClass="view-login"
-            fx:controller="br.com.cafeperfeito.sidtmcafe.controller.ControllerLogin">
+            fx:controller="br.com.tlmacedo.cafeperfeito.controller.ControllerLogin">
     <children>
         <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
               AnchorPane.topAnchor="0.0">

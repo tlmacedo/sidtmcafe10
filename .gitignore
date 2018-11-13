@@ -1,7 +1,7 @@
 
 .idea/dataSources.local.xml
 .idea/workspace.xml
-src/main/java/br/com/cafeperfeito/sidtmcafe/diagram/
+src/main/java/br/com/tlmacedo/cafeperfeito/sidtmcafe/diagram/
 target/
 /target/
 /.idea/

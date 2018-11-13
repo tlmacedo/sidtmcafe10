@@ -1,11 +1,11 @@
 //module sidtmcafe {
 //    exports br.com.cafeperfeito.sidtmcafe;
-//    exports br.com.cafeperfeito.sidtmcafe.view;
-//    exports br.com.cafeperfeito.sidtmcafe.controller;
-//    exports br.com.cafeperfeito.sidtmcafe.teste;
-//    exports br.com.cafeperfeito.sidtmcafe.model.vo;
-//    exports br.com.cafeperfeito.sidtmcafe.model.model;
-//    exports br.com.cafeperfeito.sidtmcafe.model.dao;
+//    exports br.com.tlmacedo.cafeperfeito.view;
+//    exports br.com.tlmacedo.cafeperfeito.controller;
+//    exports br.com.tlmacedo.cafeperfeito.teste;
+//    exports br.com.tlmacedo.cafeperfeito.model.vo;
+//    exports br.com.tlmacedo.cafeperfeito.model.model;
+//    exports br.com.tlmacedo.cafeperfeito.model.dao;
 //
 //    requires javafx.controls;
 //    requires java.desktop;

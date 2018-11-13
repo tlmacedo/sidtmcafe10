@@ -1,9 +1,3 @@
-import br.com.cafeperfeito.sidtmcafe.interfaces.database.ConnectionFactory;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceCryptografia;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceFormatarDado;
-
-import static br.com.cafeperfeito.sidtmcafe.interfaces.Constants.*;
-
 public class Testes {
 
     public static void main(String... args) throws Exception {
@@ -11,12 +5,12 @@ public class Testes {
 //        String senhaSimples = "cafeperfeito";
 //        System.out.println("senhaSimples: [" + senhaSimples + "]");
 //
-        String originalString = "Tlm$487901";
-        System.out.println("Original String to encrypt - " + originalString);
-        String encryptedString = ServiceCryptografia.encrypt(originalString);
-        System.out.println("Encrypted String - " + encryptedString);
-        String decryptedString = ServiceCryptografia.decrypt(encryptedString);
-        System.out.println("After decryption - " + decryptedString);
+//        String originalString = "Tlm$487901";
+//        System.out.println("Original String to encrypt - " + originalString);
+//        String encryptedString = ServiceCryptografia.encrypt(originalString);
+//        System.out.println("Encrypted String - " + encryptedString);
+//        String decryptedString = ServiceCryptografia.decrypt(encryptedString);
+//        System.out.println("After decryption - " + decryptedString);
 
         //String key = "DB99A2A8EB6904F492E9DF0595ED683C";
         //String password = "Admin";

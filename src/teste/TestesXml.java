@@ -1,14 +1,7 @@
-import br.com.cafeperfeito.sidtmcafe.service.ServiceSocketDinamico;
-import br.com.cafeperfeito.sidtmcafe.service.ServiceXmlUtil;
-import br.inf.portalfiscal.xsd.cte.cte.TCTe;
-import br.inf.portalfiscal.xsd.cte.procCTe.CteProc;
-import br.inf.portalfiscal.xsd.nfe.consStatServ.TConsStatServ;
-import br.inf.portalfiscal.wsdl.nfe.hom.NfeStatusServico4.NfeStatusServico4Stub;
+import br.com.tlmacedo.cafeperfeito.service.ServiceXmlUtil;
 import br.inf.portalfiscal.xsd.nfe.procNFe.TNfeProc;
 
 import java.io.FileInputStream;
-
-import org.apache.commons.httpclient.protocol.Protocol;
 
 public class TestesXml {
 

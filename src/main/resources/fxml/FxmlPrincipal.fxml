@@ -8,7 +8,7 @@
 <BorderPane fx:id="painelViewPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="830.0" prefWidth="1600.0" styleClass="view-principal"
             xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="br.com.cafeperfeito.sidtmcafe.controller.ControllerPrincipal">
+            fx:controller="br.com.tlmacedo.cafeperfeito.controller.ControllerPrincipal">
     <center>
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                     prefHeight="810.0" prefWidth="1350.0" BorderPane.alignment="TOP_LEFT">
@@ -73,7 +73,7 @@
                     minWidth="-Infinity" prefHeight="20.0" prefWidth="1600.0" BorderPane.alignment="BOTTOM_LEFT">
             <left>
                 <Label fx:id="stbUsuarioLogado" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                       minWidth="-Infinity" prefHeight="20.0" prefWidth="250.0" styleClass="status-bar-usuario-logado"
+                       minWidth="-Infinity" prefHeight="20.0" prefWidth="250.0" styleClass="status-bar-usuarioVO-logado"
                        text="Usuário" BorderPane.alignment="CENTER_LEFT"/>
             </left>
             <center>

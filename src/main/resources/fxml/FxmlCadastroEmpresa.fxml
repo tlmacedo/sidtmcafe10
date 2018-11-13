@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXCheckBox?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXListView?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.control.TreeTableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <AnchorPane fx:id="painelViewCadastroEmpresa" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="780.0" prefWidth="1350.0" styleClass="view-cadastro-empresa"
+            minWidth="-Infinity" prefHeight="780.0" prefWidth="1350.0" styleClass="view-cadastro-empresaVO"
             xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="br.com.cafeperfeito.sidtmcafe.controller.ControllerCadastroEmpresa">
+            fx:controller="br.com.tlmacedo.cafeperfeito.controller.ControllerCadastroEmpresa">
     <children>
         <TitledPane fx:id="tpnCadastroEmpresa" collapsible="false" focusTraversable="false" layoutX="5.0" layoutY="5.0"
                     prefHeight="180.0" prefWidth="1340.0" text="Cadastro de empresas">
@@ -35,7 +28,7 @@
                                        layoutX="5.0" layoutY="37.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="110.0"
                                        prefWidth="1330.0">
                             <tooltip>
-                                <Tooltip text="tabela com lista de empresa"/>
+                                <Tooltip text="tabela com lista de empresaVO"/>
                             </tooltip>
                         </TreeTableView>
                         <JFXComboBox fx:id="cboFiltroPesquisa" labelFloat="true" layoutX="655.0" layoutY="10.0"
@@ -67,7 +60,7 @@
                                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="100.0"
                                      promptText="Classif. Jurídica">
                             <tooltip>
-                                <Tooltip text="classificação jurídica da empresa"/>
+                                <Tooltip text="classificação jurídica da empresaVO"/>
                             </tooltip>
                         </JFXComboBox>
                         <JFXTextField fx:id="txtCNPJ"
@@ -76,7 +69,7 @@
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="100.0"
                                       promptText="C.N.P.J / C.P.F." styleClass="a-direita" text="C.N.P.J. / C.P.F.">
                             <tooltip>
-                                <Tooltip text="C.N.P.J ou C.P.F. da empresa"/>
+                                <Tooltip text="C.N.P.J ou C.P.F. da empresaVO"/>
                             </tooltip>
                         </JFXTextField>
                         <JFXCheckBox fx:id="chkIeIsento"
@@ -85,7 +78,7 @@
                                      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                                      minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" text="I.E. Isento">
                             <tooltip>
-                                <Tooltip text="empresa isenta de inscrição estadual"/>
+                                <Tooltip text="empresaVO isenta de inscrição estadual"/>
                             </tooltip>
                         </JFXCheckBox>
                         <JFXTextField fx:id="txtIE"
@@ -94,7 +87,7 @@
                                       minWidth="-Infinity" prefHeight="20.0" prefWidth="90.0" promptText="I.E. / R.G."
                                       styleClass="a-direita" text="I.E. / R.G.">
                             <tooltip>
-                                <Tooltip text="inscrição estadual da empresa"/>
+                                <Tooltip text="inscrição estadual da empresaVO"/>
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtRazao"
@@ -103,7 +96,7 @@
                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0"
                                       promptText="Razão / Nome" text="Razão / Nome">
                             <tooltip>
-                                <Tooltip text="razão ou nome da empresa"/>
+                                <Tooltip text="razão ou nome da empresaVO"/>
                             </tooltip>
                         </JFXTextField>
                         <JFXTextField fx:id="txtFantasia"
@@ -112,7 +105,7 @@
                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="455.0"
                                       promptText="Fantasia / Apelido" text="Fantasia / Apelido">
                             <tooltip>
-                                <Tooltip text="nome fantasia ou apelido da empresa"/>
+                                <Tooltip text="nome fantasia ou apelido da empresaVO"/>
                             </tooltip>
                         </JFXTextField>
                         <JFXComboBox fx:id="cboSituacaoSistema"
@@ -120,9 +113,9 @@
                                      labelFloat="true"
                                      layoutX="475.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity"
                                      minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="130.0"
-                                     promptText="Situação empresa">
+                                     promptText="Situação empresaVO">
                             <tooltip>
-                                <Tooltip text="situação da empresa no sistema"/>
+                                <Tooltip text="situação da empresaVO no sistema"/>
                             </tooltip>
                         </JFXComboBox>
                         <JFXCheckBox fx:id="chkIsCliente"
@@ -176,7 +169,7 @@
                                layoutX="1000.0" layoutY="5.0" prefHeight="10.0" prefWidth="335.0"
                                styleClass="lbl-informacoes" text="lblDataCadastro" textAlignment="RIGHT">
                             <tooltip>
-                                <Tooltip text="data de cadastro da empresa no sistema"/>
+                                <Tooltip text="data de cadastro da empresaVO no sistema"/>
                             </tooltip>
                         </Label>
                         <Label fx:id="lblDataCadastroDiff"
@@ -185,7 +178,7 @@
                                layoutX="1000.0" layoutY="15.0" prefHeight="10.0" prefWidth="335.0"
                                styleClass="lbl-informacoes" text="lblDataCadastroDiff" textAlignment="RIGHT">
                             <tooltip>
-                                <Tooltip text="tempo que a empresa está cadastrada no sistema"/>
+                                <Tooltip text="tempo que a empresaVO está cadastrada no sistema"/>
                             </tooltip>
                         </Label>
                         <Label fx:id="lblDataAtualizacao"
@@ -194,7 +187,7 @@
                                layoutX="1000.0" layoutY="25.0" prefHeight="10.0" prefWidth="335.0"
                                styleClass="lbl-informacoes" text="lblDataAtualizacao" textAlignment="RIGHT">
                             <tooltip>
-                                <Tooltip text="data da ultima atualizacao feita no cadastro da empresa no sistema"/>
+                                <Tooltip text="data da ultima atualizacao feita no cadastro da empresaVO no sistema"/>
                             </tooltip>
                         </Label>
                         <Label fx:id="lblDataAtualizacaoDiff"
@@ -204,7 +197,7 @@
                                styleClass="lbl-informacoes" text="lblDataAtualizacaoDiff" textAlignment="RIGHT">
                             <tooltip>
                                 <Tooltip
-                                        text="tempo que a foi feita a ultima atualizacao no cadastro da empresa no sistema"/>
+                                        text="tempo que a foi feita a ultima atualizacao no cadastro da empresaVO no sistema"/>
                             </tooltip>
                         </Label>
                         <TitledPane fx:id="tpnEndereco" collapsible="false" focusTraversable="false" layoutX="5.0"
@@ -219,7 +212,7 @@
                                                      layoutY="5.0" prefHeight="60.0" prefWidth="130.0"
                                                      styleClass="endereco">
                                             <tooltip>
-                                                <Tooltip text="lista de endereços da empresa"/>
+                                                <Tooltip text="lista de endereços da empresaVO"/>
                                             </tooltip>
                                         </JFXListView>
                                         <JFXTextField fx:id="txtEndCEP"
@@ -360,7 +353,7 @@
                                                             prefHeight="202.0" prefWidth="208.0">
                                                     <children>
                                                         <JFXListView fx:id="listTelefone"
-                                                                     accessibleText="len::;type::telefone;value::;seteditable::;"
+                                                                     accessibleText="len::;type::telefoneVO;value::;seteditable::;"
                                                                      maxHeight="-Infinity" maxWidth="-Infinity"
                                                                      minHeight="-Infinity" minWidth="-Infinity"
                                                                      prefHeight="202.0" prefWidth="208.0"/>
