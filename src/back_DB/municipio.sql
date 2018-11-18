@@ -33,7 +33,7 @@ CREATE TABLE `municipio` (
   `ddd` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_municipio_uf_id` (`uf_id`),
-  CONSTRAINT `fk_municipio_uf_id` FOREIGN KEY (`uf_id`) REFERENCES `uf` (`id`)
+  CONSTRAINT `fk_municipio_uf_id` FOREIGN KEY (`uf_id`) REFERENCES `ufDAO` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5566 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

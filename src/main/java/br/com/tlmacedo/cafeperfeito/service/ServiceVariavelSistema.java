@@ -1,11 +1,5 @@
 package br.com.tlmacedo.cafeperfeito.service;
 
-import br.com.tlmacedo.cafeperfeito.interfaces.Constants;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-
 public class ServiceVariavelSistema {
 //    public static String USUARIO_LOGADO_ID;
 //    public static String USUARIO_LOGADO_NOME;

@@ -10,20 +10,20 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Entity
+@Entity(name = "Usuario")
 @Table(name = "usuario")
-public class UsuarioVO extends ColaboradorVO implements Serializable {
+public class Usuario extends Colaborador implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(length = 60)
     private String senha;
     private Integer situacao;
 
-    public UsuarioVO() {
+    public Usuario() {
     }
 
-    public UsuarioVO(String nome, String apelido, String ctps, LocalDateTime dataAdmisao, BigDecimal salario, Boolean ativo, CargoVO cargoVO, EmpresaVO trabalha, String senha, Integer situacao) {
-        super(nome, apelido, ctps, dataAdmisao, salario, ativo, cargoVO, trabalha);
+    public Usuario(String nome, String apelido, String ctps, LocalDateTime dataAdmisao, BigDecimal salario, SituacaoNoSistema ativo, Cargo cargo, Empresa trabalha, String senha, Integer situacao) {
+        super(nome, apelido, ctps, dataAdmisao, salario, ativo, cargo, trabalha);
         this.senha = senha;
         this.situacao = situacao;
     }
@@ -45,14 +45,14 @@ public class UsuarioVO extends ColaboradorVO implements Serializable {
     }
 
 
-    //    private CargoVO cargo;
+    //    private CargoDAO cargo;
 //
-//    private Collection<EmpresaVO> empresaCadastro;
+//    private Collection<EmpresaDAO> empresaCadastro;
 //
-//    private Collection<EmpresaVO> empresaAtualiza;
+//    private Collection<EmpresaDAO> empresaAtualiza;
 
 
-    public String getDetalhesUsuario() {
+    public String getDetalheUsuario() {
         StringBuilder usuarioDetalhe = new StringBuilder();
         Optional.of(getNome()).ifPresent(c ->
                 usuarioDetalhe.append(String.format("Usuário: %s;", getNome()))
@@ -60,12 +60,12 @@ public class UsuarioVO extends ColaboradorVO implements Serializable {
         Optional.of(getApelido()).ifPresent(c ->
                 usuarioDetalhe.append(String.format("Apelido: %s;", getApelido()))
         );
-        Optional.of(getCargoVO()).ifPresent(c ->
+        Optional.of(getCargo()).ifPresent(c ->
                 usuarioDetalhe.append(String.format("Cargo: %s;", c.getDescricao()))
         );
         Optional.of(getTrabalha()).ifPresent(c -> {
             usuarioDetalhe.append(String.format("Loja: %s (%s);", c.getRazao(), c.getFantasia()));
-            Optional.of(getTrabalha().getEnderecoVOS().get(0)).ifPresent(end ->
+            Optional.of(getTrabalha().getEndereco().get(0)).ifPresent(end ->
                     usuarioDetalhe.append(String.format("Endereço: %s, %s - %s;",
                             end.getLogradouro(), end.getNumero(), end.getBairro())));
         });

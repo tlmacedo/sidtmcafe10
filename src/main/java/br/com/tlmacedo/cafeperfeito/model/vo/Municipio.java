@@ -3,9 +3,9 @@ package br.com.tlmacedo.cafeperfeito.model.vo;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
+@Entity(name = "Municipio")
 @Table(name = "municipio")
-public class MunicipioVO implements Serializable {
+public class Municipio implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -21,17 +21,17 @@ public class MunicipioVO implements Serializable {
     private Integer ddd;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "uf_id", foreignKey = @ForeignKey(name = "fk_municipio_uf_id"))
-    private UfVO ufVO;
+    private Uf uf;
 
-    public MunicipioVO() {
+    public Municipio() {
     }
 
-    public MunicipioVO(String descricao, Boolean isCapital, String ibge_codigo, Integer ddd, UfVO ufVO) {
+    public Municipio(String descricao, Boolean isCapital, String ibge_codigo, Integer ddd, Uf uf) {
         this.descricao = descricao;
         this.isCapital = isCapital;
         this.ibge_codigo = ibge_codigo;
         this.ddd = ddd;
-        this.ufVO = ufVO;
+        this.uf = uf;
     }
 
     public Long getId() {
@@ -74,20 +74,20 @@ public class MunicipioVO implements Serializable {
         this.ddd = ddd;
     }
 
-    public UfVO getUfVO() {
-        return ufVO;
+    public Uf getUf() {
+        return uf;
     }
 
-    public void setUfVO(UfVO ufVO) {
-        this.ufVO = ufVO;
+    public void setUf(Uf uf) {
+        this.uf = uf;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MunicipioVO)) return false;
+        if (!(o instanceof Municipio)) return false;
 
-        MunicipioVO that = (MunicipioVO) o;
+        Municipio that = (Municipio) o;
 
         return getId().equals(that.getId());
     }
@@ -99,13 +99,13 @@ public class MunicipioVO implements Serializable {
 
     @Override
     public String toString() {
-        return "MunicipioVO{" +
+        return "Municipio{" +
                 "id=" + id +
                 ", descricao='" + descricao + '\'' +
                 ", isCapital=" + isCapital +
                 ", ibge_codigo='" + ibge_codigo + '\'' +
                 ", ddd=" + ddd +
-                ", ufVO=" + ufVO +
+                ", uf=" + uf +
                 '}';
     }
 }

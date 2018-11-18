@@ -1,5 +1,5 @@
 import br.com.tlmacedo.cafeperfeito.model.dao.UsuarioDAO;
-import br.com.tlmacedo.cafeperfeito.model.vo.UsuarioVO;
+import br.com.tlmacedo.cafeperfeito.model.vo.Usuario;
 import br.com.tlmacedo.cafeperfeito.service.ServiceImprimirListaJSon;
 import org.modelmapper.ModelMapper;
 
@@ -11,17 +11,17 @@ import java.util.Scanner;
 public class TesteJPA {
     public static void main(String[] args) throws IOException {
         System.out.println("qual codigo de usuarioVO vc deseja verificar?:");
-        UsuarioVO usuarioVO = new UsuarioVO();
+        Usuario usuarioVO = new Usuario();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
-        usuarioVO = usuarioDAO.getById(UsuarioVO.class, Long.valueOf(new Scanner(System.in).nextLine()));
-        ModelMapper modelMapper = new ModelMapper();
+        usuarioVO = usuarioDAO.getById(Usuario.class, Long.valueOf(new Scanner(System.in).nextLine()));
+//        ModelMapper modelMapper = new ModelMapper();
 //        UsuarioDTO usuarioDTO = modelMapper.map(usuarioVO, UsuarioDTO.class);
         List list = new ArrayList();
         list.add(usuarioVO);
         ServiceImprimirListaJSon.imprimirLista(list);
 
 //        TelefoneDAO telefoneDAO = new TelefoneDAO();
-//        ServiceImprimirListaJSon.imprimirLista(telefoneDAO.getAll(TelefoneVO.class));
+//        ServiceImprimirListaJSon.imprimirLista(telefoneDAO.getAll(TelefoneDAO.class));
     }
 
     private static Long getDigitado(String scanner) {

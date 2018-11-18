@@ -1,7 +1,5 @@
 package br.com.tlmacedo.cafeperfeito.interfaces.jpa_Database;
 
-import br.com.tlmacedo.cafeperfeito.service.ServiceAbreVariaveisSistema;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

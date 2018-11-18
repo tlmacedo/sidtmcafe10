@@ -3,9 +3,9 @@ package br.com.tlmacedo.cafeperfeito.model.vo;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
+@Entity(name = "Cargo")
 @Table(name = "cargo")
-public class CargoVO implements Serializable {
+public class Cargo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -15,10 +15,10 @@ public class CargoVO implements Serializable {
     private String descricao;
 
 
-    public CargoVO() {
+    public Cargo() {
     }
 
-    public CargoVO(String descricao) {
+    public Cargo(String descricao) {
         this.descricao = descricao;
     }
 
@@ -41,9 +41,9 @@ public class CargoVO implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CargoVO)) return false;
+        if (!(o instanceof Cargo)) return false;
 
-        CargoVO cargo_vo = (CargoVO) o;
+        Cargo cargo_vo = (Cargo) o;
 
         return getId().equals(cargo_vo.getId());
     }

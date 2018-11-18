@@ -1,18 +1,5 @@
 package br.com.tlmacedo.cafeperfeito.model.model;
 
-import br.com.tlmacedo.cafeperfeito.interfaces.Constants;
-import br.com.tlmacedo.cafeperfeito.service.ServiceFormatarDado;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
-
 public class TabModel {
 
 //    static TreeTableView<TabProdutoVO> ttvProduto;
@@ -383,7 +370,7 @@ public class TabModel {
 //                if (param.getValue().getValue().isIeIsento())
 //                    return new SimpleStringProperty("Isento");
 //                if (param.getValue().getValue().getTabEnderecoVOList() != null)
-//                    return new SimpleStringProperty(ServiceFormatarDado.getValorFormatado(param.getValue().getValue().ieProperty().getValue(), 0, "ie" + param.getValue().getValue().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().getSigla(), 0));
+//                    return new SimpleStringProperty(ServiceFormatarDado.getValorFormatado(param.getValue().getValue().ieProperty().getValue(), 0, "ie" + param.getValue().getValue().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUf().getSigla(), 0));
 //                return param.getValue().getValue().ieProperty();
 //            });
 //
@@ -460,7 +447,7 @@ public class TabModel {
 //                if (param.getValue().getValue().getTabEnderecoVOList() != null)
 //                    return new SimpleStringProperty(
 //                            param.getValue().getValue().getTabEnderecoVOList().get(0).getSisMunicipioVO().descricaoProperty() + " - " +
-//                                    param.getValue().getValue().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUfVO().siglaProperty());
+//                                    param.getValue().getValue().getTabEnderecoVOList().get(0).getSisMunicipioVO().getUf().siglaProperty());
 //                return new SimpleStringProperty("");
 //            });
 //

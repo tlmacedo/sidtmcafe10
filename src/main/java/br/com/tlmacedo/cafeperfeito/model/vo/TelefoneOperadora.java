@@ -5,9 +5,9 @@ import br.com.tlmacedo.cafeperfeito.model.vo.enums.TelefoneTipo;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
+@Entity(name = "TelefoneOperadora")
 @Table(name = "telefoneOperadora")
-public class TelefoneOperadoraVO implements Serializable {
+public class TelefoneOperadora implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -22,10 +22,10 @@ public class TelefoneOperadoraVO implements Serializable {
     @Column(length = 30)
     private String codWsPortabiliadadeCeluar;
 
-    public TelefoneOperadoraVO() {
+    public TelefoneOperadora() {
     }
 
-    public TelefoneOperadoraVO(String descricao, TelefoneTipo tipo, int ddd, String codWsPortabiliadadeCeluar) {
+    public TelefoneOperadora(String descricao, TelefoneTipo tipo, int ddd, String codWsPortabiliadadeCeluar) {
         this.descricao = descricao;
         this.tipo = tipo.getCod();
         this.ddd = ddd;
@@ -75,9 +75,9 @@ public class TelefoneOperadoraVO implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TelefoneOperadoraVO)) return false;
+        if (!(o instanceof TelefoneOperadora)) return false;
 
-        TelefoneOperadoraVO that = (TelefoneOperadoraVO) o;
+        TelefoneOperadora that = (TelefoneOperadora) o;
 
         return getId().equals(that.getId());
     }
@@ -89,7 +89,7 @@ public class TelefoneOperadoraVO implements Serializable {
 
     @Override
     public String toString() {
-        return "TelefoneOperadoraVO{" +
+        return "TelefoneOperadoraDAO{" +
                 "id=" + id +
                 ", descricao='" + descricao + '\'' +
                 ", tipo=" + tipo +

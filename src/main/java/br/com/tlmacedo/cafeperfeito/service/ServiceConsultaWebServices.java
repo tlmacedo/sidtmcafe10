@@ -1,7 +1,5 @@
 package br.com.tlmacedo.cafeperfeito.service;
 
-import javafx.concurrent.Task;
-
 public class ServiceConsultaWebServices {
 
 //    public void getEnderecoCep_postmon(TabEnderecoVO endereco, String busca) {

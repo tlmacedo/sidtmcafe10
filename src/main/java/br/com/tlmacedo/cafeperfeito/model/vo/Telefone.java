@@ -3,9 +3,9 @@ package br.com.tlmacedo.cafeperfeito.model.vo;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
+@Entity(name = "Telefone")
 @Table(name = "telefone")
-public class TelefoneVO implements Serializable {
+public class Telefone implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -13,16 +13,16 @@ public class TelefoneVO implements Serializable {
     private Long id;
     @Column(nullable = false, length = 11)
     private String descricao;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "telefoneOperadora_id", foreignKey = @ForeignKey(name = "fk_telefone_telefoneOperadora_id"))
-    private TelefoneOperadoraVO telefoneOperadoraVO;
+    private TelefoneOperadora telefoneOperadora;
 
-    public TelefoneVO() {
+    public Telefone() {
     }
 
-    public TelefoneVO(String descricao, TelefoneOperadoraVO telefoneOperadoraVO) {
+    public Telefone(String descricao, TelefoneOperadora telefoneOperadora) {
         this.descricao = descricao;
-        this.telefoneOperadoraVO = telefoneOperadoraVO;
+        this.telefoneOperadora = telefoneOperadora;
     }
 
     public Long getId() {
@@ -41,22 +41,22 @@ public class TelefoneVO implements Serializable {
         this.descricao = descricao;
     }
 
-    public TelefoneOperadoraVO getTelefoneOperadoraVO() {
-        return telefoneOperadoraVO;
+    public TelefoneOperadora getTelefoneOperadora() {
+        return telefoneOperadora;
     }
 
-    public void setTelefoneOperadoraVO(TelefoneOperadoraVO telefoneOperadoraVO) {
-        this.telefoneOperadoraVO = telefoneOperadoraVO;
+    public void setTelefoneOperadora(TelefoneOperadora telefoneOperadora) {
+        this.telefoneOperadora = telefoneOperadora;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TelefoneVO)) return false;
+        if (!(o instanceof Telefone)) return false;
 
-        TelefoneVO telefoneVO = (TelefoneVO) o;
+        Telefone telefone = (Telefone) o;
 
-        return getId().equals(telefoneVO.getId());
+        return getId().equals(telefone.getId());
     }
 
     @Override
@@ -67,10 +67,10 @@ public class TelefoneVO implements Serializable {
 
     @Override
     public String toString() {
-        return "TelefoneVO{" +
+        return "TelefoneDAO{" +
                 "id=" + id +
                 ", descricao='" + descricao + '\'' +
-                ", telefoneOperadoraVO=" + telefoneOperadoraVO +
+                ", telefoneOperadora=" + telefoneOperadora +
                 '}';
     }
 }

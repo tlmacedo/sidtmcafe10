@@ -1,8 +1,8 @@
 package br.com.tlmacedo.cafeperfeito.model.dto;
 
-import br.com.tlmacedo.cafeperfeito.model.vo.CargoVO;
-import br.com.tlmacedo.cafeperfeito.model.vo.EmpresaVO;
-import br.com.tlmacedo.cafeperfeito.model.vo.TelefoneVO;
+import br.com.tlmacedo.cafeperfeito.model.vo.Cargo;
+import br.com.tlmacedo.cafeperfeito.model.vo.Empresa;
+import br.com.tlmacedo.cafeperfeito.model.vo.Telefone;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -101,15 +101,15 @@ public class ColaboradorDTO implements Serializable {
         return cargo;
     }
 
-    public void setCargo(CargoVO cargoVO) {
-        this.cargo = cargoVO.getDescricao();
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo.getDescricao();
     }
 
     public String getTrabalha() {
         return trabalha;
     }
 
-    public void setTrabalha(EmpresaVO trabalha) {
+    public void setTrabalha(Empresa trabalha) {
         this.trabalha = String.format("%s (%s)", trabalha.getRazao(), trabalha.getFantasia());
     }
 
@@ -117,13 +117,13 @@ public class ColaboradorDTO implements Serializable {
         return telefones;
     }
 
-    public void setTelefones(List<TelefoneVO> telefoneVOS) {
-        for (TelefoneVO tel : telefoneVOS)
+    public void setTelefones(List<Telefone> telefones) {
+        for (Telefone tel : telefones)
             this.telefones.add(String.format("(%d)%s [%s-%s]",
-                    tel.getTelefoneOperadoraVO().getDdd(),
+                    tel.getTelefoneOperadora().getDdd(),
                     tel.getDescricao(),
-                    tel.getTelefoneOperadoraVO().getDescricao(),
-                    tel.getTelefoneOperadoraVO().getTipo().getDescricao()));
+                    tel.getTelefoneOperadora().getDescricao(),
+                    tel.getTelefoneOperadora().getTipo().getDescricao()));
     }
 
     @Override

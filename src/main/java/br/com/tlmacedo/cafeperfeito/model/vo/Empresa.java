@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name = "Empresa")
 @Table(name = "empresa")
-public class EmpresaVO implements Serializable {
+public class Empresa implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -41,16 +41,16 @@ public class EmpresaVO implements Serializable {
     private Boolean isTransportadora = false;
     @Column(nullable = false)
     private Integer situacao = 1;
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuarioCadastro_id", foreignKey = @ForeignKey(name = "fk_empresa_usuarioCadastro_id"))
-    private UsuarioVO usuarioVOCadastro;
+    private Usuario usuarioVOCadastro;
     //@Column(columnDefinition = "timestamp CURRENT_TIMESTAMP")
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dataCadastro;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuarioAtualizacao_id", foreignKey = @ForeignKey(name = "fk_empresa_usuarioAtualizacao_id"))
-    private UsuarioVO usuarioVOAtualizacao;
+    private Usuario usuarioVOAtualizacao;
     //@Column(columnDefinition = "timestamp ON UPDATE CURRENT_TIMESTAMP")
     @UpdateTimestamp
     @Column(columnDefinition = "TIMESTAMP")
@@ -60,29 +60,29 @@ public class EmpresaVO implements Serializable {
     @Column(nullable = false, length = 150)
     private String naturezaJuridica = "";
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<EnderecoVO> enderecoVOS = new ArrayList<>();
+    private List<Endereco> endereco = new ArrayList<>();
 
-    //    private UsuarioVO usuarioVOCadastro;
+    //    private UsuarioDAO usuarioVOCadastro;
 //
-//    private UsuarioVO usuarioVOAtualizacao;
+//    private UsuarioDAO usuarioVOAtualizacao;
 //
 //    private Collection<Endereco> enderecos;
 //
 //    private Collection<Endereco> assocEmpresaEndereco;
 //
-//    private Collection<TelefoneVO> assocEmpresaTelefone;
+//    private Collection<TelefoneDAO> assocEmpresaTelefone;
 //
-//    private Collection<ColaboradorVO> colaboradores;
+//    private Collection<ColaboradorDAO> colaboradores;
 //
-//    private Collection<EmailHomePageVO> assocEmpresaEmailHomePage;
+//    private Collection<EmailHomePage> assocEmpresaEmailHomePage;
 //
-//    private Collection<ContatoVO> assocEmpresaContato;
+//    private Collection<Contato> assocEmpresaContato;
 
 
-    public EmpresaVO() {
+    public Empresa() {
     }
 
-    public EmpresaVO(Boolean isLojaSistema, Integer tipo, String cnpjCpf, Boolean isIsento, String ieRg, String razao, String fantasia, Boolean isCliente, Boolean isFornecedor, Boolean isTransportadora, SituacaoNoSistema situacao, UsuarioVO usuarioVOCadastro, LocalDateTime dataCadastro, UsuarioVO usuarioVOAtualizacao, LocalDateTime dataAtualizacao, LocalDateTime dataAbetura, String naturezaJuridica) {
+    public Empresa(Boolean isLojaSistema, Integer tipo, String cnpjCpf, Boolean isIsento, String ieRg, String razao, String fantasia, Boolean isCliente, Boolean isFornecedor, Boolean isTransportadora, SituacaoNoSistema situacao, Usuario usuarioVOCadastro, LocalDateTime dataCadastro, Usuario usuarioVOAtualizacao, LocalDateTime dataAtualizacao, LocalDateTime dataAbetura, String naturezaJuridica) {
         this.isLojaSistema = isLojaSistema;
         this.tipo = tipo;
         this.cnpjCpf = cnpjCpf;
@@ -198,11 +198,11 @@ public class EmpresaVO implements Serializable {
         this.situacao = situacao.getCod();
     }
 
-    public UsuarioVO getUsuarioVOCadastro() {
+    public Usuario getUsuarioVOCadastro() {
         return usuarioVOCadastro;
     }
 
-    public void setUsuarioVOCadastro(UsuarioVO usuarioVOCadastro) {
+    public void setUsuarioVOCadastro(Usuario usuarioVOCadastro) {
         this.usuarioVOCadastro = usuarioVOCadastro;
     }
 
@@ -214,11 +214,11 @@ public class EmpresaVO implements Serializable {
         this.dataCadastro = dataCadastro;
     }
 
-    public UsuarioVO getUsuarioVOAtualizacao() {
+    public Usuario getUsuarioVOAtualizacao() {
         return usuarioVOAtualizacao;
     }
 
-    public void setUsuarioVOAtualizacao(UsuarioVO usuarioVOAtualizacao) {
+    public void setUsuarioVOAtualizacao(Usuario usuarioVOAtualizacao) {
         this.usuarioVOAtualizacao = usuarioVOAtualizacao;
     }
 
@@ -246,22 +246,22 @@ public class EmpresaVO implements Serializable {
         this.naturezaJuridica = naturezaJuridica;
     }
 
-    public List<EnderecoVO> getEnderecoVOS() {
-        return enderecoVOS;
+    public List<Endereco> getEndereco() {
+        return endereco;
     }
 
-    public void setEnderecoVOS(List<EnderecoVO> enderecoVOS) {
-        this.enderecoVOS = enderecoVOS;
+    public void setEndereco(List<Endereco> endereco) {
+        this.endereco = endereco;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EmpresaVO)) return false;
+        if (!(o instanceof Empresa)) return false;
 
-        EmpresaVO empresaVO = (EmpresaVO) o;
+        Empresa empresa = (Empresa) o;
 
-        return getId().equals(empresaVO.getId());
+        return getId().equals(empresa.getId());
     }
 
     @Override
@@ -269,9 +269,10 @@ public class EmpresaVO implements Serializable {
         return getId().hashCode();
     }
 
+
     @Override
     public String toString() {
-        return "EmpresaVO{" +
+        return "EmpresaDAO{" +
                 "id=" + id +
                 ", isLojaSistema=" + isLojaSistema +
                 ", tipo=" + tipo +
@@ -290,6 +291,7 @@ public class EmpresaVO implements Serializable {
                 ", dataAtualizacao=" + dataAtualizacao +
                 ", dataAbetura=" + dataAbetura +
                 ", naturezaJuridica='" + naturezaJuridica + '\'' +
+                ", endereco=" + endereco +
                 '}';
     }
 }

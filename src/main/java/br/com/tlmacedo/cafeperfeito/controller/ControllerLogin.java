@@ -2,8 +2,10 @@ package br.com.tlmacedo.cafeperfeito.controller;
 
 import br.com.tlmacedo.cafeperfeito.interfaces.Constants;
 import br.com.tlmacedo.cafeperfeito.interfaces.ModeloCafePerfeito;
+import br.com.tlmacedo.cafeperfeito.model.dao.CargoDAO;
 import br.com.tlmacedo.cafeperfeito.model.dao.UsuarioDAO;
-import br.com.tlmacedo.cafeperfeito.model.vo.UsuarioVO;
+import br.com.tlmacedo.cafeperfeito.model.vo.Cargo;
+import br.com.tlmacedo.cafeperfeito.model.vo.Usuario;
 import br.com.tlmacedo.cafeperfeito.service.ServiceCryptografia;
 import br.com.tlmacedo.cafeperfeito.service.ServiceTremeView;
 import br.com.tlmacedo.cafeperfeito.service.ServiceVariavelSistema;
@@ -27,14 +29,15 @@ import java.util.ResourceBundle;
 
 public class ControllerLogin extends ServiceVariavelSistema implements Initializable, ModeloCafePerfeito, Constants {
     public AnchorPane painelViewLogin;
-    public JFXComboBox<UsuarioVO> cboUsuarioLogin;
+    public JFXComboBox<Usuario> cboUsuarioLogin;
     public JFXPasswordField pswUsuarioSenha;
     public JFXButton btnOK;
     public JFXButton btnCancela;
 
 
-    private UsuarioVO usuarioVO;
+    private Usuario usuarioVO;
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private CargoDAO cargoDAO = new CargoDAO();
 
     @Override
     public void fechar() {
@@ -49,24 +52,27 @@ public class ControllerLogin extends ServiceVariavelSistema implements Initializ
     @Override
     public void preencherObjetos() {
         cboUsuarioLogin.setPromptText(String.format("%s:", "Selecione usuário"));
-        cboUsuarioLogin.getItems().setAll(usuarioDAO.getAll(UsuarioVO.class));
+//        System.out.println("Usuarios: " + usuarioDAO.getAll(Usuario.class));
+//        System.out.println("Cargos: " + cargoDAO.getAll(Cargo.class));
+        cboUsuarioLogin.getItems().setAll(usuarioDAO.getAll(Usuario.class));
     }
 
     @Override
     public void fatorarObjetos() {
-        cboUsuarioLogin.setCellFactory(new Callback<ListView<UsuarioVO>, ListCell<UsuarioVO>>() {
+        cboUsuarioLogin.setCellFactory(new Callback<ListView<Usuario>, ListCell<Usuario>>() {
             @Override
-            public ListCell<UsuarioVO> call(ListView<UsuarioVO> param) {
-                final ListCell<UsuarioVO> cell = new ListCell<UsuarioVO>() {
+            public ListCell<Usuario> call(ListView<Usuario> param) {
+                final ListCell<Usuario> cell = new ListCell<Usuario>() {
                     @Override
-                    protected void updateItem(UsuarioVO item, boolean empty) {
+                    protected void updateItem(Usuario item, boolean empty) {
                         super.updateItem(item, empty);
+                        System.out.println("item.getDetalhesUsuario()" + item);;
                         if (item == null) setText(null);
                         else {
                             if (getIndex() == -1) setText(item.toString());
                             else {
                                 String novoTexto = "";
-                                for (String det : item.getDetalhesUsuario().split(";"))
+                                for (String det : item.getDetalheUsuario().split(";"))
                                     if (novoTexto == "") novoTexto += det;
                                     else novoTexto += "\r\n" + det;
                                 setText(novoTexto);
@@ -102,9 +108,9 @@ public class ControllerLogin extends ServiceVariavelSistema implements Initializ
 
         btnOK.setOnAction(event -> {
             if (cboUsuarioLogin.getSelectionModel().getSelectedIndex() < 0) return;
-            System.out.println(String.format("senhaDigitada: [%s]", pswUsuarioSenha.getText()));
-            System.out.println(String.format("senhaUsuario:  [%s]", usuarioVO.getSenha()));
-            System.out.println(String.format("senhaCrypto:   [%s]", ServiceCryptografia.encrypt(pswUsuarioSenha.getText())));
+            System.out.println(String.format("usuario: %s" , usuarioVO.getNome()));
+            System.out.println(String.format("senha:: %s", usuarioVO.getSenha()));
+            //System.out.println(String.format("senhaCrypto:   [%s]", ServiceCryptografia.encrypt(pswUsuarioSenha.getText())));
 
 
             if (!ServiceCryptografia.senhaValida(pswUsuarioSenha.getText(), usuarioVO.getSenha())) {
@@ -139,7 +145,7 @@ public class ControllerLogin extends ServiceVariavelSistema implements Initializ
         btnOK.setDisable(usuarioVO == null || pswUsuarioSenha.getText().length() == 0);
     }
 
-    void preencheVariaveisUsuario(UsuarioVO colaboradorVO) {
+    void preencheVariaveisUsuario(Usuario colaboradorVO) {
 //        USUARIO_LOGADO_ID = String.valueOf(colaboradorVO.getId());
 //        USUARIO_LOGADO_NOME = colaboradorVO.getNome();
 //        USUARIO_LOGADO_APELIDO = colaboradorVO.getApelido();

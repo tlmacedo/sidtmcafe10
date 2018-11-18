@@ -4,7 +4,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
-        import java.io.StringReader;
+import java.io.StringReader;
 
 public class Testes_CriaConfigSistemaXML {
 

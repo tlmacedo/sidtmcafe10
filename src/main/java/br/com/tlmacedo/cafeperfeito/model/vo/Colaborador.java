@@ -1,20 +1,18 @@
 package br.com.tlmacedo.cafeperfeito.model.vo;
 
 
+import br.com.tlmacedo.cafeperfeito.model.vo.enums.SituacaoNoSistema;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
-@Entity
+@Entity(name = "Colaborador")
 @Table(name = "colaborador")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class ColaboradorVO implements Serializable {
+public class Colaborador implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -26,33 +24,31 @@ public class ColaboradorVO implements Serializable {
     private String apelido;
     @Column(nullable = false, length = 30)
     private String ctps;
-    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime dataAdmisao;
     @Column(length = 20, scale = 2, nullable = false)
     private BigDecimal salario;
     @Column(nullable = false)
-    private Boolean ativo;
+    private Integer ativo;
     @ManyToOne
     @JoinColumn(name = "cargo_id", foreignKey = @ForeignKey(name = "fk_colaborador_cargo_id"))
-    private CargoVO cargoVO;
+    private Cargo cargo;
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "empresa_id", foreignKey = @ForeignKey(name = "fk_colaborador_empresa_id"))
-    private EmpresaVO trabalha;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<TelefoneVO> telefoneVOS = new ArrayList<>();
+    private Empresa trabalha;
 
-    public ColaboradorVO() {
+    public Colaborador() {
     }
 
-    public ColaboradorVO(String nome, String apelido, String ctps, LocalDateTime dataAdmisao, BigDecimal salario, Boolean ativo, CargoVO cargoVO, EmpresaVO trabalha) {
+    public Colaborador(String nome, String apelido, String ctps, LocalDateTime dataAdmisao, BigDecimal salario, SituacaoNoSistema ativo, Cargo cargo, Empresa trabalha) {
         this.nome = nome;
         this.apelido = apelido;
         this.ctps = ctps;
         this.dataAdmisao = dataAdmisao;
         this.salario = salario;
-        this.ativo = ativo;
-        this.cargoVO = cargoVO;
+        this.ativo = ativo.getCod();
+        this.cargo = cargo;
         this.trabalha = trabalha;
     }
 
@@ -105,44 +101,36 @@ public class ColaboradorVO implements Serializable {
         this.salario = salario;
     }
 
-    public Boolean getAtivo() {
-        return ativo;
+    public SituacaoNoSistema getAtivo() {
+        return SituacaoNoSistema.toEnum(ativo);
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setAtivo(SituacaoNoSistema ativo) {
+        this.ativo = ativo.getCod();
     }
 
-    public CargoVO getCargoVO() {
-        return cargoVO;
+    public Cargo getCargo() {
+        return cargo;
     }
 
-    public void setCargoVO(CargoVO cargoVO) {
-        this.cargoVO = cargoVO;
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
     }
 
-    public EmpresaVO getTrabalha() {
+    public Empresa getTrabalha() {
         return trabalha;
     }
 
-    public void setTrabalha(EmpresaVO trabalha) {
+    public void setTrabalha(Empresa trabalha) {
         this.trabalha = trabalha;
-    }
-
-    public List<TelefoneVO> getTelefoneVOS() {
-        return telefoneVOS;
-    }
-
-    public void setTelefoneVOS(List<TelefoneVO> telefoneVOS) {
-        this.telefoneVOS = telefoneVOS;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ColaboradorVO)) return false;
+        if (!(o instanceof Colaborador)) return false;
 
-        ColaboradorVO that = (ColaboradorVO) o;
+        Colaborador that = (Colaborador) o;
 
         return getId().equals(that.getId());
     }
@@ -154,7 +142,7 @@ public class ColaboradorVO implements Serializable {
 
     @Override
     public String toString() {
-        return "ColaboradorVO{" +
+        return "ColaboradorDAO{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", apelido='" + apelido + '\'' +
@@ -162,9 +150,8 @@ public class ColaboradorVO implements Serializable {
                 ", dataAdmisao=" + dataAdmisao +
                 ", salario=" + salario +
                 ", ativo=" + ativo +
-                ", cargoVO=" + cargoVO +
+                ", cargo=" + cargo +
                 ", trabalha=" + trabalha +
-                ", telefoneVOS=" + telefoneVOS +
                 '}';
     }
 }

@@ -24,7 +24,7 @@ public class Password {
      * @return String - a string of length 60 that is the bcrypt hashed password in crypt(3) format.
      */
     public static String hashPassword(String password_plaintext) {
-        String salt = BCrypt.gensalt(workload);
+        String salt = BCrypt.gensalt(10);
         String hashed_password = BCrypt.hashpw(password_plaintext, salt);
 
         return (hashed_password);
@@ -65,7 +65,17 @@ public class Password {
         System.out.println("Hashing test password...");
         System.out.println();
 
+        test_passwd = "487901";
+        System.out.println("Test password: " + test_passwd);
         String computed_hash = hashPassword(test_passwd);
+        System.out.println("Test computed hash: " + computed_hash);
+        System.out.println();
+        System.out.println("Verifying that hash and stored hash both match for the test password...");
+        System.out.println();
+
+        test_passwd = "4879";
+        computed_hash = hashPassword(test_passwd);
+        System.out.println("Test password: " + test_passwd);
         System.out.println("Test computed hash: " + computed_hash);
         System.out.println();
         System.out.println("Verifying that hash and stored hash both match for the test password...");

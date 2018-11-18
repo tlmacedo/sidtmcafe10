@@ -1,6 +1,6 @@
 package br.com.tlmacedo.cafeperfeito.model.vo;
 
-public class EmailHomePageVO {
+public class EmailHomePage {
 
     private Long id;
 

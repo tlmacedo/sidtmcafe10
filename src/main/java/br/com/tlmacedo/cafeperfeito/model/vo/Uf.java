@@ -1,12 +1,15 @@
 package br.com.tlmacedo.cafeperfeito.model.vo;
 
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
-@Entity
+@Entity(name = "Uf")
 @Table(name = "uf")
-public class UfVO implements Serializable {
+public class Uf implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -16,10 +19,10 @@ public class UfVO implements Serializable {
     @Column(nullable = false, length = 2)
     private String sigla;
 
-    public UfVO() {
+    public Uf() {
     }
 
-    public UfVO(Long id,String descricao, String sigla) {
+    public Uf(Long id, String descricao, String sigla) {
         this.id = id;
         this.descricao = descricao;
         this.sigla = sigla;
@@ -52,11 +55,11 @@ public class UfVO implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UfVO)) return false;
+        if (!(o instanceof Uf)) return false;
 
-        UfVO ufVO = (UfVO) o;
+        Uf uf = (Uf) o;
 
-        return getId().equals(ufVO.getId());
+        return getId().equals(uf.getId());
     }
 
     @Override
@@ -66,7 +69,7 @@ public class UfVO implements Serializable {
 
     @Override
     public String toString() {
-        return "UfVO{" +
+        return "UfDAO{" +
                 "id=" + id +
                 ", descricao='" + descricao + '\'' +
                 ", sigla='" + sigla + '\'' +

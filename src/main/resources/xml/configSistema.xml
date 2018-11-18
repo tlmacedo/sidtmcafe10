@@ -1,1 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?><sistema><myLocale>pt_br</myLocale><sis><connect_DB><dbDriver>com.mysql.cj.jdbc.Driver</dbDriver><dbDriverConn>jdbc:mysql:</dbDriverConn><dbHost>127.0.0.1</dbHost><dbPorta>3306</dbPorta><dbDatabase>cafeperfeito</dbDatabase><dbAddConfig>?useSSL=false</dbAddConfig><dbUrl>jdbc:mysql://127.0.0.1:3306/cafeperfeito?useSSL=false</dbUrl><dbUser>root</dbUser><dbPass>Tlm$487901</dbPass></connect_DB><FilesType><token>.cfg</token><imagem>.png</imagem></FilesType><maskCaracter><digit>#</digit><upper>U</upper><lower>L</lower><digitoAndText>A</digitoAndText><interrogacao>?</interrogacao><asterisco>*</asterisco></maskCaracter></sis><infLoja><id>1</id><titulo>Café Perfeito</titulo><copyright>Café Perfeito © </copyright><theme>orange</theme><ddd>92</ddd><imgProdutoWidth>250</imgProdutoWidth><imgProdutoHeight>250</imgProdutoHeight></infLoja><nfe><portaSSl>443</portaSSl><cUF>13</cUF></nfe><paths><pathStyleSheets>/style/min/sidtm.min.css</pathStyleSheets><pathDownloadImage>/volumes/macOS/Usuários/thiagomacedo/Imagens/</pathDownloadImage></paths></sistema>
+<?xml version="1.0" encoding="UTF-8"?>
+<sistema>
+    <myLocale>pt_br</myLocale>
+    <sis>
+        <connect_DB>
+            <dbDriver>com.mysql.cj.jdbc.Driver</dbDriver>
+            <dbDriverConn>jdbc:mysql:</dbDriverConn>
+            <dbHost>127.0.0.1</dbHost>
+            <dbPorta>3306</dbPorta>
+            <dbDatabase>cafeperfeito</dbDatabase>
+            <dbAddConfig>?useSSL=false</dbAddConfig>
+            <dbUrl>jdbc:mysql://127.0.0.1:3306/cafeperfeito?useSSL=false</dbUrl>
+            <dbUser>root</dbUser>
+            <dbPass>Tlm$487901</dbPass>
+        </connect_DB>
+        <FilesType>
+            <token>.cfg</token>
+            <imagem>.png</imagem>
+        </FilesType>
+        <maskCaracter>
+            <digit>#</digit>
+            <upper>U</upper>
+            <lower>L</lower>
+            <digitoAndText>A</digitoAndText>
+            <interrogacao>?</interrogacao>
+            <asterisco>*</asterisco>
+        </maskCaracter>
+    </sis>
+    <infLoja>
+        <id>1</id>
+        <titulo>Café Perfeito</titulo>
+        <copyright>Café Perfeito ©</copyright>
+        <theme>orange</theme>
+        <ddd>92</ddd>
+        <imgProdutoWidth>250</imgProdutoWidth>
+        <imgProdutoHeight>250</imgProdutoHeight>
+    </infLoja>
+    <nfe>
+        <portaSSl>443</portaSSl>
+        <cUF>13</cUF>
+    </nfe>
+    <paths>
+        <pathStyleSheets>/style/min/sidtm.min.css</pathStyleSheets>
+        <pathDownloadImage>/volumes/macOS/Usuários/thiagomacedo/Imagens/</pathDownloadImage>
+    </paths>
+</sistema>

@@ -5,9 +5,9 @@ import br.com.tlmacedo.cafeperfeito.model.vo.enums.EnderecoTipo;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
+@Entity(name = "Endereco")
 @Table(name = "endereco")
-public class EnderecoVO implements Serializable {
+public class Endereco implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -28,12 +28,12 @@ public class EnderecoVO implements Serializable {
     private String prox;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "municipio_id", foreignKey = @ForeignKey(name = "fk_endereco_municipio_id"))
-    private MunicipioVO municipio;
+    private Municipio municipio;
 
-    public EnderecoVO() {
+    public Endereco() {
     }
 
-    public EnderecoVO(EnderecoTipo tipo, String cep, String logradouro, String numero, String complemento, String bairro, String prox, MunicipioVO municipio) {
+    public Endereco(EnderecoTipo tipo, String cep, String logradouro, String numero, String complemento, String bairro, String prox, Municipio municipio) {
         this.tipo = tipo.getCod();
         this.cep = cep;
         this.logradouro = logradouro;
@@ -108,20 +108,20 @@ public class EnderecoVO implements Serializable {
         this.prox = prox;
     }
 
-    public MunicipioVO getMunicipio() {
+    public Municipio getMunicipio() {
         return municipio;
     }
 
-    public void setMunicipio(MunicipioVO municipio) {
+    public void setMunicipio(Municipio municipio) {
         this.municipio = municipio;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EnderecoVO)) return false;
+        if (!(o instanceof Endereco)) return false;
 
-        EnderecoVO that = (EnderecoVO) o;
+        Endereco that = (Endereco) o;
 
         return getId().equals(that.getId());
     }
@@ -133,7 +133,7 @@ public class EnderecoVO implements Serializable {
 
     @Override
     public String toString() {
-        return "EnderecoVO{" +
+        return "Endereco{" +
                 "id=" + id +
                 ", tipo=" + tipo +
                 ", cep='" + cep + '\'' +
